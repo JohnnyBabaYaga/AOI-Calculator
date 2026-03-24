@@ -297,6 +297,8 @@ header p{font-size:10px;color:var(--sub);}
   header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,.mode-switcher{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   #pane-res{display:block!important;overflow:visible;}
+  body.print-area-mode #pane-res{display:none!important;}
+  body.print-area-mode #pane-area-res{display:block!important;overflow:visible;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
 }
@@ -384,8 +386,8 @@ header p{font-size:10px;color:var(--sub);}
 <div class="panel" id="left">
   <!-- Mode Switcher -->
   <div class="mode-switcher" id="mode-switcher">
-    <button class="on" onclick="setMode('scan')">📐 掃描模式</button>
-    <button onclick="setMode('area')">📷 Area Shot</button>
+    <button class="on" onclick="setMode('scan')">📐 Scan Mode</button>
+    <button onclick="setMode('area')">📷 Area Mode</button>
   </div>
 
   <!-- ══════ SCAN MODE PANEL ══════ -->
@@ -1571,11 +1573,13 @@ function sv(id,val){ document.getElementById(id).value=val; }
 // EVALUATIONS
 // ═══════════════════════════════════════════
 function saveEval(){
+  if(currentMode === 'area'){ saveEvalArea(); return; }
   const p=P(), r=calculate(p);
   const ci=document.getElementById('cam-pick').value;
   const li=document.getElementById('lens-pick').value;
   evals.unshift({
     id:Date.now(),
+    mode:'scan',
     name:document.getElementById('eval-name').value||'新評估',
     date:new Date().toLocaleString('zh-TW'),
     camera:ci!==''?allCams()[+ci].n:'手動輸入',
@@ -1586,6 +1590,45 @@ function saveEval(){
   });
   localStorage.setItem('aoi_evals',JSON.stringify(evals));
   renderEvals(); showTab('res');
+}
+function saveEvalArea(){
+  const ci=document.getElementById('as-cam-pick').value;
+  const li=document.getElementById('as-lens-pick').value;
+  const p={
+    panelX:+document.getElementById('as-panel-x').value,
+    panelY:+document.getElementById('as-panel-y').value,
+    panelRX:+document.getElementById('as-panel-rx').value,
+    panelRY:+document.getElementById('as-panel-ry').value,
+    pitch:+document.getElementById('as-pitch').value,
+    camRX:+document.getElementById('as-cam-rx').value,
+    camRY:+document.getElementById('as-cam-ry').value,
+    camPx:+document.getElementById('as-cam-px').value,
+    fl:+document.getElementById('as-fl').value,
+    minWD:+document.getElementById('as-min-wd').value,
+    limit:+document.getElementById('as-limit').value,
+  };
+  const resolution=(p.panelRX>0&&p.pitch>0)?((p.panelX*1e-3/p.panelRX)/p.pitch)*1e6:0;
+  const xFOV=p.camRX*resolution/1000;
+  const yFOV=p.camRY*resolution/1000;
+  const wd=(p.camRX>0&&p.camPx>0)?((xFOV*1e-3)*(p.fl*1e-3)/(p.camRX*p.camPx*1e-6))*1e3:0;
+  const xRatio=(xFOV>0)?p.panelX/xFOV:0;
+  const yRatio=(yFOV>0)?p.panelY/yFOV:0;
+  const nX=(p.limit>0)?Math.ceil(xRatio/p.limit):0;
+  const nY=(p.limit>0)?Math.ceil(yRatio/p.limit):0;
+  const r={resolution, xFOV, yFOV, wd, nX, nY, totalCams:nX*nY};
+  evals.unshift({
+    id:Date.now(),
+    mode:'area',
+    name:document.getElementById('as-eval-name').value||'新評估',
+    date:new Date().toLocaleString('zh-TW'),
+    camera:ci!==''?allCams()[+ci].n:'手動輸入',
+    lens:li!==''?allLens()[+li].n:'手動輸入',
+    camIdx:ci, lensIdx:li,
+    notes:document.getElementById('as-eval-notes').value,
+    p, r
+  });
+  localStorage.setItem('aoi_evals',JSON.stringify(evals));
+  renderEvals(); showTab('hist');
 }
 function clearEvals(){
   if(!confirm('確定清除所有評估記錄？'))return;
@@ -1598,20 +1641,31 @@ function renderEvals(){
     el.innerHTML='<div class="empty">📄<br>尚無儲存的評估<br><small>在計算器完成後按「儲存評估」</small></div>';
     return;
   }
-  el.innerHTML=evals.map((e,i)=>`
+  el.innerHTML=evals.map((e,i)=>{
+    const isArea=(e.mode==='area');
+    const badge=isArea
+      ?'<span style="font-size:10px;background:#34c759;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">Area Mode</span>'
+      :'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">Scan Mode</span>';
+    const summary=isArea
+      ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
+      :`TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
+    return `
     <div class="ec">
-      <h3>${e.name}</h3>
+      <h3>${e.name}${badge}</h3>
       <p>${e.date} · ${e.camera}</p>
-      <p>TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px</p>
+      <p>${summary}</p>
       <div style="margin-top:6px;display:flex;gap:6px">
         <button class="btn-sec" style="font-size:11px" onclick="loadEval(${i})">📂 載入</button>
         <button class="btn-sec" style="font-size:11px" onclick="exportEval(${i})">📄 PDF</button>
         <button class="btn-sec" style="font-size:11px;color:#ff3b30" onclick="delEval(${i})">🗑 刪除</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function loadEval(i){
-  const e=evals[i], p=e.p;
+  const e=evals[i];
+  if(e.mode==='area'){ loadEvalArea(e); return; }
+  const p=e.p;
   sv('p-px',p.pixelSize); sv('p-rw',p.rW); sv('p-rh',p.rH);
   sv('p-fps',p.fps); sv('p-bit',p.bit);
   sv('p-mag',p.mag); sv('p-ic',p.imageCircle); sv('p-wd',p.wd);
@@ -1642,9 +1696,27 @@ function loadEval(i){
   }
   calc(); showTab('res');
 }
+function loadEvalArea(e){
+  const p=e.p;
+  setMode('area');
+  sv('as-panel-x',p.panelX); sv('as-panel-y',p.panelY);
+  sv('as-panel-rx',p.panelRX); sv('as-panel-ry',p.panelRY);
+  sv('as-pitch',p.pitch);
+  sv('as-cam-rx',p.camRX); sv('as-cam-ry',p.camRY); sv('as-cam-px',p.camPx);
+  sv('as-fl',p.fl); sv('as-min-wd',p.minWD); sv('as-limit',p.limit);
+  syncNameAS(e.name||'新評估');
+  document.getElementById('as-eval-notes').value=e.notes||'';
+  if(e.camIdx!==undefined) document.getElementById('as-cam-pick').value=e.camIdx;
+  if(e.lensIdx!==undefined) document.getElementById('as-lens-pick').value=e.lensIdx;
+  calcAS(); showTab('res');
+}
 function delEval(i){ evals.splice(i,1); localStorage.setItem('aoi_evals',JSON.stringify(evals)); renderEvals(); }
 function exportEval(i){ loadEval(i); setTimeout(()=>window.print(),300); }
-function exportPDF(){ window.print(); }
+function exportPDF(){
+  if(currentMode==='area') document.body.classList.add('print-area-mode');
+  window.print();
+  document.body.classList.remove('print-area-mode');
+}
 
 // ═══════════════════════════════════════════
 // CARD CUSTOMIZATION
