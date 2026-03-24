@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AOI 光學架構評估計算器</title>
+<style>
+:root {
+  --bg:#f5f5f7; --surf:#fff; --surf2:#f2f2f7; --border:rgba(0,0,0,0.10);
+  --text:#1d1d1f; --sub:#6e6e73; --accent:#007aff;
+  --rad:10px; --shadow:0 1px 4px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#1c1c1e;--surf:#2c2c2e;--surf2:#3a3a3c;--border:rgba(255,255,255,.1);--text:#f5f5f7;--sub:#98989d;}
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.4;}
+
+/* ── App shell ── */
+#app{display:grid;grid-template-columns:300px 1fr;grid-template-rows:44px 1fr;height:100vh;overflow:hidden;}
+header{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:0 16px;
+       background:var(--surf);border-bottom:1px solid var(--border);z-index:10;}
+header h1{font-size:14px;font-weight:700;}
+header p{font-size:10px;color:var(--sub);}
+.panel{overflow-y:auto;height:calc(100vh - 44px);}
+#left {background:var(--bg);border-right:1px solid var(--border);}
+#right{background:var(--surf2);}
+
+/* ── Section header ── */
+.shdr{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;
+      padding:10px 14px 5px;color:var(--text);}
+.shdr svg{color:var(--accent);}
+
+/* ── Card ── */
+.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);
+      margin:0 10px 10px;overflow:hidden;}
+
+/* ── Row ── */
+.row{display:flex;align-items:center;gap:6px;padding:5px 12px;
+     border-bottom:1px solid var(--border);min-height:30px;}
+.row:last-child{border-bottom:none;}
+.row>label:first-child{flex:1;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.unit{font-size:10px;color:var(--sub);min-width:22px;text-align:right;flex-shrink:0;}
+
+/* ── Inputs ── */
+.row input[type=number]{
+  width:84px;padding:2px 6px;border:1px solid var(--border);border-radius:5px;
+  background:var(--surf2);color:var(--text);font-size:12px;
+  font-family:'SF Mono',ui-monospace,monospace;text-align:right;outline:none;flex-shrink:0;
+}
+.row input[type=number]:focus{border-color:var(--accent);}
+.row input[type=number]:disabled{opacity:0.55;background:var(--surf)!important;cursor:default;}
+.row select.fn-sel{
+  width:84px;padding:2px 6px;border:1px solid var(--border);border-radius:5px;
+  background:var(--surf2);color:var(--text);font-size:12px;
+  font-family:'SF Mono',ui-monospace,monospace;text-align:right;outline:none;flex-shrink:0;
+}
+.row input[type=text]{
+  flex:1;border:none;background:transparent;color:var(--text);font-size:13px;outline:none;text-align:right;
+}
+
+/* ── Segmented control ── */
+.seg{display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden;flex-shrink:0;}
+.seg button{flex:1;padding:3px 10px;border:none;background:transparent;color:var(--sub);
+            font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s;}
+.seg button.on{background:var(--accent);color:#fff;}
+
+/* ── DB picker row ── */
+.dbrow{padding:5px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+.dbrow label{font-size:11px;color:var(--sub);white-space:nowrap;}
+.dbrow select{flex:1;font-size:11px;border:1px solid var(--border);border-radius:5px;
+              background:var(--surf2);color:var(--text);padding:2px 5px;outline:none;}
+
+
+/* ── Hardware header ── */
+#hw-head{padding:6px 10px 2px;border-bottom:1px solid var(--border);}
+.hw-row{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:11px;}
+.hw-icon{font-size:12px;width:16px;text-align:center;}
+.hw-lbl{color:var(--sub);min-width:26px;font-size:10px;}
+.hw-val{color:var(--text);font-weight:500;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+/* ── Diagram ── */
+.rpt-col #dg{display:block;width:100%;height:116px;}
+#dg-caption{display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;}
+#dg-caption .dc-l{color:var(--text);font-weight:500;}
+#dg-caption .dc-sep{color:var(--border);}
+#dg-caption .dc-c,.dc-r{color:var(--sub);}
+
+/* ── 2-column result section grid ── */
+.res-grid{padding:4px 10px 10px;display:grid;grid-template-columns:1fr 1fr;gap:0 8px;align-items:start;}
+.rpt-secs{border-top:1px solid var(--border);}
+.rg-sec{min-width:0;}
+.rg-sec .shdr{padding:8px 2px 4px;color:var(--accent);}
+
+/* ── Card grid within each section ── */
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.cg2{grid-template-columns:repeat(2,1fr);}
+
+/* ── Metric cards ── */
+.metric{background:var(--surf);border:1px solid var(--border);border-radius:7px;padding:7px 8px 6px;}
+.metric .mt{font-size:10px;color:var(--sub);line-height:1.3;margin-bottom:3px;}
+.metric .mv{font-size:15px;font-weight:700;color:var(--text);line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.metric .mu{font-size:10px;color:var(--sub);font-weight:400;}
+
+/* ── Warning banner ── */
+#vwarn{display:none;background:color-mix(in srgb,#ff3b30 8%,transparent);
+       border:1px solid color-mix(in srgb,#ff3b30 30%,transparent);
+       border-radius:8px;padding:8px 12px;margin:8px 10px 0;
+       color:#ff3b30;font-size:11px;display:flex;gap:7px;align-items:flex-start;}
+#vwarn.hide{display:none!important;}
+
+/* ── Tabs ── */
+#tabbar{display:flex;gap:2px;padding:7px 8px;background:var(--bg);}
+.tb{flex:1;padding:5px 6px;border:none;border-radius:8px;cursor:pointer;
+    background:transparent;color:var(--sub);font-size:11px;font-weight:500;
+    display:flex;align-items:center;justify-content:center;gap:4px;}
+.tb.on{background:var(--surf);color:var(--accent);box-shadow:var(--shadow);}
+
+/* ── Buttons ── */
+.btn-pri{background:var(--accent);color:#fff;border:none;border-radius:8px;
+         padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;}
+.btn-pri:hover{filter:brightness(1.1);}
+.btn-sec{background:var(--surf2);color:var(--text);border:1px solid var(--border);
+         border-radius:8px;padding:4px 11px;font-size:12px;cursor:pointer;}
+
+/* ── Eval cards ── */
+.ec{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);
+    padding:10px 12px;margin:0 10px 8px;cursor:pointer;}
+.ec:hover{border-color:var(--accent);}
+.ec h3{font-size:13px;font-weight:600;}
+.ec p{font-size:11px;color:var(--sub);}
+.empty{text-align:center;padding:40px 20px;color:var(--sub);font-size:12px;}
+
+/* ── Database pane ── */
+.db-row{display:flex;align-items:center;padding:4px 12px;border-bottom:1px solid var(--border);gap:6px;min-height:28px;}
+.db-row:last-child{border-bottom:none;}
+.db-name{flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.db-tag{font-size:9px;padding:1px 6px;border-radius:4px;background:var(--surf2);color:var(--sub);white-space:nowrap;flex-shrink:0;}
+.db-built{font-size:9px;color:var(--border);flex-shrink:0;}
+.db-del{border:none;background:none;color:rgba(255,59,48,0.65);cursor:pointer;font-size:13px;padding:0 2px;flex-shrink:0;line-height:1;}
+.db-del:hover{color:#ff3b30;}
+.db-edit{border:none;background:none;color:var(--sub);cursor:pointer;font-size:12px;padding:0 2px;flex-shrink:0;line-height:1;}
+.db-edit:hover{color:var(--accent);}
+.af{padding:8px 12px;border-top:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 4%,var(--surf));}
+.af-row{display:flex;align-items:center;gap:6px;padding:2px 0;}
+.af-row label{font-size:11px;color:var(--sub);flex:1;}
+.af-row input,.af-row select{width:100px;padding:2px 5px;border:1px solid var(--border);border-radius:4px;
+  background:var(--surf2);color:var(--text);font-size:11px;outline:none;text-align:right;}
+.af-row input.wide{flex:1;width:auto;text-align:left;}
+.af-btns{display:flex;gap:6px;margin-top:8px;}
+
+/* ══════════════════════════════════════
+   REPORT / OVERVIEW TAB
+══════════════════════════════════════ */
+.rpt-card{margin:8px 10px 4px;border:1px solid var(--border);border-radius:10px;overflow:hidden;flex-shrink:0;}
+.rpt-hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+         padding:11px 16px 9px;background:var(--accent);}
+.rpt-hdr-left{flex:1;min-width:0;}
+.rpt-proj{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.45);
+          color:#fff;font-size:15px;font-weight:700;outline:none;padding:0 0 2px;font-family:inherit;}
+.rpt-proj::placeholder{color:rgba(255,255,255,.55);}
+.rpt-sub{font-size:10px;color:rgba(255,255,255,.75);margin-top:4px;}
+.rpt-date{font-size:10px;color:rgba(255,255,255,.7);white-space:nowrap;padding-top:3px;}
+
+.rpt-body{display:grid;grid-template-columns:1fr 1fr 1.5fr;border-bottom:1px solid var(--border);}
+.rpt-col{padding:12px 14px;min-width:0;border-right:1px solid var(--border);}
+.rpt-col:last-child{border-right:none;}
+.rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;
+            padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border);}
+
+/* Needs column */
+.rpt-field{margin-bottom:9px;}
+.rpt-flabel{font-size:9px;color:var(--sub);margin-bottom:3px;}
+.rpt-fval{font-size:13px;font-weight:600;color:var(--text);}
+.rpt-textarea{width:100%;height:54px;background:var(--bg);border:1px solid var(--border);
+              border-radius:5px;color:var(--text);font-size:11px;padding:5px 7px;
+              resize:none;outline:none;font-family:inherit;line-height:1.5;}
+.rpt-row{display:flex;align-items:center;gap:6px;}
+.rpt-tinput{width:68px;padding:3px 7px;background:var(--bg);border:1px solid var(--border);
+            border-radius:5px;color:var(--text);font-size:13px;font-weight:600;
+            outline:none;font-family:inherit;text-align:right;}
+.rpt-unit{font-size:10px;color:var(--sub);}
+
+/* Architecture column */
+.rpt-kv{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}
+.rpt-k{font-size:9px;color:var(--sub);width:56px;flex-shrink:0;}
+.rpt-v{font-size:12px;font-weight:600;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rpt-tt-kv .rpt-v{font-size:17px;color:var(--accent);transition:color .2s;}
+.rpt-tt-kv .rpt-v.over{color:#ff3b30;}
+.rpt-tt-kv .rpt-unit{font-size:12px;}
+
+/* Diagram column */
+
+/* Technical detail footer */
+.rpt-footer{padding:10px 14px 12px;}
+.rpt-ftitle{font-size:9px;font-weight:700;color:var(--sub);letter-spacing:.5px;
+            text-transform:uppercase;margin-bottom:7px;}
+.rpt-details{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+.rpt-detail{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;}
+.rpt-dlabel{font-size:9px;color:var(--sub);line-height:1.3;margin-bottom:3px;}
+.rpt-dval{font-size:13px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
+.rpt-dunit{font-size:9px;color:var(--sub);font-weight:400;}
+
+/* Actions + history */
+.rpt-actions{padding:6px 10px;display:flex;align-items:center;gap:8px;}
+.rpt-history{padding:0 10px 8px;}
+.rpt-ht{font-size:10px;font-weight:600;color:var(--sub);padding:6px 0 4px;}
+
+/* ── About button ── */
+.btn-about{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
+           background:var(--surf2);color:var(--sub);cursor:pointer;
+           display:flex;align-items:center;justify-content:center;flex-shrink:0;
+           transition:.15s;}
+.btn-about:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── Undo Toast ── */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);
+  background:var(--text);color:var(--bg);
+  padding:9px 14px 9px 16px;border-radius:10px;
+  font-size:12px;display:flex;align-items:center;gap:12px;
+  opacity:0;transition:opacity .2s,transform .2s;
+  pointer-events:none;z-index:9999;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+#toast-undo{color:var(--accent);cursor:pointer;font-weight:700;font-size:12px;padding:0 2px;}
+#toast-bar{height:2px;background:var(--accent);border-radius:1px;
+           position:absolute;bottom:0;left:0;width:100%;border-radius:0 0 10px 10px;
+           transform-origin:left;animation:none;}
+#toast.show #toast-bar{animation:toast-drain var(--toast-dur,4s) linear forwards;}
+@keyframes toast-drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+
+/* ── Card customization ── */
+.metric{position:relative;}
+.card-dh{display:none;position:absolute;top:3px;left:5px;font-size:14px;color:var(--sub);cursor:grab;line-height:1;user-select:none;}
+.card-vis-btn{display:none;position:absolute;top:2px;right:4px;background:none;border:none;cursor:pointer;font-size:11px;color:var(--sub);padding:0;line-height:1;}
+.card-vis-btn:hover{color:var(--accent);}
+.card-edit-mode .card-dh,.card-edit-mode .card-vis-btn{display:block;}
+.card-edit-mode .metric{cursor:grab;padding-top:17px;}
+.card-edit-mode .metric:active{cursor:grabbing;}
+.metric.card-hidden{opacity:0.28;}
+.metric.dragging{opacity:0.45;outline:2px dashed var(--accent);outline-offset:2px;}
+.metric.drag-target{outline:2px solid var(--accent);outline-offset:2px;}
+
+/* ── Mobile responsive ── */
+#menu-btn{display:none;background:none;border:none;cursor:pointer;color:var(--text);padding:4px 6px;border-radius:6px;flex-shrink:0;}
+#menu-btn:hover{background:var(--surf2);}
+#drawer-overlay{display:none;position:fixed;inset:44px 0 0 0;background:rgba(0,0,0,.45);z-index:98;-webkit-tap-highlight-color:transparent;}
+@media(max-width:768px){
+  #menu-btn{display:flex;align-items:center;}
+  #app{grid-template-columns:1fr;}
+  #left{
+    position:fixed;top:44px;left:0;width:82%;max-width:310px;
+    height:calc(100vh - 44px);z-index:99;
+    transform:translateX(-100%);transition:transform .25s ease;
+    box-shadow:4px 0 20px rgba(0,0,0,.18);
+  }
+  #left.drawer-open{transform:translateX(0);}
+  #drawer-overlay.show{display:block;}
+  #right{grid-column:1;}
+  header p{display:none;}
+  header h1{font-size:13px;}
+  .btn-sec,.btn-pri{font-size:11px;padding:4px 8px;}
+  .btn-about{padding:4px 5px;}
+  /* Report card: stack to 1 col in portrait */
+  .rpt-body{grid-template-columns:1fr;}
+  .rpt-col{border-right:none;border-bottom:1px solid var(--border);}
+  .rpt-col:last-child{border-bottom:none;}
+  /* Technical sections: 1 col */
+  .res-grid{grid-template-columns:1fr;}
+  /* Metric card grids: 2 col */
+  .cg{grid-template-columns:repeat(2,1fr);}
+  .cg2{grid-template-columns:repeat(2,1fr);}
+  /* Tab bar: scrollable */
+  #tabbar{overflow-x:auto;white-space:nowrap;}
+}
+@media(min-width:540px) and (max-width:768px) and (orientation:landscape){
+  /* Landscape phone: keep rpt-body 2-col, res-grid 2-col */
+  .rpt-body{grid-template-columns:1fr 1fr;}
+  .rpt-col{border-right:1px solid var(--border);border-bottom:none;}
+  .rpt-col:nth-child(2){border-right:none;}
+  .res-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* ── Mode switcher ── */
+.mode-switcher{display:flex;margin:8px 10px 0;border:1.5px solid var(--accent);border-radius:9px;overflow:hidden;flex-shrink:0;}
+.mode-switcher button{flex:1;padding:7px 6px;border:none;background:transparent;color:var(--accent);
+  font-size:12px;font-weight:600;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:4px;}
+.mode-switcher button.on{background:var(--accent);color:#fff;}
+
+/* (Area Shot reuses rpt-card / metric classes from scan mode) */
+
+/* Print */
+@media print{
+  #app{display:block!important;height:auto;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,.mode-switcher{display:none!important;}
+  #right{padding:0!important;background:transparent!important;}
+  #pane-res{display:block!important;overflow:visible;}
+  .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
+  @page{size:29.7cm 16.7cm landscape;margin:8mm;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <button id="menu-btn" onclick="toggleDrawer()" aria-label="設定">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <img src="auo-logo.png" width="28" height="28" style="object-fit:contain;flex-shrink:0;" alt="AUO">
+  <div><h1 id="app-title">AOI 光學架構評估計算器</h1><p id="app-subtitle">Automated Optical Inspection — System Design Tool</p></div>
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <button class="btn-sec" onclick="exportPDF()">📄 匯出 PDF</button>
+    <button class="btn-pri" onclick="saveEval()">💾 儲存評估</button>
+    <button class="btn-about" onclick="toggleAbout()" title="開發者資訊">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- ── Drawer overlay ── -->
+<div id="drawer-overlay" onclick="toggleDrawer()"></div>
+
+<!-- ── About Modal ── -->
+<div id="about-overlay" onclick="toggleAbout()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
+<div id="about-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+     background:var(--surf);border:1px solid var(--border);border-radius:14px;
+     padding:24px 28px;z-index:2001;min-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <div style="font-size:14px;font-weight:700;">AOI 光學架構評估計算器</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:2px;">開發者資訊</div>
+    </div>
+    <button onclick="toggleAbout()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surf2);border-radius:9px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">M</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;">MinXu</div>
+        <a href="mailto:MinXu.Chiang@auo.com" style="font-size:11px;color:var(--accent);text-decoration:none;">MinXu.Chiang@auo.com</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surf2);border-radius:9px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#34c759;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">J</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;">JohnnyYang</div>
+        <a href="mailto:Johnny.Yang@auo.com" style="font-size:11px;color:var(--accent);text-decoration:none;">Johnny.Yang@auo.com</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surf2);border-radius:9px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#ff9500;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">H</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;">Hwasa Chung</div>
+        <a href="mailto:Hwasa.Chung@auo.com" style="font-size:11px;color:var(--accent);text-decoration:none;">Hwasa.Chung@auo.com</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Import Confirm Modal ── -->
+<div id="imp-overlay" onclick="closeImportModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
+<div id="imp-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+     background:var(--surf);border:1px solid var(--border);border-radius:14px;
+     padding:22px 24px;z-index:2001;min-width:300px;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+  <div style="font-size:14px;font-weight:700;margin-bottom:4px;">📥 確認匯入</div>
+  <div id="imp-source" style="font-size:11px;color:var(--sub);margin-bottom:14px;"></div>
+  <div id="imp-summary" style="font-size:12px;line-height:1.8;background:var(--surf2);border-radius:8px;padding:10px 12px;margin-bottom:14px;"></div>
+  <div style="font-size:11px;color:var(--sub);margin-bottom:14px;">重複項目（同名）將自動跳過，現有資料不會被覆蓋。</div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;">
+    <button class="btn-sec" style="font-size:12px" onclick="closeImportModal()">取消</button>
+    <button class="btn-pri" id="imp-confirm-btn" style="font-size:12px">確認匯入</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ LEFT: Parameters ═══════════════════ -->
+<div class="panel" id="left">
+  <!-- Mode Switcher -->
+  <div class="mode-switcher" id="mode-switcher">
+    <button class="on" onclick="setMode('scan')">📐 掃描模式</button>
+    <button onclick="setMode('area')">📷 Area Shot</button>
+  </div>
+
+  <!-- ══════ SCAN MODE PANEL ══════ -->
+  <div id="panel-scan">
+  <!-- Eval name -->
+  <div style="padding:8px 10px 0">
+    <div class="card" style="margin-bottom:0">
+      <div class="row">
+        <label>評估名稱</label>
+        <input type="text" id="eval-name" value="新評估" oninput="syncName(this.value)">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Camera ── -->
+  <div class="shdr">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+      <circle cx="12" cy="13" r="4"/>
+    </svg>相機設定
+  </div>
+  <div class="card">
+    <div class="dbrow">
+      <label>資料庫</label>
+      <select id="cam-pick" onchange="applyCamera()">
+        <option value="">— 手動輸入 —</option>
+      </select>
+    </div>
+    <!-- Camera type: segmented -->
+    <div class="row">
+      <label>相機類型</label>
+      <div class="seg" id="cam-type-seg">
+        <button class="on" onclick="setCamType(false)">面陣飛拍</button>
+        <button onclick="setCamType(true)">線掃描</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>彩色感測器</label>
+      <div class="seg" id="color-seg">
+        <button class="on" onclick="setColor(false)">灰階</button>
+        <button onclick="setColor(true)">彩色</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>2×2 Binning</label>
+      <div class="seg" id="bin-seg">
+        <button class="on" onclick="setBin(false)">關閉</button>
+        <button onclick="setBin(true)">開啟</button>
+      </div>
+    </div>
+    <div class="row"><label>像素大小</label><input type="number" id="p-px" value="2.5" step="0.01" oninput="calc()"><span class="unit">µm</span></div>
+    <div class="row"><label>解析度 寬</label><input type="number" id="p-rw" value="5120" step="1" oninput="calc()"><span class="unit">px</span></div>
+    <div class="row" id="row-rh"><label>解析度 高</label><input type="number" id="p-rh" value="5120" step="1" oninput="calc()"><span class="unit">px</span></div>
+    <div class="row"><label id="lbl-fps">幀率</label><input type="number" id="p-fps" value="125" step="1" oninput="calc()"><span class="unit" id="unit-fps">fps</span></div>
+    <div class="row"><label>位元深度</label><input type="number" id="p-bit" value="8" step="1" oninput="calc()"><span class="unit">bit</span></div>
+  </div>
+
+  <!-- ── Lens ── -->
+  <div class="shdr">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+    </svg>鏡頭設定
+  </div>
+  <div class="card">
+    <div class="dbrow">
+      <label>資料庫</label>
+      <select id="lens-pick" onchange="applyLens()">
+        <option value="">— 手動輸入 —</option>
+      </select>
+    </div>
+    <!-- Lens type: 3-way segmented -->
+    <div class="row">
+      <label>鏡頭類型</label>
+      <div class="seg" id="lens-type-seg">
+        <button class="on" onclick="setLensType('objective')">物鏡</button>
+        <button onclick="setLensType('telecentric')">遠心</button>
+        <button onclick="setLensType('cctv')">CCTV</button>
+      </div>
+    </div>
+    <div class="row"><label>放大倍率</label><input type="number" id="p-mag" value="5" step="0.1" oninput="calc()" title="CCTV 模式下依焦距與工作距離自動計算"><span class="unit">×</span></div>
+    <div class="row"><label>像圈直徑</label><input type="number" id="p-ic" value="25" step="0.5" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row"><label>工作距離</label><input type="number" id="p-wd" value="34" step="1" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row" id="row-na"><label>NA (數值孔徑)</label><input type="number" id="p-na" value="0.14" step="0.001" oninput="calc()"><span class="unit"></span></div>
+    <div class="row" id="row-fn" style="display:none"><label>F# 固定光圈</label><input type="number" id="p-fn" value="8" step="0.1" oninput="calc()"><span class="unit"></span></div>
+    <div class="row" id="row-fn-cctv" style="display:none"><label>F# 工作光圈</label><select id="p-fn-sel" class="fn-sel" onchange="onFnSelChange()"></select><span class="unit"></span></div>
+    <div class="row" id="row-fl" style="display:none"><label>焦距</label><input type="number" id="p-fl" value="50" step="1" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row"><label>光源波長</label><input type="number" id="p-wl" value="550" step="10" oninput="calc()"><span class="unit">nm</span></div>
+  </div>
+
+  <!-- ── Scan ── -->
+  <div class="shdr">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+      <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+    </svg>掃描設定
+  </div>
+  <div class="card">
+    <div class="row"><label>樣品寬度</label><input type="number" id="p-sw" value="920" step="1" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row"><label>樣品高度</label><input type="number" id="p-sh" value="730" step="1" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row">
+      <label>掃描方向</label>
+      <div class="seg" id="scan-dir-seg">
+        <button class="on" onclick="setScanDir(true)">沿寬度</button>
+        <button onclick="setScanDir(false)">沿高度</button>
+      </div>
+    </div>
+    <div class="row">
+      <label>掃描模式</label>
+      <div class="seg" id="scan-mode-seg">
+        <button class="on" onclick="setScanMode('single')">單向</button>
+        <button onclick="setScanMode('round')">來回</button>
+      </div>
+    </div>
+    <div class="row"><label>每排相機數量</label><input type="number" id="p-nc" value="5" step="1" oninput="calc()"><span class="unit">台</span></div>
+    <div class="row"><label>相機排數</label><input type="number" id="p-nr" value="1" step="1" oninput="calc()"><span class="unit">排</span></div>
+    <div class="row"><label>影像重疊率</label><input type="number" id="p-ov" value="6.25" step="0.01" oninput="calc()"><span class="unit">%</span></div>
+    <div class="row"><label>加速度</label><input type="number" id="p-ac" value="550" step="10" oninput="calc()"><span class="unit">mm/s²</span></div>
+    <div class="row"><label>換道時間</label><input type="number" id="p-ct" value="0.12" step="0.01" oninput="calc()"><span class="unit">s</span></div>
+    <div class="row"><label>返回速度</label><input type="number" id="p-bs" value="300" step="10" oninput="calc()"><span class="unit">mm/s</span></div>
+    <div class="row"><label>Encoder 解析度</label><input type="number" id="p-ep" value="0.05" step="0.001" oninput="calc()"><span class="unit">µm</span></div>
+  </div>
+  <!-- Notes at bottom of left panel -->
+  <div style="padding:0 10px 8px">
+    <div class="shdr" style="padding-left:2px">📝 備註</div>
+    <textarea id="eval-notes" placeholder="輸入備註..."
+      style="width:100%;height:48px;padding:6px 8px;font-size:12px;border:1px solid var(--border);
+             border-radius:var(--rad);background:var(--surf);color:var(--text);resize:none;outline:none;"></textarea>
+  </div>
+  <div style="height:14px"></div>
+  </div><!-- /panel-scan -->
+
+  <!-- ══════ AREA SHOT MODE PANEL ══════ -->
+  <div id="panel-area" style="display:none">
+    <div style="padding:8px 10px 0">
+      <div class="card" style="margin-bottom:0">
+        <div class="row">
+          <label>評估名稱</label>
+          <input type="text" id="as-eval-name" value="新評估" oninput="syncNameAS(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- 產品規格 -->
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+      </svg>產品規格
+    </div>
+    <div class="card">
+      <div class="row"><label>面板 X-AA</label><input type="number" id="as-panel-x" value="1884" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+      <div class="row"><label>面板 Y-AA</label><input type="number" id="as-panel-y" value="1070" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+      <div class="row"><label>面板 X 解析度</label><input type="number" id="as-panel-rx" value="3840" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+      <div class="row"><label>面板 Y 解析度</label><input type="number" id="as-panel-ry" value="2160" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+      <div class="row"><label>Pitch</label><input type="number" id="as-pitch" value="8" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+    </div>
+
+    <!-- 相機設定 -->
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>相機設定
+    </div>
+    <div class="card">
+      <div class="dbrow">
+        <label>資料庫</label>
+        <select id="as-cam-pick" onchange="applyCameraAS()">
+          <option value="">— 手動輸入 —</option>
+        </select>
+      </div>
+      <div class="row"><label>X 解析度</label><input type="number" id="as-cam-rx" value="14192" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+      <div class="row"><label>Y 解析度</label><input type="number" id="as-cam-ry" value="10640" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+      <div class="row"><label>像素大小</label><input type="number" id="as-cam-px" value="3.76" step="0.01" oninput="calcAS()"><span class="unit">µm</span></div>
+    </div>
+
+    <!-- 鏡頭設定 -->
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+      </svg>鏡頭設定
+    </div>
+    <div class="card">
+      <div class="dbrow">
+        <label>資料庫</label>
+        <select id="as-lens-pick" onchange="applyLensAS()">
+          <option value="">— 手動輸入 —</option>
+        </select>
+      </div>
+      <div class="row"><label>焦距</label><input type="number" id="as-fl" value="55" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+      <div class="row"><label>最短工作距離</label><input type="number" id="as-min-wd" value="100" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+    </div>
+
+    <!-- 配置設定 -->
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>配置設定
+    </div>
+    <div class="card">
+      <div class="row"><label>單台佔屏比限制</label><input type="number" id="as-limit" value="0.8" step="0.05" oninput="calcAS()"><span class="unit">×</span></div>
+    </div>
+
+    <!-- 備註 -->
+    <div style="padding:0 10px 8px">
+      <div class="shdr" style="padding-left:2px">📝 備註</div>
+      <textarea id="as-eval-notes" placeholder="輸入備註..."
+        style="width:100%;height:48px;padding:6px 8px;font-size:12px;border:1px solid var(--border);
+               border-radius:var(--rad);background:var(--surf);color:var(--text);resize:none;outline:none;"></textarea>
+    </div>
+    <div style="height:14px"></div>
+  </div><!-- /panel-area -->
+
+</div>
+
+<!-- ═══════════════════ RIGHT: Results / Reports ═══════════════════ -->
+<div class="panel" id="right">
+  <div id="tabbar">
+    <button class="tb on" onclick="showTab('res')" id="tab-res">📊 總覽</button>
+    <button class="tb" onclick="showTab('hist')" id="tab-hist">📋 歷史紀錄</button>
+    <button class="tb" onclick="showTab('db')"  id="tab-db">📷 相機鏡頭</button>
+  </div>
+
+  <!-- Results pane -->
+  <!-- ══ Unified results + report pane ══ -->
+  <div id="pane-res">
+    <div id="vwarn" class="hide">⚠️ <span id="vwarn-msg"></span></div>
+
+    <!-- ── Report card ── -->
+    <div class="rpt-card">
+
+      <!-- Header: project name + date -->
+      <div class="rpt-hdr">
+        <div class="rpt-hdr-left">
+          <input id="rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="syncName(this.value)">
+          <div class="rpt-sub">AOI 系統規格總覽</div>
+        </div>
+        <div class="rpt-date" id="rpt-date"></div>
+      </div>
+
+      <!-- Overview body: 需求 | 架構 | 示意圖 -->
+      <div class="rpt-body">
+
+        <div class="rpt-col">
+          <div class="rpt-ctitle">📋 需求概覽</div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">設備 / 用途描述</div>
+            <textarea id="rpt-desc" class="rpt-textarea" placeholder="例：FPD Cell 前段 AOI，檢測短路、斷路、異物…" oninput="saveRptMeta()"></textarea>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">樣品尺寸</div>
+            <div class="rpt-fval" id="rpt-sample">—</div>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">目標 TT</div>
+            <div class="rpt-row">
+              <input type="number" id="rpt-target-tt" class="rpt-tinput" placeholder="—" oninput="saveRptMeta();calc()">
+              <span class="rpt-unit">min</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rpt-col">
+          <div class="rpt-ctitle">⚙️ 技術架構</div>
+          <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="rpt-cam">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="rpt-lens">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">光學數量</span><span class="rpt-v" id="rpt-qty">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">排列方式</span><span class="rpt-v" id="rpt-arr">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">掃描模式</span><span class="rpt-v" id="rpt-mode">—</span></div>
+          <div class="rpt-kv rpt-tt-kv">
+            <span class="rpt-k">估算 TT</span>
+            <span class="rpt-v" id="rpt-tt">—</span>
+            <span class="rpt-unit">min</span>
+          </div>
+        </div>
+
+        <div class="rpt-col">
+          <div class="rpt-ctitle">📐 系統示意圖</div>
+          <canvas id="dg"></canvas>
+          <div id="dg-caption"></div>
+        </div>
+      </div>
+
+      <!-- Technical detail sections -->
+      <div style="border-top:1px solid var(--border);padding:5px 10px;display:flex;justify-content:flex-end;"><button id="card-edit-btn" class="btn-sec" style="font-size:10px;padding:2px 9px" onclick="toggleCardEdit()">✎ 自訂版面</button></div><div class="res-grid rpt-secs" id="card-edit-target" style="border-top:none">
+
+        <div class="rg-sec">
+          <div class="shdr">🔭 光學規格</div>
+          <div class="cg" data-sec="opt">
+            <div class="metric" data-cid="r-or"><div class="mt">系統解析度</div><div class="mv"><span id="r-or">—</span> <span class="mu">µm/px</span></div></div>
+            <div class="metric" data-cid="r-dg"><div class="mt">感測器對角線</div><div class="mv"><span id="r-dg">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="r-hf"><div class="mt">水平 FOV / 台</div><div class="mv"><span id="r-hf">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="r-vf"><div class="mt">垂直 FOV</div><div class="mv"><span id="r-vf">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="r-lr"><div class="mt">鏡頭解析度</div><div class="mv"><span id="r-lr">—</span> <span class="mu">µm</span></div></div>
+            <div class="metric" data-cid="r-mr"><div class="mt">最小檢測解析度</div><div class="mv"><span id="r-mr">—</span> <span class="mu">µm</span></div></div>
+            <div class="metric" data-cid="r-df"><div class="mt">景深 DoF</div><div class="mv"><span id="r-df">—</span> <span class="mu">µm</span></div></div>
+            <div class="metric" data-cid="r-mag"><div class="mt" id="mt-mag">光學倍率</div><div class="mv"><span id="r-mag">—</span> <span class="mu">×</span></div></div>
+          </div>
+          <div id="cctv-est-note" style="display:none;font-size:10px;color:var(--sub);padding:2px 2px 6px;line-height:1.5;">
+            ≈ 標示值為薄透鏡公式估算，CCTV 鏡頭受主平面偏移影響，<br>實際倍率與系統解析度建議以實測為準。
+          </div>
+        </div>
+
+        <div class="rg-sec">
+          <div class="shdr">📐 掃描規格</div>
+          <div class="cg" data-sec="scan">
+            <div class="metric" data-cid="r-qty"><div class="mt">光學總數量</div><div class="mv"><span id="r-qty">—</span> <span class="mu">台</span></div></div>
+            <div class="metric" data-cid="r-se"><div class="mt">掃描行程</div><div class="mv"><span id="r-se">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="r-sh"><div class="mt">換道行程</div><div class="mv"><span id="r-sh">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="r-sp"><div class="mt">掃描速度</div><div class="mv"><span id="r-sp">—</span> <span class="mu">mm/s</span></div></div>
+            <div class="metric" data-cid="r-cp"><div class="mt">單道拍攝張數</div><div class="mv"><span id="r-cp">—</span> <span class="mu">張</span></div></div>
+            <div class="metric" data-cid="r-ps"><div class="mt">掃描道數</div><div class="mv"><span id="r-ps">—</span> <span class="mu">道</span></div></div>
+          </div>
+        </div>
+
+        <div class="rg-sec">
+          <div class="shdr">💻 硬體需求</div>
+          <div class="cg cg2" data-sec="hw">
+            <div class="metric" data-cid="r-ex"><div class="mt">不模糊曝光上限</div><div class="mv"><span id="r-ex">—</span> <span class="mu">µs</span></div></div>
+            <div class="metric" data-cid="r-ef"><div class="mt">Encoder 頻率</div><div class="mv"><span id="r-ef">—</span> <span class="mu">MHz</span></div></div>
+            <div class="metric" data-cid="r-pw"><div class="mt">最小脈衝寬度</div><div class="mv"><span id="r-pw">—</span> <span class="mu">ns</span></div></div>
+            <div class="metric" data-cid="r-dfl"><div class="mt">資料流量</div><div class="mv"><span id="r-dfl">—</span> <span class="mu">GB/s</span></div></div>
+          </div>
+        </div>
+
+        <div class="rg-sec">
+          <div class="shdr">⏰ 時序分析</div>
+          <div class="cg" data-sec="timing">
+            <div class="metric" data-cid="r-at"><div class="mt">加減速時間</div><div class="mv"><span id="r-at">—</span> <span class="mu">s/道</span></div></div>
+            <div class="metric" data-cid="r-cs"><div class="mt">等速掃描時間</div><div class="mv"><span id="r-cs">—</span> <span class="mu">s/道</span></div></div>
+            <div class="metric" data-cid="r-ct"><div class="mt">換道時間</div><div class="mv"><span id="r-ct">—</span> <span class="mu">s</span></div></div>
+            <div class="metric" data-cid="r-rt"><div class="mt">單趟返回時間</div><div class="mv"><span id="r-rt">—</span> <span class="mu">s/道</span></div></div>
+            <div class="metric" data-cid="r-tt"><div class="mt" id="r-tt-label">掃描週期 TT</div><div class="mv"><span id="r-tt">—</span> <span class="mu">min</span></div></div>
+          </div>
+        </div>
+
+      </div><!-- /res-grid -->
+    </div><!-- /rpt-card -->
+
+  </div>
+
+  <!-- ══ Area Shot Results pane ══ -->
+  <div id="pane-area-res" style="display:none">
+    <div id="as-vwarn" class="hide">⚠️ <span id="as-vwarn-msg"></span></div>
+
+    <!-- ── Report card (same structure as scan mode) ── -->
+    <div class="rpt-card">
+
+      <!-- Header: project name + date -->
+      <div class="rpt-hdr">
+        <div class="rpt-hdr-left">
+          <input id="as-rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="syncNameAS(this.value)">
+          <div class="rpt-sub">AOI Area Shot 評估總覽</div>
+        </div>
+        <div class="rpt-date" id="as-rpt-date"></div>
+      </div>
+
+      <!-- Overview body: 需求 | 架構 | 示意圖 -->
+      <div class="rpt-body">
+
+        <div class="rpt-col">
+          <div class="rpt-ctitle">📋 需求概覽</div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">設備 / 用途描述</div>
+            <textarea id="as-rpt-desc" class="rpt-textarea" placeholder="例：FPD Cell 前段 AOI，畫檢評估…"></textarea>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">面板尺寸</div>
+            <div class="rpt-fval" id="as-rpt-panel">—</div>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">Pitch</div>
+            <div class="rpt-fval" id="as-rpt-pitch">—</div>
+          </div>
+        </div>
+
+        <div class="rpt-col">
+          <div class="rpt-ctitle">⚙️ 技術架構</div>
+          <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="as-rpt-cam">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="as-rpt-lens">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">總相機數</span><span class="rpt-v" id="as-rpt-qty">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">配置方式</span><span class="rpt-v" id="as-rpt-arr">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">WD 可用</span><span class="rpt-v" id="as-rpt-wd-ok">—</span></div>
+        </div>
+
+        <div class="rpt-col">
+          <div class="rpt-ctitle">📐 配置示意圖</div>
+          <canvas id="as-dg" style="display:block;width:100%;height:116px;"></canvas>
+          <div id="as-dg-caption" style="display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;"></div>
+        </div>
+      </div>
+
+      <!-- Technical detail sections -->
+      <div class="res-grid rpt-secs" style="border-top:1px solid var(--border)">
+
+        <div class="rg-sec">
+          <div class="shdr">🔭 光學規格</div>
+          <div class="cg">
+            <div class="metric"><div class="mt">系統解析能</div><div class="mv"><span id="as-r-res">—</span> <span class="mu">µm</span></div></div>
+            <div class="metric"><div class="mt">X-FOV</div><div class="mv"><span id="as-r-xfov">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric"><div class="mt">Y-FOV</div><div class="mv"><span id="as-r-yfov">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric"><div class="mt">工作距離 WD</div><div class="mv"><span id="as-r-wd">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric"><div class="mt">安全工作距離</div><div class="mv"><span id="as-r-safe-wd">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric"><div class="mt">X 半角</div><div class="mv"><span id="as-r-xangle">—</span> <span class="mu">°</span></div></div>
+          </div>
+        </div>
+
+        <div class="rg-sec">
+          <div class="shdr">📊 單台評估</div>
+          <div class="cg">
+            <div class="metric"><div class="mt">X 佔屏比</div><div class="mv"><span id="as-r-xratio">—</span></div></div>
+            <div class="metric"><div class="mt">Y 佔屏比</div><div class="mv"><span id="as-r-yratio">—</span></div></div>
+            <div class="metric"><div class="mt">Pitch 檢查</div><div class="mv"><span id="as-r-pitch-ok">—</span></div></div>
+            <div class="metric"><div class="mt">1台 &lt; 80%</div><div class="mv"><span id="as-r-check1">—</span></div></div>
+            <div class="metric"><div class="mt">2台 &lt; 160%</div><div class="mv"><span id="as-r-check2">—</span></div></div>
+            <div class="metric"><div class="mt">3台 &lt; 240%</div><div class="mv"><span id="as-r-check3">—</span></div></div>
+          </div>
+        </div>
+
+        <div class="rg-sec">
+          <div class="shdr">📐 多台配置</div>
+          <div class="cg">
+            <div class="metric"><div class="mt">X 方向台數</div><div class="mv"><span id="as-r-nx">—</span> <span class="mu">台</span></div></div>
+            <div class="metric"><div class="mt">Y 方向台數</div><div class="mv"><span id="as-r-ny">—</span> <span class="mu">台</span></div></div>
+            <div class="metric"><div class="mt">總相機數</div><div class="mv"><span id="as-r-total">—</span> <span class="mu">台</span></div></div>
+            <div class="metric"><div class="mt">每台 X 佔屏比</div><div class="mv"><span id="as-r-per-x">—</span></div></div>
+            <div class="metric"><div class="mt">每台 Y 佔屏比</div><div class="mv"><span id="as-r-per-y">—</span></div></div>
+          </div>
+        </div>
+
+      </div><!-- /res-grid -->
+    </div><!-- /rpt-card -->
+
+  </div>
+
+  <!-- History pane -->
+  <div id="pane-hist" style="display:none;overflow-y:auto;flex:1">
+    <div style="padding:7px 10px 4px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);">
+      <span style="font-size:12px;color:var(--sub)" id="ev-cnt">0 筆評估</span>
+      <button class="btn-sec" onclick="clearEvals()" style="margin-left:auto;font-size:11px">清除全部</button>
+    </div>
+    <div id="ev-list"></div>
+  </div>
+
+  <!-- Database pane -->
+  <div id="pane-db" style="display:none">
+
+    <!-- ── Import / Export toolbar ── -->
+    <div style="padding:8px 10px 0">
+      <div class="card" style="margin-bottom:0">
+        <div style="padding:7px 12px;display:flex;align-items:center;gap:6px;">
+          <span style="font-size:11px;color:var(--sub);flex:1;">資料庫共用</span>
+          <button class="btn-sec" style="font-size:11px" onclick="exportDb()" title="匯出為 JSON 檔案">📤 匯出</button>
+          <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('db-import-input').click()" title="從 JSON 檔案匯入">📥 匯入</button>
+          <input type="file" id="db-import-input" accept=".json" style="display:none" onchange="handleDbImport(this)">
+        </div>
+      </div>
+    </div>
+    <div style="height:8px"></div>
+
+    <!-- ── Camera section ── -->
+    <div class="shdr">📷 相機資料庫</div>
+    <div class="card">
+      <div id="db-cam-list"></div>
+      <div style="padding:5px 10px;display:flex;gap:6px">
+        <button class="btn-sec" style="flex:1;font-size:11px" onclick="toggleAF('cam')">＋ 新增</button>
+      </div>
+      <div id="af-cam" class="af" style="display:none">
+        <div class="af-row"><label>名稱</label><input class="wide" type="text" id="afc-n" placeholder="品牌 型號"></div>
+        <div class="af-row"><label>像素大小</label><input type="number" id="afc-px" value="3.45" step="0.01"><span style="font-size:10px;color:var(--sub)">µm</span></div>
+        <div class="af-row"><label>解析度 寬</label><input type="number" id="afc-rw" value="2448" step="1"><span style="font-size:10px;color:var(--sub)">px</span></div>
+        <div class="af-row"><label>解析度 高</label><input type="number" id="afc-rh" value="2048" step="1"><span style="font-size:10px;color:var(--sub)">px</span></div>
+        <div class="af-row"><label>幀率</label><input type="number" id="afc-fps" value="30" step="1"><span style="font-size:10px;color:var(--sub)">fps</span></div>
+        <div class="af-row"><label>位元深度</label><input type="number" id="afc-bit" value="8" step="1"><span style="font-size:10px;color:var(--sub)">bit</span></div>
+        <div class="af-row">
+          <label>類型</label>
+          <select id="afc-type">
+            <option value="area">面陣飛拍</option>
+            <option value="line">線掃描</option>
+          </select>
+        </div>
+        <div class="af-row">
+          <label>色彩</label>
+          <select id="afc-color">
+            <option value="gray">灰階</option>
+            <option value="color">彩色</option>
+          </select>
+        </div>
+        <div class="af-btns">
+          <button class="btn-pri" style="flex:1;font-size:11px" onclick="submitAddCam()">確認新增</button>
+          <button class="btn-sec" style="font-size:11px" onclick="toggleAF('cam')">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Lens section ── -->
+    <div class="shdr">🔭 鏡頭資料庫</div>
+    <div class="card">
+      <div id="db-lens-list"></div>
+      <div style="padding:5px 10px;display:flex;gap:6px">
+        <button class="btn-sec" style="flex:1;font-size:11px" onclick="toggleAF('lens')">＋ 新增</button>
+      </div>
+      <div id="af-lens" class="af" style="display:none">
+        <div class="af-row"><label>名稱</label><input class="wide" type="text" id="afl-n" placeholder="品牌 型號"></div>
+        <div class="af-row">
+          <label>類型</label>
+          <select id="afl-type" onchange="onAflTypeChange()">
+            <option value="objective">物鏡</option>
+            <option value="telecentric">遠心</option>
+            <option value="cctv">CCTV</option>
+          </select>
+        </div>
+        <!-- 物鏡 + 遠心：固定倍率 -->
+        <div class="af-row" id="afl-row-mag"><label>放大倍率</label><input type="number" id="afl-mag" value="1" step="0.01"><span style="font-size:10px;color:var(--sub)">×</span></div>
+        <!-- 全類型 -->
+        <div class="af-row"><label>像圈直徑</label><input type="number" id="afl-ic" value="16" step="0.5"><span style="font-size:10px;color:var(--sub)">mm</span></div>
+        <div class="af-row"><label>工作距離</label><input type="number" id="afl-wd" value="100" step="1" oninput="updateAflMagComputed()"><span style="font-size:10px;color:var(--sub)">mm</span></div>
+        <!-- 物鏡：NA -->
+        <div class="af-row" id="afl-row-na"><label>NA</label><input type="number" id="afl-na" value="0.1" step="0.001"></div>
+        <!-- 遠心：單一 F# -->
+        <div class="af-row" id="afl-row-fn" style="display:none"><label>F# 固定光圈</label><input type="number" id="afl-fn" value="8" step="0.1"></div>
+        <!-- CCTV：F# 範圍 + 焦距 + 自動倍率 -->
+        <div class="af-row" id="afl-row-fnmin" style="display:none"><label>F# 最大光圈</label><input type="number" id="afl-fnmin" value="2.8" step="0.1"><span style="font-size:10px;color:var(--sub)">開放端</span></div>
+        <div class="af-row" id="afl-row-fnmax" style="display:none"><label>F# 最小光圈</label><input type="number" id="afl-fnmax" value="22" step="0.1"><span style="font-size:10px;color:var(--sub)">收縮端</span></div>
+        <div class="af-row" id="afl-row-fl" style="display:none"><label>焦距</label><input type="number" id="afl-fl" value="50" step="1" oninput="updateAflMagComputed()"><span style="font-size:10px;color:var(--sub)">mm</span></div>
+        <div class="af-row" id="afl-row-magcalc" style="display:none">
+          <label style="color:var(--sub)">參考倍率</label>
+          <span id="afl-mag-computed" style="font-size:12px;font-family:'SF Mono',monospace;color:var(--sub)">—</span>
+          <span style="font-size:10px;color:var(--sub)">× (依 WD 計算)</span>
+        </div>
+        <div class="af-btns">
+          <button class="btn-pri" style="flex:1;font-size:11px" onclick="submitAddLens()">確認新增</button>
+          <button class="btn-sec" style="font-size:11px" onclick="toggleAF('lens')">取消</button>
+        </div>
+      </div>
+    </div>
+    <div style="height:14px"></div>
+  </div>
+</div>
+
+</div><!-- #app -->
+
+<script>
+// ═══════════════════════════════════════════
+// DATABASE
+// ═══════════════════════════════════════════
+const CAMS = [];
+const LENS = [];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let S = {lineScan:false, color:false, binning:false,
+         lensType:'objective',   // 'objective' | 'telecentric' | 'cctv'
+         scanAlongWidth:true, scanMode:'single'};
+let evals    = JSON.parse(localStorage.getItem('aoi_evals')||'[]');
+let custCams = JSON.parse(localStorage.getItem('aoi_cams') ||'[]');
+let custLens = JSON.parse(localStorage.getItem('aoi_lens') ||'[]');
+let hiddenCams = new Set(JSON.parse(localStorage.getItem('aoi_hcams')||'[]'));
+let hiddenLens = new Set(JSON.parse(localStorage.getItem('aoi_hlens')||'[]'));
+let lastR = {};
+
+// ── Combined accessors ──
+function allCams(){ return CAMS.filter((_,i)=>!hiddenCams.has(i)).concat(custCams); }
+function allLens(){ return LENS.filter((_,i)=>!hiddenLens.has(i)).concat(custLens); }
+function saveCustCams(){ localStorage.setItem('aoi_cams', JSON.stringify(custCams)); }
+function saveCustLens(){ localStorage.setItem('aoi_lens', JSON.stringify(custLens)); }
+function saveHiddenCams(){ localStorage.setItem('aoi_hcams', JSON.stringify([...hiddenCams])); }
+function saveHiddenLens(){ localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); }
+
+// ── Rebuild pickers after DB changes ──
+function refreshCamPicker(){
+  const cp=document.getElementById('cam-pick'), prev=cp.value;
+  cp.innerHTML='<option value="">— 手動輸入 —</option>';
+  allCams().forEach((c,i)=>cp.appendChild(new Option(c.n,i)));
+  cp.value=(prev!==''&&+prev<allCams().length)?prev:'';
+}
+function refreshLensPicker(){
+  const lp=document.getElementById('lens-pick'), prev=lp.value;
+  lp.innerHTML='<option value="">— 手動輸入 —</option>';
+  allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
+  lp.value=(prev!==''&&+prev<allLens().length)?prev:'';
+}
+
+// ── Render DB lists ──
+function renderDbLists(){
+  const camTag = c => c.line?'線掃描':c.color?'彩色面陣':'面陣';
+  const lensTag = l => l.type==='objective'?'物鏡':l.type==='telecentric'?'遠心':'CCTV';
+
+  // Built-in cameras (skip hidden ones, but track original CAMS index)
+  const camRows = [];
+  CAMS.forEach((c,origI)=>{
+    if(hiddenCams.has(origI)) return;
+    camRows.push(`<div class="db-row">
+      <span class="db-name">${c.n}</span>
+      <span class="db-tag">${camTag(c)}</span>
+      <button class="db-del" onclick="hideBuiltinCam(${origI})" title="刪除">✕</button>
+    </div>`);
+  });
+  custCams.forEach((c,i)=>{
+    camRows.push(`<div class="db-row">
+      <span class="db-name">${c.n}</span>
+      <span class="db-tag">${camTag(c)}</span>
+      <button class="db-edit" onclick="editCustCam(${i})" title="編輯">✎</button>
+      <button class="db-del" onclick="delCustCam(${i})" title="刪除">✕</button>
+    </div>`);
+  });
+  document.getElementById('db-cam-list').innerHTML = camRows.join('') || '<div class="empty">無相機資料</div>';
+
+  // Built-in lenses (skip hidden ones, track original LENS index)
+  const lensRows = [];
+  LENS.forEach((l,origI)=>{
+    if(hiddenLens.has(origI)) return;
+    lensRows.push(`<div class="db-row">
+      <span class="db-name">${l.n}</span>
+      <span class="db-tag">${lensTag(l)}</span>
+      <button class="db-del" onclick="hideBuiltinLens(${origI})" title="刪除">✕</button>
+    </div>`);
+  });
+  custLens.forEach((l,i)=>{
+    lensRows.push(`<div class="db-row">
+      <span class="db-name">${l.n}</span>
+      <span class="db-tag">${lensTag(l)}</span>
+      <button class="db-edit" onclick="editCustLens(${i})" title="編輯">✎</button>
+      <button class="db-del" onclick="delCustLens(${i})" title="刪除">✕</button>
+    </div>`);
+  });
+  document.getElementById('db-lens-list').innerHTML = lensRows.join('') || '<div class="empty">無鏡頭資料</div>';
+}
+
+function hideBuiltinCam(i){ hiddenCams.add(i); saveHiddenCams(); refreshCamPicker(); renderDbLists(); }
+function hideBuiltinLens(i){ hiddenLens.add(i); saveHiddenLens(); refreshLensPicker(); renderDbLists(); }
+
+// ── Toast / undo engine ──
+// ── Edit mode state ──
+let _editCamIdx  = null;  // null = 新增, int = 編輯中的 custCams index
+let _editLensIdx = null;  // null = 新增, int = 編輯中的 custLens index
+
+function editCustCam(i){
+  const c = custCams[i];
+  _editCamIdx = i;
+  document.getElementById('afc-n').value   = c.n;
+  document.getElementById('afc-px').value  = c.px;
+  document.getElementById('afc-rw').value  = c.rw;
+  document.getElementById('afc-rh').value  = c.rh;
+  document.getElementById('afc-fps').value = c.fps;
+  document.getElementById('afc-bit').value = c.bit;
+  document.getElementById('afc-type').value  = c.line  ? 'line'  : 'area';
+  document.getElementById('afc-color').value = c.color ? 'color' : 'gray';
+  document.getElementById('af-cam').style.display = '';
+  document.querySelector('#af-cam .btn-pri').textContent = '確認修改';
+}
+
+function editCustLens(i){
+  const l = custLens[i];
+  _editLensIdx = i;
+  document.getElementById('afl-n').value    = l.n;
+  document.getElementById('afl-type').value = l.type;
+  onAflTypeChange();  // sync visible fields
+  document.getElementById('afl-ic').value   = l.ic;
+  document.getElementById('afl-wd').value   = l.wd;
+  if(l.type==='objective'){
+    document.getElementById('afl-mag').value = l.mag;
+    document.getElementById('afl-na').value  = l.na;
+  } else if(l.type==='telecentric'){
+    document.getElementById('afl-mag').value = l.mag;
+    document.getElementById('afl-fn').value  = l.fn;
+  } else { // cctv
+    document.getElementById('afl-fl').value    = l.fl;
+    document.getElementById('afl-fnmin').value = l.fn_min ?? l.fn ?? 2.8;
+    document.getElementById('afl-fnmax').value = l.fn_max ?? l.fn ?? 22;
+    updateAflMagComputed();
+  }
+  document.getElementById('af-lens').style.display = '';
+  document.querySelector('#af-lens .btn-pri').textContent = '確認修改';
+}
+
+let _toastTimer = null;
+const TOAST_DUR = 5000; // ms before permanent delete
+
+function showToast(msg, undoFn){
+  clearTimeout(_toastTimer);
+  const el = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  el.style.setProperty('--toast-dur', (TOAST_DUR/1000)+'s');
+  // reset bar animation by toggling show class
+  el.classList.remove('show');
+  void el.offsetWidth; // reflow
+  el.classList.add('show');
+  document.getElementById('toast-undo').onclick = ()=>{
+    clearTimeout(_toastTimer); undoFn(); hideToast();
+  };
+  _toastTimer = setTimeout(hideToast, TOAST_DUR);
+}
+function hideToast(){
+  document.getElementById('toast').classList.remove('show');
+}
+
+// ── Custom entry deletion with undo ──
+function delCustCam(i){
+  const item = custCams.splice(i,1)[0];
+  saveCustCams(); refreshCamPicker(); renderDbLists();
+  showToast(`已刪除「${item.n}」`, ()=>{
+    custCams.splice(i,0,item); saveCustCams(); refreshCamPicker(); renderDbLists();
+  });
+}
+function delCustLens(i){
+  const item = custLens.splice(i,1)[0];
+  saveCustLens(); refreshLensPicker(); renderDbLists();
+  showToast(`已刪除「${item.n}」`, ()=>{
+    custLens.splice(i,0,item); saveCustLens(); refreshLensPicker(); renderDbLists();
+  });
+}
+
+// ── Toggle add forms ──
+function toggleAF(type){
+  const el=document.getElementById('af-'+type);
+  const opening = el.style.display==='none';
+  el.style.display=opening?'':'none';
+  // Reset edit mode whenever form is closed
+  if(!opening) _resetEditMode(type);
+}
+function _resetEditMode(type){
+  if(type==='cam'){
+    _editCamIdx=null;
+    const btn=document.querySelector('#af-cam .btn-pri');
+    if(btn) btn.textContent='確認新增';
+  } else {
+    _editLensIdx=null;
+    const btn=document.querySelector('#af-lens .btn-pri');
+    if(btn) btn.textContent='確認新增';
+  }
+}
+
+// ── Submit new / edited camera ──
+function submitAddCam(){
+  const n=document.getElementById('afc-n').value.trim();
+  if(!n){alert('請輸入相機名稱');return;}
+  const entry={
+    n,
+    px:  +document.getElementById('afc-px').value,
+    rw:  +document.getElementById('afc-rw').value,
+    rh:  +document.getElementById('afc-rh').value,
+    fps: +document.getElementById('afc-fps').value,
+    bit: +document.getElementById('afc-bit').value,
+    line: document.getElementById('afc-type').value==='line',
+    color:document.getElementById('afc-color').value==='color',
+  };
+  if(_editCamIdx!==null){ custCams[_editCamIdx]=entry; }
+  else { custCams.push(entry); }
+  saveCustCams(); refreshCamPicker(); renderDbLists();
+  toggleAF('cam'); document.getElementById('afc-n').value='';
+}
+
+// ── Submit new / edited lens ──
+function submitAddLens(){
+  const n=document.getElementById('afl-n').value.trim();
+  if(!n){alert('請輸入鏡頭名稱');return;}
+  const t=document.getElementById('afl-type').value;
+  const lens={
+    n, type:t,
+    ic: +document.getElementById('afl-ic').value,
+    wd: +document.getElementById('afl-wd').value,
+  };
+  if(t==='objective'){
+    lens.mag = +document.getElementById('afl-mag').value;
+    lens.na  = +document.getElementById('afl-na').value;
+  } else if(t==='telecentric'){
+    lens.mag = +document.getElementById('afl-mag').value;
+    lens.fn  = +document.getElementById('afl-fn').value;
+  } else { // cctv
+    lens.fl     = +document.getElementById('afl-fl').value;
+    lens.fn_min = +document.getElementById('afl-fnmin').value;
+    lens.fn_max = +document.getElementById('afl-fnmax').value;
+  }
+  if(_editLensIdx!==null){ custLens[_editLensIdx]=lens; }
+  else { custLens.push(lens); }
+  saveCustLens(); refreshLensPicker(); renderDbLists();
+  toggleAF('lens'); document.getElementById('afl-n').value='';
+}
+
+// ═══════════════════════════════════════════
+// SEGMENTED CONTROLS
+// ═══════════════════════════════════════════
+function segSet(id, idx){
+  const btns = document.getElementById(id).querySelectorAll('button');
+  btns.forEach((b,i)=>b.classList.toggle('on', i===idx));
+}
+function setCamType(line){ S.lineScan=line; segSet('cam-type-seg',line?1:0);
+  document.getElementById('row-rh').style.display=line?'none':'';
+  document.getElementById('lbl-fps').textContent=line?'線率':'幀率';
+  document.getElementById('unit-fps').textContent=line?'Hz':'fps';
+  calc(); }
+function setColor(c){ S.color=c; segSet('color-seg',c?1:0); calc(); }
+function setBin(b){ S.binning=b; segSet('bin-seg',b?1:0); calc(); }
+function setLensType(t){
+  S.lensType=t;
+  const idx = t==='objective'?0 : t==='telecentric'?1 : 2;
+  segSet('lens-type-seg', idx);
+  document.getElementById('row-na').style.display       = t==='objective'    ? '' : 'none';
+  document.getElementById('row-fn').style.display       = t==='telecentric'  ? '' : 'none';
+  document.getElementById('row-fn-cctv').style.display  = t==='cctv'         ? '' : 'none';
+  document.getElementById('row-fl').style.display       = t==='cctv'         ? '' : 'none';
+  const magEl = document.getElementById('p-mag');
+  magEl.disabled = t==='cctv';
+  // Populate fn-sel with full standard stops when switching to CCTV manually
+  if(t==='cctv'){
+    const sel = document.getElementById('p-fn-sel');
+    if(sel.options.length === 0) buildFnStops(1.0, 32);
+  }
+  calc();
+}
+function setScanDir(w){ S.scanAlongWidth=w; segSet('scan-dir-seg',w?0:1); calc(); }
+function setScanMode(m){ S.scanMode=m; segSet('scan-mode-seg',m==='single'?0:1); calc(); }
+
+// ── CCTV aperture stop helpers ──
+const F_STOPS = [1.0, 1.4, 2.0, 2.8, 4.0, 5.6, 8.0, 11, 16, 22, 32];
+function buildFnStops(fnMin, fnMax){
+  const sel = document.getElementById('p-fn-sel');
+  const stops = F_STOPS.filter(f => f >= fnMin - 0.01 && f <= fnMax + 0.01);
+  if(!stops.length) stops.push(fnMin);
+  const curFn = +document.getElementById('p-fn').value || 8;
+  const closest = stops.reduce((a,b) => Math.abs(b-curFn) < Math.abs(a-curFn) ? b : a);
+  sel.innerHTML = stops.map(f => `<option value="${f}"${f===closest?' selected':''}>f/${f}</option>`).join('');
+  sv('p-fn', closest);
+}
+function onFnSelChange(){
+  sv('p-fn', document.getElementById('p-fn-sel').value);
+  calc();
+}
+
+// ── Add-lens form: toggle fields by type ──
+function onAflTypeChange(){
+  const t = document.getElementById('afl-type').value;
+  document.getElementById('afl-row-mag').style.display     = t!=='cctv'         ? '' : 'none';
+  document.getElementById('afl-row-na').style.display      = t==='objective'     ? '' : 'none';
+  document.getElementById('afl-row-fn').style.display      = t==='telecentric'   ? '' : 'none';
+  document.getElementById('afl-row-fnmin').style.display   = t==='cctv'          ? '' : 'none';
+  document.getElementById('afl-row-fnmax').style.display   = t==='cctv'          ? '' : 'none';
+  document.getElementById('afl-row-fl').style.display      = t==='cctv'          ? '' : 'none';
+  document.getElementById('afl-row-magcalc').style.display = t==='cctv'          ? '' : 'none';
+  if(t==='cctv') updateAflMagComputed();
+}
+function updateAflMagComputed(){
+  const fl = +document.getElementById('afl-fl').value;
+  const wd = +document.getElementById('afl-wd').value;
+  const el = document.getElementById('afl-mag-computed');
+  if(el) el.textContent = (fl>0 && wd>fl) ? (fl/(wd-fl)).toFixed(3) : '—';
+}
+
+// ═══════════════════════════════════════════
+// READ PARAMS
+// ═══════════════════════════════════════════
+function P(){
+  return {
+    pixelSize:+v('p-px'), rW:+v('p-rw'), rH:+v('p-rh'),
+    fps:+v('p-fps'), bit:+v('p-bit'),
+    lineScan:S.lineScan, color:S.color, binning:S.binning,
+    mag:+v('p-mag'), imageCircle:+v('p-ic'), wd:+v('p-wd'),
+    na:+v('p-na'),
+    fn: S.lensType==='cctv'
+          ? (+document.getElementById('p-fn-sel').value || +v('p-fn'))
+          : +v('p-fn'),
+    fl:+v('p-fl'),
+    lensType:S.lensType,
+    objective:S.lensType==='objective', telecentric:S.lensType==='telecentric', wl:+v('p-wl'),
+    sampleW:+v('p-sw'), sampleH:+v('p-sh'),
+    scanAlongWidth:S.scanAlongWidth, scanMode:S.scanMode,
+    nCams:+v('p-nc'), nRows:+v('p-nr'), overlap:+v('p-ov'),
+    acc:+v('p-ac'), changeSlice:+v('p-ct'),
+    backSpeed:+v('p-bs'), encPitch:+v('p-ep'),
+  };
+}
+function v(id){ return document.getElementById(id).value; }
+
+// ═══════════════════════════════════════════
+// CALCULATION ENGINE
+// ═══════════════════════════════════════════
+function calculate(p){
+  const r={};
+  const px = p.binning ? p.pixelSize*2 : p.pixelSize;
+  r.effectivePx = px;
+  r.sensorDiag = Math.sqrt(Math.pow(p.rW*p.pixelSize/1000,2)+Math.pow(p.rH*p.pixelSize/1000,2));
+  r.vignetting = p.imageCircle < r.sensorDiag;
+  r.optRes = px / p.mag;
+  const hPx = p.binning?p.rW/2:p.rW, vPx = p.binning?p.rH/2:p.rH;
+  r.hFOV = r.vignetting ? 0 : r.optRes*hPx/1000;
+  r.vFOV = r.vignetting ? 0 : r.optRes*vPx/1000;
+
+  const scanET  = p.scanAlongWidth ? p.sampleW : p.sampleH;
+  const shiftET = p.scanAlongWidth ? p.sampleH : p.sampleW;
+  r.scanEdge  = scanET / p.nRows;
+  r.shiftEdge = shiftET;
+  r.rowPitch  = shiftET / p.nCams;
+  r.totalOpt  = p.nCams * p.nRows;
+
+  r.fovShift  = r.hFOV;
+  r.stepShift = r.hFOV * p.nCams * (1-p.overlap/100);
+  r.totalFOV  = r.hFOV * p.nCams;
+
+  r.capturesPerPass = p.lineScan
+    ? (r.optRes>0 ? r.scanEdge/(r.optRes/1000) : 0)
+    : (r.vFOV>0 ? Math.ceil((r.scanEdge-r.vFOV)/(r.vFOV*(1-p.overlap/100))) : 0);
+
+  r.passes = (r.totalFOV>0 && r.stepShift>0)
+    ? Math.ceil((r.shiftEdge-r.totalFOV)/r.stepShift)+1 : 0;
+
+  r.speed = p.lineScan
+    ? r.optRes*p.fps*0.85/1000
+    : (p.fps>0&&r.capturesPerPass>0 ? r.scanEdge*p.fps/r.capturesPerPass : 0);
+
+  r.accDecTime = 2*(r.speed/p.acc);
+  r.constTime  = p.lineScan ? (r.speed>0?r.scanEdge/r.speed:0) : r.capturesPerPass/p.fps;
+  r.returnTime = p.backSpeed/p.acc + r.scanEdge/p.backSpeed;
+  r.encFreq    = r.speed/(p.encPitch*1000);
+  r.minPulseNs = r.encFreq>0 ? 1000/r.encFreq : 0;
+  r.nonBlurExp = r.speed>0 ? r.optRes/r.speed*1000 : 0;
+
+  const ch = p.color?3:1;
+  r.dataFlow = p.lineScan
+    ? p.rW*p.fps*ch*p.bit/8/1024/1024/1024
+    : p.rW*p.rH*p.fps*ch*p.bit/8/1024/1024/1024;
+
+  r.lensRes = (p.objective&&p.na>0) ? (1.22*p.wl/(2*p.na))/1000 : 0;
+  r.camResNyq = 2.3*r.optRes;
+  r.minDetRes = Math.max(r.camResNyq, r.lensRes);
+
+  if(p.objective && p.na>0){
+    // 物鏡：波動光學景深  DoF = λ / (2·NA²)
+    r.dof = (p.wl / (p.na * p.na * 2)) / 1000; // µm
+  } else if(p.telecentric && p.fn>0 && p.mag>0){
+    // 遠心鏡頭：幾何景深  DoF = 2 · F# · pixel_size / mag
+    r.dof = 2 * p.fn * p.pixelSize / p.mag; // µm
+  } else if(p.lensType==='cctv' && p.fl>0 && p.fn>0 && p.mag>0){
+    // CCTV：薄透鏡景深  DoF = 2 · F# · c · (1+m) / m²
+    // c = 容許彌散圓 = 1 pixel（µm）
+    const c = p.pixelSize; // µm
+    const m = p.mag;
+    r.dof = 2 * p.fn * c * (1 + m) / (m * m); // µm
+  } else {
+    r.dof = 0;
+  }
+
+  const passes=r.passes;
+  r.singleTT = (r.accDecTime*passes + r.constTime*passes + r.returnTime*Math.max(passes-1,0) + p.changeSlice*Math.max(passes-1,0))/60;
+  r.roundTT  = (r.accDecTime*passes + r.constTime*passes + p.changeSlice*Math.max(passes-1,0))/60;
+  return r;
+}
+
+// ═══════════════════════════════════════════
+// DIAGRAM
+// ═══════════════════════════════════════════
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+  ctx.arcTo(x+w,y,x+w,y+r,r); ctx.lineTo(x+w,y+h-r);
+  ctx.arcTo(x+w,y+h,x+w-r,y+h,r); ctx.lineTo(x+r,y+h);
+  ctx.arcTo(x,y+h,x,y+h-r,r); ctx.lineTo(x,y+r);
+  ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+}
+
+function drawDiagram(canvasId='dg'){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas) return;
+  const p=P();
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth, H=canvas.offsetHeight;
+  if(!W||!H) return;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
+
+  const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const accent='#007aff';
+  const sub=dark?'#98989d':'#6e6e73';
+
+  const nC=Math.max(1,p.nCams), nR=Math.max(1,p.nRows);
+  const sw=p.sampleW, sh=p.sampleH;
+  const scanW=p.scanAlongWidth;
+  const ov=Math.max(0,Math.min(50,p.overlap||0))/100; // overlap fraction
+
+  const padL=28, padR=10, padT=18, padB=6;
+  const dW=W-padL-padR, dH=H-padT-padB;
+  const scale=Math.min(dW/sw, dH/sh);
+  const rW=sw*scale, rH=sh*scale;
+  const ox=padL+(dW-rW)/2, oy=padT+(dH-rH)/2;
+
+  // ── Sample background ──
+  ctx.fillStyle=dark?'rgba(255,255,255,.04)':'rgba(0,0,0,.03)';
+  rrect(ctx,ox,oy,rW,rH,3); ctx.fill();
+
+  // ── Clip to sample bounds so overlap zones don't bleed outside ──
+  ctx.save();
+  rrect(ctx,ox,oy,rW,rH,0); ctx.clip();
+
+  // ── Camera zones: one unique hue per camera (golden-angle distribution).
+  //    Each zone expands by overlap% on every edge so neighbouring zones
+  //    visually bleed into each other — the blended strip shows the overlap. ──
+  const N=nC*nR;
+  const sat=dark?60:68, lit=dark?42:55;
+  const alpha=ov>0 ? 0.48 : 0.60;
+
+  for(let ri=0;ri<nR;ri++){
+    for(let ci=0;ci<nC;ci++){
+      const idx=ri*nC+ci;
+      const hue=(idx*137.508)%360; // golden angle → adjacent cameras get contrasting hues
+
+      let bx,by,bw,bh;
+      if(scanW){ bx=ox+ri*rW/nR; by=oy+ci*rH/nC; bw=rW/nR; bh=rH/nC; }
+      else     { bx=ox+ci*rW/nC; by=oy+ri*rH/nR; bw=rW/nC; bh=rH/nR; }
+
+      // Expand each cell by half-overlap on every edge
+      // → total overlap band between two neighbours = ov × cell-size
+      const ex=bw*ov/2, ey=bh*ov/2;
+
+      ctx.fillStyle=`hsla(${hue},${sat}%,${lit}%,${alpha})`;
+      ctx.fillRect(bx-ex, by-ey, bw+2*ex, bh+2*ey);
+    }
+  }
+
+  ctx.restore(); // end clip
+
+  // ── Grid lines (cell boundaries drawn on top of colour zones) ──
+  ctx.strokeStyle=dark?'rgba(255,255,255,.28)':'rgba(0,0,0,.20)';
+  ctx.lineWidth=0.75;
+  const gl=(n,dir)=>{
+    for(let i=0;i<=n;i++){
+      const t=i/n;
+      ctx.beginPath();
+      if(dir==='x'){ ctx.moveTo(ox+t*rW,oy); ctx.lineTo(ox+t*rW,oy+rH); }
+      else          { ctx.moveTo(ox,oy+t*rH); ctx.lineTo(ox+rW,oy+t*rH); }
+      ctx.stroke();
+    }
+  };
+  if(scanW){ gl(nR,'x'); gl(nC,'y'); }
+  else     { gl(nC,'x'); gl(nR,'y'); }
+
+  // ── Sample border (redrawn on top of everything) ──
+  ctx.strokeStyle=dark?'rgba(255,255,255,.32)':'rgba(0,0,0,.28)';
+  ctx.lineWidth=1;
+  rrect(ctx,ox,oy,rW,rH,3); ctx.stroke();
+
+  // ── Scan-direction arrow ──
+  ctx.strokeStyle=accent; ctx.fillStyle=accent; ctx.lineWidth=1.2;
+  if(scanW){
+    const ay=oy-6;
+    ctx.beginPath(); ctx.moveTo(ox+4,ay); ctx.lineTo(ox+rW-4,ay); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox+rW-4,ay); ctx.lineTo(ox+rW-9,ay-3); ctx.lineTo(ox+rW-9,ay+3); ctx.closePath(); ctx.fill();
+    ctx.font='8px -apple-system,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText('掃描方向', ox+rW/2, oy-8);
+  } else {
+    const ax=ox-7;
+    ctx.beginPath(); ctx.moveTo(ax,oy+4); ctx.lineTo(ax,oy+rH-4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ax,oy+rH-4); ctx.lineTo(ax-3,oy+rH-9); ctx.lineTo(ax+3,oy+rH-9); ctx.closePath(); ctx.fill();
+    ctx.save();
+    ctx.translate(ox-9, oy+rH/2); ctx.rotate(-Math.PI/2);
+    ctx.font='8px -apple-system,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillStyle=accent; ctx.fillText('掃描方向', 0, 0);
+    ctx.restore();
+  }
+
+  // ── Caption: HTML below canvas ──
+  const capId = canvasId==='dg' ? 'dg-caption' : 'rpt-dg-cap';
+  const cap = document.getElementById(capId);
+  if(cap){
+    let h = `<span class="dc-l">${N}台 (${nC}列×${nR}排)</span>`;
+    h += `<span class="dc-sep">·</span><span class="dc-c">${sw} × ${sh} mm</span>`;
+    if(ov>0) h += `<span class="dc-sep">·</span><span class="dc-r">overlap ${p.overlap}%</span>`;
+    cap.innerHTML = h;
+  }
+}
+
+// ═══════════════════════════════════════════
+// MAIN CALC + UI UPDATE
+// ═══════════════════════════════════════════
+function fmt(v,d=2){ return (!isFinite(v)||v===0)?'—':v.toFixed(d); }
+
+function calc(){
+  // CCTV: auto-compute magnification from focal length + working distance
+  if(S.lensType==='cctv'){
+    const fl=+v('p-fl'), wd=+v('p-wd');
+    if(fl>0 && wd>fl) sv('p-mag', (fl/(wd-fl)).toFixed(4));
+  }
+  const p = P();
+  const r = calculate(p); lastR=r;
+  const ci=document.getElementById('cam-pick').value;
+  const li=document.getElementById('lens-pick').value;
+  set('hw-cam', ci!==''?allCams()[+ci].n:'手動輸入');
+  set('hw-lens', li!==''?allLens()[+li].n:'手動輸入');
+
+  // Vignette
+  const vw=document.getElementById('vwarn');
+  if(r.vignetting){
+    vw.classList.remove('hide'); vw.style.display='flex';
+    document.getElementById('vwarn-msg').textContent=
+      `暗角警告！像圈 ${p.imageCircle.toFixed(1)} mm < 感測器對角線 ${r.sensorDiag.toFixed(2)} mm`;
+  } else { vw.classList.add('hide'); vw.style.display='none'; }
+
+  // Results
+  const isCCTV = p.lensType==='cctv';
+  const est = v => isCCTV ? '≈ '+v : v;
+  document.getElementById('cctv-est-note').style.display = isCCTV ? '' : 'none';
+  set('r-or', est(fmt(r.optRes,3)));   set('r-dg', fmt(r.sensorDiag,2));
+  set('r-hf', fmt(r.hFOV,3));     set('r-vf', fmt(r.vFOV,3));
+  set('r-lr', p.objective?fmt(r.lensRes,3):'—');  set('r-mr', fmt(r.minDetRes,3));
+  set('r-df', fmt(r.dof,2));
+  set('r-mag', est(fmt(p.mag,4)));
+  set('r-qty',fmt(r.totalOpt,0)); set('r-se', fmt(r.scanEdge,2));
+  set('r-sh', fmt(r.shiftEdge,2));set('r-sp', fmt(r.speed,3));
+  set('r-cp', fmt(r.capturesPerPass,0)); set('r-ps', fmt(r.passes,0));
+  set('r-at', fmt(r.accDecTime,3));set('r-cs', fmt(r.constTime,3));
+  set('r-rt', fmt(r.returnTime,3));set('r-ct', p.changeSlice.toFixed(3));
+  set('r-st', fmt(r.singleTT,3));
+  // Dynamic TT based on scan mode
+  const isBi = p.scanMode === 'round';
+  const ttVal = isBi ? r.roundTT : r.singleTT;
+  set('r-tt', fmt(ttVal, 3));
+  const ttLbl = document.getElementById('r-tt-label');
+  if(ttLbl) ttLbl.textContent = isBi ? '來回掃描 TT' : '單向掃描 TT';
+  const rtCard = document.getElementById('r-rt-card');
+  if(rtCard) rtCard.style.opacity = isBi ? '0.35' : '1';
+  set('r-ex', fmt(r.nonBlurExp,2));set('r-ef', fmt(r.encFreq,4));
+  set('r-pw', fmt(r.minPulseNs,1));set('r-dfl',fmt(r.dataFlow,4));
+  drawDiagram();
+
+  // ── Report tab fields ──
+  const ci2=document.getElementById('cam-pick').value;
+  const li2=document.getElementById('lens-pick').value;
+  set('rpt-cam',  ci2!==''?allCams()[+ci2].n:'手動輸入');
+  set('rpt-lens', li2!==''?allLens()[+li2].n:'手動輸入');
+  set('rpt-sample', `${p.sampleW} × ${p.sampleH} mm`);
+  set('rpt-qty',  `${r.totalOpt} 台`);
+  set('rpt-arr',  `${p.nCams} 列 × ${p.nRows} 排`);
+  set('rpt-mode', p.scanMode==='round'?'來回掃描':'單向掃描');
+  set('rpt-tt',   fmt(ttVal, 2));
+  const ttEl = document.getElementById('rpt-tt');
+  const targetTT = parseFloat(document.getElementById('rpt-target-tt').value);
+  if(ttEl) ttEl.classList.toggle('over', !isNaN(targetTT) && targetTT > 0 && ttVal > targetTT);
+  const datEl=document.getElementById('rpt-date');
+  if(datEl) datEl.textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
+}
+function set(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
+
+
+
+// ═══════════════════════════════════════════
+// DB PICKERS
+// ═══════════════════════════════════════════
+function initPickers(){
+  const cp=document.getElementById('cam-pick');
+  allCams().forEach((c,i)=>cp.appendChild(new Option(c.n,i)));
+  const lp=document.getElementById('lens-pick');
+  allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
+}
+function applyCamera(){
+  const i=document.getElementById('cam-pick').value; if(i==='')return;
+  const c=allCams()[+i];
+  sv('p-px',c.px); sv('p-rw',c.rw); sv('p-rh',c.rh);
+  sv('p-fps',c.fps); sv('p-bit',c.bit);
+  setColor(c.color||false); setCamType(c.line||false); calc();
+}
+function applyLens(){
+  const i=document.getElementById('lens-pick').value; if(i==='')return;
+  const l=allLens()[+i];
+  sv('p-ic',l.ic); sv('p-wd',l.wd);
+  if(l.type==='cctv'){
+    sv('p-fl', l.fl||50);
+    const fnMin = l.fn_min ?? l.fn ?? 1.4;
+    const fnMax = l.fn_max ?? l.fn ?? 32;
+    buildFnStops(fnMin, fnMax);
+    // mag will be auto-computed in calc() from fl+wd
+  } else {
+    sv('p-mag',l.mag||1);
+    sv('p-na',l.na||0);
+    sv('p-fn',l.fn||8);
+    sv('p-fl',l.fl||50);
+  }
+  setLensType(l.type||'objective'); calc();
+}
+function sv(id,val){ document.getElementById(id).value=val; }
+
+// ═══════════════════════════════════════════
+// EVALUATIONS
+// ═══════════════════════════════════════════
+function saveEval(){
+  const p=P(), r=calculate(p);
+  const ci=document.getElementById('cam-pick').value;
+  const li=document.getElementById('lens-pick').value;
+  evals.unshift({
+    id:Date.now(),
+    name:document.getElementById('eval-name').value||'新評估',
+    date:new Date().toLocaleString('zh-TW'),
+    camera:ci!==''?allCams()[+ci].n:'手動輸入',
+    lens:li!==''?allLens()[+li].n:'手動輸入',
+    camIdx:ci, lensIdx:li,
+    notes:document.getElementById('eval-notes').value,
+    p, r
+  });
+  localStorage.setItem('aoi_evals',JSON.stringify(evals));
+  renderEvals(); showTab('res');
+}
+function clearEvals(){
+  if(!confirm('確定清除所有評估記錄？'))return;
+  evals=[]; localStorage.removeItem('aoi_evals'); renderEvals();
+}
+function renderEvals(){
+  const el=document.getElementById('ev-list');
+  document.getElementById('ev-cnt').textContent=`${evals.length} 筆評估`;
+  if(!evals.length){
+    el.innerHTML='<div class="empty">📄<br>尚無儲存的評估<br><small>在計算器完成後按「儲存評估」</small></div>';
+    return;
+  }
+  el.innerHTML=evals.map((e,i)=>`
+    <div class="ec">
+      <h3>${e.name}</h3>
+      <p>${e.date} · ${e.camera}</p>
+      <p>TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px</p>
+      <div style="margin-top:6px;display:flex;gap:6px">
+        <button class="btn-sec" style="font-size:11px" onclick="loadEval(${i})">📂 載入</button>
+        <button class="btn-sec" style="font-size:11px" onclick="exportEval(${i})">📄 PDF</button>
+        <button class="btn-sec" style="font-size:11px;color:#ff3b30" onclick="delEval(${i})">🗑 刪除</button>
+      </div>
+    </div>`).join('');
+}
+function loadEval(i){
+  const e=evals[i], p=e.p;
+  sv('p-px',p.pixelSize); sv('p-rw',p.rW); sv('p-rh',p.rH);
+  sv('p-fps',p.fps); sv('p-bit',p.bit);
+  sv('p-mag',p.mag); sv('p-ic',p.imageCircle); sv('p-wd',p.wd);
+  sv('p-na',p.na); sv('p-fn',p.fn); sv('p-fl',p.fl); sv('p-wl',p.wl);
+  sv('p-sw',p.sampleW); sv('p-sh',p.sampleH);
+  sv('p-nc',p.nCams); sv('p-nr',p.nRows); sv('p-ov',p.overlap);
+  sv('p-ac',p.acc); sv('p-ct',p.changeSlice); sv('p-bs',p.backSpeed); sv('p-ep',p.encPitch);
+  syncName(e.name||'新評估');
+  document.getElementById('eval-notes').value=e.notes;
+  // Restore camera / lens picker selections
+  if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
+  if(e.lensIdx!==undefined) document.getElementById('lens-pick').value=e.lensIdx;
+  setCamType(p.lineScan); setColor(p.color); setBin(p.binning);
+  setLensType(p.lensType||'objective'); setScanDir(p.scanAlongWidth); setScanMode(p.scanMode||'single');
+  // Restore CCTV fn select: rebuild stops from saved fn ±2 stops range
+  if((p.lensType||'objective')==='cctv'){
+    const li=document.getElementById('lens-pick').value;
+    if(li!==''){
+      const l=allLens()[+li];
+      const fnMin=l.fn_min??l.fn??1.4, fnMax=l.fn_max??l.fn??32;
+      buildFnStops(fnMin, fnMax);
+    } else {
+      buildFnStops(1.0, 32);
+    }
+    sv('p-fn', p.fn);
+    const sel=document.getElementById('p-fn-sel');
+    if(sel) sel.value=p.fn;
+  }
+  calc(); showTab('res');
+}
+function delEval(i){ evals.splice(i,1); localStorage.setItem('aoi_evals',JSON.stringify(evals)); renderEvals(); }
+function exportEval(i){ loadEval(i); setTimeout(()=>window.print(),300); }
+function exportPDF(){ window.print(); }
+
+// ═══════════════════════════════════════════
+// CARD CUSTOMIZATION
+// ═══════════════════════════════════════════
+const CARD_DEFS = [
+  {cid:'r-or',  sec:'opt',    label:'系統解析度'},
+  {cid:'r-dg',  sec:'opt',    label:'感測器對角線'},
+  {cid:'r-hf',  sec:'opt',    label:'水平 FOV / 台'},
+  {cid:'r-vf',  sec:'opt',    label:'垂直 FOV'},
+  {cid:'r-lr',  sec:'opt',    label:'鏡頭解析度'},
+  {cid:'r-mr',  sec:'opt',    label:'最小檢測解析度'},
+  {cid:'r-df',  sec:'opt',    label:'景深 DoF'},
+  {cid:'r-mag', sec:'opt',    label:'光學倍率'},
+  {cid:'r-qty', sec:'scan',   label:'光學總數量'},
+  {cid:'r-se',  sec:'scan',   label:'掃描行程'},
+  {cid:'r-sh',  sec:'scan',   label:'換道行程'},
+  {cid:'r-sp',  sec:'scan',   label:'掃描速度'},
+  {cid:'r-cp',  sec:'scan',   label:'單道拍攝張數'},
+  {cid:'r-ps',  sec:'scan',   label:'掃描道數'},
+  {cid:'r-ex',  sec:'hw',     label:'不模糊曝光上限'},
+  {cid:'r-ef',  sec:'hw',     label:'Encoder 頻率'},
+  {cid:'r-pw',  sec:'hw',     label:'最小脈衝寬度'},
+  {cid:'r-dfl', sec:'hw',     label:'資料流量'},
+  {cid:'r-at',  sec:'timing', label:'加減速時間'},
+  {cid:'r-cs',  sec:'timing', label:'等速掃描時間'},
+  {cid:'r-ct',  sec:'timing', label:'換道時間'},
+  {cid:'r-rt',  sec:'timing', label:'單趟返回時間'},
+  {cid:'r-tt',  sec:'timing', label:'掃描週期 TT'},
+];
+
+let cardCfg = {};
+let _cardEditMode = false;
+let _dragSrc = null;
+
+function initCardCfg(){
+  const saved = JSON.parse(localStorage.getItem('aoi_cardcfg')||'null');
+  if(saved){
+    cardCfg = saved;
+    CARD_DEFS.forEach(({cid,sec})=>{
+      if(!cardCfg[sec]) cardCfg[sec]=[];
+      if(!cardCfg[sec].find(c=>c.cid===cid)) cardCfg[sec].push({cid,visible:true});
+    });
+  } else {
+    cardCfg={};
+    ['opt','scan','hw','timing'].forEach(sec=>{
+      cardCfg[sec]=CARD_DEFS.filter(d=>d.sec===sec).map(({cid})=>({cid,visible:true}));
+    });
+  }
+  injectCardControls();
+  applyCardCfg();
+}
+
+function saveCardCfg(){ localStorage.setItem('aoi_cardcfg',JSON.stringify(cardCfg)); }
+
+function applyCardCfg(){
+  ['opt','scan','hw','timing'].forEach(sec=>{
+    const cg = document.querySelector(`.cg[data-sec="${sec}"]`);
+    if(!cg) return;
+    (cardCfg[sec]||[]).forEach(({cid,visible})=>{
+      const el = cg.querySelector(`[data-cid="${cid}"]`);
+      if(!el) return;
+      if(!_cardEditMode) el.style.display = visible ? '' : 'none';
+      else { el.style.display=''; el.classList.toggle('card-hidden',!visible); }
+      cg.appendChild(el);
+    });
+  });
+}
+
+function updateCfgFromDOM(cg){
+  const sec = cg.dataset.sec;
+  cardCfg[sec] = Array.from(cg.querySelectorAll('[data-cid]')).map(el=>({
+    cid: el.dataset.cid,
+    visible: !el.classList.contains('card-hidden'),
+  }));
+}
+
+function toggleCardEdit(){
+  _cardEditMode = !_cardEditMode;
+  document.getElementById('card-edit-target').classList.toggle('card-edit-mode', _cardEditMode);
+  document.getElementById('card-edit-btn').textContent = _cardEditMode ? '✓ 完成' : '✎ 自訂版面';
+  if(_cardEditMode){
+    ['opt','scan','hw','timing'].forEach(sec=>{
+      const cg = document.querySelector(`.cg[data-sec="${sec}"]`); if(!cg) return;
+      cg.querySelectorAll('[data-cid]').forEach(el=>{
+        el.style.display='';
+        const cfg=(cardCfg[sec]||[]).find(c=>c.cid===el.dataset.cid);
+        el.classList.toggle('card-hidden', cfg?!cfg.visible:false);
+      });
+      (cardCfg[sec]||[]).forEach(({cid})=>{ const el=cg.querySelector(`[data-cid="${cid}"]`); if(el) cg.appendChild(el); });
+    });
+    document.querySelectorAll('.card-vis-btn').forEach(btn=>{
+      btn.textContent = btn.closest('[data-cid]').classList.contains('card-hidden') ? '🙈' : '👁';
+    });
+  } else {
+    ['opt','scan','hw','timing'].forEach(sec=>{
+      const cg=document.querySelector(`.cg[data-sec="${sec}"]`); if(!cg) return;
+      updateCfgFromDOM(cg);
+    });
+    saveCardCfg(); applyCardCfg();
+  }
+}
+
+function toggleCardVis(cid, sec, btn){
+  const el = document.querySelector(`.cg[data-sec="${sec}"] [data-cid="${cid}"]`);
+  if(!el) return;
+  el.classList.toggle('card-hidden');
+  btn.textContent = el.classList.contains('card-hidden') ? '🙈' : '👁';
+}
+
+function onCardDragStart(e,el){ _dragSrc=el; e.dataTransfer.effectAllowed='move'; setTimeout(()=>el.classList.add('dragging'),0); }
+function onCardDragOver(e,el){
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  document.querySelectorAll('.metric.drag-target').forEach(x=>x.classList.remove('drag-target'));
+  if(_dragSrc&&_dragSrc!==el) el.classList.add('drag-target');
+}
+function onCardDragLeave(el){ el.classList.remove('drag-target'); }
+function onCardDrop(e,el){
+  e.stopPropagation(); el.classList.remove('drag-target');
+  if(!_dragSrc||_dragSrc===el) return;
+  const parent=el.parentNode; if(parent!==_dragSrc.parentNode) return;
+  const after=e.clientY>el.getBoundingClientRect().top+el.getBoundingClientRect().height/2;
+  parent.insertBefore(_dragSrc, after?el.nextSibling:el);
+  updateCfgFromDOM(parent);
+}
+function onCardDragEnd(el){
+  el.classList.remove('dragging');
+  document.querySelectorAll('.metric.drag-target').forEach(x=>x.classList.remove('drag-target'));
+  _dragSrc=null;
+}
+
+function injectCardControls(){
+  document.querySelectorAll('[data-cid]').forEach(el=>{
+    const cid=el.dataset.cid, cg=el.closest('[data-sec]');
+    if(!cg) return;
+    const sec=cg.dataset.sec;
+    const dh=document.createElement('div'); dh.className='card-dh'; dh.textContent='⠿'; el.prepend(dh);
+    const btn=document.createElement('button'); btn.className='card-vis-btn'; btn.textContent='👁';
+    btn.onclick=()=>toggleCardVis(cid,sec,btn); el.appendChild(btn);
+    el.setAttribute('draggable','true');
+    el.addEventListener('dragstart',e=>{ if(_cardEditMode) onCardDragStart(e,el); });
+    el.addEventListener('dragover', e=>{ if(_cardEditMode) onCardDragOver(e,el); });
+    el.addEventListener('dragleave',  ()=>{ if(_cardEditMode) onCardDragLeave(el); });
+    el.addEventListener('drop',     e=>{ if(_cardEditMode) onCardDrop(e,el); });
+    el.addEventListener('dragend',    ()=>onCardDragEnd(el));
+  });
+}
+
+// ── About modal ──
+function toggleDrawer(){
+  document.getElementById('left').classList.toggle('drawer-open');
+  document.getElementById('drawer-overlay').classList.toggle('show');
+}
+function closeDrawer(){
+  document.getElementById('left').classList.remove('drawer-open');
+  document.getElementById('drawer-overlay').classList.remove('show');
+}
+function toggleAbout(){
+  const show = document.getElementById('about-modal').style.display === 'none';
+  document.getElementById('about-modal').style.display  = show ? '' : 'none';
+  document.getElementById('about-overlay').style.display = show ? '' : 'none';
+}
+
+// ═══════════════════════════════════════════
+// DATABASE EXPORT / IMPORT
+// ═══════════════════════════════════════════
+
+function exportDb(){
+  const payload = {
+    version: 1,
+    exported: new Date().toISOString(),
+    cameras: custCams,
+    lenses:  custLens,
+    hiddenBuiltinCams: [...hiddenCams],
+    hiddenBuiltinLens: [...hiddenLens]
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const date = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'-');
+  a.download = `AOI_Database_${date}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+let _pendingImport = null;
+
+function handleDbImport(input){
+  const file = input.files[0];
+  if(!file) return;
+  input.value = ''; // reset so same file can be re-selected
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if(data.version !== 1 || !Array.isArray(data.cameras) || !Array.isArray(data.lenses))
+        throw new Error('格式錯誤');
+
+      // Calculate what will be added vs skipped
+      const existNames = new Set(custCams.map(c=>c.n));
+      const newCams = data.cameras.filter(c=>!existNames.has(c.n));
+      const skipCams = data.cameras.length - newCams.length;
+
+      const existLensNames = new Set(custLens.map(l=>l.n));
+      const newLens = data.lenses.filter(l=>!existLensNames.has(l.n));
+      const skipLens = data.lenses.length - newLens.length;
+
+      const newHiddenCams = (data.hiddenBuiltinCams||[]).filter(i=>!hiddenCams.has(i));
+      const newHiddenLens = (data.hiddenBuiltinLens||[]).filter(i=>!hiddenLens.has(i));
+
+      const exportDate = data.exported ? new Date(data.exported).toLocaleString('zh-TW') : '不明';
+
+      // Build summary
+      let summary = '';
+      summary += `📷 相機：新增 <b>${newCams.length}</b> 台`;
+      if(skipCams) summary += `，跳過 ${skipCams} 筆（重複）`;
+      summary += '<br>';
+      summary += `🔭 鏡頭：新增 <b>${newLens.length}</b> 個`;
+      if(skipLens) summary += `，跳過 ${skipLens} 筆（重複）`;
+      if(newHiddenCams.length || newHiddenLens.length){
+        summary += '<br>';
+        summary += `🙈 同步隱藏的內建項目：相機 ${newHiddenCams.length} 個、鏡頭 ${newHiddenLens.length} 個`;
+      }
+
+      _pendingImport = { newCams, newLens, newHiddenCams, newHiddenLens };
+
+      document.getElementById('imp-source').textContent = `來源：${file.name}　匯出時間：${exportDate}`;
+      document.getElementById('imp-summary').innerHTML = summary;
+      document.getElementById('imp-confirm-btn').onclick = confirmImport;
+      document.getElementById('imp-modal').style.display   = '';
+      document.getElementById('imp-overlay').style.display = '';
+
+    } catch(err) {
+      alert('無法讀取檔案，請確認是否為正確的 AOI 資料庫 JSON 格式。');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function confirmImport(){
+  if(!_pendingImport) return;
+  const { newCams, newLens, newHiddenCams, newHiddenLens } = _pendingImport;
+  newCams.forEach(c => custCams.push(c));
+  newLens.forEach(l => custLens.push(l));
+  newHiddenCams.forEach(i => hiddenCams.add(i));
+  newHiddenLens.forEach(i => hiddenLens.add(i));
+  saveCustCams(); saveCustLens(); saveHiddenCams(); saveHiddenLens();
+  refreshCamPicker(); refreshLensPicker(); renderDbLists();
+  closeImportModal();
+  showToast(`匯入完成：+${newCams.length} 相機、+${newLens.length} 鏡頭`, ()=>{});
+}
+
+function closeImportModal(){
+  document.getElementById('imp-modal').style.display   = 'none';
+  document.getElementById('imp-overlay').style.display = 'none';
+  _pendingImport = null;
+}
+
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+function showTab(t){
+  document.getElementById('pane-res').style.display =t==='res' ?'':'none';
+  document.getElementById('pane-hist').style.display=t==='hist'?'':'none';
+  document.getElementById('pane-db').style.display  =t==='db'  ?'':'none';
+  document.getElementById('tab-res').classList.toggle('on', t==='res');
+  document.getElementById('tab-hist').classList.toggle('on',t==='hist');
+  document.getElementById('tab-db').classList.toggle('on',  t==='db');
+  if(t==='hist'||t==='res') renderEvals();
+  if(t==='db')  renderDbLists();
+}
+
+// ── Name sync: eval-name ↔ rpt-proj always stay in sync ──
+function syncName(val){
+  document.getElementById('eval-name').value = val;
+  document.getElementById('rpt-proj').value  = val;
+  saveRptMeta();
+}
+
+function saveRptMeta(){
+  localStorage.setItem('aoi_rpt_meta', JSON.stringify({
+    proj: document.getElementById('rpt-proj').value,
+    desc: document.getElementById('rpt-desc').value,
+    targetTT: document.getElementById('rpt-target-tt').value
+  }));
+}
+function loadRptMeta(){
+  const m = JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}');
+  if(m.proj){
+    document.getElementById('rpt-proj').value  = m.proj;
+    document.getElementById('eval-name').value = m.proj;
+  }
+  if(m.desc)     document.getElementById('rpt-desc').value = m.desc;
+  if(m.targetTT) document.getElementById('rpt-target-tt').value = m.targetTT;
+}
+
+// ═══════════════════════════════════════════
+// MODE SWITCHING
+// ═══════════════════════════════════════════
+let currentMode = 'scan'; // 'scan' | 'area'
+
+function setMode(mode){
+  currentMode = mode;
+  const btns = document.getElementById('mode-switcher').querySelectorAll('button');
+  btns[0].classList.toggle('on', mode==='scan');
+  btns[1].classList.toggle('on', mode==='area');
+
+  document.getElementById('panel-scan').style.display = mode==='scan' ? '' : 'none';
+  document.getElementById('panel-area').style.display = mode==='area' ? '' : 'none';
+
+  // Right panel: show appropriate results
+  if(mode==='scan'){
+    document.getElementById('pane-area-res').style.display='none';
+    showTab('res');
+  } else {
+    document.getElementById('pane-res').style.display='none';
+    document.getElementById('pane-hist').style.display='none';
+    document.getElementById('pane-db').style.display='none';
+    document.getElementById('pane-area-res').style.display='';
+    // Update tab bar state
+    document.getElementById('tab-res').classList.remove('on');
+    document.getElementById('tab-hist').classList.remove('on');
+    document.getElementById('tab-db').classList.remove('on');
+    calcAS();
+  }
+}
+
+// Override showTab to be aware of area mode
+const _origShowTab = showTab;
+showTab = function(t){
+  if(currentMode==='area'){
+    document.getElementById('pane-area-res').style.display = t==='res' ? '' : 'none';
+    document.getElementById('pane-hist').style.display     = t==='hist'? '' : 'none';
+    document.getElementById('pane-db').style.display       = t==='db'  ? '' : 'none';
+    document.getElementById('tab-res').classList.toggle('on', t==='res');
+    document.getElementById('tab-hist').classList.toggle('on',t==='hist');
+    document.getElementById('tab-db').classList.toggle('on',  t==='db');
+    if(t==='res') calcAS();
+    if(t==='hist') renderEvals();
+    if(t==='db') renderDbLists();
+  } else {
+    _origShowTab(t);
+  }
+};
+
+// ═══════════════════════════════════════════
+// AREA SHOT: DB PICKERS (shared DB)
+// ═══════════════════════════════════════════
+function initASPickers(){
+  const cp = document.getElementById('as-cam-pick');
+  allCams().forEach((c,i) => cp.appendChild(new Option(c.n,i)));
+  const lp = document.getElementById('as-lens-pick');
+  allLens().forEach((l,i) => lp.appendChild(new Option(l.n,i)));
+}
+
+function refreshASCamPicker(){
+  const cp=document.getElementById('as-cam-pick'), prev=cp.value;
+  cp.innerHTML='<option value="">— 手動輸入 —</option>';
+  allCams().forEach((c,i)=>cp.appendChild(new Option(c.n,i)));
+  cp.value=(prev!==''&&+prev<allCams().length)?prev:'';
+}
+function refreshASLensPicker(){
+  const lp=document.getElementById('as-lens-pick'), prev=lp.value;
+  lp.innerHTML='<option value="">— 手動輸入 —</option>';
+  allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
+  lp.value=(prev!==''&&+prev<allLens().length)?prev:'';
+}
+
+// Patch existing refresh functions to also update AS pickers
+const _origRefreshCam = refreshCamPicker;
+refreshCamPicker = function(){ _origRefreshCam(); refreshASCamPicker(); };
+const _origRefreshLens = refreshLensPicker;
+refreshLensPicker = function(){ _origRefreshLens(); refreshASLensPicker(); };
+
+function applyCameraAS(){
+  const i=document.getElementById('as-cam-pick').value; if(i==='')return;
+  const c=allCams()[+i];
+  document.getElementById('as-cam-rx').value = c.rw;
+  document.getElementById('as-cam-ry').value = c.rh || c.rw;
+  document.getElementById('as-cam-px').value = c.px;
+  calcAS();
+}
+
+function applyLensAS(){
+  const i=document.getElementById('as-lens-pick').value; if(i==='')return;
+  const l=allLens()[+i];
+  document.getElementById('as-fl').value = l.fl || 50;
+  document.getElementById('as-min-wd').value = l.wd || 100;
+  calcAS();
+}
+
+function syncNameAS(val){
+  document.getElementById('as-eval-name').value = val;
+  document.getElementById('as-rpt-proj').value = val;
+}
+
+// ═══════════════════════════════════════════
+// AREA SHOT: CALCULATION ENGINE
+// ═══════════════════════════════════════════
+function calcAS(){
+  const panelX   = +document.getElementById('as-panel-x').value;
+  const panelY   = +document.getElementById('as-panel-y').value;
+  const panelRX  = +document.getElementById('as-panel-rx').value;
+  const panelRY  = +document.getElementById('as-panel-ry').value;
+  const pitch    = +document.getElementById('as-pitch').value;
+  const camRX    = +document.getElementById('as-cam-rx').value;
+  const camRY    = +document.getElementById('as-cam-ry').value;
+  const camPx    = +document.getElementById('as-cam-px').value;
+  const fl       = +document.getElementById('as-fl').value;
+  const minWD    = +document.getElementById('as-min-wd').value;
+  const limit    = +document.getElementById('as-limit').value;
+
+  // Resolution (um) = (panel_X_mm / panel_X_resolution / pitch) * 1e6
+  // i.e. each sub-pixel pitch on panel maps to how many um
+  const resolution = (panelRX > 0 && pitch > 0) ? ((panelX * 1e-3 / panelRX) / pitch) * 1e6 : 0;
+
+  // FOV = camera_resolution * resolution (in um) → mm
+  const xFOV = camRX * resolution / 1000; // mm
+  const yFOV = camRY * resolution / 1000; // mm
+
+  // WD = (xFOV_mm * fl_mm) / (camRX * camPx_um) * 1e3
+  // Actually from Excel: WD = ((X_FOV*1e-3) * (fl*1e-3) / (camRX * camPx*1e-6)) * 1e3
+  const wd = (camRX > 0 && camPx > 0) ? ((xFOV * 1e-3) * (fl * 1e-3) / (camRX * camPx * 1e-6)) * 1e3 : 0;
+
+  // Safe working distance = minWD + 30
+  const safeWD = minWD + 30;
+
+  // X angle = 2 * atan((xFOV/2) / WD) * 180/PI
+  const xAngle = (wd > 0) ? 2 * Math.atan((xFOV / 2) / wd) * 180 / Math.PI : 0;
+
+  // Screen coverage ratio (single camera)
+  const xRatio = (xFOV > 0) ? panelX / xFOV : 0;
+  const yRatio = (yFOV > 0) ? panelY / yFOV : 0;
+
+  // WD usable
+  const wdOK = wd > safeWD;
+
+  // Pitch check
+  const pitchOK = pitch >= 3;
+
+  // Multi-camera: how many cameras needed
+  const nX = (limit > 0) ? Math.ceil(xRatio / limit) : 0;
+  const nY = (limit > 0) ? Math.ceil(yRatio / limit) : 0;
+  const totalCams = nX * nY;
+
+  // Per-camera ratio
+  const perXRatio = (nX > 0) ? xRatio / nX : 0;
+  const perYRatio = (nY > 0) ? yRatio / nY : 0;
+
+  // ── Update UI ──
+  const f = (v,d=2) => (!isFinite(v) || v===0) ? '—' : v.toFixed(d);
+
+  // ── Report header fields ──
+  const ci = document.getElementById('as-cam-pick').value;
+  const li = document.getElementById('as-lens-pick').value;
+  set('as-rpt-cam',  ci!=='' ? allCams()[+ci].n : '手動輸入');
+  set('as-rpt-lens', li!=='' ? allLens()[+li].n : '手動輸入');
+  set('as-rpt-panel', `${panelX} × ${panelY} mm (${panelRX}×${panelRY})`);
+  set('as-rpt-pitch', `${pitch} px`);
+  set('as-rpt-qty',  `${totalCams} 台`);
+  set('as-rpt-arr',  `${nX} × ${nY}`);
+  const wdOkEl = document.getElementById('as-rpt-wd-ok');
+  if(wdOkEl){ wdOkEl.textContent = wdOK ? '✓ 可用' : '✗ 不可用'; wdOkEl.style.color = wdOK ? '#34c759' : '#ff3b30'; }
+  const datEl = document.getElementById('as-rpt-date');
+  if(datEl) datEl.textContent = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
+
+  // ── Metric cards: 光學規格 ──
+  set('as-r-res', f(resolution, 2));
+  set('as-r-xfov', f(xFOV, 2));
+  set('as-r-yfov', f(yFOV, 2));
+  set('as-r-wd', f(wd, 2));
+  set('as-r-safe-wd', f(safeWD, 0));
+  set('as-r-xangle', f(xAngle, 2));
+
+  // ── Metric cards: 單台評估 ──
+  set('as-r-xratio', f(xRatio, 4));
+  set('as-r-yratio', f(yRatio, 4));
+
+  const pitchEl = document.getElementById('as-r-pitch-ok');
+  if(pitchEl){ pitchEl.textContent = pitchOK ? '✓ ≥ 3' : '✗ < 3'; pitchEl.style.color = pitchOK ? '#34c759' : '#ff3b30'; }
+
+  const maxRatio = Math.max(xRatio * 100, yRatio * 100);
+  const setCheck = (id, val, threshold) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const ok = val < threshold;
+    el.textContent = f(val,1) + '% ' + (ok ? '✓' : '✗');
+    el.style.color = ok ? '#34c759' : '#ff3b30';
+  };
+  setCheck('as-r-check1', maxRatio, 80);
+  setCheck('as-r-check2', maxRatio, 160);
+  setCheck('as-r-check3', maxRatio, 240);
+
+  // ── Metric cards: 多台配置 ──
+  set('as-r-nx', f(nX, 0));
+  set('as-r-ny', f(nY, 0));
+  set('as-r-total', f(totalCams, 0));
+  set('as-r-per-x', f(perXRatio, 4));
+  set('as-r-per-y', f(perYRatio, 4));
+
+  // ── Warning banner (same pattern as scan mode) ──
+  const vwAS = document.getElementById('as-vwarn');
+  if(!pitchOK){
+    vwAS.classList.remove('hide'); vwAS.style.display='flex';
+    document.getElementById('as-vwarn-msg').textContent = 'Pitch 建議 ≥ 3，目前 Pitch = ' + pitch;
+  } else if(!wdOK){
+    vwAS.classList.remove('hide'); vwAS.style.display='flex';
+    document.getElementById('as-vwarn-msg').textContent = `工作距離不足！WD ${f(wd,1)} mm < 安全距離 ${safeWD} mm`;
+  } else {
+    vwAS.classList.add('hide'); vwAS.style.display='none';
+  }
+
+  drawASDiagram(nX, nY, panelX, panelY);
+}
+
+// ═══════════════════════════════════════════
+// AREA SHOT: DIAGRAM
+// ═══════════════════════════════════════════
+function drawASDiagram(nX, nY, panelW, panelH){
+  const canvas = document.getElementById('as-dg');
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  if(!W || !H) return;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr); ctx.clearRect(0, 0, W, H);
+
+  const dark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const accent = '#007aff';
+
+  nX = Math.max(1, nX || 1);
+  nY = Math.max(1, nY || 1);
+
+  const pad = 20;
+  const dW = W - pad * 2, dH = H - pad * 2;
+  const scale = Math.min(dW / panelW, dH / panelH);
+  const rW = panelW * scale, rH = panelH * scale;
+  const ox = pad + (dW - rW) / 2, oy = pad + (dH - rH) / 2;
+
+  // Panel background
+  ctx.fillStyle = dark ? 'rgba(255,255,255,.04)' : 'rgba(0,0,0,.03)';
+  rrect(ctx, ox, oy, rW, rH, 3); ctx.fill();
+
+  // Camera zones
+  ctx.save();
+  rrect(ctx, ox, oy, rW, rH, 0); ctx.clip();
+
+  const sat = dark ? 60 : 68, lit = dark ? 42 : 55;
+  for(let yi = 0; yi < nY; yi++){
+    for(let xi = 0; xi < nX; xi++){
+      const idx = yi * nX + xi;
+      const hue = (idx * 137.508) % 360;
+      const bx = ox + xi * rW / nX;
+      const by = oy + yi * rH / nY;
+      const bw = rW / nX;
+      const bh = rH / nY;
+      ctx.fillStyle = `hsla(${hue},${sat}%,${lit}%,0.55)`;
+      ctx.fillRect(bx, by, bw, bh);
+
+      // Camera label
+      ctx.fillStyle = dark ? 'rgba(255,255,255,.7)' : 'rgba(0,0,0,.5)';
+      ctx.font = (bw > 40 && bh > 20) ? '10px -apple-system,sans-serif' : '7px -apple-system,sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(`C${idx+1}`, bx + bw/2, by + bh/2);
+    }
+  }
+  ctx.restore();
+
+  // Grid lines
+  ctx.strokeStyle = dark ? 'rgba(255,255,255,.28)' : 'rgba(0,0,0,.20)';
+  ctx.lineWidth = 0.75;
+  for(let i = 0; i <= nX; i++){
+    const x = ox + i * rW / nX;
+    ctx.beginPath(); ctx.moveTo(x, oy); ctx.lineTo(x, oy+rH); ctx.stroke();
+  }
+  for(let i = 0; i <= nY; i++){
+    const y = oy + i * rH / nY;
+    ctx.beginPath(); ctx.moveTo(ox, y); ctx.lineTo(ox+rW, y); ctx.stroke();
+  }
+
+  // Panel border
+  ctx.strokeStyle = dark ? 'rgba(255,255,255,.32)' : 'rgba(0,0,0,.28)';
+  ctx.lineWidth = 1;
+  rrect(ctx, ox, oy, rW, rH, 3); ctx.stroke();
+
+  // Dimension labels
+  ctx.fillStyle = accent; ctx.font = '9px -apple-system,sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  ctx.fillText(`${panelW} mm`, ox + rW/2, oy + rH + 4);
+  ctx.save();
+  ctx.translate(ox - 6, oy + rH/2); ctx.rotate(-Math.PI/2);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+  ctx.fillText(`${panelH} mm`, 0, 0);
+  ctx.restore();
+
+  // Caption (same style as scan mode)
+  const cap = document.getElementById('as-dg-caption');
+  if(cap){
+    let h = `<span class="dc-l">${nX*nY}台 (${nX}×${nY})</span>`;
+    h += `<span class="dc-sep">·</span><span class="dc-c">${panelW} × ${panelH} mm</span>`;
+    cap.innerHTML = h;
+  }
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+initPickers();
+initASPickers();
+loadRptMeta();
+initCardCfg();
+calc();
+window.addEventListener('resize', ()=>{ drawDiagram(); if(currentMode==='area') calcAS(); });
+</script>
+
+<!-- ── Undo Toast ── -->
+<div id="toast">
+  <span id="toast-msg"></span>
+  <span id="toast-undo">↩ 復原</span>
+  <div id="toast-bar"></div>
+</div>
+</body>
+</html>
