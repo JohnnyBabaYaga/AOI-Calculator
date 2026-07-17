@@ -6,25 +6,54 @@
 <title>AOI 光學架構評估計算器</title>
 <style>
 :root {
-  --bg:#f5f5f7; --surf:#fff; --surf2:#f2f2f7; --border:rgba(0,0,0,0.10);
-  --text:#1d1d1f; --sub:#6e6e73; --accent:#007aff;
-  --rad:10px; --shadow:0 1px 4px rgba(0,0,0,.08);
-}
-@media(prefers-color-scheme:dark){
-  :root{--bg:#1c1c1e;--surf:#2c2c2e;--surf2:#3a3a3c;--border:rgba(255,255,255,.1);--text:#f5f5f7;--sub:#98989d;}
+  /* ── Manager Platform 設計語言：藍海軍藍 + 玻璃擬態 ── */
+  --blue:#1f4e96; --blue2:#2f6fd0;
+  --bg:#eef2f7; --surf:#ffffff; --surf2:#f2f6fc; --border:#dde4ee;
+  --text:#1c2b45; --sub:#6b7a90; --accent:#2f6fd0; --accent-deep:#1f4e96;
+  --warn:#e0563f; --green:#36b37e;
+  --glass:rgba(255,255,255,.62); --glass-strong:rgba(255,255,255,.80);
+  --glass-line:rgba(255,255,255,.6); --glass-blur:saturate(180%) blur(20px);
+  --rad:12px; --rad-sm:9px; --rad-lg:16px;
+  --shadow:0 1px 2px rgba(30,50,90,.06),0 6px 20px rgba(30,50,90,.07);
+  --shadow-2:0 8px 30px rgba(30,50,90,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.4;}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro TC","SF Pro Text","PingFang TC","Microsoft JhengHei",'Segoe UI',sans-serif;
+  color:var(--text);font-size:13px;line-height:1.4;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background:
+    radial-gradient(1100px 700px at 12% -8%, rgba(47,111,208,.18), transparent 60%),
+    radial-gradient(900px 650px at 100% 0%, rgba(179,157,219,.15), transparent 55%),
+    radial-gradient(800px 700px at 50% 120%, rgba(54,179,126,.10), transparent 60%),
+    linear-gradient(160deg,#eef3fb,#e7ecf6 55%,#eaf1f5);
+  background-attachment:fixed;}
 
 /* ── App shell ── */
-#app{display:grid;grid-template-columns:300px 1fr;grid-template-rows:44px 1fr;height:100vh;overflow:hidden;}
+#app{display:grid;grid-template-columns:300px 1fr;grid-template-rows:46px 1fr;height:100vh;overflow:hidden;}
 header{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:0 16px;
-       background:var(--surf);border-bottom:1px solid var(--border);z-index:10;}
-header h1{font-size:14px;font-weight:700;}
-header p{font-size:10px;color:var(--sub);}
-.panel{overflow-y:auto;height:calc(100vh - 44px);}
-#left {background:var(--bg);border-right:1px solid var(--border);}
-#right{background:var(--surf2);}
+       background:linear-gradient(120deg,rgba(31,78,150,.92),rgba(47,111,208,.88));
+       -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+       color:#fff;border-bottom:1px solid rgba(255,255,255,.18);
+       box-shadow:0 4px 24px rgba(20,40,80,.18);z-index:10;}
+header h1{font-size:14px;font-weight:800;letter-spacing:.3px;color:#fff;}
+header p{font-size:10px;color:rgba(255,255,255,.82);}
+.panel{overflow-y:auto;height:calc(100vh - 46px);}
+#left {background:rgba(255,255,255,.5);-webkit-backdrop-filter:saturate(160%) blur(14px);backdrop-filter:saturate(160%) blur(14px);border-right:1px solid var(--glass-line);}
+#right{background:transparent;}
+
+/* ── Header buttons on blue glass ── */
+header .btn-sec{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+header .btn-sec:hover{background:rgba(255,255,255,.28);}
+header .btn-pri{background:#fff;color:var(--accent-deep);font-weight:700;box-shadow:0 2px 8px rgba(20,40,80,.2);}
+header .btn-pri:hover{filter:none;background:#f0f5ff;}
+header .btn-about{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.4);}
+header .btn-about:hover{background:rgba(255,255,255,.3);color:#fff;border-color:rgba(255,255,255,.6);}
+header #menu-btn{color:#fff;}
+header #menu-btn:hover{background:rgba(255,255,255,.18);}
+header .seg{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;}
+header .seg button{color:rgba(255,255,255,.85);font-weight:600;}
+header .seg button:hover{background:rgba(255,255,255,.14);}
+header .seg button.on{background:#fff;color:var(--accent-deep);}
 
 /* ── Section header ── */
 .shdr{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;
@@ -32,8 +61,9 @@ header p{font-size:10px;color:var(--sub);}
 .shdr svg{color:var(--accent);}
 
 /* ── Card ── */
-.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);
-      margin:0 10px 10px;overflow:hidden;}
+.card{background:var(--glass-strong);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+      border:1px solid var(--glass-line);border-radius:var(--rad);
+      margin:0 10px 10px;overflow:hidden;box-shadow:var(--shadow);}
 
 /* ── Row ── */
 .row{display:flex;align-items:center;gap:6px;padding:5px 12px;
@@ -79,24 +109,24 @@ header p{font-size:10px;color:var(--sub);}
 .hw-lbl{color:var(--sub);min-width:26px;font-size:10px;}
 .hw-val{color:var(--text);font-weight:500;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
 /* ── Diagram ── */
-.rpt-col #dg{display:block;width:100%;height:116px;}
-#dg-caption{display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;}
+.rpt-col #dg{display:block;width:100%;height:190px;}
+#dg-caption{display:flex;justify-content:center;gap:10px;padding:5px 4px 2px;font-size:10px;line-height:1;flex-wrap:wrap;}
 #dg-caption .dc-l{color:var(--text);font-weight:500;}
 #dg-caption .dc-sep{color:var(--border);}
 #dg-caption .dc-c,.dc-r{color:var(--sub);}
 
 /* ── 2-column result section grid ── */
-.res-grid{padding:4px 10px 10px;display:grid;grid-template-columns:1fr 1fr;gap:0 8px;align-items:start;}
+.res-grid{padding:6px 12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:2px 18px;align-items:start;}
 .rpt-secs{border-top:1px solid var(--border);}
 .rg-sec{min-width:0;}
-.rg-sec .shdr{padding:8px 2px 4px;color:var(--accent);}
+.rg-sec .shdr{padding:12px 2px 6px;color:var(--accent);font-size:12px;}
 
 /* ── Card grid within each section ── */
-.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .cg2{grid-template-columns:repeat(2,1fr);}
 
 /* ── Metric cards ── */
-.metric{background:var(--surf);border:1px solid var(--border);border-radius:7px;padding:7px 8px 6px;}
+.metric{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad-sm);padding:7px 8px 6px;box-shadow:0 1px 2px rgba(30,50,90,.05);}
 .metric .mt{font-size:10px;color:var(--sub);line-height:1.3;margin-bottom:3px;}
 .metric .mv{font-size:15px;font-weight:700;color:var(--text);line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .metric .mu{font-size:10px;color:var(--sub);font-weight:400;}
@@ -109,18 +139,29 @@ header p{font-size:10px;color:var(--sub);}
 #vwarn.hide{display:none!important;}
 
 /* ── Tabs ── */
-#tabbar{display:flex;gap:2px;padding:7px 8px;background:var(--bg);}
-.tb{flex:1;padding:5px 6px;border:none;border-radius:8px;cursor:pointer;
-    background:transparent;color:var(--sub);font-size:11px;font-weight:500;
-    display:flex;align-items:center;justify-content:center;gap:4px;}
-.tb.on{background:var(--surf);color:var(--accent);box-shadow:var(--shadow);}
+#tabbar{display:flex;gap:4px;padding:9px 10px 5px;background:transparent;}
+.tb{flex:1;padding:6px 6px;border:1px solid transparent;border-radius:999px;cursor:pointer;
+    background:rgba(255,255,255,.5);color:var(--sub);font-size:11px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:4px;transition:all .18s;}
+.tb:hover{background:rgba(255,255,255,.75);}
+.tb.on{background:var(--glass-strong);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+       color:var(--accent-deep);border-color:var(--glass-line);box-shadow:var(--shadow);}
 
 /* ── Buttons ── */
-.btn-pri{background:var(--accent);color:#fff;border:none;border-radius:8px;
-         padding:5px 13px;font-size:12px;font-weight:500;cursor:pointer;}
-.btn-pri:hover{filter:brightness(1.1);}
+.btn-pri{background:linear-gradient(120deg,var(--accent-deep),var(--accent));color:#fff;border:none;border-radius:999px;
+         padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(31,78,150,.25);transition:filter .15s,transform .12s;}
+.btn-pri:hover{filter:brightness(1.08);}
+.btn-pri:active{transform:scale(.97);}
 .btn-sec{background:var(--surf2);color:var(--text);border:1px solid var(--border);
-         border-radius:8px;padding:4px 11px;font-size:12px;cursor:pointer;}
+         border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer;transition:background .15s;}
+.btn-sec:hover{background:#e8eef8;}
+
+/* ── Cloud settings modal fields ── */
+.cl-field{margin-bottom:10px;}
+.cl-field label{display:block;font-size:11px;color:var(--sub);margin-bottom:4px;font-weight:600;}
+.cl-field input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:9px;
+  background:var(--surf2);color:var(--text);font-size:12px;outline:none;font-family:inherit;}
+.cl-field input:focus{border-color:var(--accent);}
 
 /* ── Eval cards ── */
 .ec{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);
@@ -151,9 +192,10 @@ header p{font-size:10px;color:var(--sub);}
 /* ══════════════════════════════════════
    REPORT / OVERVIEW TAB
 ══════════════════════════════════════ */
-.rpt-card{margin:8px 10px 4px;border:1px solid var(--border);border-radius:10px;overflow:hidden;flex-shrink:0;}
+.rpt-card{margin:10px 10px 6px;border:1px solid var(--glass-line);border-radius:var(--rad-lg);overflow:hidden;flex-shrink:0;
+          background:var(--glass-strong);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--shadow-2);}
 .rpt-hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
-         padding:11px 16px 9px;background:var(--accent);}
+         padding:12px 16px 10px;background:linear-gradient(120deg,var(--accent-deep),var(--blue2));}
 .rpt-hdr-left{flex:1;min-width:0;}
 .rpt-proj{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.45);
           color:#fff;font-size:15px;font-weight:700;outline:none;padding:0 0 2px;font-family:inherit;}
@@ -161,7 +203,7 @@ header p{font-size:10px;color:var(--sub);}
 .rpt-sub{font-size:10px;color:rgba(255,255,255,.75);margin-top:4px;}
 .rpt-date{font-size:10px;color:rgba(255,255,255,.7);white-space:nowrap;padding-top:3px;}
 
-.rpt-body{display:grid;grid-template-columns:1fr 1fr 1.5fr;border-bottom:1px solid var(--border);}
+.rpt-body{display:grid;grid-template-columns:1fr 1fr 2fr;border-bottom:1px solid var(--border);}
 .rpt-col{padding:12px 14px;min-width:0;border-right:1px solid var(--border);}
 .rpt-col:last-child{border-right:none;}
 .rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;
@@ -183,9 +225,15 @@ header p{font-size:10px;color:var(--sub);}
 /* Architecture column */
 .rpt-kv{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}
 .rpt-k{font-size:9px;color:var(--sub);width:56px;flex-shrink:0;}
+/* Area mode kv */
+.rk{font-size:11px;color:var(--sub);flex:1;}
+.rv{font-size:13px;font-weight:600;color:var(--text);text-align:right;}
 .rpt-v{font-size:12px;font-weight:600;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .rpt-tt-kv .rpt-v{font-size:17px;color:var(--accent);transition:color .2s;}
 .rpt-tt-kv .rpt-v.over{color:#ff3b30;}
+.metric .mv span.over{color:#ff3b30;font-weight:700;}
+.metric .mv span.warn{color:#ff9500;font-weight:700;}
+.metric .mv span.good{color:#34c759;font-weight:700;}
 .rpt-tt-kv .rpt-unit{font-size:12px;}
 
 /* Diagram column */
@@ -247,6 +295,11 @@ header p{font-size:10px;color:var(--sub);}
 #menu-btn{display:none;background:none;border:none;cursor:pointer;color:var(--text);padding:4px 6px;border-radius:6px;flex-shrink:0;}
 #menu-btn:hover{background:var(--surf2);}
 #drawer-overlay{display:none;position:fixed;inset:44px 0 0 0;background:rgba(0,0,0,.45);z-index:98;-webkit-tap-highlight-color:transparent;}
+/* Mobile bottom bar */
+#mobile-bar{display:none;}
+/* Mode button label variants */
+.ms{display:none;}
+
 @media(max-width:768px){
   #menu-btn{display:flex;align-items:center;}
   #app{grid-template-columns:1fr;}
@@ -258,11 +311,24 @@ header p{font-size:10px;color:var(--sub);}
   }
   #left.drawer-open{transform:translateX(0);}
   #drawer-overlay.show{display:block;}
-  #right{grid-column:1;}
-  header p{display:none;}
-  header h1{font-size:13px;}
-  .btn-sec,.btn-pri{font-size:11px;padding:4px 8px;}
+  #right{grid-column:1; padding-bottom:56px;}
+  /* Header: 隱藏標題與桌面版按鈕，只留 logo + mode switcher + about */
+  #hdr-title{display:none;}
+  .hdr-action{display:none;}
   .btn-about{padding:4px 5px;}
+  /* Mode 按鈕改短標 */
+  .ml{display:none;}
+  .ms{display:inline;}
+  #mode-seg button{padding:4px 10px;font-size:11px;}
+  /* Bottom action bar */
+  #mobile-bar{
+    display:flex;gap:8px;
+    position:fixed;bottom:0;left:0;right:0;
+    padding:8px 12px;padding-bottom:calc(8px + env(safe-area-inset-bottom));
+    background:var(--surf);border-top:1px solid var(--border);
+    z-index:97;
+  }
+  #mobile-bar .btn-sec,#mobile-bar .btn-pri{font-size:12px;padding:7px 0;}
   /* Report card: stack to 1 col in portrait */
   .rpt-body{grid-template-columns:1fr;}
   .rpt-col{border-right:none;border-bottom:1px solid var(--border);}
@@ -283,26 +349,23 @@ header p{font-size:10px;color:var(--sub);}
   .res-grid{grid-template-columns:1fr 1fr;}
 }
 
-/* ── Mode switcher ── */
-.mode-switcher{display:flex;margin:8px 10px 0;border:1.5px solid var(--accent);border-radius:9px;overflow:hidden;flex-shrink:0;}
-.mode-switcher button{flex:1;padding:7px 6px;border:none;background:transparent;color:var(--accent);
-  font-size:12px;font-weight:600;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:4px;}
-.mode-switcher button.on{background:var(--accent);color:#fff;}
-
-/* (Area Shot reuses rpt-card / metric classes from scan mode) */
-
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,.mode-switcher{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
-  #pane-res{display:block!important;overflow:visible;}
-  body.print-area-mode #pane-res{display:none!important;}
-  body.print-area-mode #pane-area-res{display:block!important;overflow:visible;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
+  /* 掃描模式列印 */
+  body.print-scan  #pane-res        {display:block!important;overflow:visible;}
+  body.print-scan  #pane-static-res {display:none!important;}
+  /* 靜態模式列印 */
+  body.print-static #pane-static-res{display:block!important;overflow:visible;}
+  body.print-static #pane-res       {display:none!important;}
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -314,11 +377,17 @@ header p{font-size:10px;color:var(--sub);}
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   </button>
-  <img src="auo-logo.png" width="28" height="28" style="object-fit:contain;flex-shrink:0;" alt="AUO">
-  <div><h1 id="app-title">AOI 光學架構評估計算器</h1><p id="app-subtitle">Automated Optical Inspection — System Design Tool</p></div>
+  <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
+  <div id="hdr-title"><h1>AOI 光學架構評估計算器</h1><p>Automated Optical Inspection — System Design Tool</p></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
-    <button class="btn-sec" onclick="exportPDF()">📄 匯出 PDF</button>
-    <button class="btn-pri" onclick="saveEval()">💾 儲存評估</button>
+    <div class="seg" id="mode-seg" style="flex-shrink:0;font-size:11px;">
+      <button class="on" onclick="setMode('scan')"><span class="ml">掃描取像</span><span class="ms">掃描</span></button>
+      <button onclick="setMode('static')"><span class="ml">靜態取像</span><span class="ms">靜態</span></button>
+      <button onclick="setMode('area')"><span class="ml">畫檢評估</span><span class="ms">畫檢</span></button>
+    </div>
+    <button class="btn-sec hdr-action" onclick="exportPDF()">📄 匯出 PDF</button>
+    <button class="btn-pri hdr-action" onclick="saveEval()">💾 儲存評估</button>
+    <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="雲端同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);">☁</button>
     <button class="btn-about" onclick="toggleAbout()" title="開發者資訊">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
         <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
@@ -329,6 +398,12 @@ header p{font-size:10px;color:var(--sub);}
 
 <!-- ── Drawer overlay ── -->
 <div id="drawer-overlay" onclick="toggleDrawer()"></div>
+
+<!-- ── Mobile bottom action bar ── -->
+<div id="mobile-bar">
+  <button class="btn-sec" style="flex:1" onclick="exportPDF()">📄 匯出 PDF</button>
+  <button class="btn-pri" style="flex:1" onclick="saveEval()">💾 儲存評估</button>
+</div>
 
 <!-- ── About Modal ── -->
 <div id="about-overlay" onclick="toggleAbout()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
@@ -367,6 +442,42 @@ header p{font-size:10px;color:var(--sub);}
   </div>
 </div>
 
+<!-- ── Cloud Sync Settings Modal ── -->
+<div id="cloud-overlay" onclick="closeCloudModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
+<div id="cloud-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+     background:var(--surf);border:1px solid var(--border);border-radius:14px;
+     padding:22px 24px;z-index:2001;width:min(420px,92vw);max-height:88vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+    <div style="font-size:15px;font-weight:800;">☁️ 雲端同步設定</div>
+    <button onclick="closeCloudModal()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+  </div>
+  <div style="font-size:11px;color:var(--sub);margin-bottom:14px;line-height:1.5;">
+    透過 GitHub 讓不同電腦共同維護「專案評估紀錄」與「相機／鏡頭資料庫」。在每台電腦填入相同設定即可同步。
+  </div>
+  <div class="cl-field"><label>GitHub 帳號 / 組織（owner）</label><input id="gh_owner" type="text" placeholder="例：JohnnyBabaYaga"></div>
+  <div class="cl-field"><label>儲存庫名稱（repo，建議 private）</label><input id="gh_repo" type="text" placeholder="例：aoi-data"></div>
+  <div style="display:flex;gap:8px;">
+    <div class="cl-field" style="flex:1"><label>分支（branch）</label><input id="gh_branch" type="text" placeholder="main"></div>
+    <div class="cl-field" style="flex:1.3"><label>資料檔路徑（path）</label><input id="gh_path" type="text" placeholder="aoi-data.json"></div>
+  </div>
+  <div class="cl-field"><label>存取權杖（Personal Access Token）</label><input id="gh_token" type="password" placeholder="github_pat_… 或 ghp_…">
+    <div style="font-size:10px;color:var(--sub);margin-top:4px;line-height:1.5;">需具備該 repo 的 <b>Contents 讀寫</b>權限。權杖只存在本機瀏覽器，不會寫進 HTML 或上傳。</div>
+  </div>
+  <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;margin:6px 0 10px;cursor:pointer;line-height:1.4;">
+    <input id="gh_enabled" type="checkbox" style="width:auto;margin-top:2px;"> <span>啟用雲端同步（開啟後：儲存自動上傳、開啟自動讀取最新）</span>
+  </label>
+  <div id="gh_testmsg" style="font-size:11px;min-height:16px;margin-bottom:8px;"></div>
+  <div style="font-size:10px;background:color-mix(in srgb,#e0a000 12%,var(--surf));border:1px solid color-mix(in srgb,#e0a000 40%,transparent);padding:8px 10px;border-radius:8px;color:#9a6a00;line-height:1.5;margin-bottom:12px;">
+    ⚠ 資安提醒：資料會離開本機、存到 GitHub。請確認符合 AUO 資安規範，並使用 <b>private（私有）</b> repo。同步採「最後儲存為準」，多人共用建議先「從雲端讀取」再編輯。
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+    <button class="btn-sec" style="font-size:11px" onclick="testCloud()">🔌 測試連線</button>
+    <button class="btn-sec" style="font-size:11px" onclick="cloudPull({force:true})">⬇ 從雲端讀取</button>
+    <button class="btn-sec" style="font-size:11px" onclick="cloudPushNow()">⬆ 上傳到雲端</button>
+    <button class="btn-pri" style="font-size:11px;margin-left:auto" onclick="saveCloudSettings()">儲存設定</button>
+  </div>
+</div>
+
 <!-- ── Import Confirm Modal ── -->
 <div id="imp-overlay" onclick="closeImportModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
 <div id="imp-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
@@ -384,24 +495,6 @@ header p{font-size:10px;color:var(--sub);}
 
 <!-- ═══════════════════ LEFT: Parameters ═══════════════════ -->
 <div class="panel" id="left">
-  <!-- Mode Switcher -->
-  <div class="mode-switcher" id="mode-switcher">
-    <button class="on" onclick="setMode('scan')">📐 Scan Mode</button>
-    <button onclick="setMode('area')">📷 Area Mode</button>
-  </div>
-
-  <!-- ══════ SCAN MODE PANEL ══════ -->
-  <div id="panel-scan">
-  <!-- Eval name -->
-  <div style="padding:8px 10px 0">
-    <div class="card" style="margin-bottom:0">
-      <div class="row">
-        <label>評估名稱</label>
-        <input type="text" id="eval-name" value="新評估" oninput="syncName(this.value)">
-      </div>
-    </div>
-  </div>
-
   <!-- ── Camera ── -->
   <div class="shdr">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -417,21 +510,21 @@ header p{font-size:10px;color:var(--sub);}
       </select>
     </div>
     <!-- Camera type: segmented -->
-    <div class="row">
+    <div class="row" data-hide-area>
       <label>相機類型</label>
       <div class="seg" id="cam-type-seg">
         <button class="on" onclick="setCamType(false)">面陣飛拍</button>
         <button onclick="setCamType(true)">線掃描</button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" data-hide-area>
       <label>彩色感測器</label>
       <div class="seg" id="color-seg">
         <button class="on" onclick="setColor(false)">灰階</button>
         <button onclick="setColor(true)">彩色</button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" data-hide-area>
       <label>2×2 Binning</label>
       <div class="seg" id="bin-seg">
         <button class="on" onclick="setBin(false)">關閉</button>
@@ -441,8 +534,8 @@ header p{font-size:10px;color:var(--sub);}
     <div class="row"><label>像素大小</label><input type="number" id="p-px" value="2.5" step="0.01" oninput="calc()"><span class="unit">µm</span></div>
     <div class="row"><label>解析度 寬</label><input type="number" id="p-rw" value="5120" step="1" oninput="calc()"><span class="unit">px</span></div>
     <div class="row" id="row-rh"><label>解析度 高</label><input type="number" id="p-rh" value="5120" step="1" oninput="calc()"><span class="unit">px</span></div>
-    <div class="row"><label id="lbl-fps">幀率</label><input type="number" id="p-fps" value="125" step="1" oninput="calc()"><span class="unit" id="unit-fps">fps</span></div>
-    <div class="row"><label>位元深度</label><input type="number" id="p-bit" value="8" step="1" oninput="calc()"><span class="unit">bit</span></div>
+    <div class="row" data-hide-area><label id="lbl-fps">幀率</label><input type="number" id="p-fps" value="125" step="1" oninput="calc()"><span class="unit" id="unit-fps">fps</span></div>
+    <div class="row" data-hide-area><label>位元深度</label><input type="number" id="p-bit" value="8" step="1" oninput="calc()"><span class="unit">bit</span></div>
   </div>
 
   <!-- ── Lens ── -->
@@ -459,7 +552,7 @@ header p{font-size:10px;color:var(--sub);}
       </select>
     </div>
     <!-- Lens type: 3-way segmented -->
-    <div class="row">
+    <div class="row" data-hide-area>
       <label>鏡頭類型</label>
       <div class="seg" id="lens-type-seg">
         <button class="on" onclick="setLensType('objective')">物鏡</button>
@@ -467,17 +560,18 @@ header p{font-size:10px;color:var(--sub);}
         <button onclick="setLensType('cctv')">CCTV</button>
       </div>
     </div>
-    <div class="row"><label>放大倍率</label><input type="number" id="p-mag" value="5" step="0.1" oninput="calc()" title="CCTV 模式下依焦距與工作距離自動計算"><span class="unit">×</span></div>
-    <div class="row"><label>像圈直徑</label><input type="number" id="p-ic" value="25" step="0.5" oninput="calc()"><span class="unit">mm</span></div>
-    <div class="row"><label>工作距離</label><input type="number" id="p-wd" value="34" step="1" oninput="calc()"><span class="unit">mm</span></div>
-    <div class="row" id="row-na"><label>NA (數值孔徑)</label><input type="number" id="p-na" value="0.14" step="0.001" oninput="calc()"><span class="unit"></span></div>
-    <div class="row" id="row-fn" style="display:none"><label>F# 固定光圈</label><input type="number" id="p-fn" value="8" step="0.1" oninput="calc()"><span class="unit"></span></div>
-    <div class="row" id="row-fn-cctv" style="display:none"><label>F# 工作光圈</label><select id="p-fn-sel" class="fn-sel" onchange="onFnSelChange()"></select><span class="unit"></span></div>
+    <div class="row" data-hide-area><label>放大倍率</label><input type="number" id="p-mag" value="5" step="0.1" oninput="calc()" title="CCTV 模式下依焦距與工作距離自動計算"><span class="unit">×</span></div>
+    <div class="row" data-hide-area><label>像圈直徑</label><input type="number" id="p-ic" value="25" step="0.5" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row" data-hide-area><label>工作距離</label><input type="number" id="p-wd" value="34" step="1" oninput="calc()"><span class="unit">mm</span></div>
+    <div class="row" id="row-na" data-hide-area><label>NA (數值孔徑)</label><input type="number" id="p-na" value="0.14" step="0.001" oninput="calc()"><span class="unit"></span></div>
+    <div class="row" id="row-fn" style="display:none" data-hide-area><label>F# 固定光圈</label><input type="number" id="p-fn" value="8" step="0.1" oninput="calc()"><span class="unit"></span></div>
+    <div class="row" id="row-fn-cctv" style="display:none" data-hide-area><label>F# 工作光圈</label><select id="p-fn-sel" class="fn-sel" onchange="onFnSelChange()"></select><span class="unit"></span></div>
     <div class="row" id="row-fl" style="display:none"><label>焦距</label><input type="number" id="p-fl" value="50" step="1" oninput="calc()"><span class="unit">mm</span></div>
-    <div class="row"><label>光源波長</label><input type="number" id="p-wl" value="550" step="10" oninput="calc()"><span class="unit">nm</span></div>
+    <div class="row" data-hide-area><label>光源波長</label><input type="number" id="p-wl" value="550" step="10" oninput="calc()"><span class="unit">nm</span></div>
   </div>
 
-  <!-- ── Scan ── -->
+  <!-- ── Scan section (hidden in static mode) ── -->
+  <div id="sec-scan">
   <div class="shdr">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
@@ -509,28 +603,24 @@ header p{font-size:10px;color:var(--sub);}
     <div class="row"><label>返回速度</label><input type="number" id="p-bs" value="300" step="10" oninput="calc()"><span class="unit">mm/s</span></div>
     <div class="row"><label>Encoder 解析度</label><input type="number" id="p-ep" value="0.05" step="0.001" oninput="calc()"><span class="unit">µm</span></div>
   </div>
-  <!-- Notes at bottom of left panel -->
-  <div style="padding:0 10px 8px">
-    <div class="shdr" style="padding-left:2px">📝 備註</div>
-    <textarea id="eval-notes" placeholder="輸入備註..."
-      style="width:100%;height:48px;padding:6px 8px;font-size:12px;border:1px solid var(--border);
-             border-radius:var(--rad);background:var(--surf);color:var(--text);resize:none;outline:none;"></textarea>
+  </div><!-- /#sec-scan -->
+
+  <!-- ── Static section (hidden in scan mode) ── -->
+  <div id="sec-static" style="display:none">
+  <div class="shdr">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/>
+    </svg>靜態設定
   </div>
-  <div style="height:14px"></div>
-  </div><!-- /panel-scan -->
+  <div class="card">
+    <div class="row"><label>待測範圍 X</label><input type="number" id="st-objw" value="300" step="1" oninput="calcStatic()"><span class="unit">mm</span></div>
+    <div class="row"><label>待測範圍 Y</label><input type="number" id="st-objh" value="300" step="1" oninput="calcStatic()"><span class="unit">mm</span></div>
+    <div class="row"><label>影像重疊率</label><input type="number" id="st-ov" value="10" step="0.5" oninput="calcStatic()"><span class="unit">%</span></div>
+  </div>
+  </div><!-- /#sec-static -->
 
-  <!-- ══════ AREA SHOT MODE PANEL ══════ -->
-  <div id="panel-area" style="display:none">
-    <div style="padding:8px 10px 0">
-      <div class="card" style="margin-bottom:0">
-        <div class="row">
-          <label>評估名稱</label>
-          <input type="text" id="as-eval-name" value="新評估" oninput="syncNameAS(this.value)">
-        </div>
-      </div>
-    </div>
-
-    <!-- 產品規格 -->
+  <!-- ── Area section (hidden unless area mode) ── -->
+  <div id="sec-area" style="display:none">
     <div class="shdr">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
@@ -543,44 +633,6 @@ header p{font-size:10px;color:var(--sub);}
       <div class="row"><label>面板 Y 解析度</label><input type="number" id="as-panel-ry" value="2160" step="1" oninput="calcAS()"><span class="unit">px</span></div>
       <div class="row"><label>Pitch</label><input type="number" id="as-pitch" value="8" step="1" oninput="calcAS()"><span class="unit">px</span></div>
     </div>
-
-    <!-- 相機設定 -->
-    <div class="shdr">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-        <circle cx="12" cy="13" r="4"/>
-      </svg>相機設定
-    </div>
-    <div class="card">
-      <div class="dbrow">
-        <label>資料庫</label>
-        <select id="as-cam-pick" onchange="applyCameraAS()">
-          <option value="">— 手動輸入 —</option>
-        </select>
-      </div>
-      <div class="row"><label>X 解析度</label><input type="number" id="as-cam-rx" value="14192" step="1" oninput="calcAS()"><span class="unit">px</span></div>
-      <div class="row"><label>Y 解析度</label><input type="number" id="as-cam-ry" value="10640" step="1" oninput="calcAS()"><span class="unit">px</span></div>
-      <div class="row"><label>像素大小</label><input type="number" id="as-cam-px" value="3.76" step="0.01" oninput="calcAS()"><span class="unit">µm</span></div>
-    </div>
-
-    <!-- 鏡頭設定 -->
-    <div class="shdr">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
-      </svg>鏡頭設定
-    </div>
-    <div class="card">
-      <div class="dbrow">
-        <label>資料庫</label>
-        <select id="as-lens-pick" onchange="applyLensAS()">
-          <option value="">— 手動輸入 —</option>
-        </select>
-      </div>
-      <div class="row"><label>焦距</label><input type="number" id="as-fl" value="55" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
-      <div class="row"><label>最短工作距離</label><input type="number" id="as-min-wd" value="100" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
-    </div>
-
-    <!-- 配置設定 -->
     <div class="shdr">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
@@ -588,19 +640,23 @@ header p{font-size:10px;color:var(--sub);}
       </svg>配置設定
     </div>
     <div class="card">
-      <div class="row"><label>單台佔屏比限制</label><input type="number" id="as-limit" value="0.8" step="0.05" oninput="calcAS()"><span class="unit">×</span></div>
-    </div>
-
-    <!-- 備註 -->
-    <div style="padding:0 10px 8px">
-      <div class="shdr" style="padding-left:2px">📝 備註</div>
-      <textarea id="as-eval-notes" placeholder="輸入備註..."
-        style="width:100%;height:48px;padding:6px 8px;font-size:12px;border:1px solid var(--border);
-               border-radius:var(--rad);background:var(--surf);color:var(--text);resize:none;outline:none;"></textarea>
+      <div class="row"><label>最短工作距離</label><input type="number" id="as-min-wd" value="100" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+      <div class="row"><label>單台有效佔屏比</label><input type="number" id="as-limit" value="0.8" step="0.05" min="0.1" max="1" oninput="calcAS()"><span class="unit">×</span></div>
+      <div style="padding:4px 12px 7px;font-size:10px;color:var(--sub);line-height:1.5;">
+        每台相機有效使用的 FOV 比例（0.1～1）。<b>=1</b> 為無重疊的物理最少台數；越小＝重疊越多、台數越多。
+      </div>
     </div>
     <div style="height:14px"></div>
-  </div><!-- /panel-area -->
+  </div><!-- /#sec-area -->
 
+  <!-- Notes at bottom of left panel -->
+  <div style="padding:0 10px 8px">
+    <div class="shdr" style="padding-left:2px">📝 備註</div>
+    <textarea id="eval-notes" placeholder="輸入備註..."
+      style="width:100%;height:48px;padding:6px 8px;font-size:12px;border:1px solid var(--border);
+             border-radius:var(--rad);background:var(--surf);color:var(--text);resize:none;outline:none;"></textarea>
+  </div>
+  <div style="height:14px"></div>
 </div>
 
 <!-- ═══════════════════ RIGHT: Results / Reports ═══════════════════ -->
@@ -622,7 +678,7 @@ header p{font-size:10px;color:var(--sub);}
       <!-- Header: project name + date -->
       <div class="rpt-hdr">
         <div class="rpt-hdr-left">
-          <input id="rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="syncName(this.value)">
+          <input id="rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="saveRptMeta()">
           <div class="rpt-sub">AOI 系統規格總覽</div>
         </div>
         <div class="rpt-date" id="rpt-date"></div>
@@ -635,7 +691,7 @@ header p{font-size:10px;color:var(--sub);}
           <div class="rpt-ctitle">📋 需求概覽</div>
           <div class="rpt-field">
             <div class="rpt-flabel">設備 / 用途描述</div>
-            <textarea id="rpt-desc" class="rpt-textarea" placeholder="例：FPD Cell 前段 AOI，檢測短路、斷路、異物…" oninput="saveRptMeta()"></textarea>
+            <textarea id="rpt-desc" class="rpt-textarea" placeholder="例：FPD Cell 前段 AOI，檢測短路、斷路、異物…" oninput="syncDesc(this.value)"></textarea>
           </div>
           <div class="rpt-field">
             <div class="rpt-flabel">樣品尺寸</div>
@@ -646,6 +702,13 @@ header p{font-size:10px;color:var(--sub);}
             <div class="rpt-row">
               <input type="number" id="rpt-target-tt" class="rpt-tinput" placeholder="—" oninput="saveRptMeta();calc()">
               <span class="rpt-unit">min</span>
+            </div>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">目標檢測精度</div>
+            <div class="rpt-row">
+              <input type="number" id="rpt-target-res" class="rpt-tinput" placeholder="—" step="0.1" oninput="saveRptMeta();calc()">
+              <span class="rpt-unit">µm</span>
             </div>
           </div>
         </div>
@@ -700,6 +763,8 @@ header p{font-size:10px;color:var(--sub);}
             <div class="metric" data-cid="r-sp"><div class="mt">掃描速度</div><div class="mv"><span id="r-sp">—</span> <span class="mu">mm/s</span></div></div>
             <div class="metric" data-cid="r-cp"><div class="mt">單道拍攝張數</div><div class="mv"><span id="r-cp">—</span> <span class="mu">張</span></div></div>
             <div class="metric" data-cid="r-ps"><div class="mt">掃描道數</div><div class="mv"><span id="r-ps">—</span> <span class="mu">道</span></div></div>
+            <div class="metric" data-cid="r-rp"><div class="mt">單排鏡組 Pitch</div><div class="mv"><span id="r-rp">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="r-fbp"><div class="mt">前後排鏡組 Pitch</div><div class="mv"><span id="r-fbp">—</span> <span class="mu">mm</span></div></div>
           </div>
         </div>
 
@@ -729,25 +794,99 @@ header p{font-size:10px;color:var(--sub);}
 
   </div>
 
-  <!-- ══ Area Shot Results pane ══ -->
-  <div id="pane-area-res" style="display:none">
-    <div id="as-vwarn" class="hide">⚠️ <span id="as-vwarn-msg"></span></div>
-
-    <!-- ── Report card (same structure as scan mode) ── -->
+  <!-- Static results pane -->
+  <div id="pane-static-res" style="display:none">
+    <div id="st-vwarn" class="hide" style="display:none;background:color-mix(in srgb,#ff3b30 8%,transparent);border:1px solid color-mix(in srgb,#ff3b30 30%,transparent);border-radius:8px;padding:8px 12px;margin:8px 10px 0;color:#ff3b30;font-size:11px;gap:7px;align-items:flex-start;">⚠️ <span id="st-vwarn-msg"></span></div>
     <div class="rpt-card">
-
-      <!-- Header: project name + date -->
+      <!-- Header -->
       <div class="rpt-hdr">
         <div class="rpt-hdr-left">
-          <input id="as-rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="syncNameAS(this.value)">
-          <div class="rpt-sub">AOI Area Shot 評估總覽</div>
+          <input id="st-rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="saveRptMeta()">
+          <div class="rpt-sub">AOI 靜態取像系統規格總覽</div>
+        </div>
+        <div class="rpt-date" id="st-rpt-date"></div>
+      </div>
+      <!-- Overview body: 需求 | 架構 | 示意圖 -->
+      <div class="rpt-body">
+        <div class="rpt-col">
+          <div class="rpt-ctitle">📋 需求概覽</div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">設備 / 用途描述</div>
+            <textarea id="st-rpt-desc" class="rpt-textarea" placeholder="例：FPD Cell 前段 AOI，靜態取像架構…" oninput="syncDesc(this.value)"></textarea>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">待測範圍</div>
+            <div class="rpt-fval" id="st-rpt-area">—</div>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel">目標檢測精度</div>
+            <div class="rpt-row">
+              <input type="number" id="st-target-res" class="rpt-tinput" placeholder="—" step="0.1" oninput="calcStatic()">
+              <span class="rpt-unit">µm</span>
+            </div>
+          </div>
+        </div>
+        <div class="rpt-col">
+          <div class="rpt-ctitle">⚙️ 技術架構</div>
+          <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="st-rpt-cam">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="st-rpt-lens">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">光學台數</span><span class="rpt-v" id="st-rpt-qty">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">排列方式</span><span class="rpt-v" id="st-rpt-arr">—</span></div>
+          <div class="rpt-kv"><span class="rpt-k">工作距離</span><span class="rpt-v" id="st-rpt-wd">—</span></div>
+        </div>
+        <div class="rpt-col">
+          <div class="rpt-ctitle">📐 系統示意圖</div>
+          <canvas id="st-dg" style="display:block;width:100%;height:190px;"></canvas>
+          <div id="st-dg-caption" style="display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;"></div>
+        </div>
+      </div>
+      <!-- Technical sections -->
+      <div style="border-top:1px solid var(--border);padding:5px 10px;display:flex;justify-content:flex-end;">
+        <button id="st-card-edit-btn" class="btn-sec" style="font-size:10px;padding:2px 9px" onclick="toggleStCardEdit()">✎ 自訂版面</button>
+      </div>
+      <div class="res-grid rpt-secs" id="st-card-edit-target" style="border-top:none">
+        <div class="rg-sec">
+          <div class="shdr">🔭 光學規格</div>
+          <div class="cg" data-sec="st-opt">
+            <div class="metric" data-cid="st-r-or"><div class="mt">系統解析度</div><div class="mv"><span id="st-r-or">—</span> <span class="mu">µm/px</span></div></div>
+            <div class="metric" data-cid="st-r-margin"><div class="mt">解析餘裕</div><div class="mv"><span id="st-r-margin">—</span> <span class="mu">×</span></div></div>
+            <div class="metric" data-cid="st-r-mag"><div class="mt">光學倍率</div><div class="mv"><span id="st-r-mag">—</span> <span class="mu">×</span></div></div>
+            <div class="metric" data-cid="st-r-hf"><div class="mt">水平 FOV / 台</div><div class="mv"><span id="st-r-hf">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="st-r-vf"><div class="mt">垂直 FOV / 台</div><div class="mv"><span id="st-r-vf">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="st-r-df"><div class="mt">景深 DoF</div><div class="mv"><span id="st-r-df">—</span> <span class="mu">µm</span></div></div>
+            <div class="metric" data-cid="st-r-wd"><div class="mt">工作距離</div><div class="mv"><span id="st-r-wd">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="st-r-dg"><div class="mt">感測器對角</div><div class="mv"><span id="st-r-dg">—</span> <span class="mu">mm</span></div></div>
+          </div>
+          <div id="st-cctv-note" style="display:none;font-size:10px;color:var(--sub);padding:2px 2px 6px;line-height:1.5;">
+            ≈ 標示值為薄透鏡公式估算，CCTV 鏡頭受主平面偏移影響，<br>實際倍率與系統解析度建議以實測為準。
+          </div>
+        </div>
+        <div class="rg-sec">
+          <div class="shdr">📐 配置規格</div>
+          <div class="cg" data-sec="st-cfg">
+            <div class="metric" data-cid="st-r-nx"><div class="mt">X 方向台數</div><div class="mv"><span id="st-r-nx">—</span> <span class="mu">台</span></div></div>
+            <div class="metric" data-cid="st-r-ny"><div class="mt">Y 方向台數</div><div class="mv"><span id="st-r-ny">—</span> <span class="mu">台</span></div></div>
+            <div class="metric" data-cid="st-r-tot"><div class="mt">光學總台數</div><div class="mv"><span id="st-r-tot">—</span> <span class="mu">台</span></div></div>
+            <div class="metric" data-cid="st-r-covx"><div class="mt">總覆蓋 X</div><div class="mv"><span id="st-r-covx">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="st-r-covy"><div class="mt">總覆蓋 Y</div><div class="mv"><span id="st-r-covy">—</span> <span class="mu">mm</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /rpt-card -->
+  </div><!-- /#pane-static-res -->
+
+  <!-- ══ 畫檢評估 Results pane ══ -->
+  <div id="pane-area-res" style="display:none">
+    <div id="as-vwarn" class="hide">⚠️ <span id="as-vwarn-msg"></span></div>
+    <div class="rpt-card">
+      <div class="rpt-hdr">
+        <div class="rpt-hdr-left">
+          <input id="as-rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="saveRptMeta()">
+          <div class="rpt-sub">AOI 畫檢評估總覽</div>
         </div>
         <div class="rpt-date" id="as-rpt-date"></div>
       </div>
-
-      <!-- Overview body: 需求 | 架構 | 示意圖 -->
       <div class="rpt-body">
-
         <div class="rpt-col">
           <div class="rpt-ctitle">📋 需求概覽</div>
           <div class="rpt-field">
@@ -763,7 +902,6 @@ header p{font-size:10px;color:var(--sub);}
             <div class="rpt-fval" id="as-rpt-pitch">—</div>
           </div>
         </div>
-
         <div class="rpt-col">
           <div class="rpt-ctitle">⚙️ 技術架構</div>
           <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="as-rpt-cam">—</span></div>
@@ -772,17 +910,13 @@ header p{font-size:10px;color:var(--sub);}
           <div class="rpt-kv"><span class="rpt-k">配置方式</span><span class="rpt-v" id="as-rpt-arr">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">WD 可用</span><span class="rpt-v" id="as-rpt-wd-ok">—</span></div>
         </div>
-
         <div class="rpt-col">
           <div class="rpt-ctitle">📐 配置示意圖</div>
-          <canvas id="as-dg" style="display:block;width:100%;height:116px;"></canvas>
+          <canvas id="as-dg" style="display:block;width:100%;height:190px;"></canvas>
           <div id="as-dg-caption" style="display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;"></div>
         </div>
       </div>
-
-      <!-- Technical detail sections -->
       <div class="res-grid rpt-secs" style="border-top:1px solid var(--border)">
-
         <div class="rg-sec">
           <div class="shdr">🔭 光學規格</div>
           <div class="cg">
@@ -794,40 +928,28 @@ header p{font-size:10px;color:var(--sub);}
             <div class="metric"><div class="mt">X 半角</div><div class="mv"><span id="as-r-xangle">—</span> <span class="mu">°</span></div></div>
           </div>
         </div>
-
         <div class="rg-sec">
-          <div class="shdr">📊 單台評估</div>
+          <div class="shdr">📊 覆蓋評估</div>
           <div class="cg">
             <div class="metric"><div class="mt">X 佔屏比</div><div class="mv"><span id="as-r-xratio">—</span></div></div>
             <div class="metric"><div class="mt">Y 佔屏比</div><div class="mv"><span id="as-r-yratio">—</span></div></div>
             <div class="metric"><div class="mt">Pitch 檢查</div><div class="mv"><span id="as-r-pitch-ok">—</span></div></div>
-            <div class="metric"><div class="mt">1台 &lt; 80%</div><div class="mv"><span id="as-r-check1">—</span></div></div>
-            <div class="metric"><div class="mt">2台 &lt; 160%</div><div class="mv"><span id="as-r-check2">—</span></div></div>
-            <div class="metric"><div class="mt">3台 &lt; 240%</div><div class="mv"><span id="as-r-check3">—</span></div></div>
+            <div class="metric"><div class="mt">建議台數（含重疊）</div><div class="mv"><span id="as-r-min-cams">—</span></div></div>
+            <div class="metric"><div class="mt">物理最少（無重疊）</div><div class="mv" style="font-size:13px;color:var(--sub)"><span id="as-r-min-cams-ref">—</span></div></div>
           </div>
         </div>
-
-        <div class="rg-sec">
-          <div class="shdr">📐 多台配置</div>
-          <div class="cg">
-            <div class="metric"><div class="mt">X 方向台數</div><div class="mv"><span id="as-r-nx">—</span> <span class="mu">台</span></div></div>
-            <div class="metric"><div class="mt">Y 方向台數</div><div class="mv"><span id="as-r-ny">—</span> <span class="mu">台</span></div></div>
-            <div class="metric"><div class="mt">總相機數</div><div class="mv"><span id="as-r-total">—</span> <span class="mu">台</span></div></div>
-            <div class="metric"><div class="mt">每台 X 佔屏比</div><div class="mv"><span id="as-r-per-x">—</span></div></div>
-            <div class="metric"><div class="mt">每台 Y 佔屏比</div><div class="mv"><span id="as-r-per-y">—</span></div></div>
-          </div>
-        </div>
-
-      </div><!-- /res-grid -->
-    </div><!-- /rpt-card -->
-
-  </div>
+      </div>
+    </div>
+  </div><!-- /#pane-area-res -->
 
   <!-- History pane -->
   <div id="pane-hist" style="display:none;overflow-y:auto;flex:1">
-    <div style="padding:7px 10px 4px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);">
+    <div style="padding:7px 10px 4px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);">
       <span style="font-size:12px;color:var(--sub)" id="ev-cnt">0 筆評估</span>
-      <button class="btn-sec" onclick="clearEvals()" style="margin-left:auto;font-size:11px">清除全部</button>
+      <button class="btn-sec" style="margin-left:auto;font-size:11px" onclick="exportEvals()" title="把所有歷史評估匯出成 JSON 備份檔">📤 匯出</button>
+      <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('ev-import-input').click()" title="從 JSON 備份檔匯入評估">📥 匯入</button>
+      <input type="file" id="ev-import-input" accept=".json" style="display:none" onchange="handleEvalImport(this)">
+      <button class="btn-sec" onclick="clearEvals()" style="font-size:11px;color:var(--warn);border-color:rgba(224,86,63,.4)">清除全部</button>
     </div>
     <div id="ev-list"></div>
   </div>
@@ -942,7 +1064,8 @@ const LENS = [];
 // ═══════════════════════════════════════════
 let S = {lineScan:false, color:false, binning:false,
          lensType:'objective',   // 'objective' | 'telecentric' | 'cctv'
-         scanAlongWidth:true, scanMode:'single'};
+         scanAlongWidth:true, scanMode:'single',
+         mode:'scan'};           // 'scan' | 'static' | 'area'
 let evals    = JSON.parse(localStorage.getItem('aoi_evals')||'[]');
 let custCams = JSON.parse(localStorage.getItem('aoi_cams') ||'[]');
 let custLens = JSON.parse(localStorage.getItem('aoi_lens') ||'[]');
@@ -953,10 +1076,11 @@ let lastR = {};
 // ── Combined accessors ──
 function allCams(){ return CAMS.filter((_,i)=>!hiddenCams.has(i)).concat(custCams); }
 function allLens(){ return LENS.filter((_,i)=>!hiddenLens.has(i)).concat(custLens); }
-function saveCustCams(){ localStorage.setItem('aoi_cams', JSON.stringify(custCams)); }
-function saveCustLens(){ localStorage.setItem('aoi_lens', JSON.stringify(custLens)); }
-function saveHiddenCams(){ localStorage.setItem('aoi_hcams', JSON.stringify([...hiddenCams])); }
-function saveHiddenLens(){ localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); }
+function saveCustCams(){ localStorage.setItem('aoi_cams', JSON.stringify(custCams)); aoiTouch(); }
+function saveCustLens(){ localStorage.setItem('aoi_lens', JSON.stringify(custLens)); aoiTouch(); }
+function saveHiddenCams(){ localStorage.setItem('aoi_hcams', JSON.stringify([...hiddenCams])); aoiTouch(); }
+function saveHiddenLens(){ localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); aoiTouch(); }
+function persistEvals(){ localStorage.setItem('aoi_evals', JSON.stringify(evals)); aoiTouch(); }
 
 // ── Rebuild pickers after DB changes ──
 function refreshCamPicker(){
@@ -1202,6 +1326,34 @@ function setLensType(t){
 }
 function setScanDir(w){ S.scanAlongWidth=w; segSet('scan-dir-seg',w?0:1); calc(); }
 function setScanMode(m){ S.scanMode=m; segSet('scan-mode-seg',m==='single'?0:1); calc(); }
+function setMode(m){
+  S.mode=m;
+  segSet('mode-seg', m==='area'?2:m==='static'?1:0);
+  document.getElementById('sec-scan').style.display        = m==='scan'   ? '' : 'none';
+  document.getElementById('sec-static').style.display      = m==='static' ? '' : 'none';
+  document.getElementById('sec-area').style.display        = m==='area'   ? '' : 'none';
+  // Hide scan/static-only rows in shared 相機/鏡頭 cards when in Area mode
+  document.querySelectorAll('[data-hide-area]').forEach(el=>{
+    el.style.display = (m==='area') ? 'none' : '';
+  });
+  // Area needs focal length visible (normally CCTV-only)
+  const flRow = document.getElementById('row-fl');
+  if(flRow) flRow.style.display = (m==='area') ? '' : (S.lensType==='cctv' ? '' : 'none');
+  // 離開 Area 模式時，data-hide-area 會把 F#/NA 列一律還原顯示，
+  // 需依鏡頭類型重新套用正確的顯示狀態，否則物鏡模式也會冒出 F# 列。
+  if(m!=='area'){
+    const t=S.lensType;
+    document.getElementById('row-na').style.display      = t==='objective'   ? '' : 'none';
+    document.getElementById('row-fn').style.display      = t==='telecentric' ? '' : 'none';
+    document.getElementById('row-fn-cctv').style.display = t==='cctv'         ? '' : 'none';
+  }
+  if(m==='area') calcAS(); else calc();
+  // 依目前所在分頁決定右側顯示，避免切換模式時結果與歷史/資料庫同時出現
+  const curTab = document.getElementById('tab-hist').classList.contains('on') ? 'hist'
+               : document.getElementById('tab-db').classList.contains('on')   ? 'db'
+               : 'res';
+  showTab(curTab);
+}
 
 // ── CCTV aperture stop helpers ──
 const F_STOPS = [1.0, 1.4, 2.0, 2.8, 4.0, 5.6, 8.0, 11, 16, 22, 32];
@@ -1281,7 +1433,8 @@ function calculate(p){
   const shiftET = p.scanAlongWidth ? p.sampleH : p.sampleW;
   r.scanEdge  = scanET / p.nRows;
   r.shiftEdge = shiftET;
-  r.rowPitch  = shiftET / p.nCams;
+  r.rowPitch       = shiftET / p.nCams;
+  r.frontBackPitch = p.nRows > 1 ? r.scanEdge : 0;
   r.totalOpt  = p.nCams * p.nRows;
 
   r.fovShift  = r.hFOV;
@@ -1335,6 +1488,209 @@ function calculate(p){
   r.singleTT = (r.accDecTime*passes + r.constTime*passes + r.returnTime*Math.max(passes-1,0) + p.changeSlice*Math.max(passes-1,0))/60;
   r.roundTT  = (r.accDecTime*passes + r.constTime*passes + p.changeSlice*Math.max(passes-1,0))/60;
   return r;
+}
+
+// ═══════════════════════════════════════════
+// STATIC MODE CALCULATION
+// ═══════════════════════════════════════════
+function calculateStatic(p, ss){
+  const r = {};
+  const px = p.binning ? p.pixelSize*2 : p.pixelSize;
+  r.sensorDiag = Math.sqrt(Math.pow(p.rW*p.pixelSize/1000,2)+Math.pow(p.rH*p.pixelSize/1000,2));
+  r.vignetting = p.imageCircle < r.sensorDiag;
+  r.optRes = p.mag>0 ? px/p.mag : 0;    // µm/px
+  const hPx = p.binning?p.rW/2:p.rW, vPx = p.binning?p.rH/2:p.rH;
+  r.hFOV = (r.vignetting||r.optRes===0) ? 0 : r.optRes*hPx/1000;   // mm
+  r.vFOV = (r.vignetting||r.optRes===0) ? 0 : r.optRes*vPx/1000;   // mm
+  // DoF (same formulas as scan mode)
+  if(p.objective&&p.na>0){
+    r.dof=(p.wl/(p.na*p.na*2))/1000;
+  } else if(p.telecentric&&p.fn>0&&p.mag>0){
+    r.dof=2*p.fn*p.pixelSize/p.mag;
+  } else if(p.lensType==='cctv'&&p.fl>0&&p.fn>0&&p.mag>0){
+    const c=p.pixelSize,m=p.mag; r.dof=2*p.fn*c*(1+m)/(m*m);
+  } else { r.dof=0; }
+  // Camera grid layout
+  const ov=ss.overlap/100;
+  const effW=r.hFOV*(1-ov), effH=r.vFOV*(1-ov);
+  if(effW>0&&effH>0&&r.hFOV>0&&r.vFOV>0){
+    r.nX=Math.ceil(ss.objW/effW);
+    r.nY=Math.ceil(ss.objH/effH);
+    // Total coverage = (n-1)*step + FOV
+    r.covX=(r.nX-1)*effW+r.hFOV;
+    r.covY=(r.nY-1)*effH+r.vFOV;
+  } else { r.nX=0; r.nY=0; r.covX=0; r.covY=0; }
+  r.total=r.nX*r.nY;
+  return r;
+}
+
+function calcStatic(){
+  // CCTV: auto-compute magnification
+  if(S.lensType==='cctv'){
+    const fl=+v('p-fl'), wd=+v('p-wd');
+    if(fl>0&&wd>fl) sv('p-mag',(fl/(wd-fl)).toFixed(4));
+  }
+  const p=P();
+  const ss={
+    objW:+document.getElementById('st-objw').value||300,
+    objH:+document.getElementById('st-objh').value||300,
+    overlap:(s=>s===''?10:+s)(document.getElementById('st-ov').value),
+  };
+  const r=calculateStatic(p,ss);
+  const isCCTV=p.lensType==='cctv';
+  const est=val=>isCCTV?'≈ '+val:val;
+
+  // Vignette warning
+  const stVw=document.getElementById('st-vwarn');
+  if(stVw){
+    if(r.vignetting){
+      stVw.style.display='flex'; stVw.classList.remove('hide');
+      document.getElementById('st-vwarn-msg').textContent=
+        `暗角警告！像圈 ${p.imageCircle.toFixed(1)} mm < 感測器對角線 ${r.sensorDiag.toFixed(2)} mm`;
+    } else { stVw.style.display='none'; }
+  }
+
+  // Optical results
+  const stSet=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+  stSet('st-r-or', est(fmt(r.optRes,3)));
+  stSet('st-r-mag', est(fmt(p.mag,4)));
+  stSet('st-r-hf', fmt(r.hFOV,3));
+  stSet('st-r-vf', fmt(r.vFOV,3));
+  stSet('st-r-df', fmt(r.dof,2));
+  stSet('st-r-wd', fmt(p.wd,1));
+  stSet('st-r-dg', fmt(r.sensorDiag,2));
+  // Configuration results
+  stSet('st-r-nx',   r.nX>0?r.nX.toString():'—');
+  stSet('st-r-ny',   r.nY>0?r.nY.toString():'—');
+  stSet('st-r-tot',  r.total>0?r.total.toString():'—');
+  stSet('st-r-covx', fmt(r.covX,2));
+  stSet('st-r-covy', fmt(r.covY,2));
+  // Summary panel
+  const ci=document.getElementById('cam-pick').value;
+  const li=document.getElementById('lens-pick').value;
+  stSet('st-rpt-cam',  ci!==''?allCams()[+ci].n:'手動輸入');
+  stSet('st-rpt-lens', li!==''?allLens()[+li].n:'手動輸入');
+  stSet('st-rpt-qty',  r.total>0?`${r.total} 台`:'—');
+  stSet('st-rpt-arr',  (r.nX>0&&r.nY>0)?`${r.nX} 列 × ${r.nY} 排`:'—');
+  stSet('st-rpt-wd',   fmt(p.wd,1)+' mm');
+  stSet('st-rpt-area', `${ss.objW} × ${ss.objH} mm`);
+  // Header date（專案名稱為獨立輸入框，不由此覆寫）
+  const datEl=document.getElementById('st-rpt-date');
+  if(datEl) datEl.textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
+  // CCTV note
+  const noteEl=document.getElementById('st-cctv-note');
+  if(noteEl) noteEl.style.display=isCCTV?'':'none';
+  // Traffic light for resolution + 解析餘裕
+  const targetRes=parseFloat(document.getElementById('st-target-res').value);
+  const orEl=document.getElementById('st-r-or');
+  if(orEl){
+    orEl.classList.remove('over','warn','good');
+    if(!isNaN(targetRes)&&targetRes>0){
+      if(r.optRes>targetRes/2)       orEl.classList.add('over');
+      else if(r.optRes>targetRes/3)  orEl.classList.add('warn');
+      else                           orEl.classList.add('good');
+    }
+  }
+  // 解析餘裕 = targetRes / optRes
+  const marginEl=document.getElementById('st-r-margin');
+  if(marginEl){
+    if(!isNaN(targetRes)&&targetRes>0&&r.optRes>0){
+      const margin=targetRes/r.optRes;
+      marginEl.textContent=margin.toFixed(2);
+      marginEl.classList.remove('over','warn','good');
+      if(margin>=3)      marginEl.classList.add('good');
+      else if(margin>=2) marginEl.classList.add('warn');
+      else               marginEl.classList.add('over');
+    } else {
+      marginEl.textContent='—';
+      marginEl.classList.remove('over','warn','good');
+    }
+  }
+  drawStaticDiagram(ss,r);
+}
+
+function drawStaticDiagram(ss,r){
+  const canvas=document.getElementById('st-dg');
+  if(!canvas) return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth, H=canvas.offsetHeight;
+  if(!W||!H) return;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
+  const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+
+  if(r.nX<=0||r.nY<=0||r.hFOV<=0||r.vFOV<=0){
+    ctx.fillStyle=dark?'#98989d':'#6e6e73';
+    ctx.font='11px -apple-system,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('請輸入有效參數', W/2, H/2);
+    return;
+  }
+  // Scale by total FOV coverage (outer boundary = full optical coverage)
+  const padL=8,padR=8,padT=14,padB=6;
+  const dW=W-padL-padR, dH=H-padT-padB;
+  const scale=Math.min(dW/r.covX, dH/r.covY);
+  // Total FOV area origin (centred in canvas)
+  const covW=r.covX*scale, covH=r.covY*scale;
+  const ox=padL+(dW-covW)/2, oy=padT+(dH-covH)/2;
+  // Sample object dimensions & position (centred within total FOV)
+  const objW=ss.objW*scale, objH=ss.objH*scale;
+  const sampX=ox+(covW-objW)/2, sampY=oy+(covH-objH)/2;
+
+  const ov=ss.overlap/100;
+  const effW=r.hFOV*(1-ov), effH=r.vFOV*(1-ov);
+  const fovW=r.hFOV*scale, fovH=r.vFOV*scale;
+  const stepW=effW*scale, stepH=effH*scale;
+  const sat=dark?60:68, lit=dark?42:55;
+  const alpha=ov>0?0.44:0.58;
+
+  // ── Camera FOV cells (full coverage, no clip) ──
+  for(let yi=0;yi<r.nY;yi++){
+    for(let xi=0;xi<r.nX;xi++){
+      const idx=yi*r.nX+xi;
+      const hue=(idx*137.508)%360;
+      const x=ox+xi*stepW, y=oy+yi*stepH;
+      ctx.fillStyle=`hsla(${hue},${sat}%,${lit}%,${alpha})`;
+      ctx.fillRect(x,y,fovW,fovH);
+    }
+  }
+  // ── FOV grid lines ──
+  ctx.strokeStyle=dark?'rgba(255,255,255,.22)':'rgba(0,0,0,.14)';
+  ctx.lineWidth=0.6;
+  for(let xi=0;xi<=r.nX;xi++){
+    const x=ox+xi*stepW+(xi===r.nX?fovW-stepW:0);
+    // Draw at FOV right edges
+    const xp = xi<r.nX ? ox+xi*stepW+fovW : ox+covW;
+    if(xi>0){ctx.beginPath();ctx.moveTo(Math.min(xp,ox+covW),oy);ctx.lineTo(Math.min(xp,ox+covW),oy+covH);ctx.stroke();}
+  }
+  for(let yi=0;yi<=r.nY;yi++){
+    const yp = yi<r.nY ? oy+yi*stepH+fovH : oy+covH;
+    if(yi>0){ctx.beginPath();ctx.moveTo(ox,Math.min(yp,oy+covH));ctx.lineTo(ox+covW,Math.min(yp,oy+covH));ctx.stroke();}
+  }
+  // ── Sample rectangle (centred, hatched border) ──
+  // Fill sample area with semi-transparent white to show it clearly
+  ctx.fillStyle=dark?'rgba(255,255,255,.08)':'rgba(255,255,255,.55)';
+  rrect(ctx,sampX,sampY,objW,objH,3); ctx.fill();
+  // Dashed border for sample
+  ctx.strokeStyle=dark?'rgba(255,255,255,.85)':'rgba(0,0,0,.75)';
+  ctx.lineWidth=1.5;
+  ctx.setLineDash([4,3]);
+  rrect(ctx,sampX,sampY,objW,objH,3); ctx.stroke();
+  ctx.setLineDash([]);
+  // ── "樣品" label centred in sample ──
+  ctx.fillStyle=dark?'rgba(255,255,255,.65)':'rgba(0,0,0,.45)';
+  ctx.font=`${Math.max(8,Math.min(11,objH*0.18))}px -apple-system,sans-serif`;
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('樣品', sampX+objW/2, sampY+objH/2);
+  // Caption
+  const cap=document.getElementById('st-dg-caption');
+  if(cap){
+    let h=`<span class="dc-l">${r.total}台 (${r.nX}×${r.nY})</span>`;
+    h+=`<span class="dc-sep">·</span><span class="dc-c">樣品 ${ss.objW}×${ss.objH}mm</span>`;
+    if(ov>0) h+=`<span class="dc-sep">·</span><span class="dc-r">overlap ${ss.overlap}%</span>`;
+    cap.innerHTML=h;
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -1466,6 +1822,8 @@ function drawDiagram(canvasId='dg'){
 function fmt(v,d=2){ return (!isFinite(v)||v===0)?'—':v.toFixed(d); }
 
 function calc(){
+  if(S.mode==='area'){ calcAS(); return; }
+  if(S.mode==='static'){ calcStatic(); return; }
   // CCTV: auto-compute magnification from focal length + working distance
   if(S.lensType==='cctv'){
     const fl=+v('p-fl'), wd=+v('p-wd');
@@ -1498,6 +1856,7 @@ function calc(){
   set('r-qty',fmt(r.totalOpt,0)); set('r-se', fmt(r.scanEdge,2));
   set('r-sh', fmt(r.shiftEdge,2));set('r-sp', fmt(r.speed,3));
   set('r-cp', fmt(r.capturesPerPass,0)); set('r-ps', fmt(r.passes,0));
+  set('r-rp', fmt(r.rowPitch,2)); set('r-fbp', r.frontBackPitch>0 ? fmt(r.frontBackPitch,2) : '—');
   set('r-at', fmt(r.accDecTime,3));set('r-cs', fmt(r.constTime,3));
   set('r-rt', fmt(r.returnTime,3));set('r-ct', p.changeSlice.toFixed(3));
   set('r-st', fmt(r.singleTT,3));
@@ -1526,6 +1885,18 @@ function calc(){
   const ttEl = document.getElementById('rpt-tt');
   const targetTT = parseFloat(document.getElementById('rpt-target-tt').value);
   if(ttEl) ttEl.classList.toggle('over', !isNaN(targetTT) && targetTT > 0 && ttVal > targetTT);
+
+  // 系統解析度 vs 目標檢測精度（三色燈）
+  const targetRes = parseFloat(document.getElementById('rpt-target-res').value);
+  const orEl = document.getElementById('r-or');
+  if(orEl){
+    orEl.classList.remove('over','warn','good');
+    if(!isNaN(targetRes) && targetRes > 0){
+      if(r.optRes > targetRes / 2)        orEl.classList.add('over');  // 紅：解析度 > 目標/2（餘裕不足2倍）
+      else if(r.optRes > targetRes / 3)  orEl.classList.add('warn');  // 黃：目標/3 < 解析度 ≤ 目標/2（2~3倍餘裕）
+      else                               orEl.classList.add('good');  // 綠：解析度 ≤ 目標/3（3倍以上餘裕）
+    }
+  }
   const datEl=document.getElementById('rpt-date');
   if(datEl) datEl.textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
 }
@@ -1553,6 +1924,8 @@ function applyLens(){
   const i=document.getElementById('lens-pick').value; if(i==='')return;
   const l=allLens()[+i];
   sv('p-ic',l.ic); sv('p-wd',l.wd);
+  // Also sync Area-mode min WD so the shared lens picker works for Area
+  if(document.getElementById('as-min-wd')) sv('as-min-wd', l.wd || 100);
   if(l.type==='cctv'){
     sv('p-fl', l.fl||50);
     const fnMin = l.fn_min ?? l.fn ?? 1.4;
@@ -1573,14 +1946,13 @@ function sv(id,val){ document.getElementById(id).value=val; }
 // EVALUATIONS
 // ═══════════════════════════════════════════
 function saveEval(){
-  if(currentMode === 'area'){ saveEvalArea(); return; }
+  if(S.mode==='area'){ saveEvalArea(); return; }
   const p=P(), r=calculate(p);
   const ci=document.getElementById('cam-pick').value;
   const li=document.getElementById('lens-pick').value;
   evals.unshift({
-    id:Date.now(),
-    mode:'scan',
-    name:document.getElementById('eval-name').value||'新評估',
+    id:Date.now(), mode:S.mode,
+    name:getProjName(S.mode)||'新評估',
     date:new Date().toLocaleString('zh-TW'),
     camera:ci!==''?allCams()[+ci].n:'手動輸入',
     lens:li!==''?allLens()[+li].n:'手動輸入',
@@ -1588,51 +1960,48 @@ function saveEval(){
     notes:document.getElementById('eval-notes').value,
     p, r
   });
-  localStorage.setItem('aoi_evals',JSON.stringify(evals));
+  persistEvals();
   renderEvals(); showTab('res');
 }
 function saveEvalArea(){
-  const ci=document.getElementById('as-cam-pick').value;
-  const li=document.getElementById('as-lens-pick').value;
+  const ci=document.getElementById('cam-pick').value;
+  const li=document.getElementById('lens-pick').value;
   const p={
     panelX:+document.getElementById('as-panel-x').value,
     panelY:+document.getElementById('as-panel-y').value,
     panelRX:+document.getElementById('as-panel-rx').value,
     panelRY:+document.getElementById('as-panel-ry').value,
     pitch:+document.getElementById('as-pitch').value,
-    camRX:+document.getElementById('as-cam-rx').value,
-    camRY:+document.getElementById('as-cam-ry').value,
-    camPx:+document.getElementById('as-cam-px').value,
-    fl:+document.getElementById('as-fl').value,
+    camRX:+document.getElementById('p-rw').value,
+    camRY:+document.getElementById('p-rh').value,
+    camPx:+document.getElementById('p-px').value,
+    fl:+document.getElementById('p-fl').value,
     minWD:+document.getElementById('as-min-wd').value,
     limit:+document.getElementById('as-limit').value,
   };
   const resolution=(p.panelRX>0&&p.pitch>0)?((p.panelX*1e-3/p.panelRX)/p.pitch)*1e6:0;
-  const xFOV=p.camRX*resolution/1000;
-  const yFOV=p.camRY*resolution/1000;
+  const xFOV=p.camRX*resolution/1000, yFOV=p.camRY*resolution/1000;
   const wd=(p.camRX>0&&p.camPx>0)?((xFOV*1e-3)*(p.fl*1e-3)/(p.camRX*p.camPx*1e-6))*1e3:0;
-  const xRatio=(xFOV>0)?p.panelX/xFOV:0;
-  const yRatio=(yFOV>0)?p.panelY/yFOV:0;
-  const nX=(p.limit>0)?Math.ceil(xRatio/p.limit):0;
-  const nY=(p.limit>0)?Math.ceil(yRatio/p.limit):0;
-  const r={resolution, xFOV, yFOV, wd, nX, nY, totalCams:nX*nY};
+  const xRatio=(xFOV>0)?p.panelX/xFOV:0, yRatio=(yFOV>0)?p.panelY/yFOV:0;
+  const lim=Math.min(1,Math.max(0.05,p.limit||0));
+  const nX=(xFOV>0)?Math.max(1,Math.ceil(xRatio/lim)):0, nY=(yFOV>0)?Math.max(1,Math.ceil(yRatio/lim)):0;
+  const r={resolution,xFOV,yFOV,wd,nX,nY,totalCams:nX*nY};
   evals.unshift({
-    id:Date.now(),
-    mode:'area',
-    name:document.getElementById('as-eval-name').value||'新評估',
+    id:Date.now(), mode:'area',
+    name:getProjName('area')||'新評估',
     date:new Date().toLocaleString('zh-TW'),
     camera:ci!==''?allCams()[+ci].n:'手動輸入',
     lens:li!==''?allLens()[+li].n:'手動輸入',
     camIdx:ci, lensIdx:li,
-    notes:document.getElementById('as-eval-notes').value,
+    notes:document.getElementById('eval-notes').value,
     p, r
   });
-  localStorage.setItem('aoi_evals',JSON.stringify(evals));
+  persistEvals();
   renderEvals(); showTab('hist');
 }
 function clearEvals(){
   if(!confirm('確定清除所有評估記錄？'))return;
-  evals=[]; localStorage.removeItem('aoi_evals'); renderEvals();
+  evals=[]; persistEvals(); renderEvals();
 }
 function renderEvals(){
   const el=document.getElementById('ev-list');
@@ -1644,8 +2013,8 @@ function renderEvals(){
   el.innerHTML=evals.map((e,i)=>{
     const isArea=(e.mode==='area');
     const badge=isArea
-      ?'<span style="font-size:10px;background:#34c759;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">Area Mode</span>'
-      :'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">Scan Mode</span>';
+      ?'<span style="font-size:10px;background:#34c759;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">畫檢</span>'
+      :'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">掃描</span>';
     const summary=isArea
       ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
       :`TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
@@ -1673,49 +2042,72 @@ function loadEval(i){
   sv('p-sw',p.sampleW); sv('p-sh',p.sampleH);
   sv('p-nc',p.nCams); sv('p-nr',p.nRows); sv('p-ov',p.overlap);
   sv('p-ac',p.acc); sv('p-ct',p.changeSlice); sv('p-bs',p.backSpeed); sv('p-ep',p.encPitch);
-  syncName(e.name||'新評估');
+  setProjName(e.mode||'scan', e.name||'新評估');
   document.getElementById('eval-notes').value=e.notes;
-  // Restore camera / lens picker selections
   if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
   if(e.lensIdx!==undefined) document.getElementById('lens-pick').value=e.lensIdx;
   setCamType(p.lineScan); setColor(p.color); setBin(p.binning);
   setLensType(p.lensType||'objective'); setScanDir(p.scanAlongWidth); setScanMode(p.scanMode||'single');
-  // Restore CCTV fn select: rebuild stops from saved fn ±2 stops range
   if((p.lensType||'objective')==='cctv'){
     const li=document.getElementById('lens-pick').value;
-    if(li!==''){
-      const l=allLens()[+li];
-      const fnMin=l.fn_min??l.fn??1.4, fnMax=l.fn_max??l.fn??32;
-      buildFnStops(fnMin, fnMax);
-    } else {
-      buildFnStops(1.0, 32);
-    }
-    sv('p-fn', p.fn);
-    const sel=document.getElementById('p-fn-sel');
-    if(sel) sel.value=p.fn;
+    if(li!==''){const l=allLens()[+li];buildFnStops(l.fn_min??l.fn??1.4,l.fn_max??l.fn??32);}
+    else buildFnStops(1.0,32);
+    sv('p-fn',p.fn);
+    const sel=document.getElementById('p-fn-sel'); if(sel) sel.value=p.fn;
   }
   calc(); showTab('res');
 }
 function loadEvalArea(e){
-  const p=e.p;
-  setMode('area');
+  const p=e.p; setMode('area');
   sv('as-panel-x',p.panelX); sv('as-panel-y',p.panelY);
   sv('as-panel-rx',p.panelRX); sv('as-panel-ry',p.panelRY);
   sv('as-pitch',p.pitch);
-  sv('as-cam-rx',p.camRX); sv('as-cam-ry',p.camRY); sv('as-cam-px',p.camPx);
-  sv('as-fl',p.fl); sv('as-min-wd',p.minWD); sv('as-limit',p.limit);
-  syncNameAS(e.name||'新評估');
-  document.getElementById('as-eval-notes').value=e.notes||'';
-  if(e.camIdx!==undefined) document.getElementById('as-cam-pick').value=e.camIdx;
-  if(e.lensIdx!==undefined) document.getElementById('as-lens-pick').value=e.lensIdx;
+  sv('p-rw',p.camRX); sv('p-rh',p.camRY); sv('p-px',p.camPx);
+  sv('p-fl',p.fl); sv('as-min-wd',p.minWD); sv('as-limit',p.limit);
+  setProjName('area', e.name||'新評估');
+  document.getElementById('eval-notes').value=e.notes||'';
+  if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
+  if(e.lensIdx!==undefined) document.getElementById('lens-pick').value=e.lensIdx;
   calcAS(); showTab('res');
 }
-function delEval(i){ evals.splice(i,1); localStorage.setItem('aoi_evals',JSON.stringify(evals)); renderEvals(); }
-function exportEval(i){ loadEval(i); setTimeout(()=>window.print(),300); }
-function exportPDF(){
-  if(currentMode==='area') document.body.classList.add('print-area-mode');
-  window.print();
-  document.body.classList.remove('print-area-mode');
+function delEval(i){ evals.splice(i,1); persistEvals(); renderEvals(); }
+function exportEval(i){ loadEval(i); setTimeout(()=>exportPDFMode(evals[i]?.mode||'scan'),300); }
+function exportPDF(){ exportPDFMode(S.mode); }
+async function exportPDFMode(mode){
+  const paneId = mode==='area' ? 'pane-area-res' : mode==='static' ? 'pane-static-res' : 'pane-res';
+  const el = document.getElementById(paneId).querySelector('.rpt-card');
+  const date = new Date().toLocaleDateString('zh-TW').replace(/\//g,'-');
+  const projName = getProjName(mode)||'AOI評估';
+
+  const canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' });
+
+  const pageW = 297, pageH = 210, margin = 8;
+  const availW = pageW - margin * 2;
+  const availH = pageH - margin * 2;
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'landscape' });
+
+  // 以「填滿頁寬」為準，內容太高就自動分頁，避免整份被壓到看不清
+  const pxPerMm  = canvas.width / availW;
+  const pageHpx  = Math.floor(availH * pxPerMm);
+
+  if (canvas.height <= pageHpx) {
+    pdf.addImage(canvas.toDataURL('image/jpeg', 0.96), 'JPEG', margin, margin, availW, canvas.height / pxPerMm);
+  } else {
+    let offset = 0, page = 0;
+    while (offset < canvas.height) {
+      const sliceH = Math.min(pageHpx, canvas.height - offset);
+      const slice = document.createElement('canvas');
+      slice.width = canvas.width; slice.height = sliceH;
+      const sctx = slice.getContext('2d');
+      sctx.fillStyle = '#ffffff'; sctx.fillRect(0, 0, slice.width, slice.height);
+      sctx.drawImage(canvas, 0, offset, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+      if (page > 0) pdf.addPage();
+      pdf.addImage(slice.toDataURL('image/jpeg', 0.96), 'JPEG', margin, margin, availW, sliceH / pxPerMm);
+      offset += sliceH; page++;
+    }
+  }
+  pdf.save(`${projName}_${date}.pdf`);
 }
 
 // ═══════════════════════════════════════════
@@ -1745,10 +2137,23 @@ const CARD_DEFS = [
   {cid:'r-ct',  sec:'timing', label:'換道時間'},
   {cid:'r-rt',  sec:'timing', label:'單趟返回時間'},
   {cid:'r-tt',  sec:'timing', label:'掃描週期 TT'},
+  // ── Static mode cards ──
+  {cid:'st-r-or',     sec:'st-opt', label:'系統解析度'},
+  {cid:'st-r-margin', sec:'st-opt', label:'解析餘裕'},
+  {cid:'st-r-mag',    sec:'st-opt', label:'光學倍率'},
+  {cid:'st-r-hf',     sec:'st-opt', label:'水平 FOV'},
+  {cid:'st-r-vf',     sec:'st-opt', label:'垂直 FOV'},
+  {cid:'st-r-df',     sec:'st-opt', label:'景深 DoF'},
+  {cid:'st-r-wd',     sec:'st-opt', label:'工作距離'},
+  {cid:'st-r-dg',     sec:'st-opt', label:'感測器對角'},
+  {cid:'st-r-nx',     sec:'st-cfg', label:'X 方向台數'},
+  {cid:'st-r-ny',     sec:'st-cfg', label:'Y 方向台數'},
+  {cid:'st-r-tot',    sec:'st-cfg', label:'光學總台數'},
+  {cid:'st-r-covx',   sec:'st-cfg', label:'總覆蓋 X'},
+  {cid:'st-r-covy',   sec:'st-cfg', label:'總覆蓋 Y'},
 ];
 
 let cardCfg = {};
-let _cardEditMode = false;
 let _dragSrc = null;
 
 function initCardCfg(){
@@ -1761,7 +2166,7 @@ function initCardCfg(){
     });
   } else {
     cardCfg={};
-    ['opt','scan','hw','timing'].forEach(sec=>{
+    ['opt','scan','hw','timing','st-opt','st-cfg'].forEach(sec=>{
       cardCfg[sec]=CARD_DEFS.filter(d=>d.sec===sec).map(({cid})=>({cid,visible:true}));
     });
   }
@@ -1772,13 +2177,14 @@ function initCardCfg(){
 function saveCardCfg(){ localStorage.setItem('aoi_cardcfg',JSON.stringify(cardCfg)); }
 
 function applyCardCfg(){
-  ['opt','scan','hw','timing'].forEach(sec=>{
+  ['opt','scan','hw','timing','st-opt','st-cfg'].forEach(sec=>{
     const cg = document.querySelector(`.cg[data-sec="${sec}"]`);
     if(!cg) return;
     (cardCfg[sec]||[]).forEach(({cid,visible})=>{
       const el = cg.querySelector(`[data-cid="${cid}"]`);
       if(!el) return;
-      if(!_cardEditMode) el.style.display = visible ? '' : 'none';
+      const editOn = _cardEditFlags['scan']||_cardEditFlags['static'];
+      if(!editOn) el.style.display = visible ? '' : 'none';
       else { el.style.display=''; el.classList.toggle('card-hidden',!visible); }
       cg.appendChild(el);
     });
@@ -1793,30 +2199,38 @@ function updateCfgFromDOM(cg){
   }));
 }
 
-function toggleCardEdit(){
-  _cardEditMode = !_cardEditMode;
-  document.getElementById('card-edit-target').classList.toggle('card-edit-mode', _cardEditMode);
-  document.getElementById('card-edit-btn').textContent = _cardEditMode ? '✓ 完成' : '✎ 自訂版面';
-  if(_cardEditMode){
-    ['opt','scan','hw','timing'].forEach(sec=>{
-      const cg = document.querySelector(`.cg[data-sec="${sec}"]`); if(!cg) return;
+const _cardEditFlags = {};   // keyed by flagKey; avoids window[let-var] pitfall
+function _toggleCardEditFor(targetId, btnId, secs, flagKey){
+  _cardEditFlags[flagKey] = !_cardEditFlags[flagKey];
+  const isOn = _cardEditFlags[flagKey];
+  document.getElementById(targetId).classList.toggle('card-edit-mode', isOn);
+  document.getElementById(btnId).textContent = isOn ? '✓ 完成' : '✎ 自訂版面';
+  if(isOn){
+    secs.forEach(sec=>{
+      const cg=document.querySelector(`.cg[data-sec="${sec}"]`); if(!cg) return;
       cg.querySelectorAll('[data-cid]').forEach(el=>{
         el.style.display='';
         const cfg=(cardCfg[sec]||[]).find(c=>c.cid===el.dataset.cid);
         el.classList.toggle('card-hidden', cfg?!cfg.visible:false);
       });
-      (cardCfg[sec]||[]).forEach(({cid})=>{ const el=cg.querySelector(`[data-cid="${cid}"]`); if(el) cg.appendChild(el); });
+      (cardCfg[sec]||[]).forEach(({cid})=>{const el=cg.querySelector(`[data-cid="${cid}"]`);if(el)cg.appendChild(el);});
     });
-    document.querySelectorAll('.card-vis-btn').forEach(btn=>{
-      btn.textContent = btn.closest('[data-cid]').classList.contains('card-hidden') ? '🙈' : '👁';
+    document.querySelectorAll(`#${targetId} .card-vis-btn`).forEach(btn=>{
+      btn.textContent=btn.closest('[data-cid]').classList.contains('card-hidden')?'🙈':'👁';
     });
   } else {
-    ['opt','scan','hw','timing'].forEach(sec=>{
-      const cg=document.querySelector(`.cg[data-sec="${sec}"]`); if(!cg) return;
+    secs.forEach(sec=>{
+      const cg=document.querySelector(`.cg[data-sec="${sec}"]`);if(!cg)return;
       updateCfgFromDOM(cg);
     });
     saveCardCfg(); applyCardCfg();
   }
+}
+function toggleCardEdit(){
+  _toggleCardEditFor('card-edit-target','card-edit-btn',['opt','scan','hw','timing'],'scan');
+}
+function toggleStCardEdit(){
+  _toggleCardEditFor('st-card-edit-target','st-card-edit-btn',['st-opt','st-cfg'],'static');
 }
 
 function toggleCardVis(cid, sec, btn){
@@ -1856,10 +2270,12 @@ function injectCardControls(){
     const btn=document.createElement('button'); btn.className='card-vis-btn'; btn.textContent='👁';
     btn.onclick=()=>toggleCardVis(cid,sec,btn); el.appendChild(btn);
     el.setAttribute('draggable','true');
-    el.addEventListener('dragstart',e=>{ if(_cardEditMode) onCardDragStart(e,el); });
-    el.addEventListener('dragover', e=>{ if(_cardEditMode) onCardDragOver(e,el); });
-    el.addEventListener('dragleave',  ()=>{ if(_cardEditMode) onCardDragLeave(el); });
-    el.addEventListener('drop',     e=>{ if(_cardEditMode) onCardDrop(e,el); });
+    // Use DOM check so drag works for both scan & static edit modes
+    const inEdit=()=>!!el.closest('.card-edit-mode');
+    el.addEventListener('dragstart',e=>{ if(inEdit()) onCardDragStart(e,el); });
+    el.addEventListener('dragover', e=>{ if(inEdit()) onCardDragOver(e,el); });
+    el.addEventListener('dragleave',  ()=>{ if(inEdit()) onCardDragLeave(el); });
+    el.addEventListener('drop',     e=>{ if(inEdit()) onCardDrop(e,el); });
     el.addEventListener('dragend',    ()=>onCardDragEnd(el));
   });
 }
@@ -1972,205 +2388,137 @@ function closeImportModal(){
   document.getElementById('imp-modal').style.display   = 'none';
   document.getElementById('imp-overlay').style.display = 'none';
   _pendingImport = null;
+  _pendingEvalImport = null;
 }
 
 // ═══════════════════════════════════════════
-// TABS
+// HISTORY (評估) — 匯出 / 匯入 備份
 // ═══════════════════════════════════════════
-function showTab(t){
-  document.getElementById('pane-res').style.display =t==='res' ?'':'none';
-  document.getElementById('pane-hist').style.display=t==='hist'?'':'none';
-  document.getElementById('pane-db').style.display  =t==='db'  ?'':'none';
-  document.getElementById('tab-res').classList.toggle('on', t==='res');
-  document.getElementById('tab-hist').classList.toggle('on',t==='hist');
-  document.getElementById('tab-db').classList.toggle('on',  t==='db');
-  if(t==='hist'||t==='res') renderEvals();
-  if(t==='db')  renderDbLists();
+let _pendingEvalImport = null;
+
+function exportEvals(){
+  if(!evals.length){ alert('目前沒有可匯出的評估記錄。'); return; }
+  const payload = {
+    version: 1,
+    type: 'aoi-evals',
+    exported: new Date().toISOString(),
+    count: evals.length,
+    evals: evals
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const date = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'-');
+  a.download = `AOI_評估紀錄_${date}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-// ── Name sync: eval-name ↔ rpt-proj always stay in sync ──
-function syncName(val){
-  document.getElementById('eval-name').value = val;
-  document.getElementById('rpt-proj').value  = val;
-  saveRptMeta();
+function handleEvalImport(input){
+  const file = input.files[0];
+  if(!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if(data.type !== 'aoi-evals' || !Array.isArray(data.evals))
+        throw new Error('格式錯誤');
+
+      // 只接受結構完整的評估（需有 mode 與 r 結果物件），避免壞檔案讓整份清單崩潰
+      const valid = ev => ev && typeof ev==='object' && ev.mode && ev.r && typeof ev.r==='object';
+      // 以 id 判斷重複；沒有 id 的舊資料退回用 name+date 當鍵
+      const key = ev => (ev.id!=null ? 'id:'+ev.id : 'nd:'+(ev.name||'')+'|'+(ev.date||''));
+      const existKeys = new Set(evals.map(key));
+      const seen = new Set();
+      const incoming = data.evals.filter(ev => {
+        if(!valid(ev)) return false;
+        const k = key(ev);
+        if(existKeys.has(k) || seen.has(k)) return false;
+        seen.add(k); return true;
+      });
+      const skipped = data.evals.length - incoming.length;
+
+      const modeCount = {scan:0, static:0, area:0};
+      incoming.forEach(ev => { modeCount[ev.mode] = (modeCount[ev.mode]||0)+1; });
+      const exportDate = data.exported ? new Date(data.exported).toLocaleString('zh-TW') : '不明';
+
+      let summary = `📋 將新增 <b>${incoming.length}</b> 筆評估`;
+      if(skipped) summary += `，跳過 ${skipped} 筆（重複）`;
+      summary += '<br>';
+      summary += `　└ 掃描 ${modeCount.scan||0}、靜態 ${modeCount.static||0}、畫檢 ${modeCount.area||0}`;
+
+      _pendingEvalImport = incoming;
+
+      document.getElementById('imp-source').textContent = `來源：${file.name}　匯出時間：${exportDate}`;
+      document.getElementById('imp-summary').innerHTML = summary;
+      document.getElementById('imp-confirm-btn').onclick = confirmEvalImport;
+      document.getElementById('imp-modal').style.display   = '';
+      document.getElementById('imp-overlay').style.display = '';
+
+    } catch(err) {
+      alert('無法讀取檔案，請確認是否為正確的 AOI 評估紀錄 JSON 備份檔。');
+    }
+  };
+  reader.readAsText(file);
 }
 
-function saveRptMeta(){
-  localStorage.setItem('aoi_rpt_meta', JSON.stringify({
-    proj: document.getElementById('rpt-proj').value,
-    desc: document.getElementById('rpt-desc').value,
-    targetTT: document.getElementById('rpt-target-tt').value
-  }));
-}
-function loadRptMeta(){
-  const m = JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}');
-  if(m.proj){
-    document.getElementById('rpt-proj').value  = m.proj;
-    document.getElementById('eval-name').value = m.proj;
-  }
-  if(m.desc)     document.getElementById('rpt-desc').value = m.desc;
-  if(m.targetTT) document.getElementById('rpt-target-tt').value = m.targetTT;
-}
-
-// ═══════════════════════════════════════════
-// MODE SWITCHING
-// ═══════════════════════════════════════════
-let currentMode = 'scan'; // 'scan' | 'area'
-
-function setMode(mode){
-  currentMode = mode;
-  const btns = document.getElementById('mode-switcher').querySelectorAll('button');
-  btns[0].classList.toggle('on', mode==='scan');
-  btns[1].classList.toggle('on', mode==='area');
-
-  document.getElementById('panel-scan').style.display = mode==='scan' ? '' : 'none';
-  document.getElementById('panel-area').style.display = mode==='area' ? '' : 'none';
-
-  // Right panel: show appropriate results
-  if(mode==='scan'){
-    document.getElementById('pane-area-res').style.display='none';
-    showTab('res');
-  } else {
-    document.getElementById('pane-res').style.display='none';
-    document.getElementById('pane-hist').style.display='none';
-    document.getElementById('pane-db').style.display='none';
-    document.getElementById('pane-area-res').style.display='';
-    // Update tab bar state
-    document.getElementById('tab-res').classList.remove('on');
-    document.getElementById('tab-hist').classList.remove('on');
-    document.getElementById('tab-db').classList.remove('on');
-    calcAS();
-  }
-}
-
-// Override showTab to be aware of area mode
-const _origShowTab = showTab;
-showTab = function(t){
-  if(currentMode==='area'){
-    document.getElementById('pane-area-res').style.display = t==='res' ? '' : 'none';
-    document.getElementById('pane-hist').style.display     = t==='hist'? '' : 'none';
-    document.getElementById('pane-db').style.display       = t==='db'  ? '' : 'none';
-    document.getElementById('tab-res').classList.toggle('on', t==='res');
-    document.getElementById('tab-hist').classList.toggle('on',t==='hist');
-    document.getElementById('tab-db').classList.toggle('on',  t==='db');
-    if(t==='res') calcAS();
-    if(t==='hist') renderEvals();
-    if(t==='db') renderDbLists();
-  } else {
-    _origShowTab(t);
-  }
-};
-
-// ═══════════════════════════════════════════
-// AREA SHOT: DB PICKERS (shared DB)
-// ═══════════════════════════════════════════
-function initASPickers(){
-  const cp = document.getElementById('as-cam-pick');
-  allCams().forEach((c,i) => cp.appendChild(new Option(c.n,i)));
-  const lp = document.getElementById('as-lens-pick');
-  allLens().forEach((l,i) => lp.appendChild(new Option(l.n,i)));
-}
-
-function refreshASCamPicker(){
-  const cp=document.getElementById('as-cam-pick'), prev=cp.value;
-  cp.innerHTML='<option value="">— 手動輸入 —</option>';
-  allCams().forEach((c,i)=>cp.appendChild(new Option(c.n,i)));
-  cp.value=(prev!==''&&+prev<allCams().length)?prev:'';
-}
-function refreshASLensPicker(){
-  const lp=document.getElementById('as-lens-pick'), prev=lp.value;
-  lp.innerHTML='<option value="">— 手動輸入 —</option>';
-  allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
-  lp.value=(prev!==''&&+prev<allLens().length)?prev:'';
-}
-
-// Patch existing refresh functions to also update AS pickers
-const _origRefreshCam = refreshCamPicker;
-refreshCamPicker = function(){ _origRefreshCam(); refreshASCamPicker(); };
-const _origRefreshLens = refreshLensPicker;
-refreshLensPicker = function(){ _origRefreshLens(); refreshASLensPicker(); };
-
-function applyCameraAS(){
-  const i=document.getElementById('as-cam-pick').value; if(i==='')return;
-  const c=allCams()[+i];
-  document.getElementById('as-cam-rx').value = c.rw;
-  document.getElementById('as-cam-ry').value = c.rh || c.rw;
-  document.getElementById('as-cam-px').value = c.px;
-  calcAS();
-}
-
-function applyLensAS(){
-  const i=document.getElementById('as-lens-pick').value; if(i==='')return;
-  const l=allLens()[+i];
-  document.getElementById('as-fl').value = l.fl || 50;
-  document.getElementById('as-min-wd').value = l.wd || 100;
-  calcAS();
-}
-
-function syncNameAS(val){
-  document.getElementById('as-eval-name').value = val;
-  document.getElementById('as-rpt-proj').value = val;
+function confirmEvalImport(){
+  if(!_pendingEvalImport) return;
+  const incoming = _pendingEvalImport;
+  incoming.forEach(ev => evals.push(ev));
+  // 依 id（時間戳）新到舊排序，沒有 id 的排最後
+  evals.sort((a,b) => (b.id||0) - (a.id||0));
+  persistEvals();
+  renderEvals();
+  closeImportModal();
+  showTab('hist');
+  showToast(`匯入完成：+${incoming.length} 筆評估`, ()=>{});
 }
 
 // ═══════════════════════════════════════════
 // AREA SHOT: CALCULATION ENGINE
 // ═══════════════════════════════════════════
 function calcAS(){
-  const panelX   = +document.getElementById('as-panel-x').value;
-  const panelY   = +document.getElementById('as-panel-y').value;
-  const panelRX  = +document.getElementById('as-panel-rx').value;
-  const panelRY  = +document.getElementById('as-panel-ry').value;
-  const pitch    = +document.getElementById('as-pitch').value;
-  const camRX    = +document.getElementById('as-cam-rx').value;
-  const camRY    = +document.getElementById('as-cam-ry').value;
-  const camPx    = +document.getElementById('as-cam-px').value;
-  const fl       = +document.getElementById('as-fl').value;
-  const minWD    = +document.getElementById('as-min-wd').value;
-  const limit    = +document.getElementById('as-limit').value;
+  const panelX  = +document.getElementById('as-panel-x').value;
+  const panelY  = +document.getElementById('as-panel-y').value;
+  const panelRX = +document.getElementById('as-panel-rx').value;
+  const panelRY = +document.getElementById('as-panel-ry').value;
+  const pitch   = +document.getElementById('as-pitch').value;
+  const camRX   = +document.getElementById('p-rw').value;
+  const camRY   = +document.getElementById('p-rh').value;
+  const camPx   = +document.getElementById('p-px').value;
+  const fl      = +document.getElementById('p-fl').value;
+  const minWD   = +document.getElementById('as-min-wd').value;
+  const limitRaw = +document.getElementById('as-limit').value;
+  // 佔屏比 = 每台相機有效使用的 FOV 比例，物理上必為 (0,1]。
+  // >1 會算出比實際拼接更少、不合理的台數（例：1 台涵蓋不了寬面板），故鉗制上限為 1。
+  const limit = Math.min(1, Math.max(0.05, limitRaw || 0));
 
-  // Resolution (um) = (panel_X_mm / panel_X_resolution / pitch) * 1e6
-  // i.e. each sub-pixel pitch on panel maps to how many um
-  const resolution = (panelRX > 0 && pitch > 0) ? ((panelX * 1e-3 / panelRX) / pitch) * 1e6 : 0;
-
-  // FOV = camera_resolution * resolution (in um) → mm
-  const xFOV = camRX * resolution / 1000; // mm
-  const yFOV = camRY * resolution / 1000; // mm
-
-  // WD = (xFOV_mm * fl_mm) / (camRX * camPx_um) * 1e3
-  // Actually from Excel: WD = ((X_FOV*1e-3) * (fl*1e-3) / (camRX * camPx*1e-6)) * 1e3
-  const wd = (camRX > 0 && camPx > 0) ? ((xFOV * 1e-3) * (fl * 1e-3) / (camRX * camPx * 1e-6)) * 1e3 : 0;
-
-  // Safe working distance = minWD + 30
+  const resolution = (panelRX>0&&pitch>0) ? ((panelX*1e-3/panelRX)/pitch)*1e6 : 0;
+  const xFOV = camRX * resolution / 1000;
+  const yFOV = camRY * resolution / 1000;
+  const wd   = (camRX>0&&camPx>0) ? ((xFOV*1e-3)*(fl*1e-3)/(camRX*camPx*1e-6))*1e3 : 0;
   const safeWD = minWD + 30;
-
-  // X angle = 2 * atan((xFOV/2) / WD) * 180/PI
-  const xAngle = (wd > 0) ? 2 * Math.atan((xFOV / 2) / wd) * 180 / Math.PI : 0;
-
-  // Screen coverage ratio (single camera)
-  const xRatio = (xFOV > 0) ? panelX / xFOV : 0;
-  const yRatio = (yFOV > 0) ? panelY / yFOV : 0;
-
-  // WD usable
-  const wdOK = wd > safeWD;
-
-  // Pitch check
+  const xAngle = (wd>0) ? 2*Math.atan((xFOV/2)/wd)*180/Math.PI : 0;
+  const xRatio = (xFOV>0) ? panelX/xFOV : 0;
+  const yRatio = (yFOV>0) ? panelY/yFOV : 0;
+  const wdOK   = wd > safeWD;
   const pitchOK = pitch >= 3;
-
-  // Multi-camera: how many cameras needed
-  const nX = (limit > 0) ? Math.ceil(xRatio / limit) : 0;
-  const nY = (limit > 0) ? Math.ceil(yRatio / limit) : 0;
+  // 依有效佔屏比計算所需台數（至少 1 台）
+  const nX = (xFOV>0) ? Math.max(1, Math.ceil(xRatio/limit)) : 0;
+  const nY = (yFOV>0) ? Math.max(1, Math.ceil(yRatio/limit)) : 0;
   const totalCams = nX * nY;
+  // 物理最少台數（無重疊，limit=1）：拿來對照，讓使用者知道下限在哪
+  const nXmin = (xFOV>0) ? Math.max(1, Math.ceil(xRatio)) : 0;
+  const nYmin = (yFOV>0) ? Math.max(1, Math.ceil(yRatio)) : 0;
+  const totalMin = nXmin * nYmin;
+  const perXRatio = (nX>0) ? xRatio/nX : 0;
+  const perYRatio = (nY>0) ? yRatio/nY : 0;
 
-  // Per-camera ratio
-  const perXRatio = (nX > 0) ? xRatio / nX : 0;
-  const perYRatio = (nY > 0) ? yRatio / nY : 0;
-
-  // ── Update UI ──
-  const f = (v,d=2) => (!isFinite(v) || v===0) ? '—' : v.toFixed(d);
-
-  // ── Report header fields ──
-  const ci = document.getElementById('as-cam-pick').value;
-  const li = document.getElementById('as-lens-pick').value;
+  const f = (v,d=2) => (!isFinite(v)||v===0) ? '—' : v.toFixed(d);
+  const ci = document.getElementById('cam-pick').value;
+  const li = document.getElementById('lens-pick').value;
   set('as-rpt-cam',  ci!=='' ? allCams()[+ci].n : '手動輸入');
   set('as-rpt-lens', li!=='' ? allLens()[+li].n : '手動輸入');
   set('as-rpt-panel', `${panelX} × ${panelY} mm (${panelRX}×${panelRY})`);
@@ -2178,52 +2526,48 @@ function calcAS(){
   set('as-rpt-qty',  `${totalCams} 台`);
   set('as-rpt-arr',  `${nX} × ${nY}`);
   const wdOkEl = document.getElementById('as-rpt-wd-ok');
-  if(wdOkEl){ wdOkEl.textContent = wdOK ? '✓ 可用' : '✗ 不可用'; wdOkEl.style.color = wdOK ? '#34c759' : '#ff3b30'; }
+  if(wdOkEl){ wdOkEl.textContent=wdOK?'✓ 可用':'✗ 不可用'; wdOkEl.style.color=wdOK?'#34c759':'#ff3b30'; }
   const datEl = document.getElementById('as-rpt-date');
   if(datEl) datEl.textContent = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
 
-  // ── Metric cards: 光學規格 ──
-  set('as-r-res', f(resolution, 2));
-  set('as-r-xfov', f(xFOV, 2));
-  set('as-r-yfov', f(yFOV, 2));
-  set('as-r-wd', f(wd, 2));
-  set('as-r-safe-wd', f(safeWD, 0));
-  set('as-r-xangle', f(xAngle, 2));
-
-  // ── Metric cards: 單台評估 ──
-  set('as-r-xratio', f(xRatio, 4));
-  set('as-r-yratio', f(yRatio, 4));
+  set('as-r-res',     f(resolution,2));
+  set('as-r-xfov',    f(xFOV,2));
+  set('as-r-yfov',    f(yFOV,2));
+  set('as-r-wd',      f(wd,2));
+  set('as-r-safe-wd', f(safeWD,0));
+  set('as-r-xangle',  f(xAngle,2));
+  set('as-r-xratio',  f(xRatio,4));
+  set('as-r-yratio',  f(yRatio,4));
 
   const pitchEl = document.getElementById('as-r-pitch-ok');
-  if(pitchEl){ pitchEl.textContent = pitchOK ? '✓ ≥ 3' : '✗ < 3'; pitchEl.style.color = pitchOK ? '#34c759' : '#ff3b30'; }
+  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ ≥ 3':'✗ < 3'; pitchEl.style.color=pitchOK?'#34c759':'#ff3b30'; }
 
-  const maxRatio = Math.max(xRatio * 100, yRatio * 100);
-  const setCheck = (id, val, threshold) => {
-    const el = document.getElementById(id);
-    if(!el) return;
-    const ok = val < threshold;
-    el.textContent = f(val,1) + '% ' + (ok ? '✓' : '✗');
-    el.style.color = ok ? '#34c759' : '#ff3b30';
-  };
-  setCheck('as-r-check1', maxRatio, 80);
-  setCheck('as-r-check2', maxRatio, 160);
-  setCheck('as-r-check3', maxRatio, 240);
+  const minEl = document.getElementById('as-r-min-cams');
+  if(minEl){
+    if(totalCams>0){
+      minEl.textContent = `${totalCams} 台 (${nX}×${nY})`;
+      minEl.style.color = '';
+    } else {
+      minEl.textContent = '—';
+      minEl.style.color = '';
+    }
+  }
+  // 物理最少台數（無重疊）對照
+  const minRefEl = document.getElementById('as-r-min-cams-ref');
+  if(minRefEl){
+    minRefEl.textContent = (totalMin>0) ? `${totalMin} 台 (${nXmin}×${nYmin})` : '—';
+  }
+  // 使用者若輸入 >1，回寫鉗制後的值，避免出現不合理台數
+  const limEl = document.getElementById('as-limit');
+  if(limEl && limitRaw>1){ limEl.value = '1'; }
 
-  // ── Metric cards: 多台配置 ──
-  set('as-r-nx', f(nX, 0));
-  set('as-r-ny', f(nY, 0));
-  set('as-r-total', f(totalCams, 0));
-  set('as-r-per-x', f(perXRatio, 4));
-  set('as-r-per-y', f(perYRatio, 4));
-
-  // ── Warning banner (same pattern as scan mode) ──
   const vwAS = document.getElementById('as-vwarn');
   if(!pitchOK){
     vwAS.classList.remove('hide'); vwAS.style.display='flex';
-    document.getElementById('as-vwarn-msg').textContent = 'Pitch 建議 ≥ 3，目前 Pitch = ' + pitch;
+    document.getElementById('as-vwarn-msg').textContent='Pitch 建議 ≥ 3，目前 Pitch = '+pitch;
   } else if(!wdOK){
     vwAS.classList.remove('hide'); vwAS.style.display='flex';
-    document.getElementById('as-vwarn-msg').textContent = `工作距離不足！WD ${f(wd,1)} mm < 安全距離 ${safeWD} mm`;
+    document.getElementById('as-vwarn-msg').textContent=`工作距離不足！WD ${f(wd,1)} mm < 安全距離 ${safeWD} mm`;
   } else {
     vwAS.classList.add('hide'); vwAS.style.display='none';
   }
@@ -2237,99 +2581,250 @@ function calcAS(){
 function drawASDiagram(nX, nY, panelW, panelH){
   const canvas = document.getElementById('as-dg');
   if(!canvas) return;
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio||1;
   const W = canvas.offsetWidth, H = canvas.offsetHeight;
-  if(!W || !H) return;
-  canvas.width = W * dpr; canvas.height = H * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr); ctx.clearRect(0, 0, W, H);
-
-  const dark = window.matchMedia('(prefers-color-scheme:dark)').matches;
-  const accent = '#007aff';
-
-  nX = Math.max(1, nX || 1);
-  nY = Math.max(1, nY || 1);
-
-  const pad = 20;
-  const dW = W - pad * 2, dH = H - pad * 2;
-  const scale = Math.min(dW / panelW, dH / panelH);
-  const rW = panelW * scale, rH = panelH * scale;
-  const ox = pad + (dW - rW) / 2, oy = pad + (dH - rH) / 2;
-
-  // Panel background
-  ctx.fillStyle = dark ? 'rgba(255,255,255,.04)' : 'rgba(0,0,0,.03)';
-  rrect(ctx, ox, oy, rW, rH, 3); ctx.fill();
-
-  // Camera zones
-  ctx.save();
-  rrect(ctx, ox, oy, rW, rH, 0); ctx.clip();
-
-  const sat = dark ? 60 : 68, lit = dark ? 42 : 55;
-  for(let yi = 0; yi < nY; yi++){
-    for(let xi = 0; xi < nX; xi++){
-      const idx = yi * nX + xi;
-      const hue = (idx * 137.508) % 360;
-      const bx = ox + xi * rW / nX;
-      const by = oy + yi * rH / nY;
-      const bw = rW / nX;
-      const bh = rH / nY;
-      ctx.fillStyle = `hsla(${hue},${sat}%,${lit}%,0.55)`;
-      ctx.fillRect(bx, by, bw, bh);
-
-      // Camera label
-      ctx.fillStyle = dark ? 'rgba(255,255,255,.7)' : 'rgba(0,0,0,.5)';
-      ctx.font = (bw > 40 && bh > 20) ? '10px -apple-system,sans-serif' : '7px -apple-system,sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText(`C${idx+1}`, bx + bw/2, by + bh/2);
+  if(!W||!H) return;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
+  const accent='#007aff';
+  nX=Math.max(1,nX||1); nY=Math.max(1,nY||1);
+  const pad=20, dW=W-pad*2, dH=H-pad*2;
+  const scale=Math.min(dW/panelW,dH/panelH);
+  const rW=panelW*scale, rH=panelH*scale;
+  const ox=pad+(dW-rW)/2, oy=pad+(dH-rH)/2;
+  ctx.fillStyle='rgba(0,0,0,.03)';
+  rrect(ctx,ox,oy,rW,rH,3); ctx.fill();
+  ctx.save(); rrect(ctx,ox,oy,rW,rH,0); ctx.clip();
+  const sat=68, lit=55;
+  for(let yi=0;yi<nY;yi++){
+    for(let xi=0;xi<nX;xi++){
+      const idx=yi*nX+xi;
+      const hue=(idx*137.508)%360;
+      const bx=ox+xi*rW/nX, by=oy+yi*rH/nY;
+      const bw=rW/nX, bh=rH/nY;
+      ctx.fillStyle=`hsla(${hue},${sat}%,${lit}%,0.55)`;
+      ctx.fillRect(bx,by,bw,bh);
+      ctx.fillStyle='rgba(0,0,0,.5)';
+      ctx.font=(bw>40&&bh>20)?'10px -apple-system,sans-serif':'7px -apple-system,sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(`C${idx+1}`,bx+bw/2,by+bh/2);
     }
   }
   ctx.restore();
+  ctx.strokeStyle='rgba(0,0,0,.20)'; ctx.lineWidth=0.75;
+  for(let i=0;i<=nX;i++){ const x=ox+i*rW/nX; ctx.beginPath();ctx.moveTo(x,oy);ctx.lineTo(x,oy+rH);ctx.stroke(); }
+  for(let i=0;i<=nY;i++){ const y=oy+i*rH/nY; ctx.beginPath();ctx.moveTo(ox,y);ctx.lineTo(ox+rW,y);ctx.stroke(); }
+  ctx.strokeStyle='rgba(0,0,0,.28)'; ctx.lineWidth=1;
+  rrect(ctx,ox,oy,rW,rH,3); ctx.stroke();
+  ctx.fillStyle=accent; ctx.font='9px -apple-system,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText(`${panelW} mm`,ox+rW/2,oy+rH+4);
+  ctx.save(); ctx.translate(ox-6,oy+rH/2); ctx.rotate(-Math.PI/2);
+  ctx.textAlign='center'; ctx.textBaseline='bottom';
+  ctx.fillText(`${panelH} mm`,0,0); ctx.restore();
+  const cap=document.getElementById('as-dg-caption');
+  if(cap){ cap.innerHTML=`<span>${nX*nY}台 (${nX}×${nY})</span><span>·</span><span>${panelW} × ${panelH} mm</span>`; }
+}
 
-  // Grid lines
-  ctx.strokeStyle = dark ? 'rgba(255,255,255,.28)' : 'rgba(0,0,0,.20)';
-  ctx.lineWidth = 0.75;
-  for(let i = 0; i <= nX; i++){
-    const x = ox + i * rW / nX;
-    ctx.beginPath(); ctx.moveTo(x, oy); ctx.lineTo(x, oy+rH); ctx.stroke();
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+function showTab(t){
+  document.getElementById('pane-res').style.display        = (t==='res'&&S.mode==='scan')   ?'':'none';
+  document.getElementById('pane-static-res').style.display = (t==='res'&&S.mode==='static') ?'':'none';
+  document.getElementById('pane-area-res').style.display   = (t==='res'&&S.mode==='area')   ?'':'none';
+  document.getElementById('pane-hist').style.display=t==='hist'?'':'none';
+  document.getElementById('pane-db').style.display  =t==='db'  ?'':'none';
+  document.getElementById('tab-res').classList.toggle('on', t==='res');
+  document.getElementById('tab-hist').classList.toggle('on',t==='hist');
+  document.getElementById('tab-db').classList.toggle('on',  t==='db');
+  if(t==='hist'||t==='res') renderEvals();
+  if(t==='db')  renderDbLists();
+}
+
+// ── 每個模式的專案名稱各自獨立，不再互相同步 ──
+function projInputId(mode){
+  return mode==='area' ? 'as-rpt-proj' : mode==='static' ? 'st-rpt-proj' : 'rpt-proj';
+}
+function getProjName(mode){
+  const e=document.getElementById(projInputId(mode));
+  return (e && e.value) || '';
+}
+function setProjName(mode, val){
+  const e=document.getElementById(projInputId(mode));
+  if(e) e.value = val || '';
+  saveRptMeta();
+}
+
+// ── Desc sync: rpt-desc ↔ st-rpt-desc stay in sync ──
+function syncDesc(val){
+  const a=document.getElementById('rpt-desc');
+  const b=document.getElementById('st-rpt-desc');
+  if(a) a.value=val;
+  if(b) b.value=val;
+  saveRptMeta();
+}
+
+function saveRptMeta(){
+  const val=id=>{const e=document.getElementById(id); return e?e.value:'';};
+  localStorage.setItem('aoi_rpt_meta', JSON.stringify({
+    projScan:   val('rpt-proj'),
+    projStatic: val('st-rpt-proj'),
+    projArea:   val('as-rpt-proj'),
+    desc: val('rpt-desc'),
+    targetTT:  val('rpt-target-tt'),
+    targetRes: val('rpt-target-res'),
+    stTargetRes: val('st-target-res'),
+  }));
+  aoiTouch();
+}
+function loadRptMeta(){
+  const m = JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}');
+  const set=(id,v)=>{const e=document.getElementById(id); if(e&&v!=null) e.value=v;};
+  set('rpt-proj',    m.projScan);
+  set('st-rpt-proj', m.projStatic);
+  set('as-rpt-proj', m.projArea);
+  if(m.desc){
+    document.getElementById('rpt-desc').value = m.desc;
+    const b=document.getElementById('st-rpt-desc'); if(b) b.value=m.desc;
   }
-  for(let i = 0; i <= nY; i++){
-    const y = oy + i * rH / nY;
-    ctx.beginPath(); ctx.moveTo(ox, y); ctx.lineTo(ox+rW, y); ctx.stroke();
-  }
+  if(m.targetTT)    document.getElementById('rpt-target-tt').value  = m.targetTT;
+  if(m.targetRes)   document.getElementById('rpt-target-res').value = m.targetRes;
+  if(m.stTargetRes) document.getElementById('st-target-res').value  = m.stTargetRes;
+}
 
-  // Panel border
-  ctx.strokeStyle = dark ? 'rgba(255,255,255,.32)' : 'rgba(0,0,0,.28)';
-  ctx.lineWidth = 1;
-  rrect(ctx, ox, oy, rW, rH, 3); ctx.stroke();
+// ═══════════════════════════════════════════
+// GitHub 雲端同步（跨電腦共同維護：專案評估 + 光學元件資料庫）
+// ═══════════════════════════════════════════
+const AOI_GH_KEY='aoi_gh_v1';
+let GH = (function(){ try{ return JSON.parse(localStorage.getItem(AOI_GH_KEY))||{}; }catch(e){ return {}; } })();
+let GH_SHA=null, GH_PUSH_TIMER=null;
+function saveGH(){ localStorage.setItem(AOI_GH_KEY, JSON.stringify(GH)); }
+function ghReady(){ return !!(GH && GH.enabled && GH.owner && GH.repo && GH.path && GH.token); }
+function ghHeaders(){ const h={'Accept':'application/vnd.github+json'}; if(GH.token) h['Authorization']='Bearer '+GH.token; return h; }
+function ghContentUrl(){ const p=(GH.path||'').split('/').map(encodeURIComponent).join('/'); return `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${p}`; }
+function b64encode(s){ return btoa(unescape(encodeURIComponent(s))); }
+function b64decode(b){ return decodeURIComponent(escape(atob((b||'').replace(/\n/g,'')))); }
 
-  // Dimension labels
-  ctx.fillStyle = accent; ctx.font = '9px -apple-system,sans-serif';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-  ctx.fillText(`${panelW} mm`, ox + rW/2, oy + rH + 4);
-  ctx.save();
-  ctx.translate(ox - 6, oy + rH/2); ctx.rotate(-Math.PI/2);
-  ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
-  ctx.fillText(`${panelH} mm`, 0, 0);
-  ctx.restore();
+function aoiLocalUpdated(){ return localStorage.getItem('aoi_sync_updated')||''; }
+function aoiTouch(){ localStorage.setItem('aoi_sync_updated', new Date().toISOString()); cloudPush(); }
+function aoiGatherData(){
+  return {
+    meta:{ app:'aoi-calculator', version:1, updated: aoiLocalUpdated()||new Date().toISOString() },
+    evals: evals, cams: custCams, lens: custLens,
+    hcams: [...hiddenCams], hlens: [...hiddenLens],
+    rptMeta: JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}')
+  };
+}
+function aoiApplyData(d){
+  if(!d||typeof d!=='object') return;
+  // 直接寫 localStorage（不經 save* 包裝），避免拉取時又觸發上傳造成迴圈
+  if(Array.isArray(d.evals)){ evals=d.evals; localStorage.setItem('aoi_evals', JSON.stringify(evals)); }
+  if(Array.isArray(d.cams)){  custCams=d.cams; localStorage.setItem('aoi_cams', JSON.stringify(custCams)); }
+  if(Array.isArray(d.lens)){  custLens=d.lens; localStorage.setItem('aoi_lens', JSON.stringify(custLens)); }
+  if(Array.isArray(d.hcams)){ hiddenCams=new Set(d.hcams); localStorage.setItem('aoi_hcams', JSON.stringify([...hiddenCams])); }
+  if(Array.isArray(d.hlens)){ hiddenLens=new Set(d.hlens); localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); }
+  if(d.rptMeta){ localStorage.setItem('aoi_rpt_meta', JSON.stringify(d.rptMeta)); }
+  if(d.meta&&d.meta.updated) localStorage.setItem('aoi_sync_updated', d.meta.updated);
+  refreshCamPicker(); refreshLensPicker(); renderDbLists(); renderEvals(); loadRptMeta();
+  if(S.mode==='area') calcAS(); else if(S.mode==='static') calcStatic(); else calc();
+}
 
-  // Caption (same style as scan mode)
-  const cap = document.getElementById('as-dg-caption');
-  if(cap){
-    let h = `<span class="dc-l">${nX*nY}台 (${nX}×${nY})</span>`;
-    h += `<span class="dc-sep">·</span><span class="dc-c">${panelW} × ${panelH} mm</span>`;
-    cap.innerHTML = h;
-  }
+function setSyncStatus(state,msg){
+  const el=document.getElementById('syncStatus'); if(!el) return;
+  const map={ off:['rgba(255,255,255,.55)','☁','雲端未連線（點此設定）'],
+              ok: ['#7CFFA8','☁','雲端已同步'],
+              sync:['#FFE08A','⟳','同步中…'],
+              err:['#FF9B8A','⚠','同步失敗'] };
+  const a=map[state]||map.off; el.textContent=a[1]; el.style.color=a[0]; el.title=msg||a[2];
+}
+
+async function cloudPull(opts){
+  opts=opts||{};
+  if(!ghReady()){ setSyncStatus('off'); return; }
+  setSyncStatus('sync','⟳ 讀取雲端…');
+  try{
+    const res=await fetch(ghContentUrl()+'?ref='+(GH.branch||'main'),{headers:ghHeaders(),cache:'no-store'});
+    if(res.status===404){ setSyncStatus('ok','☁ 雲端尚無資料（儲存時將自動建立）'); GH_SHA=null; return; }
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const j=await res.json(); GH_SHA=j.sha;
+    const remote=JSON.parse(b64decode(j.content));
+    const rT=(remote.meta&&remote.meta.updated)||'', lT=aoiLocalUpdated();
+    if(opts.force || rT>=lT){ aoiApplyData(remote); }
+    setSyncStatus('ok','☁ 已同步（雲端更新：'+(rT?new Date(rT).toLocaleString('zh-TW'):'—')+'）');
+  }catch(e){ setSyncStatus('err','⚠ 讀取失敗：'+e.message); }
+}
+function cloudPush(){ if(!ghReady()) return; clearTimeout(GH_PUSH_TIMER); GH_PUSH_TIMER=setTimeout(cloudPushNow,1200); }
+async function cloudPushNow(){
+  if(!ghReady()){ setSyncStatus('off'); return; }
+  setSyncStatus('sync','⟳ 上傳雲端…');
+  try{
+    const body={ message:'update AOI data '+new Date().toISOString(),
+                 content:b64encode(JSON.stringify(aoiGatherData(),null,2)),
+                 branch:GH.branch||'main' };
+    if(GH_SHA) body.sha=GH_SHA;
+    const res=await fetch(ghContentUrl(),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghHeaders()),body:JSON.stringify(body)});
+    if(res.status===409){ await cloudPull({force:true}); throw new Error('版本衝突：已重新讀取雲端最新資料，請重做剛才的修改再儲存'); }
+    if(!res.ok){ const t=await res.text(); throw new Error('HTTP '+res.status+' '+t.slice(0,80)); }
+    const j=await res.json(); GH_SHA=j.content&&j.content.sha;
+    setSyncStatus('ok','☁ 已同步');
+  }catch(e){ setSyncStatus('err','⚠ 上傳失敗：'+e.message); }
+}
+
+function showCloudSettings(){
+  const g=GH||{};
+  const sv=(id,v)=>{const e=document.getElementById(id); if(e) e.value=v;};
+  sv('gh_owner', g.owner||'JohnnyBabaYaga');
+  sv('gh_repo',  g.repo||'');
+  sv('gh_branch',g.branch||'main');
+  sv('gh_path',  g.path||'aoi-data.json');
+  sv('gh_token', g.token||'');
+  document.getElementById('gh_enabled').checked = !!g.enabled;
+  document.getElementById('gh_testmsg').textContent='';
+  document.getElementById('cloud-modal').style.display='';
+  document.getElementById('cloud-overlay').style.display='';
+}
+function closeCloudModal(){
+  document.getElementById('cloud-modal').style.display='none';
+  document.getElementById('cloud-overlay').style.display='none';
+}
+function saveCloudSettings(){
+  const v=id=>(document.getElementById(id).value||'').trim();
+  GH={ owner:v('gh_owner'), repo:v('gh_repo'), branch:v('gh_branch')||'main',
+       path:v('gh_path')||'aoi-data.json', token:document.getElementById('gh_token').value.trim(),
+       enabled:document.getElementById('gh_enabled').checked };
+  saveGH(); closeCloudModal(); GH_SHA=null;
+  if(ghReady()) cloudPull({force:false}); else setSyncStatus('off');
+}
+async function testCloud(){
+  const el=document.getElementById('gh_testmsg'); if(!el) return;
+  const v=id=>(document.getElementById(id).value||'').trim();
+  const owner=v('gh_owner'), repo=v('gh_repo'), branch=v('gh_branch')||'main',
+        path=(v('gh_path')||'aoi-data.json'), token=document.getElementById('gh_token').value.trim();
+  if(!owner||!repo||!token){ el.style.color='var(--warn)'; el.textContent='⚠ 請先填寫 owner / repo / token'; return; }
+  el.style.color='#b8860b'; el.textContent='⟳ 測試中…';
+  try{
+    const p=path.split('/').map(encodeURIComponent).join('/');
+    const res=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${p}?ref=${branch}`,{headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token},cache:'no-store'});
+    if(res.status===200){ el.style.color='var(--green)'; el.textContent='✅ 連線成功，已找到資料檔，可正常同步。'; }
+    else if(res.status===404){ el.style.color='var(--green)'; el.textContent='✅ 連線成功（repo 可存取，資料檔尚未建立，首次上傳會自動建立）。'; }
+    else if(res.status===401){ el.style.color='var(--warn)'; el.textContent='⚠ 401：權杖無效或已過期。'; }
+    else if(res.status===403){ el.style.color='var(--warn)'; el.textContent='⚠ 403：權限不足（請確認權杖對此 repo 具 Contents 讀寫權限）。'; }
+    else if(res.status===404){ el.style.color='var(--warn)'; el.textContent='⚠ 找不到 repo，請確認 owner / repo 名稱。'; }
+    else { el.style.color='var(--warn)'; el.textContent='⚠ HTTP '+res.status; }
+  }catch(e){ el.style.color='var(--warn)'; el.textContent='⚠ 連線失敗：'+e.message; }
 }
 
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
 initPickers();
-initASPickers();
 loadRptMeta();
 initCardCfg();
 calc();
-window.addEventListener('resize', ()=>{ drawDiagram(); if(currentMode==='area') calcAS(); });
+if(ghReady()){ cloudPull({force:false}); } else { setSyncStatus('off'); }
+window.addEventListener('resize', ()=>{ drawDiagram(); if(S.mode==='static') calcStatic(); if(S.mode==='area') calcAS(); });
 </script>
 
 <!-- ── Undo Toast ── -->
