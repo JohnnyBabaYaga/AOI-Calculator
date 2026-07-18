@@ -2641,6 +2641,13 @@ function showTab(t){
   document.getElementById('tab-db').classList.toggle('on',  t==='db');
   if(t==='hist'||t==='res') renderEvals();
   if(t==='db')  renderDbLists();
+  // 顯示結果頁時重畫示意圖：畫布在隱藏狀態(寬高為0)時會被略過，
+  // 切回結果頁需重畫一次，否則載入專案/切換模式後示意圖會空白。
+  if(t==='res'){
+    if(S.mode==='area') calcAS();
+    else if(S.mode==='static') calcStatic();
+    else calc();
+  }
 }
 
 // ── 每個模式的專案名稱各自獨立，不再互相同步 ──
