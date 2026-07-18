@@ -2766,6 +2766,7 @@ async function cloudPushNow(){
     if(GH_SHA) body.sha=GH_SHA;
     const res=await fetch(ghContentUrl(),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghHeaders()),body:JSON.stringify(body)});
     if(res.status===409){ await cloudPull({force:true}); throw new Error('版本衝突：已重新讀取雲端最新資料，請重做剛才的修改再儲存'); }
+    if(res.status===404){ throw new Error('找不到 repo 或路徑（404）—— 請確認 repo 名稱（含大小寫）與權杖權限是否正確'); }
     if(!res.ok){ const t=await res.text(); throw new Error('HTTP '+res.status+' '+t.slice(0,80)); }
     const j=await res.json(); GH_SHA=j.content&&j.content.sha;
     setSyncStatus('ok','☁ 已同步');
@@ -2804,15 +2805,23 @@ async function testCloud(){
         path=(v('gh_path')||'aoi-data.json'), token=document.getElementById('gh_token').value.trim();
   if(!owner||!repo||!token){ el.style.color='var(--warn)'; el.textContent='⚠ 請先填寫 owner / repo / token'; return; }
   el.style.color='#b8860b'; el.textContent='⟳ 測試中…';
+  const H={'Accept':'application/vnd.github+json','Authorization':'Bearer '+token};
   try{
     const p=path.split('/').map(encodeURIComponent).join('/');
-    const res=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${p}?ref=${branch}`,{headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token},cache:'no-store'});
-    if(res.status===200){ el.style.color='var(--green)'; el.textContent='✅ 連線成功，已找到資料檔，可正常同步。'; }
-    else if(res.status===404){ el.style.color='var(--green)'; el.textContent='✅ 連線成功（repo 可存取，資料檔尚未建立，首次上傳會自動建立）。'; }
-    else if(res.status===401){ el.style.color='var(--warn)'; el.textContent='⚠ 401：權杖無效或已過期。'; }
-    else if(res.status===403){ el.style.color='var(--warn)'; el.textContent='⚠ 403：權限不足（請確認權杖對此 repo 具 Contents 讀寫權限）。'; }
-    else if(res.status===404){ el.style.color='var(--warn)'; el.textContent='⚠ 找不到 repo，請確認 owner / repo 名稱。'; }
-    else { el.style.color='var(--warn)'; el.textContent='⚠ HTTP '+res.status; }
+    const res=await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${p}?ref=${branch}`,{headers:H,cache:'no-store'});
+    if(res.status===200){ el.style.color='var(--green)'; el.textContent='✅ 連線成功，已找到資料檔，可正常同步。'; return; }
+    if(res.status===401){ el.style.color='var(--warn)'; el.textContent='⚠ 401：權杖無效或已過期。'; return; }
+    if(res.status===403){ el.style.color='var(--warn)'; el.textContent='⚠ 403：權限不足（請確認權杖對此 repo 具 Contents 讀寫權限）。'; return; }
+    if(res.status===404){
+      // 檔案 404 有兩種可能：repo 正確但資料檔還沒建 / repo 名稱打錯。再查 repo 本身是否存在來區分。
+      const rr=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:H,cache:'no-store'});
+      if(rr.status===200){ el.style.color='var(--green)'; el.textContent='✅ 連線成功（repo 可存取，資料檔尚未建立，首次上傳會自動建立）。'; return; }
+      if(rr.status===404){ el.style.color='var(--warn)'; el.textContent=`⚠ 找不到 repo「${owner}/${repo}」——請檢查 repo 名稱（含大小寫）是否正確，以及權杖是否對此 repo 有存取權。`; return; }
+      if(rr.status===401){ el.style.color='var(--warn)'; el.textContent='⚠ 401：權杖無效或已過期。'; return; }
+      if(rr.status===403){ el.style.color='var(--warn)'; el.textContent='⚠ 403：權限不足（請確認權杖對此 repo 具 Contents 讀寫權限）。'; return; }
+      el.style.color='var(--warn)'; el.textContent='⚠ HTTP '+rr.status; return;
+    }
+    el.style.color='var(--warn)'; el.textContent='⚠ HTTP '+res.status;
   }catch(e){ el.style.color='var(--warn)'; el.textContent='⚠ 連線失敗：'+e.message; }
 }
 
