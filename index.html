@@ -11,9 +11,11 @@
   --bg:#eef2f7; --surf:#ffffff; --surf2:#f2f6fc; --border:#dde4ee;
   --text:#1c2b45; --sub:#6b7a90; --accent:#2f6fd0; --accent-deep:#1f4e96;
   --warn:#e0563f; --green:#36b37e;
-  --glass:rgba(255,255,255,.62); --glass-strong:rgba(255,255,255,.80);
-  --glass-line:rgba(255,255,255,.6); --glass-blur:saturate(180%) blur(20px);
-  --rad:12px; --rad-sm:9px; --rad-lg:16px;
+  /* iOS 液態玻璃 — 可由 ⚙️ 介面外觀設定即時調整 */
+  --ui-blur:20px; --ui-sat:180%; --ui-glassA:.62; --ui-glassB:.80; --ui-rscale:1;
+  --glass:rgba(255,255,255,var(--ui-glassA)); --glass-strong:rgba(255,255,255,var(--ui-glassB));
+  --glass-line:rgba(255,255,255,.6); --glass-blur:saturate(var(--ui-sat)) blur(var(--ui-blur));
+  --rad:calc(12px * var(--ui-rscale)); --rad-sm:calc(9px * var(--ui-rscale)); --rad-lg:calc(16px * var(--ui-rscale));
   --shadow:0 1px 2px rgba(30,50,90,.06),0 6px 20px rgba(30,50,90,.07);
   --shadow-2:0 8px 30px rgba(30,50,90,.12);
 }
@@ -162,6 +164,31 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .cl-field input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:9px;
   background:var(--surf2);color:var(--text);font-size:12px;outline:none;font-family:inherit;}
 .cl-field input:focus{border-color:var(--accent);}
+
+/* ── Version pill in title ── */
+.ver-pill{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  border-radius:11px;padding:1px 8px;vertical-align:middle;margin-left:6px;letter-spacing:.3px;}
+
+/* ── Floating info (i) button, bottom-right ── */
+#about-fab{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.5);background:rgba(31,78,150,.6);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);
+  color:#fff;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;font-size:23px;
+  cursor:pointer;line-height:1;box-shadow:0 8px 24px rgba(20,40,80,.3);z-index:900;
+  display:flex;align-items:center;justify-content:center;transition:transform .18s,background .18s;}
+#about-fab:hover{transform:scale(1.08);background:rgba(31,78,150,.8);}
+@media(max-width:768px){ #about-fab{bottom:70px;right:16px;width:42px;height:42px;font-size:21px;} }
+
+/* ── UI appearance settings modal ── */
+.ui-row{margin-bottom:12px;}
+.ui-row label{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text);margin-bottom:5px;}
+.ui-row label b{color:var(--accent-deep);font-variant-numeric:tabular-nums;}
+.ui-row input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;}
+.ui-presets{display:flex;gap:6px;margin-bottom:14px;}
+.ui-presets .p{flex:1;text-align:center;padding:6px 0;border:1px solid var(--border);border-radius:999px;
+  background:var(--surf2);color:var(--text);font-size:12px;cursor:pointer;transition:.15s;}
+.ui-presets .p:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
 
 /* ── Eval cards ── */
 .ec{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);
@@ -352,7 +379,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#ui-modal,#ui-overlay,#cloud-modal,#cloud-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -378,7 +405,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     </svg>
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
-  <div id="hdr-title"><h1>AOI 光學架構評估計算器</h1><p>Automated Optical Inspection — System Design Tool</p></div>
+  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v2.0</span></h1><p>Automated Optical Inspection — 光學架構評估工具</p></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <div class="seg" id="mode-seg" style="flex-shrink:0;font-size:11px;">
       <button class="on" onclick="setMode('scan')"><span class="ml">掃描取像</span><span class="ms">掃描</span></button>
@@ -388,13 +415,12 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     <button class="btn-sec hdr-action" onclick="exportPDF()">📄 匯出 PDF</button>
     <button class="btn-pri hdr-action" onclick="saveEval()">💾 儲存評估</button>
     <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="雲端同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);">☁</button>
-    <button class="btn-about" onclick="toggleAbout()" title="開發者資訊">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-      </svg>
-    </button>
+    <button class="btn-about" onclick="showUISettings()" title="介面外觀設定" style="font-size:15px;line-height:1;">⚙️</button>
   </div>
 </header>
+
+<!-- ── Floating info button (bottom-right, Manager style) ── -->
+<button id="about-fab" onclick="toggleAbout()" title="開發者資訊 / 維護者">i</button>
 
 <!-- ── Drawer overlay ── -->
 <div id="drawer-overlay" onclick="toggleDrawer()"></div>
@@ -439,6 +465,32 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <a href="mailto:Hwasa.Chung@auo.com" style="font-size:11px;color:var(--accent);text-decoration:none;">Hwasa.Chung@auo.com</a>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ── UI Appearance Settings Modal ── -->
+<div id="ui-overlay" onclick="closeUIModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
+<div id="ui-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+     background:var(--surf);border:1px solid var(--border);border-radius:14px;
+     padding:22px 24px;z-index:2001;width:min(400px,92vw);max-height:88vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+    <div style="font-size:15px;font-weight:800;">⚙️ 介面外觀設定</div>
+    <button onclick="closeUIModal()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+  </div>
+  <div style="font-size:11px;color:var(--sub);margin-bottom:14px;line-height:1.5;">iOS 液態玻璃質感微調,拖曳即時預覽,設定會自動存在本機瀏覽器。</div>
+  <div class="ui-presets">
+    <span class="p" onclick="uiPreset('淡')">淡</span>
+    <span class="p" onclick="uiPreset('標準')">標準</span>
+    <span class="p" onclick="uiPreset('強烈')">強烈</span>
+  </div>
+  <div class="ui-row"><label><span>玻璃模糊強度</span><b id="ui_blur_val">—</b></label><input id="ui_blur" type="range" min="6" max="60" step="1" oninput="uiSet('blur',this.value)"></div>
+  <div class="ui-row"><label><span>色彩飽和度</span><b id="ui_sat_val">—</b></label><input id="ui_sat" type="range" min="120" max="260" step="1" oninput="uiSet('sat',this.value)"></div>
+  <div class="ui-row"><label><span>卡片通透感（越高越透）</span><b id="ui_glassB_val">—</b></label><input id="ui_glassB" type="range" min="0.3" max="0.92" step="0.01" oninput="uiSet('glassB',this.value)"></div>
+  <div class="ui-row"><label><span>側欄通透感（越高越透）</span><b id="ui_glassA_val">—</b></label><input id="ui_glassA" type="range" min="0.3" max="0.92" step="0.01" oninput="uiSet('glassA',this.value)"></div>
+  <div class="ui-row"><label><span>圓角大小</span><b id="ui_rscale_val">—</b></label><input id="ui_rscale" type="range" min="0.6" max="1.5" step="0.05" oninput="uiSet('rscale',this.value)"></div>
+  <div style="display:flex;gap:8px;margin-top:6px;">
+    <button class="btn-sec" style="font-size:12px" onclick="resetUICfg()">↺ 還原預設</button>
+    <button class="btn-pri" style="font-size:12px;margin-left:auto" onclick="closeUIModal()">完成</button>
   </div>
 </div>
 
@@ -2833,8 +2885,27 @@ async function testCloud(){
 }
 
 // ═══════════════════════════════════════════
+// 介面外觀設定（iOS 液態玻璃微調）
+// ═══════════════════════════════════════════
+const AOI_UI_KEY='aoi_ui_v1';
+const UI_DEFAULT={blur:20, sat:180, glassA:.62, glassB:.80, rscale:1};
+let UICFG=(function(){ try{ return Object.assign({},UI_DEFAULT,JSON.parse(localStorage.getItem(AOI_UI_KEY))||{}); }catch(e){ return Object.assign({},UI_DEFAULT); } })();
+function applyUICfg(){ const s=document.documentElement.style;
+  s.setProperty('--ui-blur',UICFG.blur+'px'); s.setProperty('--ui-sat',UICFG.sat+'%');
+  s.setProperty('--ui-glassA',UICFG.glassA); s.setProperty('--ui-glassB',UICFG.glassB); s.setProperty('--ui-rscale',UICFG.rscale); }
+function saveUICfg(){ localStorage.setItem(AOI_UI_KEY, JSON.stringify(UICFG)); }
+function uiFmt(k,v){ if(k==='glassA'||k==='glassB') return Math.round((1-(+v))*100)+'%'; if(k==='rscale') return Math.round(v*100)+'%'; if(k==='sat') return Math.round(v)+'%'; return Math.round(v)+'px'; }
+function uiSet(k,v){ UICFG[k]=+v; applyUICfg(); saveUICfg(); const el=document.getElementById('ui_'+k+'_val'); if(el) el.textContent=uiFmt(k,v); }
+function uiPreset(name){ const p={淡:{blur:12,sat:150,glassA:.74,glassB:.88,rscale:.92},標準:{blur:20,sat:180,glassA:.62,glassB:.80,rscale:1},強烈:{blur:34,sat:220,glassA:.46,glassB:.64,rscale:1.1}}[name]; if(!p)return; UICFG=Object.assign({},p); applyUICfg(); saveUICfg(); syncUIModal(); }
+function resetUICfg(){ UICFG=Object.assign({},UI_DEFAULT); applyUICfg(); saveUICfg(); syncUIModal(); }
+function syncUIModal(){ ['blur','sat','glassB','glassA','rscale'].forEach(k=>{ const inp=document.getElementById('ui_'+k); const val=document.getElementById('ui_'+k+'_val'); if(inp) inp.value=UICFG[k]; if(val) val.textContent=uiFmt(k,UICFG[k]); }); }
+function showUISettings(){ syncUIModal(); document.getElementById('ui-modal').style.display=''; document.getElementById('ui-overlay').style.display=''; }
+function closeUIModal(){ document.getElementById('ui-modal').style.display='none'; document.getElementById('ui-overlay').style.display='none'; }
+
+// ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
+applyUICfg();
 initPickers();
 loadRptMeta();
 initCardCfg();
