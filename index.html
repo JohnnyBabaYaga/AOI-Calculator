@@ -256,6 +256,15 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .pi-spec{font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pick-manual{font-size:12px;color:var(--accent);cursor:pointer;padding:5px 2px 8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
 .pick-manual:hover{text-decoration:underline;}
+.pick-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;line-height:1.45;color:var(--accent-deep);background:color-mix(in srgb,var(--accent) 9%,transparent);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:9px;padding:7px 10px;margin-bottom:8px;}
+.pick-banner b{font-weight:700;}
+.pick-banner-tog{flex-shrink:0;font-size:11px;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:7px;padding:4px 9px;cursor:pointer;}
+.pick-banner-tog:hover{filter:brightness(1.06);}
+.pick-item.pi-bad{opacity:.5;background:repeating-linear-gradient(135deg,transparent,transparent 6px,color-mix(in srgb,#ff3b30 7%,transparent) 6px,color-mix(in srgb,#ff3b30 7%,transparent) 12px);}
+.pick-item.pi-bad:hover{opacity:.75;border-color:#ff9a92;}
+.pi-badmount{display:inline-block;margin-left:7px;font-size:10px;font-weight:700;color:#ff3b30;background:color-mix(in srgb,#ff3b30 12%,transparent);border-radius:5px;padding:1px 6px;vertical-align:middle;}
+.mount-warn{font-size:11px;line-height:1.5;color:#c0392b;background:color-mix(in srgb,#ff3b30 8%,transparent);border:1px solid color-mix(in srgb,#ff3b30 26%,transparent);border-radius:8px;padding:6px 9px;margin:2px 0 8px;}
+.mount-warn b{font-weight:700;}
 .db-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
 .bdg-area{background:color-mix(in srgb,#2f6fd0 15%,transparent);color:#1f4e96;}
 .bdg-line{background:color-mix(in srgb,#7c4dff 16%,transparent);color:#5b34c9;}
@@ -690,6 +699,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <option value="">— 手動輸入 —</option>
       </select>
     </div>
+    <div id="mount-warn" class="mount-warn" style="display:none"></div>
     <!-- Lens type: 3-way segmented -->
     <div class="row" data-hide-area>
       <label>鏡頭類型</label>
@@ -1144,6 +1154,10 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             <option value="color">彩色</option>
           </select>
         </div>
+        <div class="af-row">
+          <label>鏡頭接口</label>
+          <input list="mount-opts" id="afc-mount" placeholder="C / F / M42…（決定可搭配鏡頭）">
+        </div>
         <div class="af-more-tog" onclick="toggleAfMore('cam')"><span id="afc-more-chev">▸</span> 進階 / 規格書（選填）</div>
         <div id="afc-more" style="display:none">
           <div class="af-row">
@@ -1285,7 +1299,7 @@ function camSpec(c){
   return `${res} · ${fmtN(c.px)}µm · ${speed} · ${fmtN(c.bit)}bit${c.color?' · 彩色':''}`;
 }
 function camMeta(c){
-  const p=[]; if(c.iface) p.push(c.iface); if(c.sensor) p.push(c.sensor);
+  const p=[]; if(c.mount) p.push(`🔩 ${c.mount}-mount`); if(c.iface) p.push(c.iface); if(c.sensor) p.push(c.sensor);
   return p.join(' · ');
 }
 function lensSpec(l){
@@ -1371,10 +1385,35 @@ function renderDbLists(){
   renderDbGroup('db-lens-list', LENS, hiddenLens, custLens, lensBadge, lensSpec, lensMeta, 'lens');
 }
 
+// ── 鏡頭接口(mount)相容性 ──
+// 相機接口與鏡頭接口一致才可搭配。字串可為多值(例 "F / M42")，任一相符即相容。
+function mountTokens(m){ return String(m||'').toUpperCase().split(/[\s,\/、|+]+/).map(s=>s.trim()).filter(Boolean); }
+function mountCompatible(camMount, lensMount){
+  const cs=mountTokens(camMount), ls=mountTokens(lensMount);
+  if(!cs.length || !ls.length) return true;      // 任一方接口未標 → 不屏蔽(視為未知)
+  return cs.some(c=>ls.includes(c));
+}
+function selectedCamMount(){
+  const ci=document.getElementById('cam-pick').value;
+  const c=(ci!=='' && allCams()[+ci]) ? allCams()[+ci] : null;
+  return c ? {mount:c.mount||'', name:c.n} : {mount:'', name:''};
+}
+// 選定相機後，若目前鏡頭接口與相機不符 → 於鏡頭資料庫按鈕下方顯示警示
+function updateMountWarn(){
+  const el=document.getElementById('mount-warn'); if(!el) return;
+  const {mount:cm, name:cn}=selectedCamMount();
+  const li=document.getElementById('lens-pick').value;
+  const l=(li!=='' && allLens()[+li]) ? allLens()[+li] : null;
+  if(cm && l && l.mount && !mountCompatible(cm, l.mount)){
+    el.style.display='';
+    el.innerHTML=`⚠ 目前鏡頭接口 <b>${esc(l.mount)}</b> 與相機 <b>${esc(cm)}</b> 不相符，實務上無法直接搭配。`;
+  } else { el.style.display='none'; el.innerHTML=''; }
+}
+
 // ── Visual model picker (left-panel 資料庫 selection) ──
-let _pickKind='cam', _pickType='';
+let _pickKind='cam', _pickType='', _pickShowIncompat=false;
 function openPicker(kind){
-  _pickKind=kind; _pickType='';
+  _pickKind=kind; _pickType=''; _pickShowIncompat=false;
   document.getElementById('pick-title').textContent = kind==='cam'?'📷 選擇相機':'🔭 選擇鏡頭';
   document.getElementById('pick-search').value='';
   renderPicker();
@@ -1392,21 +1431,40 @@ function renderPicker(){
   const types=kind==='cam'?[['','全部'],['area','面陣'],['line','線掃']]:[['','全部'],['telecentric','遠心'],['cctv','定焦'],['objective','物鏡']];
   document.getElementById('pick-filters').innerHTML=types.map(([v,l])=>`<span class="pick-chip ${_pickType===v?'on':''}" onclick="pickType('${v}')">${l}</span>`).join('');
   const typeOk=x=>{ if(!_pickType)return true; if(kind==='cam') return _pickType==='line'?!!x.line:!x.line; return x.type===_pickType; };
-  const items=list.map((x,i)=>({x,i})).filter(o=>typeOk(o.x) && (!q || (o.x.n+' '+(o.x.iface||'')+' '+(o.x.sensor||'')+' '+(o.x.mount||'')).toLowerCase().includes(q)));
+  let items=list.map((x,i)=>({x,i})).filter(o=>typeOk(o.x) && (!q || (o.x.n+' '+(o.x.iface||'')+' '+(o.x.sensor||'')+' '+(o.x.mount||'')).toLowerCase().includes(q)));
+
+  // ── 選鏡頭時：依已選相機的接口(mount)屏蔽不相容鏡頭 ──
+  let banner='';
+  if(kind==='lens'){
+    const {mount:camMount, name:camName}=selectedCamMount();
+    if(mountTokens(camMount).length){
+      items.forEach(o=>{ o.compat = mountCompatible(camMount, o.x.mount); });
+      const nBad=items.filter(o=>!o.compat).length;
+      if(!_pickShowIncompat) items=items.filter(o=>o.compat);
+      banner=`<div class="pick-banner"><span>🔩 已依相機 <b>${esc(camName)}</b>（接口 <b>${esc(camMount)}</b>）篩選相容鏡頭`
+           + (nBad?` · 隱藏 ${nBad} 支接口不符`:'')+`</span>`
+           + (nBad?`<button class="pick-banner-tog" onclick="pickToggleIncompat()">${_pickShowIncompat?'只顯示相容':'顯示全部'}</button>`:'')
+           + `</div>`;
+    }
+  }
+
   const groups={}; items.forEach(o=>{ const b=brandOf(o.x.n); (groups[b]=groups[b]||[]).push(o); });
-  let html=`<div class="pick-manual" onclick="pickModel('')">— 手動輸入（清除選擇）—</div>`;
+  let html=banner+`<div class="pick-manual" onclick="pickModel('')">— 手動輸入（清除選擇）—</div>`;
   if(!items.length) html+='<div class="empty">找不到符合的型號</div>';
   Object.keys(groups).sort((a,b)=>a.localeCompare(b)).forEach(brand=>{
     html+=`<div class="pick-brand">${esc(brand)}</div>`;
     groups[brand].sort((a,b)=>String(a.x.n).localeCompare(String(b.x.n))).forEach(o=>{
       const bd=badgeFn(o.x), meta=metaFn?metaFn(o.x):'';
-      html+=`<div class="pick-item" onclick="pickModel(${o.i})"><span class="db-badge ${bd.cls}">${bd.t}</span>`
-          +`<span class="pi-body"><div class="pi-model">${esc(String(o.x.n).slice(brand.length).trim()||o.x.n)}</div>`
+      const bad = (o.compat===false);
+      const tag = bad?`<span class="pi-badmount">接口不符</span>`:'';
+      html+=`<div class="pick-item${bad?' pi-bad':''}" onclick="pickModel(${o.i})"><span class="db-badge ${bd.cls}">${bd.t}</span>`
+          +`<span class="pi-body"><div class="pi-model">${esc(String(o.x.n).slice(brand.length).trim()||o.x.n)}${tag}</div>`
           +`<div class="pi-spec">${esc(specFn(o.x))}${meta?' · '+esc(meta):''}</div></span></div>`;
     });
   });
   document.getElementById('pick-list').innerHTML=html;
 }
+function pickToggleIncompat(){ _pickShowIncompat=!_pickShowIncompat; renderPicker(); }
 function pickModel(i){
   const sel=document.getElementById(_pickKind==='cam'?'cam-pick':'lens-pick');
   sel.value = i===''?'':String(i);
@@ -1500,6 +1558,7 @@ function editCustCam(i){
   document.getElementById('afc-type').value  = c.line  ? 'line'  : 'area';
   document.getElementById('afc-color').value = c.color ? 'color' : 'gray';
   document.getElementById('afc-iface').value  = c.iface  || '';
+  document.getElementById('afc-mount').value  = c.mount  || '';
   document.getElementById('afc-sensor').value = c.sensor || '';
   document.getElementById('afc-url').value    = c.url    || '';
   document.getElementById('afc-doc').value='';
@@ -1638,6 +1697,7 @@ function submitAddCam(){
     line: document.getElementById('afc-type').value==='line',
     color:document.getElementById('afc-color').value==='color',
     iface: document.getElementById('afc-iface').value,
+    mount: document.getElementById('afc-mount').value.trim(),
     sensor: document.getElementById('afc-sensor').value.trim(),
     url: document.getElementById('afc-url').value.trim(),
   };
@@ -1646,7 +1706,7 @@ function submitAddCam(){
   else { custCams.push(entry); }
   saveCustCams(); refreshCamPicker(); renderDbLists();
   toggleAF('cam');
-  ['afc-n','afc-sensor','afc-url'].forEach(id=>document.getElementById(id).value='');
+  ['afc-n','afc-sensor','afc-url','afc-mount'].forEach(id=>document.getElementById(id).value='');
   if(docFile) attachDocOnAdd('cam', entry, docFile);
 }
 function attachDocOnAdd(kind, ent, f){
@@ -2382,14 +2442,15 @@ function initPickers(){
   allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
 }
 function applyCamera(){
-  const i=document.getElementById('cam-pick').value; if(i==='')return;
+  const i=document.getElementById('cam-pick').value; if(i===''){ updateMountWarn(); return; }
   const c=allCams()[+i];
   sv('p-px',c.px); sv('p-rw',c.rw); sv('p-rh',c.rh);
   sv('p-fps',c.fps); sv('p-bit',c.bit);
   setColor(c.color||false); setCamType(c.line||false); calc();
+  updateMountWarn();
 }
 function applyLens(){
-  const i=document.getElementById('lens-pick').value; if(i==='')return;
+  const i=document.getElementById('lens-pick').value; if(i===''){ updateMountWarn(); return; }
   const l=allLens()[+i];
   sv('p-ic',l.ic); sv('p-wd',l.wd);
   // Also sync Area-mode min WD so the shared lens picker works for Area
@@ -2407,6 +2468,7 @@ function applyLens(){
     sv('p-fl',l.fl||50);
   }
   setLensType(l.type||'objective'); calc();
+  updateMountWarn();
 }
 function sv(id,val){ document.getElementById(id).value=val; }
 
@@ -3301,7 +3363,7 @@ function aoiApplyData(d){
   if(Array.isArray(d.hlens)){ hiddenLens=new Set(d.hlens); localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); }
   if(d.rptMeta){ localStorage.setItem('aoi_rpt_meta', JSON.stringify(d.rptMeta)); }
   if(d.meta&&d.meta.updated) localStorage.setItem('aoi_sync_updated', d.meta.updated);
-  refreshCamPicker(); refreshLensPicker(); renderDbLists(); renderEvals(); loadRptMeta();
+  refreshCamPicker(); refreshLensPicker(); renderDbLists(); renderEvals(); loadRptMeta(); updateMountWarn();
   if(S.mode==='area') calcAS(); else if(S.mode==='static') calcStatic(); else calc();
 }
 
