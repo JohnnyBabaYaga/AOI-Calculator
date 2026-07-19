@@ -290,6 +290,18 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .af-row > span{font-size:10px;color:var(--sub);justify-self:start;}
 .af-more-tog{font-size:12px;font-weight:500;color:var(--accent);cursor:pointer;user-select:none;padding:7px 0 4px;}
 .af-more-tog:hover{text-decoration:underline;}
+/* ── PDF spec-selection modal ── */
+#pdf-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+#pdf-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
+  width:min(400px,94vw);max-height:86vh;flex-direction:column;
+  background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
+.pdf-tools{display:flex;gap:6px;margin:2px 0 8px;}
+.pdf-list{overflow-y:auto;flex:1;min-height:100px;}
+.pdf-block{border:1px solid var(--border);border-radius:9px;padding:7px 11px;margin-bottom:6px;}
+.pdf-block-lbl{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;}
+.pdf-items{margin:6px 0 2px 24px;display:flex;flex-direction:column;gap:4px;}
+.pdf-item-lbl{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--sub);cursor:pointer;}
+.pdf-block-lbl input,.pdf-item-lbl input{width:15px;height:15px;flex-shrink:0;}
 .af-btns{display:flex;gap:6px;margin-top:8px;}
 
 /* ══════════════════════════════════════
@@ -308,6 +320,15 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 
 .rpt-body{display:grid;grid-template-columns:1fr 1fr 2fr;border-bottom:1px solid var(--border);}
 .rpt-col{padding:12px 14px;min-width:0;border-right:1px solid var(--border);}
+/* ── 2-column report: info left, big diagram right ── */
+.rpt-2col{display:grid;grid-template-columns:1.32fr 1fr;align-items:stretch;}
+.rpt-2col-left{min-width:0;}
+.rpt-2col-left .rpt-body{grid-template-columns:1fr 1fr;}
+.rpt-2col-right{border-left:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
+.rpt-2col-right .rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border);}
+.rpt-2col-right canvas{display:block;width:100%;height:auto;flex:1 1 auto;min-height:300px;}
+.rpt-2col-right #dg-caption,.rpt-2col-right #st-dg-caption,.rpt-2col-right #as-dg-caption{display:flex;justify-content:center;gap:10px;padding:7px 4px 2px;font-size:10px;line-height:1;flex-wrap:wrap;}
+@media(max-width:768px){.rpt-2col{grid-template-columns:1fr;}.rpt-2col-left .rpt-body{grid-template-columns:1fr;}.rpt-2col-right{border-left:none;border-top:1px solid var(--border);}.rpt-2col-right canvas{min-height:200px;}}
 .rpt-col:last-child{border-right:none;}
 .rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;
             padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border);}
@@ -455,7 +476,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -545,6 +566,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 
 <!-- ── Cloud Sync Settings Modal ── -->
 <div id="af-overlay" onclick="closeAFOverlay()"></div>
+<div id="pdf-overlay" onclick="closePdfExport()"></div>
+<div id="pdf-modal">
+  <div class="af-hdr"><b>📄 選擇要放入 PDF 的內容</b><button class="af-x" onclick="closePdfExport()" aria-label="關閉">✕</button></div>
+  <div class="pdf-tools"><button class="btn-sec" style="font-size:11px" onclick="pdfSelectAll(true)">全選</button><button class="btn-sec" style="font-size:11px" onclick="pdfSelectAll(false)">全不選</button></div>
+  <div id="pdf-list" class="pdf-list"></div>
+  <div class="af-btns" style="margin-top:10px"><button class="btn-pri" style="flex:1;font-size:12px" onclick="doPdfExport()">產出 PDF</button><button class="btn-sec" style="font-size:12px" onclick="closePdfExport()">取消</button></div>
+</div>
 <div id="pick-overlay" onclick="closePicker()"></div>
 <div id="pick-modal">
   <div class="af-hdr"><b id="pick-title">選擇相機</b><button class="af-x" onclick="closePicker()" aria-label="關閉">✕</button></div>
@@ -795,7 +823,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <div class="rpt-date" id="rpt-date"></div>
       </div>
 
-      <!-- Overview body: 需求 | 架構 | 示意圖 -->
+      <div class="rpt-2col"><div class="rpt-2col-left">
+      <!-- Overview body: 需求 | 架構 -->
       <div class="rpt-body">
 
         <div class="rpt-col">
@@ -838,12 +867,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           </div>
         </div>
 
-        <div class="rpt-col">
-          <div class="rpt-ctitle">📐 系統示意圖</div>
-          <canvas id="dg"></canvas>
-          <div id="dg-caption"></div>
-        </div>
-      </div>
+      </div><!-- /rpt-body -->
 
       <!-- Technical detail sections -->
       <div style="border-top:1px solid var(--border);padding:5px 10px;display:flex;justify-content:flex-end;"><button id="card-edit-btn" class="btn-sec" style="font-size:10px;padding:2px 9px" onclick="toggleCardEdit()">✎ 自訂版面</button></div><div class="res-grid rpt-secs" id="card-edit-target" style="border-top:none">
@@ -901,6 +925,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
 
       </div><!-- /res-grid -->
+      </div><!-- /rpt-2col-left -->
+      <div class="rpt-2col-right">
+        <div class="rpt-ctitle">📐 系統示意圖</div>
+        <canvas id="dg"></canvas>
+        <div id="dg-caption"></div>
+      </div>
+      </div><!-- /rpt-2col -->
     </div><!-- /rpt-card -->
 
   </div>
@@ -917,7 +948,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
         <div class="rpt-date" id="st-rpt-date"></div>
       </div>
-      <!-- Overview body: 需求 | 架構 | 示意圖 -->
+      <div class="rpt-2col"><div class="rpt-2col-left">
+      <!-- Overview body: 需求 | 架構 -->
       <div class="rpt-body">
         <div class="rpt-col">
           <div class="rpt-ctitle">📋 需求概覽</div>
@@ -945,12 +977,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <div class="rpt-kv"><span class="rpt-k">排列方式</span><span class="rpt-v" id="st-rpt-arr">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">工作距離</span><span class="rpt-v" id="st-rpt-wd">—</span></div>
         </div>
-        <div class="rpt-col">
-          <div class="rpt-ctitle">📐 系統示意圖</div>
-          <canvas id="st-dg" style="display:block;width:100%;height:190px;"></canvas>
-          <div id="st-dg-caption" style="display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;"></div>
-        </div>
-      </div>
+      </div><!-- /rpt-body -->
       <!-- Technical sections -->
       <div style="border-top:1px solid var(--border);padding:5px 10px;display:flex;justify-content:flex-end;">
         <button id="st-card-edit-btn" class="btn-sec" style="font-size:10px;padding:2px 9px" onclick="toggleStCardEdit()">✎ 自訂版面</button>
@@ -982,7 +1009,14 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             <div class="metric" data-cid="st-r-covy"><div class="mt">總覆蓋 Y</div><div class="mv"><span id="st-r-covy">—</span> <span class="mu">mm</span></div></div>
           </div>
         </div>
+      </div><!-- /res-grid -->
+      </div><!-- /rpt-2col-left -->
+      <div class="rpt-2col-right">
+        <div class="rpt-ctitle">📐 系統示意圖</div>
+        <canvas id="st-dg"></canvas>
+        <div id="st-dg-caption"></div>
       </div>
+      </div><!-- /rpt-2col -->
     </div><!-- /rpt-card -->
   </div><!-- /#pane-static-res -->
 
@@ -997,6 +1031,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
         <div class="rpt-date" id="as-rpt-date"></div>
       </div>
+      <div class="rpt-2col"><div class="rpt-2col-left">
       <div class="rpt-body">
         <div class="rpt-col">
           <div class="rpt-ctitle">📋 需求概覽</div>
@@ -1021,12 +1056,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <div class="rpt-kv"><span class="rpt-k">配置方式</span><span class="rpt-v" id="as-rpt-arr">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">WD 可用</span><span class="rpt-v" id="as-rpt-wd-ok">—</span></div>
         </div>
-        <div class="rpt-col">
-          <div class="rpt-ctitle">📐 配置示意圖</div>
-          <canvas id="as-dg" style="display:block;width:100%;height:190px;"></canvas>
-          <div id="as-dg-caption" style="display:flex;justify-content:center;gap:10px;padding:3px 4px 2px;font-size:9px;line-height:1;flex-wrap:wrap;"></div>
-        </div>
-      </div>
+      </div><!-- /rpt-body -->
       <div class="res-grid rpt-secs" style="border-top:1px solid var(--border)">
         <div class="rg-sec">
           <div class="shdr">🔭 光學規格</div>
@@ -1049,7 +1079,14 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             <div class="metric"><div class="mt">物理最少（無重疊）</div><div class="mv" style="font-size:13px;color:var(--sub)"><span id="as-r-min-cams-ref">—</span></div></div>
           </div>
         </div>
+      </div><!-- /res-grid -->
+      </div><!-- /rpt-2col-left -->
+      <div class="rpt-2col-right">
+        <div class="rpt-ctitle">📐 配置示意圖</div>
+        <canvas id="as-dg"></canvas>
+        <div id="as-dg-caption"></div>
       </div>
+      </div><!-- /rpt-2col -->
     </div>
   </div><!-- /#pane-area-res -->
 
@@ -2046,6 +2083,7 @@ function drawStaticDiagram(ss,r){
   if(cap){
     let h=`<span class="dc-l">${r.total}台 (${r.nX}×${r.nY})</span>`;
     h+=`<span class="dc-sep">·</span><span class="dc-c">樣品 ${ss.objW}×${ss.objH}mm</span>`;
+    if(r.hFOV>0&&r.vFOV>0) h+=`<span class="dc-sep">·</span><span class="dc-l" style="color:#007aff">FOV ${r.hFOV.toFixed(1)}×${r.vFOV.toFixed(1)}mm</span>`;
     if(ov>0) h+=`<span class="dc-sep">·</span><span class="dc-r">overlap ${ss.overlap}%</span>`;
     cap.innerHTML=h;
   }
@@ -2163,12 +2201,32 @@ function drawDiagram(canvasId='dg'){
     ctx.restore();
   }
 
+  // ── 相機×鏡頭 實際視野(單相機 FOV)疊圖，依比例畫在樣品左上 ──
+  const rr = (typeof lastR!=='undefined' && lastR) ? lastR : {};
+  const fh_mm = +rr.hFOV || 0, fv_mm = +rr.vFOV || 0;  // hFOV(跨排方向) × vFOV(掃描方向)
+  if(fh_mm>0 && fv_mm>0){
+    let fbw, fbh;
+    if(scanW){ fbw = fv_mm*scale; fbh = fh_mm*scale; }
+    else     { fbw = fh_mm*scale; fbh = fv_mm*scale; }
+    // 最小可見尺寸(掃描單張 FOV 往往極小)：至少 16px 才畫得出虛線框
+    fbw=Math.max(16,Math.min(fbw,rW*0.9)); fbh=Math.max(16,Math.min(fbh,rH*0.9));
+    const fx=ox+3, fy=oy+13;
+    ctx.fillStyle=dark?'rgba(0,122,255,.22)':'rgba(0,122,255,.16)';
+    ctx.fillRect(fx,fy,fbw,fbh);
+    ctx.strokeStyle=accent; ctx.setLineDash([4,3]); ctx.lineWidth=1.6;
+    ctx.strokeRect(fx,fy,fbw,fbh); ctx.setLineDash([]);
+    ctx.fillStyle=accent; ctx.font='700 8px -apple-system,sans-serif';
+    ctx.textAlign='left'; ctx.textBaseline='bottom';
+    ctx.fillText('單相機視野 FOV', fx, fy-2);
+  }
+
   // ── Caption: HTML below canvas ──
   const capId = canvasId==='dg' ? 'dg-caption' : 'rpt-dg-cap';
   const cap = document.getElementById(capId);
   if(cap){
     let h = `<span class="dc-l">${N}台 (${nC}列×${nR}排)</span>`;
-    h += `<span class="dc-sep">·</span><span class="dc-c">${sw} × ${sh} mm</span>`;
+    h += `<span class="dc-sep">·</span><span class="dc-c">樣品 ${sw} × ${sh} mm</span>`;
+    if(fh_mm>0 && fv_mm>0) h += `<span class="dc-sep">·</span><span class="dc-l" style="color:${accent}">FOV ${fh_mm.toFixed(1)} × ${fv_mm.toFixed(1)} mm</span>`;
     if(ov>0) h += `<span class="dc-sep">·</span><span class="dc-r">overlap ${p.overlap}%</span>`;
     cap.innerHTML = h;
   }
@@ -2430,7 +2488,61 @@ function loadEvalArea(e){
 }
 function delEval(i){ evals.splice(i,1); persistEvals(); renderEvals(); }
 function exportEval(i){ loadEval(i); setTimeout(()=>exportPDFMode(evals[i]?.mode||'scan'),300); }
-function exportPDF(){ exportPDFMode(S.mode); }
+function exportPDF(){ openPdfExport(S.mode); }
+
+// ── PDF：匯出前的兩級勾選(區塊 + 展開細項)──
+let _pdfMode='scan', _pdfBlocks=[];
+function paneIdOf(mode){ return mode==='area'?'pane-area-res':mode==='static'?'pane-static-res':'pane-res'; }
+function openPdfExport(mode){
+  _pdfMode=mode;
+  const card=document.getElementById(paneIdOf(mode)).querySelector('.rpt-card');
+  _pdfBlocks=[];
+  card.querySelectorAll('.rpt-2col-left > .rpt-body > .rpt-col, .rpt-2col-right').forEach(el=>{
+    _pdfBlocks.push({el, title:(el.querySelector('.rpt-ctitle')?.textContent||'區塊').trim(), items:[], isDiagram:el.classList.contains('rpt-2col-right')});
+  });
+  card.querySelectorAll('.rg-sec').forEach(sec=>{
+    const items=[...sec.querySelectorAll('.metric')].map(m=>({el:m, title:(m.querySelector('.mt')?.textContent||'').trim()}));
+    _pdfBlocks.push({el:sec, title:(sec.querySelector('.shdr')?.textContent||'規格').trim(), items});
+  });
+  renderPdfList();
+  document.getElementById('pdf-modal').style.display='flex';
+  document.getElementById('pdf-overlay').style.display='';
+}
+function renderPdfList(){
+  let html='';
+  _pdfBlocks.forEach((b,bi)=>{
+    html+=`<div class="pdf-block"><label class="pdf-block-lbl"><input type="checkbox" checked onchange="pdfToggleBlock(${bi},this.checked)"> ${esc(b.title)}</label>`;
+    if(b.items.length){
+      html+='<div class="pdf-items">'+b.items.map((it,ii)=>`<label class="pdf-item-lbl"><input type="checkbox" data-b="${bi}" data-i="${ii}" checked> ${esc(it.title)}</label>`).join('')+'</div>';
+    }
+    html+='</div>';
+  });
+  document.getElementById('pdf-list').innerHTML=html;
+}
+function pdfToggleBlock(bi,on){ document.querySelectorAll(`#pdf-list input[data-b="${bi}"]`).forEach(c=>c.checked=on); }
+function pdfSelectAll(on){ document.querySelectorAll('#pdf-list input[type=checkbox]').forEach(c=>c.checked=on); }
+function closePdfExport(){ document.getElementById('pdf-modal').style.display='none'; document.getElementById('pdf-overlay').style.display='none'; }
+async function doPdfExport(){
+  const blockChecks=[...document.querySelectorAll('#pdf-list .pdf-block > .pdf-block-lbl > input')];
+  const restore=[]; let collapsedGrid=null;
+  _pdfBlocks.forEach((b,bi)=>{
+    if(blockChecks[bi] && !blockChecks[bi].checked){
+      b.el.style.display='none'; restore.push([b.el,'']);
+      if(b.isDiagram && b.el.parentElement){ collapsedGrid=b.el.parentElement; collapsedGrid.style.gridTemplateColumns='1fr'; }
+    } else {
+      b.items.forEach((it,ii)=>{
+        const c=document.querySelector(`#pdf-list input[data-b="${bi}"][data-i="${ii}"]`);
+        if(c && !c.checked){ it.el.style.display='none'; restore.push([it.el,'']); }
+      });
+    }
+  });
+  closePdfExport();
+  try{ await exportPDFMode(_pdfMode); }
+  finally{
+    restore.forEach(([el])=>el.style.display='');
+    if(collapsedGrid) collapsedGrid.style.gridTemplateColumns='';
+  }
+}
 async function exportPDFMode(mode){
   const paneId = mode==='area' ? 'pane-area-res' : mode==='static' ? 'pane-static-res' : 'pane-res';
   const el = document.getElementById(paneId).querySelector('.rpt-card');
@@ -2930,13 +3042,13 @@ function calcAS(){
     vwAS.classList.add('hide'); vwAS.style.display='none';
   }
 
-  drawASDiagram(nX, nY, panelX, panelY);
+  drawASDiagram(nX, nY, panelX, panelY, xFOV, yFOV);
 }
 
 // ═══════════════════════════════════════════
 // AREA SHOT: DIAGRAM
 // ═══════════════════════════════════════════
-function drawASDiagram(nX, nY, panelW, panelH){
+function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV){
   const canvas = document.getElementById('as-dg');
   if(!canvas) return;
   const dpr = window.devicePixelRatio||1;
@@ -2981,8 +3093,22 @@ function drawASDiagram(nX, nY, panelW, panelH){
   ctx.save(); ctx.translate(ox-6,oy+rH/2); ctx.rotate(-Math.PI/2);
   ctx.textAlign='center'; ctx.textBaseline='bottom';
   ctx.fillText(`${panelH} mm`,0,0); ctx.restore();
+  // ── 單相機實際視野 FOV(虛線框，依比例)──
+  if(xFOV>0 && yFOV>0){
+    let fw=xFOV*scale, fh=yFOV*scale;
+    fw=Math.max(16,Math.min(fw,rW)); fh=Math.max(16,Math.min(fh,rH));
+    ctx.fillStyle='rgba(0,122,255,.16)'; ctx.fillRect(ox+2,oy+2,fw,fh);
+    ctx.strokeStyle=accent; ctx.setLineDash([5,3]); ctx.lineWidth=1.8;
+    ctx.strokeRect(ox+2,oy+2,fw,fh); ctx.setLineDash([]);
+    ctx.fillStyle=accent; ctx.font='700 9px -apple-system,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='top';
+    if(fw>60) ctx.fillText('單相機 FOV', ox+5, oy+4);
+  }
   const cap=document.getElementById('as-dg-caption');
-  if(cap){ cap.innerHTML=`<span>${nX*nY}台 (${nX}×${nY})</span><span>·</span><span>${panelW} × ${panelH} mm</span>`; }
+  if(cap){
+    let h=`<span>${nX*nY}台 (${nX}×${nY})</span><span>·</span><span>${panelW} × ${panelH} mm</span>`;
+    if(xFOV>0&&yFOV>0) h+=`<span>·</span><span style="color:${accent}">FOV ${xFOV.toFixed(0)} × ${yFOV.toFixed(0)} mm</span>`;
+    cap.innerHTML=h;
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -3194,7 +3320,7 @@ async function testCloud(){
 // INIT
 // ═══════════════════════════════════════════
 // 把新增/編輯 modal 與遮罩移到 body，避免被玻璃卡片(backdrop-filter)困住定位
-['af-overlay','af-cam','af-lens','pick-overlay','pick-modal'].forEach(id=>{ const e=document.getElementById(id); if(e) document.body.appendChild(e); });
+['af-overlay','af-cam','af-lens','pick-overlay','pick-modal','pdf-overlay','pdf-modal'].forEach(id=>{ const e=document.getElementById(id); if(e) document.body.appendChild(e); });
 initPickers();
 loadRptMeta();
 initCardCfg();
