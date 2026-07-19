@@ -232,6 +232,30 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .db-chev{font-size:10px;color:var(--sub);transition:transform .15s;width:12px;text-align:center;flex-shrink:0;}
 .db-section.collapsed .db-chev{transform:rotate(-90deg);}
 .db-section.collapsed .db-grid{display:none;}
+/* ── Left-panel visual model picker ── */
+.dbrow .pick-btn{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:6px;
+  padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);
+  font-size:11px;cursor:pointer;text-align:left;}
+.dbrow .pick-btn:hover{border-color:var(--accent);}
+.dbrow .pick-btn span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pick-arrow{color:var(--sub);font-size:9px;flex-shrink:0;}
+#pick-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+#pick-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
+  width:min(470px,94vw);max-height:86vh;flex-direction:column;
+  background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
+.pick-filters{display:flex;gap:6px;margin:9px 0 4px;flex-wrap:wrap;}
+.pick-chip{font-size:11px;font-weight:500;padding:3px 13px;border:1px solid var(--border);border-radius:999px;
+  background:var(--surf2);color:var(--sub);cursor:pointer;}
+.pick-chip.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pick-list{overflow-y:auto;flex:1;margin-top:4px;min-height:120px;}
+.pick-brand{font-size:12px;font-weight:700;color:var(--accent-deep);padding:8px 2px 4px;}
+.pick-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:5px;cursor:pointer;}
+.pick-item:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent);}
+.pi-body{flex:1;min-width:0;}
+.pi-model{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pi-spec{font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pick-manual{font-size:12px;color:var(--accent);cursor:pointer;padding:5px 2px 8px;border-bottom:1px solid var(--border);margin-bottom:4px;}
+.pick-manual:hover{text-decoration:underline;}
 .db-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
 .bdg-area{background:color-mix(in srgb,#2f6fd0 15%,transparent);color:#1f4e96;}
 .bdg-line{background:color-mix(in srgb,#7c4dff 16%,transparent);color:#5b34c9;}
@@ -431,7 +455,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -521,6 +545,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 
 <!-- ── Cloud Sync Settings Modal ── -->
 <div id="af-overlay" onclick="closeAFOverlay()"></div>
+<div id="pick-overlay" onclick="closePicker()"></div>
+<div id="pick-modal">
+  <div class="af-hdr"><b id="pick-title">選擇相機</b><button class="af-x" onclick="closePicker()" aria-label="關閉">✕</button></div>
+  <input id="pick-search" class="db-search" style="margin:0" type="text" placeholder="🔍 搜尋型號 / 品牌 / 介面…" oninput="renderPicker()">
+  <div class="pick-filters" id="pick-filters"></div>
+  <div id="pick-list" class="pick-list"></div>
+</div>
 <div id="cloud-overlay" onclick="closeCloudModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
 <div id="cloud-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
      background:var(--surf);border:1px solid var(--border);border-radius:14px;
@@ -583,7 +614,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   <div class="card">
     <div class="dbrow">
       <label>資料庫</label>
-      <select id="cam-pick" onchange="applyCamera()">
+      <button class="pick-btn" id="cam-pick-btn" onclick="openPicker('cam')"><span id="cam-pick-label">— 手動輸入 —</span><span class="pick-arrow">▾</span></button>
+      <select id="cam-pick" onchange="applyCamera();updatePickLabel('cam')" style="display:none">
         <option value="">— 手動輸入 —</option>
       </select>
     </div>
@@ -625,7 +657,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   <div class="card">
     <div class="dbrow">
       <label>資料庫</label>
-      <select id="lens-pick" onchange="applyLens()">
+      <button class="pick-btn" id="lens-pick-btn" onclick="openPicker('lens')"><span id="lens-pick-label">— 手動輸入 —</span><span class="pick-arrow">▾</span></button>
+      <select id="lens-pick" onchange="applyLens();updatePickLabel('lens')" style="display:none">
         <option value="">— 手動輸入 —</option>
       </select>
     </div>
@@ -1192,12 +1225,14 @@ function refreshCamPicker(){
   cp.innerHTML='<option value="">— 手動輸入 —</option>';
   allCams().forEach((c,i)=>cp.appendChild(new Option(c.n,i)));
   cp.value=(prev!==''&&+prev<allCams().length)?prev:'';
+  updatePickLabel('cam');
 }
 function refreshLensPicker(){
   const lp=document.getElementById('lens-pick'), prev=lp.value;
   lp.innerHTML='<option value="">— 手動輸入 —</option>';
   allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
   lp.value=(prev!==''&&+prev<allLens().length)?prev:'';
+  updatePickLabel('lens');
 }
 
 // ── Render DB lists ──
@@ -1297,6 +1332,57 @@ function dbFilter(containerId, q){
 function renderDbLists(){
   renderDbGroup('db-cam-list', CAMS, hiddenCams, custCams, camBadge, camSpec, camMeta, 'cam');
   renderDbGroup('db-lens-list', LENS, hiddenLens, custLens, lensBadge, lensSpec, lensMeta, 'lens');
+}
+
+// ── Visual model picker (left-panel 資料庫 selection) ──
+let _pickKind='cam', _pickType='';
+function openPicker(kind){
+  _pickKind=kind; _pickType='';
+  document.getElementById('pick-title').textContent = kind==='cam'?'📷 選擇相機':'🔭 選擇鏡頭';
+  document.getElementById('pick-search').value='';
+  renderPicker();
+  document.getElementById('pick-modal').style.display='flex';
+  document.getElementById('pick-overlay').style.display='';
+  setTimeout(()=>document.getElementById('pick-search').focus(),40);
+}
+function closePicker(){ document.getElementById('pick-modal').style.display='none'; document.getElementById('pick-overlay').style.display='none'; }
+function pickType(t){ _pickType=t; renderPicker(); }
+function renderPicker(){
+  const kind=_pickKind;
+  const list=kind==='cam'?allCams():allLens();
+  const badgeFn=kind==='cam'?camBadge:lensBadge, specFn=kind==='cam'?camSpec:lensSpec, metaFn=kind==='cam'?camMeta:lensMeta;
+  const q=(document.getElementById('pick-search').value||'').trim().toLowerCase();
+  const types=kind==='cam'?[['','全部'],['area','面陣'],['line','線掃']]:[['','全部'],['telecentric','遠心'],['cctv','定焦'],['objective','物鏡']];
+  document.getElementById('pick-filters').innerHTML=types.map(([v,l])=>`<span class="pick-chip ${_pickType===v?'on':''}" onclick="pickType('${v}')">${l}</span>`).join('');
+  const typeOk=x=>{ if(!_pickType)return true; if(kind==='cam') return _pickType==='line'?!!x.line:!x.line; return x.type===_pickType; };
+  const items=list.map((x,i)=>({x,i})).filter(o=>typeOk(o.x) && (!q || (o.x.n+' '+(o.x.iface||'')+' '+(o.x.sensor||'')+' '+(o.x.mount||'')).toLowerCase().includes(q)));
+  const groups={}; items.forEach(o=>{ const b=brandOf(o.x.n); (groups[b]=groups[b]||[]).push(o); });
+  let html=`<div class="pick-manual" onclick="pickModel('')">— 手動輸入（清除選擇）—</div>`;
+  if(!items.length) html+='<div class="empty">找不到符合的型號</div>';
+  Object.keys(groups).sort((a,b)=>a.localeCompare(b)).forEach(brand=>{
+    html+=`<div class="pick-brand">${esc(brand)}</div>`;
+    groups[brand].sort((a,b)=>String(a.x.n).localeCompare(String(b.x.n))).forEach(o=>{
+      const bd=badgeFn(o.x), meta=metaFn?metaFn(o.x):'';
+      html+=`<div class="pick-item" onclick="pickModel(${o.i})"><span class="db-badge ${bd.cls}">${bd.t}</span>`
+          +`<span class="pi-body"><div class="pi-model">${esc(String(o.x.n).slice(brand.length).trim()||o.x.n)}</div>`
+          +`<div class="pi-spec">${esc(specFn(o.x))}${meta?' · '+esc(meta):''}</div></span></div>`;
+    });
+  });
+  document.getElementById('pick-list').innerHTML=html;
+}
+function pickModel(i){
+  const sel=document.getElementById(_pickKind==='cam'?'cam-pick':'lens-pick');
+  sel.value = i===''?'':String(i);
+  if(_pickKind==='cam') applyCamera(); else applyLens();
+  updatePickLabel(_pickKind);
+  closePicker();
+}
+function updatePickLabel(kind){
+  const sel=document.getElementById(kind==='cam'?'cam-pick':'lens-pick');
+  const lab=document.getElementById(kind==='cam'?'cam-pick-label':'lens-pick-label');
+  if(!sel||!lab) return;
+  const v=sel.value, arr=kind==='cam'?allCams():allLens();
+  lab.textContent = (v===''||!arr[+v]) ? '— 手動輸入 —' : arr[+v].n;
 }
 
 function hideBuiltinCam(i){ hiddenCams.add(i); saveHiddenCams(); refreshCamPicker(); renderDbLists(); }
@@ -3108,7 +3194,7 @@ async function testCloud(){
 // INIT
 // ═══════════════════════════════════════════
 // 把新增/編輯 modal 與遮罩移到 body，避免被玻璃卡片(backdrop-filter)困住定位
-['af-overlay','af-cam','af-lens'].forEach(id=>{ const e=document.getElementById(id); if(e) document.body.appendChild(e); });
+['af-overlay','af-cam','af-lens','pick-overlay','pick-modal'].forEach(id=>{ const e=document.getElementById(id); if(e) document.body.appendChild(e); });
 initPickers();
 loadRptMeta();
 initCardCfg();
