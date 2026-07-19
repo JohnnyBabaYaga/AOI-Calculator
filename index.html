@@ -2078,6 +2078,9 @@ function drawStaticDiagram(ss,r){
   ctx.font=`${Math.max(8,Math.min(11,objH*0.18))}px -apple-system,sans-serif`;
   ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.fillText('樣品', sampX+objW/2, sampY+objH/2);
+  // ── 單相機實際視野 FOV(第一格，按實際尺寸標示)──
+  drawFovOverlay(ctx, {x:ox, y:oy, w:fovW, h:fovH}, W, H, dark,
+    `${r.hFOV.toFixed(1)} × ${r.vFOV.toFixed(1)} mm`);
   // Caption
   const cap=document.getElementById('st-dg-caption');
   if(cap){
@@ -2099,6 +2102,61 @@ function rrect(ctx,x,y,w,h,r){
   ctx.arcTo(x+w,y+h,x+w-r,y+h,r); ctx.lineTo(x+r,y+h);
   ctx.arcTo(x,y+h,x,y+h-r,r); ctx.lineTo(x,y+r);
   ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+}
+
+// ── 單相機實際視野 FOV 疊圖 ──
+// box = 依真實比例算出的視野矩形(canvas px，已定位)；一律「按實際尺寸」畫，不再鉗最小值。
+// 若真實比例下太小看不清 → 於角落畫一個放大 callout(放大鏡)，並以引線連回原位，
+// 讓「真實比例」與「看得清」兼顧。labelMm 例如 "2.6 × 2.6 mm"。
+function drawFovOverlay(ctx, box, W, H, dark, labelMm){
+  const accent='#007aff';
+  dark=false; // app 為淺色主題(不隨 OS 深色),FOV 疊圖固定淺色樣式
+  // 1) 真實比例矩形(不縮放、不放大)
+  ctx.fillStyle = dark?'rgba(0,122,255,.24)':'rgba(0,122,255,.16)';
+  ctx.fillRect(box.x, box.y, box.w, box.h);
+  ctx.strokeStyle=accent; ctx.setLineDash([4,3]); ctx.lineWidth=1.4;
+  ctx.strokeRect(box.x, box.y, box.w, box.h); ctx.setLineDash([]);
+
+  const tiny = Math.min(box.w, box.h) < 26;
+  if(!tiny){
+    ctx.fillStyle=accent; ctx.font='700 9px -apple-system,sans-serif';
+    ctx.textAlign='left'; ctx.textBaseline='bottom';
+    const ty = box.y-2 > 10 ? box.y-2 : box.y+box.h+9;
+    ctx.fillText('單相機 FOV', box.x, ty);
+    return;
+  }
+  // 2) 太小 → 放大 callout(維持長寬比)
+  const ar = box.w/Math.max(0.001,box.h);
+  const target=46; let cw,ch;
+  if(ar>=1){ cw=target; ch=target/ar; } else { ch=target; cw=target*ar; }
+  cw=Math.max(12,cw); ch=Math.max(12,ch);
+  // chip 尺寸(以最寬文字為準)
+  ctx.font='700 8px -apple-system,sans-serif';
+  const t1='單相機 FOV（放大）', t2=labelMm;
+  const tw=Math.max(ctx.measureText(t1).width, ctx.measureText(t2).width);
+  const chipW=Math.max(cw, tw)+12, chipH=ch+26;
+  let chipX=W-6-chipW, chipY=H-6-chipH;
+  chipX=Math.max(4,chipX); chipY=Math.max(4,chipY);
+  const cx=chipX+(chipW-cw)/2, cy=chipY+16;
+  // 引線：真實框中心 → callout
+  ctx.save();
+  ctx.strokeStyle=accent; ctx.globalAlpha=.5; ctx.setLineDash([2,2]); ctx.lineWidth=0.8;
+  ctx.beginPath(); ctx.moveTo(box.x+box.w/2, box.y+box.h/2); ctx.lineTo(cx+cw/2, cy+ch/2); ctx.stroke();
+  ctx.restore();
+  // chip 底
+  ctx.fillStyle = dark?'rgba(28,28,30,.92)':'rgba(255,255,255,.94)';
+  rrect(ctx, chipX, chipY, chipW, chipH, 5); ctx.fill();
+  ctx.strokeStyle = dark?'rgba(255,255,255,.16)':'rgba(0,0,0,.10)'; ctx.lineWidth=0.7; ctx.stroke();
+  // 放大框
+  ctx.fillStyle = dark?'rgba(0,122,255,.24)':'rgba(0,122,255,.16)';
+  ctx.fillRect(cx,cy,cw,ch);
+  ctx.strokeStyle=accent; ctx.setLineDash([4,3]); ctx.lineWidth=1.6; ctx.strokeRect(cx,cy,cw,ch); ctx.setLineDash([]);
+  // 文字
+  ctx.fillStyle=accent; ctx.font='700 8px -apple-system,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText(t1, chipX+chipW/2, chipY+3);
+  ctx.font='7.5px -apple-system,sans-serif';
+  ctx.fillText(t2, chipX+chipW/2, cy+ch+3);
 }
 
 function drawDiagram(canvasId='dg'){
@@ -2205,19 +2263,13 @@ function drawDiagram(canvasId='dg'){
   const rr = (typeof lastR!=='undefined' && lastR) ? lastR : {};
   const fh_mm = +rr.hFOV || 0, fv_mm = +rr.vFOV || 0;  // hFOV(跨排方向) × vFOV(掃描方向)
   if(fh_mm>0 && fv_mm>0){
+    // 按實際尺寸畫(不鉗最小值)：跨排方向→hFOV，掃描方向→vFOV
     let fbw, fbh;
     if(scanW){ fbw = fv_mm*scale; fbh = fh_mm*scale; }
     else     { fbw = fh_mm*scale; fbh = fv_mm*scale; }
-    // 最小可見尺寸(掃描單張 FOV 往往極小)：至少 16px 才畫得出虛線框
-    fbw=Math.max(16,Math.min(fbw,rW*0.9)); fbh=Math.max(16,Math.min(fbh,rH*0.9));
-    const fx=ox+3, fy=oy+13;
-    ctx.fillStyle=dark?'rgba(0,122,255,.22)':'rgba(0,122,255,.16)';
-    ctx.fillRect(fx,fy,fbw,fbh);
-    ctx.strokeStyle=accent; ctx.setLineDash([4,3]); ctx.lineWidth=1.6;
-    ctx.strokeRect(fx,fy,fbw,fbh); ctx.setLineDash([]);
-    ctx.fillStyle=accent; ctx.font='700 8px -apple-system,sans-serif';
-    ctx.textAlign='left'; ctx.textBaseline='bottom';
-    ctx.fillText('單相機視野 FOV', fx, fy-2);
+    fbw=Math.min(fbw,rW); fbh=Math.min(fbh,rH);
+    drawFovOverlay(ctx, {x:ox, y:oy, w:fbw, h:fbh}, W, H, dark,
+      `${fh_mm.toFixed(1)} × ${fv_mm.toFixed(1)} mm`);
   }
 
   // ── Caption: HTML below canvas ──
@@ -3093,15 +3145,11 @@ function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV){
   ctx.save(); ctx.translate(ox-6,oy+rH/2); ctx.rotate(-Math.PI/2);
   ctx.textAlign='center'; ctx.textBaseline='bottom';
   ctx.fillText(`${panelH} mm`,0,0); ctx.restore();
-  // ── 單相機實際視野 FOV(虛線框，依比例)──
+  // ── 單相機實際視野 FOV(虛線框，按實際尺寸)──
   if(xFOV>0 && yFOV>0){
-    let fw=xFOV*scale, fh=yFOV*scale;
-    fw=Math.max(16,Math.min(fw,rW)); fh=Math.max(16,Math.min(fh,rH));
-    ctx.fillStyle='rgba(0,122,255,.16)'; ctx.fillRect(ox+2,oy+2,fw,fh);
-    ctx.strokeStyle=accent; ctx.setLineDash([5,3]); ctx.lineWidth=1.8;
-    ctx.strokeRect(ox+2,oy+2,fw,fh); ctx.setLineDash([]);
-    ctx.fillStyle=accent; ctx.font='700 9px -apple-system,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='top';
-    if(fw>60) ctx.fillText('單相機 FOV', ox+5, oy+4);
+    let fw=Math.min(xFOV*scale, rW), fh=Math.min(yFOV*scale, rH);
+    drawFovOverlay(ctx, {x:ox, y:oy, w:fw, h:fh}, W, H, false,
+      `${xFOV.toFixed(1)} × ${yFOV.toFixed(1)} mm`);
   }
   const cap=document.getElementById('as-dg-caption');
   if(cap){
