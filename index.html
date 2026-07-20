@@ -1355,7 +1355,7 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
     g.forEach(it=>{
       const bd=badgeFn(it.x);
       const model=esc(String(it.x.n).slice(brand.length).trim()||it.x.n);
-      const link=it.x.url?`<a class="db-row-link" href="${esc(it.x.url)}" target="_blank" rel="noopener" title="產品頁" aria-label="產品頁">↗</a>`:'';
+      // 每項產品頁連結已移除(品牌那行已有官網連結，避免重複);url 資料仍保留供品牌連結使用
       const acts=it.builtin
         ? `<button class="db-del" onclick="${kind==='cam'?'hideBuiltinCam':'hideBuiltinLens'}(${it.ref})" title="刪除">✕</button>`
         : `<button class="db-doc" onclick="uploadDoc('${kind}',${it.ref})" title="上傳規格書 / 手冊">📎</button>`
@@ -1371,7 +1371,7 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
       html+=`<div class="db-card" data-name="${esc((it.x.n+' '+(it.x.iface||'')+' '+(it.x.sensor||'')+' '+(it.x.mount||'')).toLowerCase())}">`
           + `<div class="db-card-top"><span class="db-badge ${bd.cls}">${bd.t}</span>`
           + `<span class="db-card-model" title="${esc(it.x.n)}">${model}</span>`
-          + `<span class="db-card-acts">${link}${acts}</span></div>`
+          + `<span class="db-card-acts">${acts}</span></div>`
           + `<div class="db-card-spec">${esc(specFn(it.x))}</div>`
           + (meta?`<div class="db-card-meta">${esc(meta)}</div>`:'') + docsHtml + `</div>`;
     });
