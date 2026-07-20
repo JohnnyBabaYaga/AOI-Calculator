@@ -1134,7 +1134,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <div id="db-cam-list"></div>
       <div id="af-cam" class="af" style="display:none">
         <div class="af-hdr"><b id="afc-title">📷 新增相機</b><button class="af-x" onclick="toggleAF('cam')" aria-label="關閉">✕</button></div>
-        <div class="af-row"><label>名稱</label><input class="wide" type="text" id="afc-n" placeholder="品牌 型號"></div>
+        <div class="af-row"><label>品牌</label><input list="brand-opts-cam" id="afc-brand" placeholder="選擇或輸入新品牌…"></div>
+        <datalist id="brand-opts-cam"></datalist>
+        <div class="af-row"><label>型號</label><input class="wide" type="text" id="afc-n" placeholder="例：VP-25MC"></div>
         <div class="af-row"><label>像素大小</label><input type="number" id="afc-px" value="3.45" step="0.01"><span style="font-size:10px;color:var(--sub)">µm</span></div>
         <div class="af-row"><label>解析度 寬</label><input type="number" id="afc-rw" value="2448" step="1"><span style="font-size:10px;color:var(--sub)">px</span></div>
         <div class="af-row"><label>解析度 高</label><input type="number" id="afc-rh" value="2048" step="1"><span style="font-size:10px;color:var(--sub)">px</span></div>
@@ -1187,7 +1189,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <div id="db-lens-list"></div>
       <div id="af-lens" class="af" style="display:none">
         <div class="af-hdr"><b id="afl-title">🔭 新增鏡頭</b><button class="af-x" onclick="toggleAF('lens')" aria-label="關閉">✕</button></div>
-        <div class="af-row"><label>名稱</label><input class="wide" type="text" id="afl-n" placeholder="品牌 型號"></div>
+        <div class="af-row"><label>品牌</label><input list="brand-opts-lens" id="afl-brand" placeholder="選擇或輸入新品牌…"></div>
+        <datalist id="brand-opts-lens"></datalist>
+        <div class="af-row"><label>型號</label><input class="wide" type="text" id="afl-n" placeholder="例：FTV10C-75"></div>
         <div class="af-row">
           <label>類型</label>
           <select id="afl-type" onchange="onAflTypeChange()">
@@ -1290,6 +1294,23 @@ function refreshLensPicker(){
 function camBadge(c){ return c.line?{t:'線掃',cls:'bdg-line'}:{t:'面陣',cls:'bdg-area'}; }
 function lensBadge(l){ return l.type==='objective'?{t:'物鏡',cls:'bdg-obj'}:l.type==='telecentric'?{t:'遠心',cls:'bdg-tele'}:{t:'定焦',cls:'bdg-fixed'}; }
 function brandOf(n){ return ((n||'').trim().split(/\s+/)[0])||'其他'; }
+function modelOf(n){ const b=brandOf(n); return String(n||'').slice(b.length).trim()||String(n||''); }
+// 新增/編輯表單：品牌下拉(datalist)以現有品牌填充，使用者可直接輸入新品牌
+function fillBrandDatalist(kind){
+  const dl=document.getElementById(kind==='cam'?'brand-opts-cam':'brand-opts-lens');
+  if(!dl) return;
+  const arr=kind==='cam'?allCams():allLens();
+  const brands=[...new Set(arr.map(x=>brandOf(x.n)).filter(b=>b&&b!=='其他'))].sort((a,b)=>a.localeCompare(b));
+  dl.innerHTML=brands.map(b=>`<option value="${esc(b)}">`).join('');
+}
+function getFormBrand(kind){ const e=document.getElementById(kind==='cam'?'afc-brand':'afl-brand'); return e?e.value.trim():''; }
+// 由品牌 + 型號組出完整名稱(避免型號已含品牌時重複)
+function joinBrandModel(brand, model){
+  brand=(brand||'').trim(); model=(model||'').trim();
+  if(!brand) return model;
+  if(model.toLowerCase().startsWith(brand.toLowerCase())) return model; // 型號已含品牌則不重複
+  return (brand+' '+model).trim();
+}
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
 function fmtN(v){ return (v==null||!isFinite(v))?'—':(''+(+v)); }
@@ -1311,7 +1332,7 @@ function lensSpec(l){
   return p.join(' · ');
 }
 function lensMeta(l){ return l.mount?`${l.mount}-mount`:''; }
-function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, metaFn, kind){
+function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, metaFn, kind, expandedSet){
   const items=[];
   builtin.forEach((x,origI)=>{ if(!hidden.has(origI)) items.push({x, builtin:true, ref:origI}); });
   custom.forEach((x,i)=>{ items.push({x, builtin:false, ref:i}); });
@@ -1326,7 +1347,8 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
     const g=groups[brand];
     const url=(g.find(it=>it.x.url)||{x:{}}).x.url;
     g.sort((a,b)=> badgeFn(a.x).t.localeCompare(badgeFn(b.x).t) || String(a.x.n).localeCompare(String(b.x.n)));
-    html+=`<div class="db-section collapsed"><div class="db-brand" onclick="dbToggleSec(this)">`
+    const secCls = (expandedSet && expandedSet.has(brand)) ? 'db-section' : 'db-section collapsed';
+    html+=`<div class="${secCls}"><div class="db-brand" onclick="dbToggleSec(this)">`
         + `<span class="db-chev">▾</span><span class="db-brand-name">${esc(brand)}</span>`
         + `<span class="db-brand-count">${g.length}</span>`
         + (url?`<a class="db-brand-link" href="${esc(url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">官網 ↗</a>`:'') + `</div><div class="db-grid">`;
@@ -1380,9 +1402,15 @@ function dbFilter(containerId, q){
     if(q && vis) sec.classList.remove('collapsed');
   });
 }
+function collectExpanded(id){
+  const box=document.getElementById(id); const s=new Set();
+  if(box) box.querySelectorAll('.db-section:not(.collapsed) .db-brand-name').forEach(e=>s.add(e.textContent));
+  return s;
+}
 function renderDbLists(){
-  renderDbGroup('db-cam-list', CAMS, hiddenCams, custCams, camBadge, camSpec, camMeta, 'cam');
-  renderDbGroup('db-lens-list', LENS, hiddenLens, custLens, lensBadge, lensSpec, lensMeta, 'lens');
+  const expCam=collectExpanded('db-cam-list'), expLens=collectExpanded('db-lens-list');
+  renderDbGroup('db-cam-list', CAMS, hiddenCams, custCams, camBadge, camSpec, camMeta, 'cam', expCam);
+  renderDbGroup('db-lens-list', LENS, hiddenLens, custLens, lensBadge, lensSpec, lensMeta, 'lens', expLens);
 }
 
 // ── 鏡頭接口(mount)相容性 ──
@@ -1549,7 +1577,9 @@ let _editLensIdx = null;  // null = 新增, int = 編輯中的 custLens index
 function editCustCam(i){
   const c = custCams[i];
   _editCamIdx = i;
-  document.getElementById('afc-n').value   = c.n;
+  fillBrandDatalist('cam');
+  document.getElementById('afc-brand').value = brandOf(c.n);
+  document.getElementById('afc-n').value   = modelOf(c.n);
   document.getElementById('afc-px').value  = c.px;
   document.getElementById('afc-rw').value  = c.rw;
   document.getElementById('afc-rh').value  = c.rh;
@@ -1573,7 +1603,9 @@ function editCustCam(i){
 function editCustLens(i){
   const l = custLens[i];
   _editLensIdx = i;
-  document.getElementById('afl-n').value    = l.n;
+  fillBrandDatalist('lens');
+  document.getElementById('afl-brand').value = brandOf(l.n);
+  document.getElementById('afl-n').value    = modelOf(l.n);
   document.getElementById('afl-type').value = l.type;
   onAflTypeChange();  // sync visible fields
   document.getElementById('afl-ic').value   = l.ic;
@@ -1648,6 +1680,7 @@ function toggleAF(type){
     const oe=document.getElementById('af-'+other);
     if(oe.style.display!=='none'){ oe.style.display='none'; _resetEditMode(other); }
     const t=document.getElementById((type==='cam'?'afc':'afl')+'-title'); if(t) t.textContent=type==='cam'?'📷 新增相機':'🔭 新增鏡頭';
+    fillBrandDatalist(type);
     el.style.display='';
   } else {
     el.style.display='none'; _resetEditMode(type);
@@ -1685,8 +1718,9 @@ function toggleAfMore(type){
 
 // ── Submit new / edited camera ──
 function submitAddCam(){
-  const n=document.getElementById('afc-n').value.trim();
-  if(!n){alert('請輸入相機名稱');return;}
+  const model=document.getElementById('afc-n').value.trim();
+  if(!model){alert('請輸入相機型號');return;}
+  const n=joinBrandModel(getFormBrand('cam'), model);
   const entry={
     n,
     px:  +document.getElementById('afc-px').value,
@@ -1706,7 +1740,7 @@ function submitAddCam(){
   else { custCams.push(entry); }
   saveCustCams(); refreshCamPicker(); renderDbLists();
   toggleAF('cam');
-  ['afc-n','afc-sensor','afc-url','afc-mount'].forEach(id=>document.getElementById(id).value='');
+  ['afc-n','afc-sensor','afc-url','afc-mount','afc-brand'].forEach(id=>document.getElementById(id).value='');
   if(docFile) attachDocOnAdd('cam', entry, docFile);
 }
 function attachDocOnAdd(kind, ent, f){
@@ -1718,8 +1752,9 @@ function attachDocOnAdd(kind, ent, f){
 
 // ── Submit new / edited lens ──
 function submitAddLens(){
-  const n=document.getElementById('afl-n').value.trim();
-  if(!n){alert('請輸入鏡頭名稱');return;}
+  const model=document.getElementById('afl-n').value.trim();
+  if(!model){alert('請輸入鏡頭型號');return;}
+  const n=joinBrandModel(getFormBrand('lens'), model);
   const t=document.getElementById('afl-type').value;
   const lens={
     n, type:t,
@@ -1744,7 +1779,7 @@ function submitAddLens(){
   else { custLens.push(lens); }
   saveCustLens(); refreshLensPicker(); renderDbLists();
   toggleAF('lens');
-  ['afl-n','afl-url'].forEach(id=>document.getElementById(id).value='');
+  ['afl-n','afl-url','afl-brand'].forEach(id=>document.getElementById(id).value='');
   if(docFile) attachDocOnAdd('lens', lens, docFile);
 }
 
