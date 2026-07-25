@@ -2508,11 +2508,12 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   const wTot = Math.max(1e-6, wA+wB);
   const aLens = aSensor * (wA/wTot);
   const imgSpan = aSensor - aLens;
-  let lensR, lensLenWant;
-  if(isTele){ lensR=Math.max(20, Math.min(apH+6, 52)); lensLenWant=Math.min(axisLen*0.42, 150); }
-  else if(lt==='cctv'){ lensR=Math.max(12, Math.min(apH*0.6, 22)); lensLenWant=Math.min(axisLen*0.16, 44); }
-  else { lensR=Math.max(16, Math.min(apH*0.5, 24)); lensLenWant=Math.min(axisLen*0.22, 58); }
-  const lensLen = Math.max(18, Math.min(lensLenWant, imgSpan*0.8));
+  let lensR;
+  if(isTele){ lensR=Math.max(20, Math.min(apH+6, 52)); }
+  else if(lt==='cctv'){ lensR=Math.max(12, Math.min(apH*0.6, 22)); }
+  else { lensR=Math.max(16, Math.min(apH*0.5, 24)); }
+  // 鏡頭鎖在相機上：鏡筒自鏡頭前端(WD 終點)一路延伸到相機接口面，兩者必須相接不留縫
+  const lensLen = Math.max(18, imgSpan);
 
   // 光軸座標 → 螢幕座標
   const MX = (a,pp)=> vertical ? (originX+pp) : (originX+a);
