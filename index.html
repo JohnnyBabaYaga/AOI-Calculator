@@ -935,7 +935,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div><!-- /res-grid -->
       </div><!-- /rpt-2col-left -->
       <div class="rpt-2col-right">
-        <div class="rpt-ctitle">📐 系統示意圖</div>
+        <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span>📐 系統示意圖</span>
+          <div class="seg dg-view-seg" style="flex:0 0 auto;">
+            <button class="on" type="button" onclick="setDgView('top')">俯視</button>
+            <button type="button" onclick="setDgView('side')">光路側視</button>
+          </div>
+        </div>
         <canvas id="dg"></canvas>
         <div id="dg-caption"></div>
       </div>
@@ -1020,7 +1026,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div><!-- /res-grid -->
       </div><!-- /rpt-2col-left -->
       <div class="rpt-2col-right">
-        <div class="rpt-ctitle">📐 系統示意圖</div>
+        <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span>📐 系統示意圖</span>
+          <div class="seg st-dg-view-seg" style="flex:0 0 auto;">
+            <button class="on" type="button" onclick="setStDgView('top')">俯視</button>
+            <button type="button" onclick="setStDgView('side')">光路側視</button>
+          </div>
+        </div>
         <canvas id="st-dg"></canvas>
         <div id="st-dg-caption"></div>
       </div>
@@ -1090,7 +1102,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div><!-- /res-grid -->
       </div><!-- /rpt-2col-left -->
       <div class="rpt-2col-right">
-        <div class="rpt-ctitle">📐 配置示意圖</div>
+        <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span>📐 配置示意圖</span>
+          <div class="seg as-dg-view-seg" style="flex:0 0 auto;">
+            <button class="on" type="button" onclick="setAsDgView('top')">俯視</button>
+            <button type="button" onclick="setAsDgView('side')">光路側視</button>
+          </div>
+        </div>
         <canvas id="as-dg"></canvas>
         <div id="as-dg-caption"></div>
       </div>
@@ -2108,6 +2126,8 @@ function drawStaticDiagram(ss,r){
   ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
   const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
 
+  if(stDgView==='side'){ drawOpticalSideInner(ctx, W, H, P(), r, dark, 'st-dg-caption'); return; }
+
   if(r.nX<=0||r.nY<=0||r.hFOV<=0||r.vFOV<=0){
     ctx.fillStyle=dark?'#98989d':'#6e6e73';
     ctx.font='11px -apple-system,sans-serif';
@@ -2252,6 +2272,265 @@ function drawFovOverlay(ctx, box, W, H, dark, labelMm){
   ctx.fillText(t2, chipX+chipW/2, cy+ch+3);
 }
 
+// ══════════════════════════════════════════
+// v3: 光路側視圖（相機 ↔ 鏡頭 ↔ 待測物 相對關係）
+// ══════════════════════════════════════════
+let dgView='top', stDgView='top', asDgView='top';
+function _applySideToggle(canvasId, segSel, isSide){
+  const seg=document.querySelector(segSel);
+  if(seg) seg.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on', i===(isSide?1:0)));
+  const c=document.getElementById(canvasId);
+  if(c){
+    if(isSide){ c.style.flex='0 0 auto'; c.style.height='340px'; c.style.minHeight='0'; c.style.maxHeight='340px'; }
+    else { c.style.flex=''; c.style.height=''; c.style.minHeight=''; c.style.maxHeight=''; }
+  }
+}
+function setDgView(v){ dgView=v; _applySideToggle('dg','.dg-view-seg', v==='side'); drawDiagram(); }
+function setStDgView(v){ stDgView=v; _applySideToggle('st-dg','.st-dg-view-seg', v==='side'); calcStatic(); }
+function setAsDgView(v){ asDgView=v; _applySideToggle('as-dg','.as-dg-view-seg', v==='side'); calcAS(); }
+function _truncTxt(ctx,s,maxW){
+  s=String(s==null?'':s);
+  if(ctx.measureText(s).width<=maxW) return s;
+  let t=s;
+  while(t.length>1 && ctx.measureText(t+'…').width>maxW) t=t.slice(0,-1);
+  return t+'…';
+}
+// 鏡頭外形：依型式繪出可辨識的鏡筒（物鏡=階梯錐狀 / 遠心=長大圓筒 / CCTV=短鏡筒含對焦環）
+function _lensBarrel(ctx, xFront, xBack, cy, type, r, accent, dark){
+  const glass = dark?'rgba(120,180,255,.22)':'rgba(0,122,255,.12)';
+  const body  = dark?'rgba(70,80,95,.78)':'rgba(184,202,226,.9)';
+  const len = Math.max(xBack-xFront, 12);
+  const xc  = (xFront+xBack)/2;
+  ctx.save(); ctx.lineJoin='round';
+  if(type==='telecentric'){
+    ctx.fillStyle=body; ctx.strokeStyle=accent; ctx.lineWidth=1.4;
+    rrect(ctx, xFront, cy-r, len, 2*r, 6); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=glass;
+    rrect(ctx, xFront-4, cy-r-2, 6, 2*r+4, 3); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle=dark?'rgba(255,255,255,.16)':'rgba(0,0,0,.14)'; ctx.lineWidth=1;
+    for(const fr of [0.34,0.67]){ const x=xFront+len*fr; ctx.beginPath(); ctx.moveTo(x,cy-r+3); ctx.lineTo(x,cy+r-3); ctx.stroke(); }
+  } else if(type==='cctv'){
+    ctx.fillStyle=body; ctx.strokeStyle=accent; ctx.lineWidth=1.4;
+    rrect(ctx, xFront, cy-r, len, 2*r, 5); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle=dark?'rgba(255,255,255,.22)':'rgba(0,0,0,.18)'; ctx.lineWidth=1.4;
+    for(const fr of [0.3,0.5,0.7]){ const x=xFront+len*fr; ctx.beginPath(); ctx.moveTo(x,cy-r+2); ctx.lineTo(x,cy+r-2); ctx.stroke(); }
+    ctx.fillStyle=glass; ctx.strokeStyle=accent; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.ellipse(xFront, cy, 3, r*0.72, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  } else {
+    const rTip=Math.max(6, Math.min(r*0.42, 9)), rMid=Math.max(10, Math.min(r*0.72, 14));
+    const noseLen=Math.min(len*0.42, 22), midX=xFront+noseLen;
+    ctx.fillStyle=body; ctx.strokeStyle=accent; ctx.lineWidth=1.4;
+    ctx.beginPath();
+    ctx.moveTo(xFront,cy-rTip); ctx.lineTo(midX,cy-rMid); ctx.lineTo(xBack,cy-r);
+    ctx.lineTo(xBack,cy+r); ctx.lineTo(midX,cy+rMid); ctx.lineTo(xFront,cy+rTip);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=glass; ctx.strokeStyle=accent; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.ellipse(xFront, cy, 2.6, rTip*0.85, 0, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  }
+  const eh=Math.max(6, r*0.72);
+  ctx.strokeStyle=accent; ctx.globalAlpha=.6; ctx.lineWidth=1.2;
+  ctx.beginPath();
+  ctx.moveTo(xc, cy-eh); ctx.quadraticCurveTo(xc+5, cy, xc, cy+eh);
+  ctx.quadraticCurveTo(xc-5, cy, xc, cy-eh); ctx.stroke();
+  ctx.globalAlpha=1; ctx.restore();
+}
+// 相機外形：面陣=近方塊、線掃=長條；含接口法蘭、接頭與感測器成像面
+function _camGlyph(ctx, xPlane, cy, senH, isLine, mount, accent, dark, bodyW, bodyH){
+  const bodyFill = dark?'#3a3f47':'#d7dee8';
+  const edge = dark?'#565c66':'#9fb0c6';
+  const senHc = Math.max(senH,6);
+  const bodyHc = Math.max(bodyH||(senHc+16), 22);
+  const bodyWc = Math.max(bodyW||30, 24);
+  const mW=7, mountH=Math.max(Math.min(senHc, bodyHc)+8, 20);
+  ctx.fillStyle=dark?'#4a5058':'#c8d2e2';
+  rrect(ctx, xPlane, cy-mountH/2, mW, mountH, 2); ctx.fill();
+  ctx.strokeStyle=edge; ctx.lineWidth=1; rrect(ctx, xPlane, cy-mountH/2, mW, mountH, 2); ctx.stroke();
+  const bx=xPlane+mW, by=cy-bodyHc/2;
+  ctx.fillStyle=bodyFill; rrect(ctx, bx, by, bodyWc, bodyHc, 5); ctx.fill();
+  ctx.strokeStyle=edge; ctx.lineWidth=1.2; rrect(ctx, bx, by, bodyWc, bodyHc, 5); ctx.stroke();
+  ctx.strokeStyle=dark?'rgba(255,255,255,.10)':'rgba(0,0,0,.10)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(bx+4, by+4.5); ctx.lineTo(bx+bodyWc-4, by+4.5); ctx.stroke();
+  const nubH=Math.max(bodyHc*0.3,8), nubW=5;
+  ctx.fillStyle=dark?'#2c3037':'#b7c2d3';
+  rrect(ctx, bx+bodyWc, cy-nubH/2, nubW, nubH, 1.5); ctx.fill();
+  ctx.strokeStyle=edge; ctx.lineWidth=1; rrect(ctx, bx+bodyWc, cy-nubH/2, nubW, nubH, 1.5); ctx.stroke();
+  ctx.strokeStyle=accent; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(xPlane, cy-senHc/2); ctx.lineTo(xPlane, cy+senHc/2); ctx.stroke();
+  return {cx:bx+bodyWc/2, top:by, bottom:by+bodyHc, right:bx+bodyWc+nubW};
+}
+function _sideDimH(ctx,x1,x2,y,label,sub,ink){
+  ctx.strokeStyle=sub; ctx.fillStyle=sub; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x1,y-4); ctx.lineTo(x1,y+4); ctx.moveTo(x2,y-4); ctx.lineTo(x2,y+4); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(x2,y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(x1+5,y-2.5); ctx.lineTo(x1+5,y+2.5); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x2,y); ctx.lineTo(x2-5,y-2.5); ctx.lineTo(x2-5,y+2.5); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=ink; ctx.font='700 8px -apple-system,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  ctx.fillText(label,(x1+x2)/2,y-3);
+}
+// 底部圖例列：標記(相機=方塊/鏡頭=圓) + 類別 + 型式規格 + 放大型號（一目了然）
+function _sideLegendRow(ctx, x, y, wRight, marker, accent, kicker, spec, model, dark){
+  ctx.save(); ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillStyle=accent;
+  if(marker==='lens'){ ctx.beginPath(); ctx.arc(x+5, y, 5, 0, Math.PI*2); ctx.fill(); }
+  else { rrect(ctx, x, y-5, 10, 10, 2); ctx.fill(); }
+  let cx=x+16;
+  ctx.fillStyle=dark?'#c9ccd2':'#5a6577'; ctx.font='700 11px -apple-system,sans-serif';
+  ctx.fillText(kicker, cx, y); cx+=ctx.measureText(kicker).width+8;
+  if(spec){ ctx.fillStyle=accent; ctx.font='600 10px -apple-system,sans-serif';
+    ctx.fillText(spec, cx, y); cx+=ctx.measureText(spec).width+9; }
+  ctx.fillStyle=dark?'#f2f3f5':'#141a24'; ctx.font='700 13px -apple-system,sans-serif';
+  ctx.fillText(_truncTxt(ctx, model, Math.max(40, wRight-cx)), cx, y);
+  ctx.restore();
+}
+function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
+  const accent='#007aff';
+  const ink  = dark?'#e9e9ee':'#1c2b45';
+  const sub  = dark?'#9aa0aa':'#6e6e73';
+  const line = dark?'rgba(255,255,255,.30)':'rgba(0,0,0,.28)';
+
+  const wd  = +p.wd || 0;
+  const fov = (+r.hFOV>0 ? +r.hFOV : +r.vFOV) || 0;
+  const sensorMm = (p.rW*p.pixelSize/1000) || 0;
+  const mag = +p.mag || 0;
+  const dof = +r.dof || 0;
+  const lt  = p.lensType;
+  const ltName = lt==='objective'?'物鏡':lt==='telecentric'?'遠心':'CCTV';
+  const isTele = lt==='telecentric';
+  const apLabel = (lt==='objective') ? (p.na>0?('NA '+(+p.na).toFixed(2)):'')
+                                     : (p.fn>0?('F/'+(+p.fn)) : '');
+
+  // 依所選相機/鏡頭決定外形與型號標示
+  const _pv=(id)=>{ const e=document.getElementById(id); return e?e.value:''; };
+  const _ci=_pv('cam-pick'), _li=_pv('lens-pick');
+  const selCam=(_ci!==''&&allCams()[+_ci])?allCams()[+_ci]:null;
+  const selLens=(_li!==''&&allLens()[+_li])?allLens()[+_li]:null;
+  const isLine = selCam? !!selCam.line : !!p.lineScan;
+  const camMount = selCam? (selCam.mount||'') : '';
+  const camName = selCam? selCam.n : (isLine?'線掃相機':'面陣相機');
+  const lensName = selLens? selLens.n : '手動設定';
+
+  const cap=document.getElementById(capId);
+  if(!(fov>0) || !(wd>0)){
+    ctx.fillStyle=sub; ctx.font='11px -apple-system,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText((r&&r.vignetting)?'暗角：像圈 < 感測器對角，FOV = 0':'請輸入有效光學參數', W/2, H/2);
+    if(cap) cap.innerHTML='';
+    return;
+  }
+
+  const legendH = 46;                 // 底部圖例區高度（相機/鏡頭型號放大顯示）
+  const FH = H - legendH;             // 光路示意可用高度（其餘留給底部圖例）
+  const cy = Math.round(FH*0.50);
+  const padL=16, padR=14;
+  const xObj = padL+4;
+  // 垂直尺寸：物/感測器條依倍率比例（放大時感測器較大），限制最大高度避免過大
+  const maxBar = Math.min(FH*0.30, 84);
+  const minBar = 10;
+  let objH, senH;
+  if(mag>=1){      senH = maxBar; objH = Math.max(minBar, maxBar/mag); }
+  else if(mag>0){  objH = maxBar; senH = Math.max(minBar, maxBar*mag); }
+  else {           objH = maxBar; senH = maxBar; }
+  if(!isFinite(objH)||objH<minBar) objH=maxBar;
+  if(!isFinite(senH)||senH<minBar) senH=minBar;
+  const objTop=cy-objH/2, objBot=cy+objH/2;
+  const senTop=cy-senH/2, senBot=cy+senH/2;
+  const apH = Math.max(objH, senH)/2;
+
+  // 相機外形尺寸（有界）→ 決定右側預留寬度
+  const camBH = isLine ? Math.max(24, Math.min(senH*0.5+16, 70))
+                       : Math.max(28, Math.min(senH+16, 110));
+  const camBW = isLine ? Math.max(48, Math.min(camBH*1.9, 150))
+                       : Math.max(30, Math.min(camBH*1.02, 104));
+  const camReserve = 7 + camBW + 5 + 10;
+  const xSensor = W - padR - camReserve;
+  const spanX = Math.max(70, xSensor - xObj);
+  // 鏡頭鏡筒：後端接口貼齊相機接口面（實際鏡頭鎖在相機上，兩者相接）
+  let lensR, lensLen;
+  if(isTele){ lensR=Math.max(20, Math.min(apH+6, 48)); lensLen=Math.max(70, Math.min(spanX*0.42, 150)); }
+  else if(lt==='cctv'){ lensR=Math.max(12, Math.min(apH*0.6, 20)); lensLen=Math.max(26, Math.min(spanX*0.16, 40)); }
+  else { lensR=Math.max(16, Math.min(apH*0.5, 22)); lensLen=Math.max(34, Math.min(spanX*0.22, 54)); }
+  const xLensBack = xSensor;                  // 鏡頭後端 = 相機接口面
+  const xLensFront = xLensBack - lensLen;     // 鏡頭前端（WD 量到此）
+  const xLens = (xLensFront + xLensBack)/2;    // 光學節點（成像交會）
+
+  ctx.strokeStyle=line; ctx.setLineDash([5,4]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(xObj-8,cy); ctx.lineTo(W-6,cy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle='rgba(0,122,255,.10)';
+  if(isTele){
+    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,objTop); ctx.lineTo(xLens,objBot); ctx.lineTo(xObj,objBot); ctx.closePath(); ctx.fill();
+  } else {
+    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,cy); ctx.lineTo(xObj,objBot); ctx.closePath(); ctx.fill();
+  }
+  ctx.fillStyle='rgba(0,122,255,.07)';
+  ctx.beginPath(); ctx.moveTo(xLens,cy); ctx.lineTo(xSensor,senTop); ctx.lineTo(xSensor,senBot); ctx.closePath(); ctx.fill();
+
+  ctx.strokeStyle=accent; ctx.globalAlpha=.9; ctx.lineWidth=1.2;
+  if(isTele){
+    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,objTop); ctx.lineTo(xSensor,senBot); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xObj,objBot); ctx.lineTo(xLens,objBot); ctx.lineTo(xSensor,senTop); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,cy); ctx.lineTo(xSensor,senBot); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(xObj,objBot); ctx.lineTo(xLens,cy); ctx.lineTo(xSensor,senTop); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+
+  if(dof>0){
+    const dofW=9;
+    ctx.fillStyle='rgba(255,149,0,.22)';
+    ctx.fillRect(xObj-dofW/2, objTop, dofW, objH);
+    ctx.strokeStyle='rgba(230,130,0,.9)'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
+    ctx.strokeRect(xObj-dofW/2, objTop, dofW, objH); ctx.setLineDash([]);
+  }
+
+  ctx.strokeStyle=dark?'#e6e6ea':'#333'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xObj,objBot); ctx.stroke();
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(xObj-4,objTop); ctx.lineTo(xObj+4,objTop); ctx.moveTo(xObj-4,objBot); ctx.lineTo(xObj+4,objBot); ctx.stroke();
+
+  _lensBarrel(ctx, xLensFront, xLensBack, cy, lt, lensR, accent, dark);
+
+  // 相機外形（面陣=方塊 / 線掃=長條）
+  const cam=_camGlyph(ctx, xSensor, cy, senH, isLine, camMount, accent, dark, camBW, camBH);
+
+  const dimY=Math.min(FH-6, Math.max(objBot, cam.bottom, cy+apH)+14);
+  _sideDimH(ctx, xObj, xLensFront, dimY, `WD ${wd.toFixed(0)}mm`, sub, ink);
+
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  // 待測物（物側）
+  ctx.fillStyle=ink; ctx.font='700 10px -apple-system,sans-serif';
+  ctx.fillText('待測物', xObj, Math.max(11,objTop-6));
+  // 元件短標（對應下方圖例）
+  ctx.fillStyle=accent; ctx.font='700 10px -apple-system,sans-serif';
+  ctx.fillText(ltName, xLens, Math.max(12, cy-Math.max(apH,lensR)-8));
+  ctx.fillStyle=ink;
+  ctx.fillText(isLine?'線掃描':'面陣', cam.cx, Math.max(12, cam.top-7));
+  // 倍率（物側、光軸上方）
+  ctx.fillStyle=sub; ctx.font='700 9px -apple-system,sans-serif'; ctx.textBaseline='bottom';
+  ctx.fillText(`m ${mag.toFixed(2)}×`, (xObj+xLensFront)/2, cy-3);
+
+  // ===== 底部圖例：相機 / 鏡頭 型號（放大、粗體，一目了然）=====
+  const lgTop = H - legendH;
+  ctx.strokeStyle=line; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(padL, lgTop); ctx.lineTo(W-padR, lgTop); ctx.stroke();
+  const camModel = selCam ? camName : '手動設定';
+  const lensModel = selLens ? lensName : '手動設定';
+  const camSpec = (isLine?'線掃描':'面陣') + (camMount?(' · '+camMount+'-mount'):'');
+  const lensSpec = ltName + (apLabel?(' '+apLabel):'');
+  const rowY1 = lgTop + legendH*0.34, rowY2 = lgTop + legendH*0.74;
+  _sideLegendRow(ctx, padL+2, rowY1, W-padR, 'cam',  accent, '相機', camSpec,  camModel,  dark);
+  _sideLegendRow(ctx, padL+2, rowY2, W-padR, 'lens', accent, '鏡頭', lensSpec, lensModel, dark);
+
+  if(cap){
+    let h=`<span class="dc-l">${isLine?'線掃':'面陣'} ${esc(camName)}</span>`;
+    h+=`<span class="dc-sep">·</span><span class="dc-c">${ltName}${apLabel?(' '+apLabel):''} ${esc(lensName)}</span>`;
+    h+=`<span class="dc-sep">·</span><span class="dc-l">FOV ${fov.toFixed(1)}mm · WD ${wd.toFixed(0)}mm</span>`;
+    h+=`<span class="dc-sep">·</span><span class="dc-r" style="color:${accent}">感測器 ${sensorMm.toFixed(1)}mm · m ${mag.toFixed(2)}×</span>`;
+    if(dof>0) h+=`<span class="dc-sep">·</span><span class="dc-r">DoF ${dof.toFixed(dof<10?1:0)}µm</span>`;
+    cap.innerHTML=h;
+  }
+}
 function drawDiagram(canvasId='dg'){
   const canvas=document.getElementById(canvasId);
   if(!canvas) return;
@@ -2266,6 +2545,8 @@ function drawDiagram(canvasId='dg'){
   const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
   const accent='#007aff';
   const sub=dark?'#98989d':'#6e6e73';
+
+  if(dgView==='side'){ drawOpticalSideInner(ctx, W, H, p, (typeof lastR!=='undefined'&&lastR)?lastR:{}, dark); return; }
 
   const nC=Math.max(1,p.nCams), nR=Math.max(1,p.nRows);
   const sw=p.sampleW, sh=p.sampleH;
@@ -3189,7 +3470,7 @@ function calcAS(){
     vwAS.classList.add('hide'); vwAS.style.display='none';
   }
 
-  drawASDiagram(nX, nY, panelX, panelY, xFOV, yFOV, limit);
+  drawASDiagram(nX, nY, panelX, panelY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0));
 }
 
 // ═══════════════════════════════════════════
@@ -3198,7 +3479,7 @@ function calcAS(){
 // 畫檢評估示意圖：以「相機 FOV 總覆蓋」為最外框，產品依實際比例置中放入。
 // 這樣不論 FOV 比產品大(單台涵蓋有餘)或小(需多台拼接)，比例都正確；
 // 多相機時 FOV 逐格鋪陳、重疊處自然疊色，一眼看出覆蓋與重疊。
-function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit){
+function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit, wd, mag){
   const canvas = document.getElementById('as-dg');
   if(!canvas) return;
   const dpr = window.devicePixelRatio||1;
@@ -3208,6 +3489,12 @@ function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit){
   const ctx=canvas.getContext('2d');
   ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
   const accent='#007aff';
+  if(asDgView==='side'){
+    const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    const pp=Object.assign({}, P(), {wd:+wd||0, mag:+mag||0});
+    drawOpticalSideInner(ctx, W, H, pp, {hFOV:xFOV, vFOV:yFOV, dof:0, vignetting:false}, dark, 'as-dg-caption');
+    return;
+  }
   nX=Math.max(1,nX||1); nY=Math.max(1,nY||1);
 
   if(!(xFOV>0)||!(yFOV>0)||!(panelW>0)||!(panelH>0)){
