@@ -2281,7 +2281,9 @@ function _applySideToggle(canvasId, segSel, isSide){
   if(seg) seg.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on', i===(isSide?1:0)));
   const c=document.getElementById(canvasId);
   if(c){
-    if(isSide){ c.style.flex='0 0 auto'; c.style.height='340px'; c.style.minHeight='0'; c.style.maxHeight='340px'; }
+    // 側視圖：填滿可用高度。畫面為高窄形時改直式構圖（相機在上、待測物在下，同實際 AOI 架構），
+    // 上下空白因此被光路本身用掉；寬扁版位則自動維持橫式。
+    if(isSide){ c.style.flex='1 1 auto'; c.style.height='auto'; c.style.minHeight='340px'; c.style.maxHeight=''; }
     else { c.style.flex=''; c.style.height=''; c.style.minHeight=''; c.style.maxHeight=''; }
   }
 }
@@ -2358,6 +2360,44 @@ function _camGlyph(ctx, xPlane, cy, senH, isLine, mount, accent, dark, bodyW, bo
   ctx.beginPath(); ctx.moveTo(xPlane, cy-senHc/2); ctx.lineTo(xPlane, cy+senHc/2); ctx.stroke();
   return {cx:bx+bodyWc/2, top:by, bottom:by+bodyHc, right:bx+bodyWc+nubW};
 }
+// 細引線標註：自元件頂端拉一條短斜線帶出文字（side='left' 文字靠左、'right' 靠右）
+function _sideLeaderV(ctx, x, yTop, label, color, side){
+  const dy=9, dx=(side==='right')? -12 : 12;
+  ctx.save();
+  ctx.strokeStyle=color; ctx.globalAlpha=.55; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x, yTop-2); ctx.lineTo(x+dx*0.45, yTop-dy); ctx.lineTo(x+dx, yTop-dy); ctx.stroke();
+  ctx.globalAlpha=1;
+  ctx.fillStyle=color; ctx.font='700 9px -apple-system,sans-serif';
+  ctx.textAlign=(side==='right')?'right':'left'; ctx.textBaseline='bottom';
+  ctx.fillText(label, x+dx+(side==='right'?-2:2), yTop-dy+3.5);
+  ctx.restore();
+}
+// 水平引線標註（直式構圖用）：自條的右端拉出，文字水平置於右側
+function _sideLeaderH(ctx, x, y, label, color){
+  ctx.save();
+  ctx.strokeStyle=color; ctx.globalAlpha=.55; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x+2, y); ctx.lineTo(x+12, y); ctx.stroke();
+  ctx.globalAlpha=1;
+  ctx.fillStyle=color; ctx.font='700 9px -apple-system,sans-serif';
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText(label, x+15, y);
+  ctx.restore();
+}
+// 垂直尺寸線（直式構圖用）：文字直立顯示於線側
+function _sideDimV(ctx,y1,y2,x,label,sub,ink){
+  ctx.save();
+  ctx.strokeStyle=sub; ctx.fillStyle=sub; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x-4,y1); ctx.lineTo(x+4,y1); ctx.moveTo(x-4,y2); ctx.lineTo(x+4,y2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x,y1); ctx.lineTo(x,y2); ctx.stroke();
+  const dir = y2>y1 ? 1 : -1;
+  ctx.beginPath(); ctx.moveTo(x,y1); ctx.lineTo(x-2.5,y1+5*dir); ctx.lineTo(x+2.5,y1+5*dir); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x,y2); ctx.lineTo(x-2.5,y2-5*dir); ctx.lineTo(x+2.5,y2-5*dir); ctx.closePath(); ctx.fill();
+  ctx.translate(x-3, (y1+y2)/2); ctx.rotate(-Math.PI/2);
+  ctx.fillStyle=ink; ctx.font='700 9px -apple-system,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='bottom';
+  ctx.fillText(label, 0, 0);
+  ctx.restore();
+}
 function _sideDimH(ctx,x1,x2,y,label,sub,ink){
   ctx.strokeStyle=sub; ctx.fillStyle=sub; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(x1,y-4); ctx.lineTo(x1,y+4); ctx.moveTo(x2,y-4); ctx.lineTo(x2,y+4); ctx.stroke();
@@ -2383,6 +2423,7 @@ function _sideLegendRow(ctx, x, y, wRight, marker, accent, kicker, spec, model, 
   ctx.restore();
 }
 function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
+  dark=false; // app 為淺色主題(不隨 OS 深色)，否則型號/標註會用近白色畫在白底上而看不清
   const accent='#007aff';
   const ink  = dark?'#e9e9ee':'#1c2b45';
   const sub  = dark?'#9aa0aa':'#6e6e73';
@@ -2419,97 +2460,156 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   }
 
   const legendH = 46;                 // 底部圖例區高度（相機/鏡頭型號放大顯示）
-  const FH = H - legendH;             // 光路示意可用高度（其餘留給底部圖例）
-  const cy = Math.round(FH*0.50);
   const padL=16, padR=14;
-  const xObj = padL+4;
-  // 垂直尺寸：物/感測器條依倍率比例（放大時感測器較大），限制最大高度避免過大
-  const maxBar = Math.min(FH*0.30, 84);
+  const FH = H - legendH;             // 光路示意可用高度（其餘留給底部圖例）
+  // 高窄版位 → 直式構圖（相機在上、待測物在下，同實際 AOI 架構，順便把上下空白用掉）
+  const vertical = FH > W*1.05;
+
+  // ── 沿光軸座標系：a = 沿光軸(0=物面 → aSensor=感測器)，p = 垂直光軸 ──
+  const dimGap = 30;
+  let axisLen, crossMax, originX, originY;
+  if(vertical){
+    const topPad=26, botPad=32;
+    axisLen  = Math.max(150, FH - topPad - botPad);
+    crossMax = Math.max(30, Math.min(W*0.30, 150));
+    originX  = Math.round(W*0.55);    // 光軸位置（左側留給尺寸線）
+    originY  = FH - botPad;           // 物面在下
+  } else {
+    axisLen  = Math.max(90, W - padL - padR - 24);
+    crossMax = Math.max(30, Math.min((FH-dimGap)*0.52, 168));
+    originX  = padL+4;
+    originY  = Math.round((FH - dimGap)*0.52);
+  }
+  // 物/感測器高度依倍率比例（senH/objH = m，此方向即真實比例）
   const minBar = 10;
   let objH, senH;
-  if(mag>=1){      senH = maxBar; objH = Math.max(minBar, maxBar/mag); }
-  else if(mag>0){  objH = maxBar; senH = Math.max(minBar, maxBar*mag); }
-  else {           objH = maxBar; senH = maxBar; }
-  if(!isFinite(objH)||objH<minBar) objH=maxBar;
+  if(mag>=1){      senH = crossMax; objH = Math.max(minBar, crossMax/mag); }
+  else if(mag>0){  objH = crossMax; senH = Math.max(minBar, crossMax*mag); }
+  else {           objH = crossMax; senH = crossMax; }
+  if(!isFinite(objH)||objH<minBar) objH=crossMax;
   if(!isFinite(senH)||senH<minBar) senH=minBar;
-  const objTop=cy-objH/2, objBot=cy+objH/2;
-  const senTop=cy-senH/2, senBot=cy+senH/2;
   const apH = Math.max(objH, senH)/2;
 
-  // 相機外形尺寸（有界）→ 決定右側預留寬度
-  const camBH = isLine ? Math.max(24, Math.min(senH*0.5+16, 70))
-                       : Math.max(28, Math.min(senH+16, 110));
+  // 相機外形：機身尺寸不隨感測器縮小（實際機身大小與感測器無關）
+  const camBH = isLine ? Math.max(30, Math.min(senH*0.5+16, 70))
+                       : Math.max(46, Math.min(senH+16, 110));
   const camBW = isLine ? Math.max(48, Math.min(camBH*1.9, 150))
                        : Math.max(30, Math.min(camBH*1.02, 104));
   const camReserve = 7 + camBW + 5 + 10;
-  const xSensor = W - padR - camReserve;
-  const spanX = Math.max(70, xSensor - xObj);
-  // 鏡頭鏡筒：後端接口貼齊相機接口面（實際鏡頭鎖在相機上，兩者相接）
-  let lensR, lensLen;
-  if(isTele){ lensR=Math.max(20, Math.min(apH+6, 48)); lensLen=Math.max(70, Math.min(spanX*0.42, 150)); }
-  else if(lt==='cctv'){ lensR=Math.max(12, Math.min(apH*0.6, 20)); lensLen=Math.max(26, Math.min(spanX*0.16, 40)); }
-  else { lensR=Math.max(16, Math.min(apH*0.5, 22)); lensLen=Math.max(34, Math.min(spanX*0.22, 54)); }
-  const xLensBack = xSensor;                  // 鏡頭後端 = 相機接口面
-  const xLensFront = xLensBack - lensLen;     // 鏡頭前端（WD 量到此）
-  const xLens = (xLensFront + xLensBack)/2;    // 光學節點（成像交會）
+  const aSensor = Math.max(70, axisLen - camReserve);
+
+  // ── 共用比例尺：物距(WD) 與 像距 依實際 mm 分配光軸長度 ──
+  // 像距 ≈ m × WD（薄透鏡近似，與 app 其他 ≈ 估算一致）
+  const imgDistMm = (mag>0 && wd>0) ? mag*wd : 0;
+  let wA = wd, wB = (imgDistMm>0? imgDistMm : wd*0.35);
+  const segRatio = Math.max(wA,wB)/Math.max(1e-6, Math.min(wA,wB));
+  const nonUniform = segRatio > 6;   // 差距過大 → 平方根壓縮，避免一段被壓成一點
+  if(nonUniform){ wA=Math.sqrt(wA); wB=Math.sqrt(wB); }
+  const wTot = Math.max(1e-6, wA+wB);
+  const aLens = aSensor * (wA/wTot);
+  const imgSpan = aSensor - aLens;
+  let lensR, lensLenWant;
+  if(isTele){ lensR=Math.max(20, Math.min(apH+6, 52)); lensLenWant=Math.min(axisLen*0.42, 150); }
+  else if(lt==='cctv'){ lensR=Math.max(12, Math.min(apH*0.6, 22)); lensLenWant=Math.min(axisLen*0.16, 44); }
+  else { lensR=Math.max(16, Math.min(apH*0.5, 24)); lensLenWant=Math.min(axisLen*0.22, 58); }
+  const lensLen = Math.max(18, Math.min(lensLenWant, imgSpan*0.8));
+
+  // 光軸座標 → 螢幕座標
+  const MX = (a,pp)=> vertical ? (originX+pp) : (originX+a);
+  const MY = (a,pp)=> vertical ? (originY-a)  : (originY+pp);
+
+  // ===== 圖形：於旋轉後座標系內以「沿光軸座標」繪製 =====
+  ctx.save();
+  ctx.translate(originX, originY);
+  if(vertical) ctx.rotate(-Math.PI/2);
 
   ctx.strokeStyle=line; ctx.setLineDash([5,4]); ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(xObj-8,cy); ctx.lineTo(W-6,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-8,0); ctx.lineTo(axisLen+16,0); ctx.stroke();
   ctx.setLineDash([]);
 
   ctx.fillStyle='rgba(0,122,255,.10)';
   if(isTele){
-    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,objTop); ctx.lineTo(xLens,objBot); ctx.lineTo(xObj,objBot); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aLens,objH/2); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
   } else {
-    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,cy); ctx.lineTo(xObj,objBot); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,0); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
   }
   ctx.fillStyle='rgba(0,122,255,.07)';
-  ctx.beginPath(); ctx.moveTo(xLens,cy); ctx.lineTo(xSensor,senTop); ctx.lineTo(xSensor,senBot); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(aLens,0); ctx.lineTo(aSensor,-senH/2); ctx.lineTo(aSensor,senH/2); ctx.closePath(); ctx.fill();
 
   ctx.strokeStyle=accent; ctx.globalAlpha=.9; ctx.lineWidth=1.2;
   if(isTele){
-    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,objTop); ctx.lineTo(xSensor,senBot); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(xObj,objBot); ctx.lineTo(xLens,objBot); ctx.lineTo(xSensor,senTop); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aSensor,senH/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aLens,objH/2);  ctx.lineTo(aSensor,-senH/2); ctx.stroke();
   } else {
-    ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xLens,cy); ctx.lineTo(xSensor,senBot); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(xObj,objBot); ctx.lineTo(xLens,cy); ctx.lineTo(xSensor,senTop); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,0); ctx.lineTo(aSensor,senH/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aLens,0); ctx.lineTo(aSensor,-senH/2); ctx.stroke();
   }
   ctx.globalAlpha=1;
 
   if(dof>0){
     const dofW=9;
     ctx.fillStyle='rgba(255,149,0,.22)';
-    ctx.fillRect(xObj-dofW/2, objTop, dofW, objH);
+    ctx.fillRect(-dofW/2, -objH/2, dofW, objH);
     ctx.strokeStyle='rgba(230,130,0,.9)'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
-    ctx.strokeRect(xObj-dofW/2, objTop, dofW, objH); ctx.setLineDash([]);
+    ctx.strokeRect(-dofW/2, -objH/2, dofW, objH); ctx.setLineDash([]);
   }
 
-  ctx.strokeStyle=dark?'#e6e6ea':'#333'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(xObj,objTop); ctx.lineTo(xObj,objBot); ctx.stroke();
+  ctx.strokeStyle='#333'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(0,objH/2); ctx.stroke();
   ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(xObj-4,objTop); ctx.lineTo(xObj+4,objTop); ctx.moveTo(xObj-4,objBot); ctx.lineTo(xObj+4,objBot); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-4,-objH/2); ctx.lineTo(4,-objH/2); ctx.moveTo(-4,objH/2); ctx.lineTo(4,objH/2); ctx.stroke();
 
-  _lensBarrel(ctx, xLensFront, xLensBack, cy, lt, lensR, accent, dark);
+  _lensBarrel(ctx, aLens, aLens+lensLen, 0, lt, lensR, accent, dark);
+  const cam=_camGlyph(ctx, aSensor, 0, senH, isLine, camMount, accent, dark, camBW, camBH);
+  ctx.restore();
 
-  // 相機外形（面陣=方塊 / 線掃=長條）
-  const cam=_camGlyph(ctx, xSensor, cy, senH, isLine, camMount, accent, dark, camBW, camBH);
-
-  const dimY=Math.min(FH-6, Math.max(objBot, cam.bottom, cy+apH)+14);
-  _sideDimH(ctx, xObj, xLensFront, dimY, `WD ${wd.toFixed(0)}mm`, sub, ink);
-
-  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-  // 待測物（物側）
-  ctx.fillStyle=ink; ctx.font='700 10px -apple-system,sans-serif';
-  ctx.fillText('待測物', xObj, Math.max(11,objTop-6));
-  // 元件短標（對應下方圖例）
-  ctx.fillStyle=accent; ctx.font='700 10px -apple-system,sans-serif';
-  ctx.fillText(ltName, xLens, Math.max(12, cy-Math.max(apH,lensR)-8));
-  ctx.fillStyle=ink;
-  ctx.fillText(isLine?'線掃描':'面陣', cam.cx, Math.max(12, cam.top-7));
-  // 倍率（物側、光軸上方）
-  ctx.fillStyle=sub; ctx.font='700 9px -apple-system,sans-serif'; ctx.textBaseline='bottom';
-  ctx.fillText(`m ${mag.toFixed(2)}×`, (xObj+xLensFront)/2, cy-3);
-
+  // ===== 標註：一律以螢幕座標繪製（文字保持水平易讀）=====
+  const camHalf = Math.max(camBH/2, senH/2);
+  if(vertical){
+    const dimX = Math.max(14, originX - Math.max(apH, lensR, camHalf) - 18);
+    _sideDimV(ctx, MY(0,0), MY(aLens,0), dimX, `WD ${wd.toFixed(0)}mm`, sub, ink);
+    if(imgDistMm>0 && imgSpan>34)
+      _sideDimV(ctx, MY(aLens,0), MY(aSensor,0), dimX, `像距 ≈${imgDistMm.toFixed(0)}mm`, sub, ink);
+    if(nonUniform){
+      ctx.fillStyle=sub; ctx.font='9px -apple-system,sans-serif';
+      ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText('非等比（物距/像距差距大，已壓縮）', 6, FH-3);
+    }
+    ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.fillStyle=ink; ctx.font='700 11px -apple-system,sans-serif';
+    ctx.fillText('待測物', MX(0,0), MY(0,0)+22);
+    ctx.fillText(isLine?'線掃描':'面陣', MX(cam.cx,0), Math.max(13, MY(aSensor+camBW+14,0)));
+    ctx.fillStyle=accent; ctx.font='700 10px -apple-system,sans-serif';
+    ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillText(ltName, originX+Math.max(lensR,apH)+8, MY(aLens+lensLen/2,0));
+    _sideLeaderH(ctx, MX(0,objH/2), MY(0,0), `FOV ${fov.toFixed(fov<10?2:1)}mm`, accent);
+    if(sensorMm>0) _sideLeaderH(ctx, MX(aSensor,camHalf), MY(aSensor,0), `感測器 ${sensorMm.toFixed(1)}mm`, accent);
+    ctx.fillStyle=sub; ctx.font='700 9px -apple-system,sans-serif';
+    ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillText(`m ${mag.toFixed(2)}×`, originX+6, MY(aLens*0.45,0));
+  } else {
+    const dimY=Math.min(FH-16, originY+Math.max(apH, camHalf)+18);
+    _sideDimH(ctx, MX(0,0), MX(aLens,0), dimY, `WD ${wd.toFixed(0)}mm`, sub, ink);
+    if(imgDistMm>0 && imgSpan>34)
+      _sideDimH(ctx, MX(aLens,0), MX(aSensor,0), dimY, `像距 ≈${imgDistMm.toFixed(0)}mm`, sub, ink);
+    if(nonUniform){
+      ctx.fillStyle=sub; ctx.font='9px -apple-system,sans-serif';
+      ctx.textAlign='right'; ctx.textBaseline='top';
+      ctx.fillText('水平為非等比（物距/像距差距過大，已壓縮）', W-padR, dimY+7);
+    }
+    ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.fillStyle=ink; ctx.font='700 10px -apple-system,sans-serif';
+    ctx.fillText('待測物', MX(0,0), Math.max(11, MY(0,-objH/2)-16));
+    _sideLeaderV(ctx, MX(0,0), MY(0,-objH/2), `FOV ${fov.toFixed(fov<10?2:1)}mm`, accent, 'left');
+    ctx.fillStyle=accent; ctx.font='700 10px -apple-system,sans-serif';
+    ctx.fillText(ltName, MX(aLens+lensLen/2,0), Math.max(12, originY-Math.max(apH,lensR)-8));
+    ctx.fillStyle=ink;
+    ctx.fillText(isLine?'線掃描':'面陣', MX(cam.cx,0), Math.max(12, originY-camHalf-20));
+    if(sensorMm>0) _sideLeaderV(ctx, MX(aSensor,0), originY-camHalf+2, `感測器 ${sensorMm.toFixed(1)}mm`, accent, 'right');
+    ctx.fillStyle=sub; ctx.font='700 9px -apple-system,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText(`m ${mag.toFixed(2)}×`, MX(aLens*0.5,0), originY-3);
+  }
   // ===== 底部圖例：相機 / 鏡頭 型號（放大、粗體，一目了然）=====
   const lgTop = H - legendH;
   ctx.strokeStyle=line; ctx.lineWidth=1;
