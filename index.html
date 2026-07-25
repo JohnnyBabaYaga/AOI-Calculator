@@ -2513,12 +2513,15 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   const wTot = Math.max(1e-6, wA+wB);
   const aLens = aSensor * (wA/wTot);
   const imgSpan = aSensor - aLens;
-  let lensR;
-  if(isTele){ lensR=Math.max(20, Math.min(apH+6, 52)); }
-  else if(lt==='cctv'){ lensR=Math.max(12, Math.min(apH*0.6, 22)); }
-  else { lensR=Math.max(16, Math.min(apH*0.5, 24)); }
+  // 鏡筒半徑必須容納其內部光束，否則光路會畫到鏡筒外面。
+  // 遠心：物側為平行光，前組口徑必須 ≥ 視野(這正是遠心鏡頭外徑大的原因)；
+  // 其他：光束在前端收斂為一點、在接口端擴為感測器大小。
+  const beamHalf = Math.max(isTele ? objH/2 : 0, senH/2);
+  const lensR = Math.max(12, Math.min(beamHalf + (isTele?10:8), crossMax*0.75+14));
   // 鏡頭鎖在相機上：鏡筒自鏡頭前端(WD 終點)一路延伸到相機接口面，兩者必須相接不留縫
   const lensLen = Math.max(18, imgSpan);
+  // 光束交會點：遠心的光闌在鏡筒內(後焦面)，一般鏡頭則在鏡頭節點(前端)
+  const aCross = isTele ? (aLens + lensLen*0.5) : aLens;
 
   // 光軸座標 → 螢幕座標
   const MX = (a,pp)=> vertical ? (originX+pp) : (originX+a);
@@ -2533,22 +2536,26 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   ctx.beginPath(); ctx.moveTo(-8,0); ctx.lineTo(axisLen+16,0); ctx.stroke();
   ctx.setLineDash([]);
 
+  // 物側光束：遠心=平行光(矩形)，其他=錐形收斂到節點
   ctx.fillStyle='rgba(0,122,255,.10)';
   if(isTele){
     ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aLens,objH/2); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
+    // 鏡筒內：平行光收斂至光闌
+    ctx.beginPath(); ctx.moveTo(aLens,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(aLens,objH/2); ctx.closePath(); ctx.fill();
   } else {
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,0); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
   }
+  // 像側光束：自交會點擴散到感測器
   ctx.fillStyle='rgba(0,122,255,.07)';
-  ctx.beginPath(); ctx.moveTo(aLens,0); ctx.lineTo(aSensor,-senH/2); ctx.lineTo(aSensor,senH/2); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(aCross,0); ctx.lineTo(aSensor,-senH/2); ctx.lineTo(aSensor,senH/2); ctx.closePath(); ctx.fill();
 
   ctx.strokeStyle=accent; ctx.globalAlpha=.9; ctx.lineWidth=1.2;
   if(isTele){
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aSensor,senH/2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aLens,objH/2);  ctx.lineTo(aSensor,-senH/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(aSensor,senH/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aLens,objH/2);  ctx.lineTo(aCross,0); ctx.lineTo(aSensor,-senH/2); ctx.stroke();
   } else {
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,0); ctx.lineTo(aSensor,senH/2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aLens,0); ctx.lineTo(aSensor,-senH/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(aSensor,senH/2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aCross,0); ctx.lineTo(aSensor,-senH/2); ctx.stroke();
   }
   ctx.globalAlpha=1;
 
