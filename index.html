@@ -509,7 +509,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     </svg>
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
-  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v2.0</span></h1></div>
+  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v3.0</span></h1></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <div class="seg" id="mode-seg" style="flex-shrink:0;font-size:11px;">
       <button class="on" onclick="setMode('scan')"><span class="ml">掃描取像</span><span class="ms">掃描</span></button>
@@ -2281,9 +2281,13 @@ function _applySideToggle(canvasId, segSel, isSide){
   if(seg) seg.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on', i===(isSide?1:0)));
   const c=document.getElementById(canvasId);
   if(c){
-    // 側視圖：填滿可用高度。畫面為高窄形時改直式構圖（相機在上、待測物在下，同實際 AOI 架構），
-    // 上下空白因此被光路本身用掉；寬扁版位則自動維持橫式。
-    if(isSide){ c.style.flex='1 1 auto'; c.style.height='auto'; c.style.minHeight='340px'; c.style.maxHeight=''; }
+    // 側視圖：三個模式一律採同樣的直式構圖（相機在上、待測物在下，同實際 AOI 架構）。
+    // 高度依寬度給足，避免某些模式因報告較短而畫布過矮、退回橫式而顯得沒更新。
+    if(isSide){
+      const w=c.offsetWidth||c.parentElement.clientWidth||420;
+      const h=Math.max(420, Math.min(Math.round(w*1.12), 660));
+      c.style.flex='0 0 auto'; c.style.height=h+'px'; c.style.minHeight='0'; c.style.maxHeight='';
+    }
     else { c.style.flex=''; c.style.height=''; c.style.minHeight=''; c.style.maxHeight=''; }
   }
 }
@@ -2462,8 +2466,9 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   const legendH = 46;                 // 底部圖例區高度（相機/鏡頭型號放大顯示）
   const padL=16, padR=14;
   const FH = H - legendH;             // 光路示意可用高度（其餘留給底部圖例）
-  // 高窄版位 → 直式構圖（相機在上、待測物在下，同實際 AOI 架構，順便把上下空白用掉）
-  const vertical = FH > W*1.05;
+  // 直式構圖（相機在上、待測物在下，同實際 AOI 架構，順便把上下空白用掉）。
+  // 門檻放寬，確保三個模式一致；只有極寬扁的版位才退回橫式。
+  const vertical = FH > W*0.8;
 
   // ── 沿光軸座標系：a = 沿光軸(0=物面 → aSensor=感測器)，p = 垂直光軸 ──
   const dimGap = 30;
