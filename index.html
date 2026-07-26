@@ -3003,6 +3003,8 @@ function loadEval(i){
   document.getElementById('eval-notes').value=e.notes;
   if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
   if(e.lensIdx!==undefined) document.getElementById('lens-pick').value=e.lensIdx;
+  updatePickLabel('cam'); updatePickLabel('lens');   // 同步左側可視化按鈕文字，否則會停在「手動輸入」
+  updateMountWarn();
   setCamType(p.lineScan); setColor(p.color); setBin(p.binning);
   setLensType(p.lensType||'objective'); setScanDir(p.scanAlongWidth); setScanMode(p.scanMode||'single');
   if((p.lensType||'objective')==='cctv'){
@@ -3025,6 +3027,11 @@ function loadEvalArea(e){
   document.getElementById('eval-notes').value=e.notes||'';
   if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
   if(e.lensIdx!==undefined) document.getElementById('lens-pick').value=e.lensIdx;
+  updatePickLabel('cam'); updatePickLabel('lens');   // 同步左側可視化按鈕文字
+  updateMountWarn();
+  // 畫檢模式沒有鏡頭類型 UI，依所選鏡頭還原，避免沿用上一次的殘留值
+  const _li=document.getElementById('lens-pick').value;
+  if(_li!=='' && allLens()[+_li]) setLensType(allLens()[+_li].type||'cctv');
   calcAS(); showTab('res');
 }
 function delEval(i){ evals.splice(i,1); persistEvals(); renderEvals(); }
@@ -3604,7 +3611,11 @@ function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit, wd, mag){
   const accent='#007aff';
   if(asDgView==='side'){
     const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
-    const pp=Object.assign({}, P(), {wd:+wd||0, mag:+mag||0});
+    // 畫檢模式沒有鏡頭類型 UI，S.lensType 可能是別的模式留下的殘留值（載入專案後常是預設的物鏡）。
+    // 一律依「實際選到的鏡頭」決定；未選鏡頭時，畫檢只輸入焦距 → 視為定焦(CCTV)。
+    const _lsel=document.getElementById('lens-pick').value;
+    const _lt=(_lsel!=='' && allLens()[+_lsel]) ? (allLens()[+_lsel].type||'cctv') : 'cctv';
+    const pp=Object.assign({}, P(), {wd:+wd||0, mag:+mag||0, lensType:_lt});
     drawOpticalSideInner(ctx, W, H, pp, {hFOV:xFOV, vFOV:yFOV, dof:0, vignetting:false}, dark, 'as-dg-caption');
     return;
   }
