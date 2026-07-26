@@ -1472,20 +1472,31 @@ function renderPicker(){
   const list=kind==='cam'?allCams():allLens();
   const badgeFn=kind==='cam'?camBadge:lensBadge, specFn=kind==='cam'?camSpec:lensSpec, metaFn=kind==='cam'?camMeta:lensMeta;
   const q=(document.getElementById('pick-search').value||'').trim().toLowerCase();
-  const types=kind==='cam'?[['','全部'],['area','面陣'],['line','線掃']]:[['','全部'],['telecentric','遠心'],['cctv','定焦'],['objective','物鏡']];
+  // 畫檢評估：單機視野常達數百 mm，遠心前組口徑須 ≥ 視野(不存在這種鏡頭)、物鏡是高倍小視野，
+  // 且畫檢只輸入焦距 → 僅提供定焦(CCTV)鏡頭。
+  const lensCctvOnly = (kind==='lens' && S.mode==='area');
+  const types=kind==='cam'?[['','全部'],['area','面陣'],['line','線掃']]
+            : lensCctvOnly ? [['','定焦（畫檢適用）']]
+            : [['','全部'],['telecentric','遠心'],['cctv','定焦'],['objective','物鏡']];
   document.getElementById('pick-filters').innerHTML=types.map(([v,l])=>`<span class="pick-chip ${_pickType===v?'on':''}" onclick="pickType('${v}')">${l}</span>`).join('');
   const typeOk=x=>{ if(!_pickType)return true; if(kind==='cam') return _pickType==='line'?!!x.line:!x.line; return x.type===_pickType; };
   let items=list.map((x,i)=>({x,i})).filter(o=>typeOk(o.x) && (!q || (o.x.n+' '+(o.x.iface||'')+' '+(o.x.sensor||'')+' '+(o.x.mount||'')).toLowerCase().includes(q)));
 
   // ── 選鏡頭時：依已選相機的接口(mount)屏蔽不相容鏡頭 ──
   let banner='';
+  if(lensCctvOnly){
+    const nHide=items.filter(o=>o.x.type!=='cctv').length;
+    items=items.filter(o=>o.x.type==='cctv');
+    banner=`<div class="pick-banner"><span>🔍 畫檢評估的單機視野常達數百 mm，遠心／物鏡無法涵蓋，僅列<b>定焦鏡頭</b>`
+         + (nHide?` · 已隱藏 ${nHide} 支`:'')+`</span></div>`;
+  }
   if(kind==='lens'){
     const {mount:camMount, name:camName}=selectedCamMount();
     if(mountTokens(camMount).length){
       items.forEach(o=>{ o.compat = mountCompatible(camMount, o.x.mount); });
       const nBad=items.filter(o=>!o.compat).length;
       if(!_pickShowIncompat) items=items.filter(o=>o.compat);
-      banner=`<div class="pick-banner"><span>🔩 已依相機 <b>${esc(camName)}</b>（接口 <b>${esc(camMount)}</b>）篩選相容鏡頭`
+      banner+=`<div class="pick-banner"><span>🔩 已依相機 <b>${esc(camName)}</b>（接口 <b>${esc(camMount)}</b>）篩選相容鏡頭`
            + (nBad?` · 隱藏 ${nBad} 支接口不符`:'')+`</span>`
            + (nBad?`<button class="pick-banner-tog" onclick="pickToggleIncompat()">${_pickShowIncompat?'只顯示相容':'顯示全部'}</button>`:'')
            + `</div>`;
@@ -1852,6 +1863,20 @@ function setMode(m){
     document.getElementById('row-na').style.display      = t==='objective'   ? '' : 'none';
     document.getElementById('row-fn').style.display      = t==='telecentric' ? '' : 'none';
     document.getElementById('row-fn-cctv').style.display = t==='cctv'         ? '' : 'none';
+  }
+  // 進入畫檢時，若目前選的是遠心/物鏡(畫檢不適用、且其焦距欄位為空會被套預設值)，清除選擇
+  if(m==='area'){
+    const li=document.getElementById('lens-pick').value;
+    const l=(li!=='' && allLens()[+li]) ? allLens()[+li] : null;
+    if(l && l.type!=='cctv'){
+      document.getElementById('lens-pick').value='';
+      updatePickLabel('lens'); updateMountWarn();
+      showToast(`畫檢評估不適用${l.type==='telecentric'?'遠心':'物鏡'}鏡頭，已清除「${l.n}」`, ()=>{});
+    }
+    setLensType('cctv');   // 畫檢只輸入焦距 = 定焦模型
+    // setLensType 會打開 F# 等列，畫檢不需要 → 重新套用畫檢的欄位可見性
+    document.querySelectorAll('[data-hide-area]').forEach(el=>{ el.style.display='none'; });
+    document.getElementById('row-fl').style.display='';
   }
   if(m==='area') calcAS(); else calc();
   // 依目前所在分頁決定右側顯示，避免切換模式時結果與歷史/資料庫同時出現
