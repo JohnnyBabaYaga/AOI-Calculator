@@ -1563,6 +1563,8 @@ function joinBrandModel(brand, model){
   return (brand+' '+model).trim();
 }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+// 只允許 http/https 連結，擋掉 javascript: / data: 等可注入的 scheme（url 欄位可由使用者輸入）
+function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u) ? u : ''; }
 
 function fmtN(v){ return (v==null||!isFinite(v))?'—':(''+(+v)); }
 function camSpec(c){
@@ -1593,7 +1595,15 @@ const DBACT={
 const AFPRE={cam:'afc', lens:'afl', s3d:'af3'};
 const AFTITLE={cam:'📷 新增相機', lens:'🔭 新增鏡頭', s3d:'📡 新增 3D 感測器'};
 function custArrOf(kind){ return kind==='cam'?custCams:kind==='lens'?custLens:custS3D; }
+function builtinArrOf(kind){ return kind==='cam'?CAMS:kind==='lens'?LENS:S3D; }
 function saveCustOf(kind){ if(kind==='cam') saveCustCams(); else if(kind==='lens') saveCustLens(); else saveCustS3D(); }
+
+// ── 內建型號的規格書：內建陣列是程式碼常數不能改，另存一張以「種類|型號名」為 key 的對照表 ──
+// （以型號名而非索引為 key，日後內建清單增刪也不會錯位）
+let bDocs = (function(){ try{ const o=JSON.parse(localStorage.getItem('aoi_bdocs')||'{}'); return (o&&typeof o==='object'&&!Array.isArray(o))?o:{}; }catch(e){ return {}; } })();
+function saveBDocs(){ localStorage.setItem('aoi_bdocs', JSON.stringify(bDocs)); aoiTouch(); }
+function bDocKey(kind, idx){ const a=builtinArrOf(kind)[idx]; return a ? kind+'|'+a.n : ''; }
+function bDocsGet(kind, idx){ const k=bDocKey(kind,idx); return (k && Array.isArray(bDocs[k])) ? bDocs[k] : []; }
 function renderDbFor(kind){ if(kind==='s3d'){ renderDb3List(); if(dim==='3d') calc3D(); } else renderDbLists(); }
 
 function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, metaFn, kind, expandedSet, searchFn){
@@ -1609,7 +1619,7 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
   items.forEach(it=>{ const b=brandOf(it.x.n); (groups[b]=groups[b]||[]).push(it); });
   Object.keys(groups).sort((a,b)=>a.localeCompare(b)).forEach(brand=>{
     const g=groups[brand];
-    const url=(g.find(it=>it.x.url)||{x:{}}).x.url;
+    const url=safeUrl((g.find(it=>safeUrl(it.x.url))||{x:{}}).x.url);
     g.sort((a,b)=> badgeFn(a.x).t.localeCompare(badgeFn(b.x).t) || String(a.x.n).localeCompare(String(b.x.n)));
     const secCls = (expandedSet && expandedSet.has(brand)) ? 'db-section' : 'db-section collapsed';
     html+=`<div class="${secCls}"><div class="db-brand" onclick="dbToggleSec(this)">`
@@ -1619,19 +1629,23 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
     g.forEach(it=>{
       const bd=badgeFn(it.x);
       const model=esc(String(it.x.n).slice(brand.length).trim()||it.x.n);
-      // 每項產品頁連結已移除(品牌那行已有官網連結，避免重複);url 資料仍保留供品牌連結使用
+      // 每項產品頁連結：若該項有 url 則顯示 🔗（內建 3D 感測器已內建官方規格頁）
       const A=DBACT[kind];
-      const acts=it.builtin
-        ? `<button class="db-del" onclick="${A.hide}(${it.ref})" title="刪除">✕</button>`
+      const purl=safeUrl(it.x.url);
+      const linkBtn=purl?`<a class="db-doc" href="${esc(purl)}" target="_blank" rel="noopener noreferrer" title="官方規格頁 ↗">🔗</a>`:'';
+      const acts=linkBtn+(it.builtin
+        ? `<button class="db-doc" onclick="uploadDoc('${kind}',${it.ref},1)" title="上傳規格書 / 手冊">📎</button>`
+          +`<button class="db-del" onclick="${A.hide}(${it.ref})" title="刪除">✕</button>`
         : `<button class="db-doc" onclick="uploadDoc('${kind}',${it.ref})" title="上傳規格書 / 手冊">📎</button>`
           +`<button class="db-edit" onclick="${A.edit}(${it.ref})" title="編輯">✎</button>`
-          +`<button class="db-del" onclick="${A.del}(${it.ref})" title="刪除">✕</button>`;
+          +`<button class="db-del" onclick="${A.del}(${it.ref})" title="刪除">✕</button>`);
       const meta=metaFn?metaFn(it.x):'';
       let docsHtml='';
-      if(!it.builtin && it.x.docs && it.x.docs.length){
-        docsHtml='<div class="db-docs">'+it.x.docs.map((doc,di)=>
+      const dl=it.builtin ? bDocsGet(kind,it.ref) : (it.x.docs||[]);
+      if(dl.length){
+        docsHtml='<div class="db-docs">'+dl.map((doc,di)=>
           `<span class="db-doc-chip"><a onclick="openDoc('${esc(doc.path)}')" title="${esc(doc.name)}">📄 ${esc(doc.name)}</a>`
-          +`<button onclick="removeDoc('${kind}',${it.ref},${di})" title="移除">✕</button></span>`).join('')+'</div>';
+          +`<button onclick="removeDoc('${kind}',${it.ref},${di},${it.builtin?1:0})" title="移除">✕</button></span>`).join('')+'</div>';
       }
       const sname = searchFn ? searchFn(it.x)
                              : (it.x.n+' '+(it.x.iface||'')+' '+(it.x.sensor||'')+' '+(it.x.mount||''));
@@ -1915,15 +1929,20 @@ function putDocFile(ent, f){
     rd.readAsDataURL(f);
   });
 }
-function uploadDoc(kind, idx){
+function uploadDoc(kind, idx, builtin){
   if(!ghReady()){ alert('請先設定「☁ 雲端同步」——規格書會存到你的雲端資料庫，才能跨電腦共用。'); return; }
   const input=document.createElement('input');
   input.type='file'; input.accept='.pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg';
   input.onchange=async()=>{
     const f=input.files[0]; if(!f) return;
-    const ent=custArrOf(kind)[idx]; if(!ent) return;
+    // 內建項目不能直接改常數陣列，改用一個暫存載體，成功後寫回 bDocs
+    const src = builtin ? builtinArrOf(kind)[idx] : custArrOf(kind)[idx];
+    if(!src) return;
+    const ent = builtin ? { n: src.n, docs: bDocsGet(kind,idx).slice() } : src;
     setSyncStatus('sync','⟳ 上傳規格書…');
-    try{ await putDocFile(ent,f); saveCustOf(kind); renderDbFor(kind); setSyncStatus('ok','☁ 規格書已上傳並同步'); }
+    try{ await putDocFile(ent,f);
+         if(builtin){ bDocs[bDocKey(kind,idx)]=ent.docs; saveBDocs(); } else { saveCustOf(kind); }
+         renderDbFor(kind); setSyncStatus('ok','☁ 規格書已上傳並同步'); }
     catch(e){ setSyncStatus('err','⚠ 上傳失敗：'+e.message); alert('上傳失敗：'+e.message); }
   };
   input.click();
@@ -1944,10 +1963,14 @@ async function openDoc(path){
     setSyncStatus('ok','☁ 已同步');
   }catch(e){ setSyncStatus('err','⚠ 開啟失敗：'+e.message); alert('開啟失敗：'+e.message); }
 }
-function removeDoc(kind, idx, di){
-  const ent=custArrOf(kind)[idx]; if(!ent||!ent.docs) return;
+function removeDoc(kind, idx, di, builtin){
+  const list = builtin ? bDocsGet(kind,idx) : ((custArrOf(kind)[idx]||{}).docs||[]);
+  if(!list.length || di<0 || di>=list.length) return;
   if(!confirm('移除這份附件的連結？（雲端上的檔案不會被刪除）')) return;
-  ent.docs.splice(di,1); saveCustOf(kind); renderDbFor(kind);
+  list.splice(di,1);
+  if(builtin){ const k=bDocKey(kind,idx); if(list.length) bDocs[k]=list; else delete bDocs[k]; saveBDocs(); }
+  else saveCustOf(kind);
+  renderDbFor(kind);
 }
 
 // ── Toast / undo engine ──
@@ -2226,6 +2249,36 @@ const GOAL={warp:'翹曲/平面度',step:'段差/高度',copl:'共面度',thick:
 // ── 3D 感測器資料庫：與 2D 相機/鏡頭庫完全分離的儲存空間 ──
 // （localStorage key 各自獨立；雲端則共用同一個 data 檔，見 aoiGatherData / aoiApplyData）
 S3D.forEach(function(s){ if(!s.n) s.n=(s.brand+' '+s.model).trim(); });
+// ── 內建 3D 感測器：官方產品頁 / 規格書連結 ──
+// 2026-08 以瀏覽器逐一實際開啟驗證（HTTP 200 且標題相符），73/73 皆可開。
+// KEYENCE：每一型號獨立頁；LMI：官方只提供系列頁；Benano：依產品系列頁；Precitec：CHRocodile C 產品頁。
+function s3dDocUrl(s){
+  const m=String(s.model||'');
+  if(s.brand==='KEYENCE'){
+    const K='https://www.keyence.com/products/measure/laser-2d/';
+    let g=m.match(/^LJ-X(\d{4})$/); if(g) return K+'lj-x8000/models/lj-x'+g[1]+'/';
+    g=m.match(/^LJ-V(\d{4})$/);     if(g) return K+'lj-v/models/lj-v'+g[1]+'/';
+    g=m.match(/^LJ-S(\d{3})$/);     if(g) return K+'lj-s8000/models/lj-s'+g[1]+'/';
+    return '';
+  }
+  if(s.brand==='LMI'){
+    const g=m.match(/^Gocator\s+(\d)(\d)\d{2}$/); if(!g) return '';
+    if(g[1]==='2') return 'https://lmi3d.com/series/gocator-2'+g[2]+'00-series/';
+    if(m==='Gocator 3210') return 'https://lmi3d.com/series/gocator-3210/';
+    if(g[1]==='3'&&g[2]==='5') return 'https://lmi3d.com/series/gocator-3500-series/';
+    return '';
+  }
+  if(s.brand==='Benano'){
+    const B='https://www.benanos.com/products/';
+    const P={'C2100':B+'1/1','D4520':B+'1/2','D6920':B+'1/3','T2502':B+'2/13','T4704':B+'2/22',
+             'T4904':B+'2/20','T6702':B+'2/16','T6912':B+'2/17','T7202':B+'2/18'};
+    return P[m.slice(0,5)]||'';
+  }
+  if(s.brand==='Precitec') return 'https://www.precitec.com/optical-3d-metrology/products/point-sensors/chrocodile-c/';
+  return '';
+}
+S3D.forEach(function(s){ if(!s.url){ const u=s3dDocUrl(s); if(u) s.url=u; } });
+
 let custS3D   = JSON.parse(localStorage.getItem('aoi_s3d') ||'[]');
 let hiddenS3D = new Set(JSON.parse(localStorage.getItem('aoi_hs3d')||'[]'));
 function allS3D(){ return S3D.filter(function(_,i){ return !hiddenS3D.has(i); }).concat(custS3D); }
@@ -4833,6 +4886,7 @@ function aoiGatherData(){
     evals: evals, cams: custCams, lens: custLens,
     hcams: [...hiddenCams], hlens: [...hiddenLens],
     s3d: custS3D, hs3d: [...hiddenS3D],
+    bdocs: bDocs,
     rptMeta: JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}')
   };
 }
@@ -4846,6 +4900,7 @@ function aoiApplyData(d){
   if(Array.isArray(d.hlens)){ hiddenLens=new Set(d.hlens); localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); }
   if(Array.isArray(d.s3d)){   custS3D=d.s3d;  localStorage.setItem('aoi_s3d',  JSON.stringify(custS3D)); }
   if(Array.isArray(d.hs3d)){  hiddenS3D=new Set(d.hs3d); localStorage.setItem('aoi_hs3d', JSON.stringify([...hiddenS3D])); }
+  if(d.bdocs && typeof d.bdocs==='object' && !Array.isArray(d.bdocs)){ bDocs=d.bdocs; localStorage.setItem('aoi_bdocs', JSON.stringify(bDocs)); }
   if(d.rptMeta){ localStorage.setItem('aoi_rpt_meta', JSON.stringify(d.rptMeta)); }
   if(d.meta&&d.meta.updated) localStorage.setItem('aoi_sync_updated', d.meta.updated);
   refreshCamPicker(); refreshLensPicker(); renderDbLists(); renderDb3List(); renderEvals(); loadRptMeta(); updateMountWarn();
