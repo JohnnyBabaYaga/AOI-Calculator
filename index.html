@@ -87,6 +87,14 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   background:var(--surf2);color:var(--text);font-size:12px;
   font-family:'SF Mono',ui-monospace,monospace;text-align:right;outline:none;flex-shrink:0;
 }
+/* 寬度自適應的下拉（中文選項），風格與數值輸入框一致 */
+.row select.sel-w{
+  flex:1;min-width:104px;height:20px;line-height:16px;
+  padding:1px 4px;border:1px solid var(--border);border-radius:5px;
+  background:var(--surf2);color:var(--text);font-size:12px;
+  font-family:inherit;outline:none;cursor:pointer;
+}
+.row select.sel-w:focus,.row select.fn-sel:focus{border-color:var(--accent);}
 .row input[type=text]{
   flex:1;border:none;background:transparent;color:var(--text);font-size:13px;outline:none;text-align:right;
 }
@@ -835,43 +843,55 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 
   <!-- ═══════ 3D 量測：從使用者角度切入的三步輸入 ═══════ -->
   <div id="sec-3d" style="display:none">
-    <div class="shdr">① 我要量什麼</div>
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="3" x2="12" y2="21"/><polyline points="8 7 12 3 16 7"/><polyline points="8 17 12 21 16 17"/>
+      </svg>① 我要量什麼
+    </div>
     <div class="card">
       <div class="row"><label>量測目標</label>
-        <select id="t3-goal" onchange="calc3D()" style="flex:1">
+        <select id="t3-goal" class="sel-w" onchange="calc3D()">
           <option value="warp">翹曲 / 平面度</option>
           <option value="step">段差 / 高度</option>
           <option value="copl">共面度（bump/pad）</option>
           <option value="thick">膜厚 / 透明多層</option>
           <option value="form">曲面形狀</option>
-        </select></div>
+        </select><span class="unit"></span></div>
       <div class="row"><label>Z 精度需求</label><input type="number" id="t3-zres" value="1" step="0.1" oninput="calc3D()"><span class="unit">µm</span></div>
       <div class="row"><label>Z 量測範圍</label><input type="number" id="t3-zrange" value="5" step="0.5" oninput="calc3D()"><span class="unit">mm</span></div>
     </div>
 
-    <div class="shdr">② 待測物長怎樣</div>
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2 3 7v10l9 5 9-5V7z"/><polyline points="3 7 12 12 21 7"/><line x1="12" y1="12" x2="12" y2="22"/>
+      </svg>② 待測物長怎樣
+    </div>
     <div class="card">
       <div class="row"><label>表面性質</label>
-        <select id="t3-surf" onchange="calc3D()" style="flex:1">
+        <select id="t3-surf" class="sel-w" onchange="calc3D()">
           <option value="diffuse">擴散面（霧面／加工面）</option>
           <option value="semi">半鏡面（亮面塑膠／髮絲紋）</option>
           <option value="specular">鏡面 / 高反光</option>
           <option value="clear">透明（玻璃／透明膜）</option>
           <option value="translucent">半透明（乳白／PI）</option>
-        </select></div>
+        </select><span class="unit"></span></div>
       <div class="row"><label>待測範圍 X</label><input type="number" id="t3-x" value="100" step="1" oninput="calc3D()"><span class="unit">mm</span></div>
       <div class="row"><label>待測範圍 Y</label><input type="number" id="t3-y" value="100" step="1" oninput="calc3D()"><span class="unit">mm</span></div>
       <div class="row"><label>最小特徵</label><input type="number" id="t3-feat" value="50" step="1" oninput="calc3D()"><span class="unit">µm</span></div>
       <div class="row"><label>最大深寬比</label><input type="number" id="t3-ar" value="0.3" step="0.1" oninput="calc3D()"><span class="unit">×</span></div>
     </div>
 
-    <div class="shdr">③ 產線條件</div>
+    <div class="shdr">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><line x1="6" y1="15.5" x2="18" y2="15.5"/><rect x="8.5" y="5" width="7" height="7" rx="1"/>
+      </svg>③ 產線條件
+    </div>
     <div class="card">
       <div class="row"><label>取像時待測物</label>
-        <select id="t3-motion" onchange="calc3D()" style="flex:1">
+        <select id="t3-motion" class="sel-w" onchange="calc3D()">
           <option value="static">靜止（定點停留）</option>
           <option value="moving">移動（輸送帶連續過件）</option>
-        </select></div>
+        </select><span class="unit"></span></div>
       <div class="row"><label>節拍需求</label><input type="number" id="t3-tt" value="3" step="0.5" oninput="calc3D()"><span class="unit">s</span></div>
       <div class="row"><label>可用工作距離</label><input type="number" id="t3-wd" value="100" step="5" oninput="calc3D()"><span class="unit">mm</span></div>
       <div class="row"><label>只看實驗室現有</label>
