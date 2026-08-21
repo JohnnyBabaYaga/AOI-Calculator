@@ -4937,6 +4937,22 @@ async function cloudPushNow(){
   if(!ghReady()){ setSyncStatus('off'); return; }
   setSyncStatus('sync','⟳ 上傳雲端…');
   try{
+    // 防呆：本機資料庫全空時不可直接覆蓋雲端。
+    // （在另一個瀏覽器／另一個網址開啟時 localStorage 是空的，一動就會把雲端洗掉）
+    if(!(custCams||[]).length && !(custLens||[]).length && !(custS3D||[]).length && !Object.keys(bDocs||{}).length){
+      const chk=await fetch(ghContentUrl()+'?ref='+(GH.branch||'main'),{headers:ghHeaders(),cache:'no-store'});
+      if(chk.ok){
+        const cj=await chk.json(), rd=JSON.parse(b64decode(cj.content));
+        const rn=(rd.cams||[]).length+(rd.lens||[]).length+(rd.s3d||[]).length+Object.keys(rd.bdocs||{}).length;
+        if(rn>0){
+          const go=confirm('⚠ 危險：本機的相機／鏡頭／規格書資料庫是空的，但雲端有 '+rn+' 筆資料。\n\n'
+            +'現在上傳會把雲端那 '+rn+' 筆資料全部清空。\n\n'
+            +'正常情況請按「取消」，改按上方的「⬇ 從雲端讀取」把資料抓下來。\n'
+            +'確定要清空雲端才按「確定」。');
+          if(!go){ setSyncStatus('err','⚠ 已阻擋上傳（本機是空的，雲端有 '+rn+' 筆）請先按「⬇ 從雲端讀取」'); return; }
+        }
+      }
+    }
     const body={ message:'update AOI data '+new Date().toISOString(),
                  content:b64encode(JSON.stringify(aoiGatherData(),null,2)),
                  branch:GH.branch||'main' };
