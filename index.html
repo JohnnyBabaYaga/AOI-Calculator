@@ -348,7 +348,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .rpt-col{padding:12px 14px;min-width:0;border-right:1px solid var(--border);}
 /* ── 2-column report: info left, big diagram right ── */
 .rpt-2col{display:grid;grid-template-columns:1.32fr 1fr;align-items:stretch;}
-.rpt-2col-left{min-width:0;}
+.rpt-2col-left{min-width:0;container-type:inline-size;}
+/* 兩個規格區塊並排、每塊 3 張卡，左欄需約 650px（掃描模式實測 642px 起才不溢出）；不夠就改上下排 */
+@container (max-width:660px){ .rpt-2col-left .res-grid{grid-template-columns:1fr;} }
 .rpt-2col-left .rpt-body{grid-template-columns:1fr 1fr;}
 .rpt-2col-right{border-left:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
 .rpt-2col-right .rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border);}
@@ -548,7 +550,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     </svg>
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
-  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.0</span></h1></div>
+  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.1</span></h1></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <!-- 第一級：量測維度 -->
     <div class="seg dim-seg" id="dim-seg" style="flex-shrink:0;font-size:11px;">
@@ -1235,17 +1237,17 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div>
 
       <!-- ① 結論：主建議 -->
-      <div id="t3-verdict" style="padding:14px 16px;border-bottom:1px solid var(--border);"></div>
+      <div id="t3-verdict" data-pdf-block="結論：建議方案" style="padding:14px 16px;border-bottom:1px solid var(--border);"></div>
 
       <!-- ② 選型圖（左，放大） + 需求與風險（右） -->
       <div class="t3-2col">
-        <div class="t3-chartcol">
-          <div class="rpt-ctitle">📊 選型圖（視野 × Z 精度）<span style="font-weight:400;color:var(--sub);font-size:10px;">　滑鼠移到點上可看型號</span></div>
+        <div class="t3-chartcol" data-pdf-block="選型圖（視野 × Z 精度）" data-pdf-collapse="1">
+          <div class="rpt-ctitle">📊 選型圖（視野 × Z 精度）<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　滑鼠移到點上可看型號</span></div>
           <div id="t3-chart-wrap"><canvas id="t3-chart"></canvas><div id="t3-tip"></div></div>
           <div id="t3-chart-cap" style="display:flex;justify-content:center;gap:10px;padding:6px 4px 0;font-size:10px;flex-wrap:wrap;"></div>
-          <div id="t3-brandbar"></div>
+          <div id="t3-brandbar" class="pdf-hide"></div>
         </div>
-        <div class="t3-infocol">
+        <div class="t3-infocol" data-pdf-block="推導出的需求 / 風險與注意" data-pdf-collapse="1">
           <div class="rpt-ctitle">📐 推導出的需求</div>
           <div class="res-grid" id="t3-derived" style="grid-template-columns:1fr 1fr;"></div>
           <div class="rpt-ctitle" style="margin-top:12px;">⚠️ 風險與注意</div>
@@ -1254,13 +1256,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div>
 
       <!-- ③ 架構示意圖（可指定採用機種） -->
-      <div style="border-top:1px solid var(--border);padding:12px 14px;">
+      <div data-pdf-block="架構示意圖" style="border-top:1px solid var(--border);padding:12px 14px;">
         <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
           <span>📐 架構示意圖</span>
           <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
             <span style="font-weight:400;color:var(--sub);font-size:10px;">採用機種</span>
             <select id="t3-pick" onchange="t3PickModel(this.value)"></select>
-            <div class="seg t3-dg-view-seg" style="flex:0 0 auto;">
+            <div class="seg t3-dg-view-seg pdf-hide" style="flex:0 0 auto;">
               <button class="on" type="button" onclick="setT3DgView('side')">側視</button>
               <button type="button" onclick="setT3DgView('top')">俯視</button>
             </div>
@@ -1271,13 +1273,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div>
 
       <!-- ④ 可用機種 -->
-      <div style="border-top:1px solid var(--border);padding:12px 14px;">
+      <div data-pdf-block="可用機種" style="border-top:1px solid var(--border);padding:12px 14px;">
         <div class="rpt-ctitle">🔧 可用機種</div>
         <div id="t3-models"></div>
       </div>
 
       <!-- ⑤ 為什麼不是其他方法（收合） -->
-      <div style="border-top:1px solid var(--border);padding:10px 14px;">
+      <div data-pdf-block="為什麼不是其他方法" style="border-top:1px solid var(--border);padding:10px 14px;">
         <div onclick="t3ToggleWhy()" style="cursor:pointer;font-size:11px;color:var(--accent);user-select:none;">
           <span id="t3-why-chev">▸</span> 為什麼不是其他方法？
         </div>
@@ -2226,7 +2228,7 @@ const S3D=[{"brand":"KEYENCE","model":"LJ-X8020","principle":"tri-line","motion"
 // ═══════════════════════════════════════════
 // v4: 3D 量測 — 規則引擎 + 選型圖
 // ═══════════════════════════════════════════
-let dim='2d', ownOnly3=false;
+let dim='2d', ownOnly3=false, _t3Last=null;
 
 // 方法定義：物理適用性規則
 const M3D={
@@ -2389,6 +2391,9 @@ function calc3D(){
    +(top.motion===true?' · 需外部運動軸':top.motion===false?' · 免運動':'')
    +'　|　同方法另有 '+(same.length-1)+' 款可選'+(ownedN?'，全部符合中 '+ownedN+' 款為實驗室現有':'')+'</div>';
  }
+
+ _t3Last={method: top?M3D[methodOf(top)].name:null, cond: !!top&&score[methodOf(top)]===1,
+   hitsN: hits.length, ownedN: hits.filter(function(x){return x.owned;}).length, need: need, zres: zres};
 
  // ── ② 風險（只列與結論相關的） ──
  const mkTop=top?methodOf(top):null, risks=[];
@@ -2648,7 +2653,7 @@ function drawT3Diagram(){
  const dpr=window.devicePixelRatio||1;
  cv.width=W*dpr; cv.height=H*dpr;
  const c=cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,W,H);
- const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+ const dark=false; // app 為淺色主題(不隨 OS 深色)，否則 Mac 深色模式下示意圖字變白、機體變深色
  const ink=dark?'#f2f3f5':'#141a24', sub=dark?'#98989d':'#6e6e73';
  const cap=document.getElementById('t3-dg-caption');
  const s=t3Selected();
@@ -3166,7 +3171,7 @@ function drawStaticDiagram(ss,r){
   canvas.width=W*dpr; canvas.height=H*dpr;
   const ctx=canvas.getContext('2d');
   ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
-  const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const dark=false; // app 為淺色主題(不隨 OS 深色)，否則 Mac 深色模式下示意圖字變白、機體變深色
 
   if(stDgView==='side'){ drawOpticalSideInner(ctx, W, H, P(), r, dark, 'st-dg-caption'); return; }
 
@@ -3697,7 +3702,7 @@ function drawDiagram(canvasId='dg'){
   const ctx=canvas.getContext('2d');
   ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
 
-  const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const dark=false; // app 為淺色主題(不隨 OS 深色)，否則 Mac 深色模式下示意圖字變白、機體變深色
   const accent='#007aff';
   const sub=dark?'#98989d':'#6e6e73';
 
@@ -3945,8 +3950,16 @@ function sv(id,val){ document.getElementById(id).value=val; }
 // EVALUATIONS
 // ═══════════════════════════════════════════
 function saveEval(){
+  if(dim==='3d'){ saveEval3D(); return; }
   if(S.mode==='area'){ saveEvalArea(); return; }
-  const p=P(), r=calculate(p);
+  const p=P();
+  // 靜態：另存待測範圍/重疊率，結果用靜態公式（台數排列），不是掃描的 TT
+  const ss = S.mode==='static' ? {
+    objW:+document.getElementById('st-objw').value||300,
+    objH:+document.getElementById('st-objh').value||300,
+    overlap:(x=>x===''?10:+x)(document.getElementById('st-ov').value),
+  } : undefined;
+  const r = ss ? calculateStatic(p,ss) : calculate(p);
   const ci=document.getElementById('cam-pick').value;
   const li=document.getElementById('lens-pick').value;
   evals.unshift({
@@ -3957,7 +3970,7 @@ function saveEval(){
     lens:li!==''?allLens()[+li].n:'手動輸入',
     camIdx:ci, lensIdx:li,
     notes:document.getElementById('eval-notes').value,
-    p, r
+    p, r, ss
   });
   persistEvals();
   renderEvals(); showTab('res');
@@ -3998,6 +4011,27 @@ function saveEvalArea(){
   persistEvals();
   renderEvals(); showTab('hist');
 }
+function saveEval3D(){
+  calc3D();
+  const p={
+    goal:s3('t3-goal'), zres:v3('t3-zres'), zrange:v3('t3-zrange'),
+    surf:s3('t3-surf'), x:v3('t3-x'), y:v3('t3-y'), feat:v3('t3-feat'), ar:v3('t3-ar'),
+    motion:s3('t3-motion'), tt:v3('t3-tt'), wd:v3('t3-wd'),
+    ownOnly:ownOnly3, pick:t3SelName, dgView:t3DgView,
+  };
+  const sel=t3Selected();
+  evals.unshift({
+    id:Date.now(), mode:'3d',
+    name:getProjName('3d')||'新評估',
+    date:new Date().toLocaleString('zh-TW'),
+    camera:sel?('採用 '+(sel.owned?'★ ':'')+sel.brand+' '+sel.model):'無符合機種',
+    lens:'',
+    notes:document.getElementById('eval-notes').value,
+    p, r:Object.assign({}, _t3Last)
+  });
+  persistEvals();
+  renderEvals(); showTab('hist');
+}
 function clearEvals(){
   if(!confirm('確定清除所有評估記錄？'))return;
   evals=[]; persistEvals(); renderEvals();
@@ -4010,17 +4044,29 @@ function renderEvals(){
     return;
   }
   el.innerHTML=evals.map((e,i)=>{
-    const isArea=(e.mode==='area');
-    const badge=isArea
+    const isArea=(e.mode==='area'), is3D=(e.mode==='3d'), isStatic=(e.mode==='static');
+    const badge=is3D
+      ?'<span style="font-size:10px;background:#7F77DD;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">3D</span>'
+      :isArea
       ?'<span style="font-size:10px;background:#34c759;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">畫檢</span>'
+      :isStatic
+      ?'<span style="font-size:10px;background:#ff9500;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">靜態</span>'
       :'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">掃描</span>';
-    const summary=isArea
+    const summary=is3D
+      ?(e.r.method
+        ?`${e.r.method}${e.r.cond?'（有條件）':''} · Z 精度 ${e.p.zres} µm · 視野 ${fmt(e.r.need,0)} mm · 符合 ${e.r.hitsN} 款`
+        :`無可用方案 · Z 精度 ${e.p.zres} µm · 視野 ${fmt(Math.max(e.p.x,e.p.y),0)} mm`)
+      :isStatic
+      ?(e.ss
+        ?`${fmt(e.r.optRes,3)} µm/px · ${e.r.total||'—'} 台 (${e.r.nX||'—'}×${e.r.nY||'—'}) · 範圍 ${e.ss.objW}×${e.ss.objH} mm`
+        :`${fmt(e.r.optRes,3)} µm/px · 舊紀錄（未存待測範圍，載入後請確認）`)
+      :isArea
       ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
       :`TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
     return `
     <div class="ec">
-      <h3>${e.name}${badge}</h3>
-      <p>${e.date} · ${e.camera}</p>
+      <h3>${esc(e.name)}${badge}</h3>
+      <p>${e.date} · ${esc(e.camera)}</p>
       <p>${summary}</p>
       <div style="margin-top:6px;display:flex;gap:6px">
         <button class="btn-sec" style="font-size:11px" onclick="loadEval(${i})">📂 載入</button>
@@ -4032,7 +4078,10 @@ function renderEvals(){
 }
 function loadEval(i){
   const e=evals[i];
+  if(e.mode==='3d'){ loadEval3D(e); return; }
+  if(dim==='3d') setDim('2d');   // 從 3D 載入 2D 評估：先切回 2D，否則結果頁仍停在 3D
   if(e.mode==='area'){ loadEvalArea(e); return; }
+  if((e.mode||'scan')!==S.mode) setMode(e.mode||'scan');
   const p=e.p;
   sv('p-px',p.pixelSize); sv('p-rw',p.rW); sv('p-rh',p.rH);
   sv('p-fps',p.fps); sv('p-bit',p.bit);
@@ -4041,6 +4090,7 @@ function loadEval(i){
   sv('p-sw',p.sampleW); sv('p-sh',p.sampleH);
   sv('p-nc',p.nCams); sv('p-nr',p.nRows); sv('p-ov',p.overlap);
   sv('p-ac',p.acc); sv('p-ct',p.changeSlice); sv('p-bs',p.backSpeed); sv('p-ep',p.encPitch);
+  if(e.ss){ sv('st-objw',e.ss.objW); sv('st-objh',e.ss.objH); sv('st-ov',e.ss.overlap); }
   setProjName(e.mode||'scan', e.name||'新評估');
   document.getElementById('eval-notes').value=e.notes;
   if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
@@ -4076,17 +4126,33 @@ function loadEvalArea(e){
   if(_li!=='' && allLens()[+_li]) setLensType(allLens()[+_li].type||'cctv');
   calcAS(); showTab('res');
 }
+function loadEval3D(e){
+  const p=e.p;
+  sv('t3-goal',p.goal); sv('t3-zres',p.zres); sv('t3-zrange',p.zrange);
+  sv('t3-surf',p.surf); sv('t3-x',p.x); sv('t3-y',p.y); sv('t3-feat',p.feat); sv('t3-ar',p.ar);
+  sv('t3-motion',p.motion); sv('t3-tt',p.tt); sv('t3-wd',p.wd);
+  ownOnly3=!!p.ownOnly; segSet('t3-own-seg',ownOnly3?1:0);
+  t3SelName=p.pick||null;
+  setT3DgView(p.dgView||'side');
+  setProjName('3d', e.name||'新評估');
+  document.getElementById('eval-notes').value=e.notes||'';
+  setDim('3d');   // 內含 calc3D() + showTab('res')
+}
 function delEval(i){ evals.splice(i,1); persistEvals(); renderEvals(); }
 function exportEval(i){ loadEval(i); setTimeout(()=>exportPDFMode(evals[i]?.mode||'scan'),300); }
-function exportPDF(){ openPdfExport(S.mode); }
+function exportPDF(){ openPdfExport(dim==='3d'?'3d':S.mode); }
 
 // ── PDF：匯出前的兩級勾選(區塊 + 展開細項)──
 let _pdfMode='scan', _pdfBlocks=[];
-function paneIdOf(mode){ return mode==='area'?'pane-area-res':mode==='static'?'pane-static-res':'pane-res'; }
+function paneIdOf(mode){ return mode==='3d'?'pane-3d-res':mode==='area'?'pane-area-res':mode==='static'?'pane-static-res':'pane-res'; }
 function openPdfExport(mode){
   _pdfMode=mode;
   const card=document.getElementById(paneIdOf(mode)).querySelector('.rpt-card');
   _pdfBlocks=[];
+  // 3D 報告：區塊以 data-pdf-block 標記；左右並排的欄位隱藏一邊時改成單欄
+  card.querySelectorAll('[data-pdf-block]').forEach(el=>{
+    _pdfBlocks.push({el, title:el.dataset.pdfBlock, items:[], isDiagram:!!el.dataset.pdfCollapse});
+  });
   card.querySelectorAll('.rpt-2col-left > .rpt-body > .rpt-col, .rpt-2col-right').forEach(el=>{
     _pdfBlocks.push({el, title:(el.querySelector('.rpt-ctitle')?.textContent||'區塊').trim(), items:[], isDiagram:el.classList.contains('rpt-2col-right')});
   });
@@ -4134,12 +4200,21 @@ async function doPdfExport(){
   }
 }
 async function exportPDFMode(mode){
-  const paneId = mode==='area' ? 'pane-area-res' : mode==='static' ? 'pane-static-res' : 'pane-res';
-  const el = document.getElementById(paneId).querySelector('.rpt-card');
+  const el = document.getElementById(paneIdOf(mode)).querySelector('.rpt-card');
   const date = new Date().toLocaleDateString('zh-TW').replace(/\//g,'-');
   const projName = getProjName(mode)||'AOI評估';
 
-  const canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' });
+  // 匯出期間：藏起操作用元件(品牌勾選、視角切換…)；3D「為什麼不是其他方法」展開放進報告
+  const restore=[];
+  el.querySelectorAll('.pdf-hide').forEach(x=>{ restore.push([x,x.style.display]); x.style.display='none'; });
+  if(mode==='3d'){
+    const why=document.getElementById('t3-why'), chev=document.getElementById('t3-why-chev');
+    restore.push([why,why.style.display]); why.style.display='';
+    const c0=chev.textContent; chev.textContent='▾'; restore.push([null,()=>{ chev.textContent=c0; }]);
+  }
+  let canvas;
+  try{ canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' }); }
+  finally{ restore.forEach(([x,v])=>{ if(x) x.style.display=v; else v(); }); }
 
   const pageW = 297, pageH = 210, margin = 8;
   const availW = pageW - margin * 2;
@@ -4697,7 +4772,7 @@ function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit, wd, mag){
   ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
   const accent='#007aff';
   if(asDgView==='side'){
-    const dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    const dark=false; // app 為淺色主題(不隨 OS 深色)，否則 Mac 深色模式下示意圖字變白、機體變深色
     // 畫檢模式沒有鏡頭類型 UI，S.lensType 可能是別的模式留下的殘留值（載入專案後常是預設的物鏡）。
     // 一律依「實際選到的鏡頭」決定；未選鏡頭時，畫檢只輸入焦距 → 視為定焦(CCTV)。
     const _lsel=document.getElementById('lens-pick').value;
@@ -4816,7 +4891,7 @@ function showTab(t){
 
 // ── 每個模式的專案名稱各自獨立，不再互相同步 ──
 function projInputId(mode){
-  return mode==='area' ? 'as-rpt-proj' : mode==='static' ? 'st-rpt-proj' : 'rpt-proj';
+  return mode==='3d' ? 't3-rpt-proj' : mode==='area' ? 'as-rpt-proj' : mode==='static' ? 'st-rpt-proj' : 'rpt-proj';
 }
 function getProjName(mode){
   const e=document.getElementById(projInputId(mode));
@@ -4843,6 +4918,7 @@ function saveRptMeta(){
     projScan:   val('rpt-proj'),
     projStatic: val('st-rpt-proj'),
     projArea:   val('as-rpt-proj'),
+    proj3D:     val('t3-rpt-proj'),
     desc: val('rpt-desc'),
     targetTT:  val('rpt-target-tt'),
     targetRes: val('rpt-target-res'),
@@ -4856,6 +4932,7 @@ function loadRptMeta(){
   set('rpt-proj',    m.projScan);
   set('st-rpt-proj', m.projStatic);
   set('as-rpt-proj', m.projArea);
+  set('t3-rpt-proj', m.proj3D);
   if(m.desc){
     document.getElementById('rpt-desc').value = m.desc;
     const b=document.getElementById('st-rpt-desc'); if(b) b.value=m.desc;
