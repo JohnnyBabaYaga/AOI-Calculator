@@ -322,6 +322,12 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   width:min(400px,94vw);max-height:86vh;flex-direction:column;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
 .pdf-tools{display:flex;gap:6px;margin:2px 0 8px;}
+/* ── 儲存評估：覆蓋原紀錄 or 另存新檔 ── */
+#save-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+#save-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
+  width:min(380px,94vw);flex-direction:column;
+  background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
+#save-name{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);}
 .pdf-list{overflow-y:auto;flex:1;min-height:100px;}
 .pdf-block{border:1px solid var(--border);border-radius:9px;padding:7px 11px;margin-bottom:6px;}
 .pdf-block-lbl{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;}
@@ -361,8 +367,36 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .t3-infocol{padding:12px 14px;border-left:1px solid var(--border);min-width:0;}
 @media(max-width:900px){.t3-infocol{border-left:none;border-top:1px solid var(--border);}}
 /* 3D 架構示意圖 */
-#t3-dg{display:block;width:100%;height:330px;}
+#t3-dg{display:block;width:100%;height:330px;flex:1 1 auto;min-height:300px;max-height:440px;}
+/* 3D 第二列比照 2D：左＝可用機種＋其他方法，右＝架構示意圖 */
+.t3-2colb{display:grid;grid-template-columns:1.32fr 1fr;border-top:1px solid var(--border);}
+.t3-2colb-left{min-width:0;}
+.t3-blk-dg{border-left:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
+@media(max-width:900px){.t3-2colb{grid-template-columns:1fr;}.t3-blk-dg{border-left:none;border-top:1px solid var(--border);}}
+/* 可用機種卡片：點選＝指定最終採用機種 */
+.t3-mc{border:1px solid var(--border);border-radius:8px;padding:7px 9px;background:var(--surf);cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.t3-mc:hover{border-color:var(--accent);}
+.t3-mc.own{border-color:#0F6E56;background:#E1F5EE;}
+.t3-mc.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);}
+.pdf-only{display:none;}
 @media(max-width:768px){#t3-dg{height:280px;}}
+/* 3D PDF 一頁版：匯出時暫時改成橫式三欄（選型圖｜需求與風險｜示意圖＋機種＋其他方法），整份縮進一張 A4 橫向 */
+.rpt-card.pdf-1page{width:1400px;max-width:none;display:grid;grid-template-columns:1.2fr 1fr 1.25fr;
+  grid-template-rows:auto auto auto auto 1fr;grid-template-areas:"hdr hdr hdr" "ver ver ver" "chart info dg" "chart info models" "chart info why";}
+.pdf-1page > .rpt-hdr{grid-area:hdr;}
+.pdf-1page #t3-verdict{grid-area:ver;}
+.pdf-1page .t3-2col,.pdf-1page .t3-2colb,.pdf-1page .t3-2colb-left{display:contents;}
+.pdf-1page .t3-chartcol{grid-area:chart;}
+.pdf-1page .t3-chartcol canvas{min-height:440px;}
+.pdf-1page .t3-infocol{grid-area:info;border-top:none;border-left:1px solid var(--border);border-right:1px solid var(--border);}
+.pdf-1page .t3-blk-dg{grid-area:dg;border-left:none;display:block;}
+.pdf-1page .t3-blk-models{grid-area:models;border-top:1px solid var(--border);}
+.pdf-1page .t3-blk-why{grid-area:why;}
+.pdf-1page #t3-dg{height:280px;min-height:0;max-height:none;}
+/* 報告只列最終採用機種 */
+.pdf-1page .t3-mc:not(.on),.pdf-1page .scr-only{display:none;}
+.pdf-1page .pdf-only{display:inline;}
+.pdf-1page .t3-mc.on{box-shadow:none;}
 #t3-dg-caption{display:flex;justify-content:center;gap:10px;padding:7px 4px 2px;font-size:10px;line-height:1;flex-wrap:wrap;color:var(--sub);}
 #t3-pick{max-width:260px;font-size:11px;padding:3px 8px;border:1px solid var(--border);border-radius:7px;
          background:var(--surf);color:var(--text);font-family:inherit;}
@@ -524,7 +558,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -626,6 +660,14 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   <div class="pdf-tools"><button class="btn-sec" style="font-size:11px" onclick="pdfSelectAll(true)">全選</button><button class="btn-sec" style="font-size:11px" onclick="pdfSelectAll(false)">全不選</button></div>
   <div id="pdf-list" class="pdf-list"></div>
   <div class="af-btns" style="margin-top:10px"><button class="btn-pri" style="flex:1;font-size:12px" onclick="doPdfExport()">產出 PDF</button><button class="btn-sec" style="font-size:12px" onclick="closePdfExport()">取消</button></div>
+</div>
+<div id="save-overlay" onclick="closeSaveModal()"></div>
+<div id="save-modal">
+  <div class="af-hdr"><b>💾 儲存評估</b><button class="af-x" onclick="closeSaveModal()" aria-label="關閉">✕</button></div>
+  <div style="font-size:12px;color:var(--sub);line-height:1.65;margin-bottom:10px;">目前開啟的是歷史紀錄「<b id="save-orig" style="color:var(--text)"></b>」，<br>要更新這筆紀錄，還是另存成一筆新的？</div>
+  <label for="save-name" style="font-size:11px;color:var(--sub);">名稱</label>
+  <input id="save-name" type="text">
+  <div class="af-btns"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveModalPick('over')">覆蓋原紀錄</button><button class="btn-sec" style="flex:1;font-size:12px" onclick="saveModalPick('new')">另存新檔</button><button class="btn-sec" style="font-size:12px" onclick="closeSaveModal()">取消</button></div>
 </div>
 <div id="pick-overlay" onclick="closePicker()"></div>
 <div id="pick-modal">
@@ -1255,8 +1297,23 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
       </div>
 
-      <!-- ③ 架構示意圖（可指定採用機種） -->
-      <div data-pdf-block="架構示意圖" style="border-top:1px solid var(--border);padding:12px 14px;">
+      <!-- ③ 比照 2D：左＝可用機種＋其他方法，右＝架構示意圖 -->
+      <div class="t3-2colb">
+        <div class="t3-2colb-left">
+          <!-- 可用機種：點選卡片＝最終採用機種；PDF 只列採用機種 -->
+          <div class="t3-blk-models" data-pdf-block="採用機種" style="padding:12px 14px;">
+            <div class="rpt-ctitle">🔧 <span class="scr-only">可用機種</span><span class="pdf-only">採用機種</span><span class="scr-only pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　點選卡片指定最終採用的機種（報告只列採用機種）</span></div>
+            <div id="t3-models"></div>
+          </div>
+          <!-- 為什麼不是其他方法（收合） -->
+          <div class="t3-blk-why" data-pdf-block="為什麼不是其他方法" style="border-top:1px solid var(--border);padding:10px 14px;">
+            <div onclick="t3ToggleWhy()" style="cursor:pointer;font-size:11px;color:var(--accent);user-select:none;">
+              <span id="t3-why-chev">▸</span> 為什麼不是其他方法？
+            </div>
+            <div id="t3-why" style="display:none;margin-top:8px;"></div>
+          </div>
+        </div>
+        <div class="t3-blk-dg" data-pdf-block="架構示意圖" data-pdf-collapse="1">
         <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
           <span>📐 架構示意圖</span>
           <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
@@ -1270,20 +1327,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
         <canvas id="t3-dg"></canvas>
         <div id="t3-dg-caption"></div>
-      </div>
-
-      <!-- ④ 可用機種 -->
-      <div data-pdf-block="可用機種" style="border-top:1px solid var(--border);padding:12px 14px;">
-        <div class="rpt-ctitle">🔧 可用機種</div>
-        <div id="t3-models"></div>
-      </div>
-
-      <!-- ⑤ 為什麼不是其他方法（收合） -->
-      <div data-pdf-block="為什麼不是其他方法" style="border-top:1px solid var(--border);padding:10px 14px;">
-        <div onclick="t3ToggleWhy()" style="cursor:pointer;font-size:11px;color:var(--accent);user-select:none;">
-          <span id="t3-why-chev">▸</span> 為什麼不是其他方法？
         </div>
-        <div id="t3-why" style="display:none;margin-top:8px;"></div>
       </div>
     </div>
   </div><!-- /#pane-3d-res -->
@@ -2303,6 +2347,7 @@ function setDim(d){
    e.style.display = d==='3d' ? 'none' : '';
  });
  if(d==='2d') setMode(S.mode); else calc3D();
+ renderEvals();   // 歷史紀錄依 2D / 3D 分類顯示
  showTab('res');
 }
 function setOwnOnly(v){ ownOnly3=v; segSet('t3-own-seg',v?1:0); calc3D(); }
@@ -2311,6 +2356,20 @@ function v3(id){ return +document.getElementById(id).value; }
 function s3(id){ return document.getElementById(id).value; }
 
 // 取得該機種可用於比較的「Z 精度」— 依優先序，且回報用的是哪個量
+// 快照式（免運動、有 X/Y 兩向視野）：待測物 X×Y 要整塊放進視野，可轉 90°；線掃式只看 X 向（Y 向靠運動）
+function t3IsSnap(s){ return s.motion===false && s.fovX!=null && s.fovY!=null; }
+function t3FovFits(s,fx,fy){
+ if(s.principle==='confocal') return true;
+ if(s.fovX==null) return false;
+ if(t3IsSnap(s)) return (s.fovX>=fx&&s.fovY>=fy)||(s.fovX>=fy&&s.fovY>=fx);
+ return s.fovX>=Math.max(fx,fy);
+}
+// 只有轉 90° 才放得進去
+function t3FovRot(s,fx,fy){ return t3IsSnap(s) && !(s.fovX>=fx&&s.fovY>=fy) && (s.fovX>=fy&&s.fovY>=fx); }
+function t3FovTxt(s){ return s.fovX==null?'點/線量測':'視野 '+s.fovX+(t3IsSnap(s)?'×'+s.fovY:'')+'mm'; }
+// 選型圖橫軸：快照式畫在長邊視野（短邊是否放得下由「符合」與否表示）
+function t3ChartFov(s){ return t3IsSnap(s)?Math.max(s.fovX,s.fovY):s.fovX; }
+
 function zSpec(s){
  if(s.zRepeat!=null) return {v:s.zRepeat,k:'重複性'};
  if(s.zLinearity!=null&&s.zLinearityUnit!=='%MR'&&s.zLinearityUnit!=='%FS') return {v:s.zLinearity,k:'線性度'};
@@ -2353,7 +2412,7 @@ function calc3D(){
   if(score[mk]===0) return false;
   if(x.motion===true&&motion==='static') return false;
   const z=zSpec(x); if(!z||z.v>zres) return false;
-  if(x.principle!=='confocal'&&(x.fovX==null||x.fovX<need)) return false;
+  if(!t3FovFits(x,fx,fy)) return false;
   if(x.zRange!=null&&x.zRange<zrange&&x.principle!=='confocal') return false;
   return true;
  }).sort(function(p,q){ return score[methodOf(q)]-score[methodOf(p)] || (q.owned?1:0)-(p.owned?1:0) || zSpec(p).v-zSpec(q).v; });
@@ -2361,6 +2420,8 @@ function calc3D(){
  // ── ① 結論 ──
  const vd=document.getElementById('t3-verdict');
  const top=hits[0];
+ // 最終採用機種：使用者在「可用機種」點選的；沒選或已不符合就用首選
+ const sel=(t3UserPick&&t3SelName&&hits.filter(function(x){return x.n===t3SelName;})[0])||top;
  if(!top){
   const anyOk=['tri','sl','cf'].filter(function(k){return score[k]>0;});
   vd.innerHTML='<div style="display:flex;align-items:center;gap:9px;margin-bottom:7px;">'
@@ -2374,65 +2435,70 @@ function calc3D(){
   const mk=methodOf(top), cond=score[mk]===1;
   const same=hits.filter(function(x){return methodOf(x)===mk;});
   const ownedN=hits.filter(function(x){return x.owned;}).length;
-  const z=zSpec(top);
+  const z=zSpec(sel);
   vd.innerHTML='<div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap;">'
    +'<span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;background:'+(cond?'#FAEEDA':'#E1F5EE')+';color:'+(cond?'#854F0B':'#0F6E56')+';">'+(cond?'有條件可行':'建議方案')+'</span>'
    +'<b style="font-size:17px;color:'+M3D[mk].color+'">'+M3D[mk].name+'</b>'
    +'<span style="font-size:12px;color:var(--sub);">'+sr.r[mk]+'</span></div>'
    +'<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">'
-   +'<div style="font-size:12px;color:var(--sub);">首選機種</div>'
-   +'<div style="font-size:15px;font-weight:600;">'+(top.owned?'★ ':'')+top.brand+' '+top.model+'</div>'
-   +(top.owned?'<span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:5px;background:#E1F5EE;color:#0F6E56;">實驗室現有，可立即試做</span>'
+   +'<div style="font-size:12px;color:var(--sub);">採用機種</div>'
+   +'<div style="font-size:15px;font-weight:600;">'+(sel.owned?'★ ':'')+esc(sel.brand+' '+sel.model)+'</div>'
+   +(sel.owned?'<span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:5px;background:#E1F5EE;color:#0F6E56;">實驗室現有，可立即試做</span>'
               :'<span style="font-size:11px;padding:2px 9px;border-radius:5px;background:var(--surf2);color:var(--sub);">需採購</span>')
+   +(sel!==top?'<span style="font-size:11px;color:var(--sub);">（系統首選：'+esc(top.brand+' '+top.model)+'）</span>':'')
    +'</div>'
    +'<div style="font-size:12px;color:var(--sub);margin-top:6px;line-height:1.7;">'
-   +(top.fovX!=null?'視野 '+top.fovX+'mm':'點/線量測')+' · '+z.k+' '+z.v+'µm'
-   +(top.zRange!=null?' · Z 量程 '+top.zRange+'mm':'')
-   +(top.motion===true?' · 需外部運動軸':top.motion===false?' · 免運動':'')
+   +t3FovTxt(sel)+(t3FovRot(sel,fx,fy)?'（待測物轉 90° 擺放）':'')+' · '+z.k+' '+z.v+'µm'
+   +(sel.zRange!=null?' · Z 量程 '+sel.zRange+'mm':'')
+   +(sel.motion===true?' · 需外部運動軸':sel.motion===false?' · 免運動':'')
    +'　|　同方法另有 '+(same.length-1)+' 款可選'+(ownedN?'，全部符合中 '+ownedN+' 款為實驗室現有':'')+'</div>';
  }
 
  _t3Last={method: top?M3D[methodOf(top)].name:null, cond: !!top&&score[methodOf(top)]===1,
-   hitsN: hits.length, ownedN: hits.filter(function(x){return x.owned;}).length, need: need, zres: zres};
+   hitsN: hits.length, ownedN: hits.filter(function(x){return x.owned;}).length, need: need, zres: zres,
+   pick: sel?sel.n:null};
 
- // ── ② 風險（只列與結論相關的） ──
- const mkTop=top?methodOf(top):null, risks=[];
- if(mkTop==='tri'){
+ // ── ② 風險（依最終採用機種） ──
+ const mkTop=top?methodOf(top):null, mkSel=sel?methodOf(sel):null, risks=[];
+ if(mkSel==='tri'){
    if(ar>1.5) risks.push('深寬比 '+ar+' 偏高，三角夾角需降至約 '+triAngle.toFixed(0)+'°，代價是 Z 精度變差（Z 解析度 ∝ 1/tanθ）');
    if(surf==='semi') risks.push('半鏡面建議選 405nm 藍光機種，或啟用多重曝光 HDR');
-   if(top&&top.motion===true) risks.push('此機種需外部運動軸與 encoder，Y 向精度取決於機構');
+   if(sel&&sel.motion===true) risks.push('此機種需外部運動軸與 encoder，Y 向精度取決於機構');
  }
- if(mkTop==='sl'){
+ if(mkSel==='sl'){
    if(surf==='specular') risks.push('鏡面務必用多投影器機種（Benano 四投影 / Reflector Mode），單投影會大面積失光');
    if(motion==='moving') risks.push('結構光需靜止取像，產線需加停留站');
-   if(top&&top.cycleTime&&top.cycleTime>tt) risks.push('單次取像 '+top.cycleTime+'s 已超過節拍需求 '+tt+'s');
+   if(sel&&sel.cycleTime&&sel.cycleTime>tt) risks.push('單次取像 '+sel.cycleTime+'s 已超過節拍需求 '+tt+'s');
  }
- if(mkTop==='cf'){
+ if(mkSel==='cf'){
    risks.push('點/線量測，'+need.toFixed(0)+'mm 範圍需搭配掃描軸，節拍需另行驗算');
-   if(top&&top.maxTilt) risks.push('該探頭可接受傾斜角僅 ±'+top.maxTilt+'°，曲面或斜面會失訊（傾斜角隨量程變大而降低）');
+   if(sel&&sel.maxTilt) risks.push('該探頭可接受傾斜角僅 ±'+sel.maxTilt+'°，曲面或斜面會失訊（傾斜角隨量程變大而降低）');
    risks.push('厚度規格以 n=1.5 標示，實際材料折射率不同需換算');
  }
- if(goal==='thick'&&mkTop!=='cf') risks.push('膜厚/多層量測僅光譜共焦或干涉可行');
+ if(goal==='thick'&&mkSel!=='cf') risks.push('膜厚/多層量測僅光譜共焦或干涉可行');
  document.getElementById('t3-risks').innerHTML = risks.length
   ? risks.map(function(r){return '<div style="font-size:11.5px;color:#854F0B;line-height:1.65;margin-bottom:5px;">⚠ '+r+'</div>';}).join('')
   : '<div style="font-size:11.5px;color:#0F6E56;">目前條件下無特別風險項目。</div>';
 
- // ── ③ 機種清單 ──
+ // ── ③ 機種清單（點選卡片＝指定採用機種） ──
+ const shown=hits.slice(0,18); if(sel&&shown.indexOf(sel)<0) shown.push(sel);
+ _t3Shown=shown;
  const mv=document.getElementById('t3-models');
  mv.innerHTML = !hits.length ? '<div style="font-size:12px;color:var(--sub);">—</div>'
-  : '<div style="font-size:11px;color:var(--sub);margin-bottom:7px;">符合 '+hits.length+' 款'
+  : '<div class="scr-only" style="font-size:11px;color:var(--sub);margin-bottom:7px;">符合 '+hits.length+' 款'
     +(hits.filter(function(x){return x.owned;}).length?'，其中 '+hits.filter(function(x){return x.owned;}).length+' 款實驗室現有':'')+'</div>'
    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:6px;">'
-   +hits.slice(0,18).map(function(x){ const z=zSpec(x);
-     return '<div style="border:1px solid '+(x.owned?'#0F6E56':'var(--border)')+';border-radius:8px;padding:7px 9px;background:'+(x.owned?'#E1F5EE':'var(--surf)')+';">'
-      +'<div style="font-size:12px;font-weight:600;">'+(x.owned?'★ ':'')+x.brand+' '+x.model
-      +(score[methodOf(x)]===1?' <span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:#FAEEDA;color:#854F0B;">有條件</span>':'')+'</div>'
+   +shown.map(function(x,i){ const z=zSpec(x), on=(x===sel);
+     return '<div class="t3-mc'+(x.owned?' own':'')+(on?' on':'')+'" onclick="t3PickIdx('+i+')" title="設為採用機種">'
+      +'<div style="font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">'+(x.owned?'★ ':'')+esc(x.brand+' '+x.model)
+      +(score[methodOf(x)]===1?' <span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:#FAEEDA;color:#854F0B;">有條件</span>':'')
+      +(on?'<span style="margin-left:auto;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--accent);color:#fff;">✓ 採用</span>':'')+'</div>'
       +'<div style="font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.5;">'
-      +(x.fovX!=null?'視野 '+x.fovX+'mm · ':'點/線量測 · ')+z.k+' '+z.v+'µm'
+      +t3FovTxt(x)+(t3FovRot(x,fx,fy)?'（轉 90°）':'')+' · '+z.k+' '+z.v+'µm'
       +(x.zRange!=null?' · Z '+x.zRange+'mm':'')+'<br>'+M3D[methodOf(x)].name
       +(x.motion===true?'（需運動）':x.motion===false?'（免運動）':'')+(x.wavelength?' · '+x.wavelength+'nm':'')+'</div></div>';
    }).join('')+'</div>'
-   +(hits.length>18?'<div style="font-size:11px;color:var(--sub);margin-top:6px;">…另有 '+(hits.length-18)+' 款</div>':'');
+   +(hits.length>shown.length?'<div class="scr-only" style="font-size:11px;color:var(--sub);margin-top:6px;">…另有 '+(hits.length-shown.length)+' 款（可在架構示意圖的「採用機種」下拉選單選）</div>':'');
 
  // ── ④ 為什麼不是其他方法 ──
  document.getElementById('t3-why').innerHTML=['tri','sl','cf'].filter(function(k){return k!==mkTop;})
@@ -2493,7 +2559,7 @@ function drawChart3D(needFov,needZ,hits){
   const z=zSpec(s); if(!z||s.fovX==null) return;
   if(t3HideBrands.has(s.brand||brandOf(s.n))) return;   // 品牌顯示篩選
   const mk=methodOf(s), ok=!!hitSet[s.brand+s.model];
-  const px=X(s.fovX), py=Y(z.v), rr=s.owned?5.5:3.6;
+  const px=X(t3ChartFov(s)), py=Y(z.v), rr=s.owned?5.5:3.6;
   _t3Pts.push({x:px,y:py,r:rr,s:s,z:z,mk:mk,ok:ok});
   c.globalAlpha=ok?1:0.18; c.fillStyle=M3D[mk].color;
   c.beginPath(); c.arc(px,py,rr,0,6.284); c.fill();
@@ -2523,7 +2589,7 @@ function t3TipHtml(group){
    +'<b>'+(s.owned?'★ ':'')+esc(s.brand)+' '+esc(s.model)+'</b>'
    +'<div style="opacity:.9;margin-top:3px;">'
    +'<span style="color:'+M3D[p.mk].color+'">●</span> '+M3D[p.mk].name
-   +' · 視野 '+s.fovX+'mm · '+z.k+' '+z.v+'µm'
+   +' · '+t3FovTxt(s)+' · '+z.k+' '+z.v+'µm'
    +(s.zRange!=null?' · Z 量程 '+s.zRange+'mm':'')+'</div>'
    +'<div style="opacity:.75;margin-top:2px;">'
    +(p.ok?'✓ 符合目前需求':'✕ 不符合目前需求')
@@ -2611,7 +2677,8 @@ function renderT3Brands(){
 // ═══════════════════════════════════════════════════════════
 // 3D 架構示意圖（可從建議機種中指定要採用的型號）
 // ═══════════════════════════════════════════════════════════
-let t3DgView='side', t3SelName=null;
+// t3UserPick：使用者親自指定的採用機種；否則一律跟著系統首選（條件變了會自動換）
+let t3DgView='side', t3SelName=null, t3UserPick=false;
 
 function setT3DgView(v){
  t3DgView=v;
@@ -2619,7 +2686,10 @@ function setT3DgView(v){
  if(seg) seg.querySelectorAll('button').forEach(function(b,i){ b.classList.toggle('on', i===(v==='top'?1:0)); });
  drawT3Diagram();
 }
-function t3PickModel(v){ t3SelName=v||null; drawT3Diagram(); }
+let _t3Shown=[];
+// 指定採用機種 → 整份重算（結論、風險、卡片、示意圖、下拉選單同步）
+function t3PickModel(v){ t3SelName=v||null; t3UserPick=!!v; calc3D(); }
+function t3PickIdx(i){ const x=_t3Shown[i]; if(x) t3PickModel(x.n); }
 function t3Selected(){
  const all=allS3D();
  let s=t3SelName ? all.filter(function(x){ return x.n===t3SelName; })[0] : null;
@@ -2629,7 +2699,9 @@ function t3Selected(){
 function fillT3Pick(hits){
  const sel=document.getElementById('t3-pick'); if(!sel) return;
  const list=(hits&&hits.length)?hits:allS3D();
- const keep=(t3SelName && list.some(function(x){ return x.n===t3SelName; })) ? t3SelName : (list[0]?list[0].n:null);
+ const ok=t3UserPick && t3SelName && list.some(function(x){ return x.n===t3SelName; });
+ if(!ok) t3UserPick=false;   // 指定的機種已不符合 → 回到系統首選
+ const keep=ok ? t3SelName : (list[0]?list[0].n:null);
  t3SelName=keep;
  sel.innerHTML=list.map(function(x){
    return '<option value="'+esc(x.n)+'"'+(x.n===keep?' selected':'')+'>'+(x.owned?'★ ':'')+esc(x.n)+'</option>';
@@ -2666,7 +2738,12 @@ function drawT3Diagram(){
  const mk=methodOf(s), col=M3D[mk].color, b=t3Body(s);
  const wdNeed=v3('t3-wd'), partX=v3('t3-x'), partY=v3('t3-y');
  const wd=(s.wd!=null?s.wd:wdNeed);
- const fov=(s.fovX!=null?s.fovX:0);
+ let fov=(s.fovX!=null?s.fovX:0), fovY=null, rot=false;
+ // 快照式有 X/Y 兩向視野：取取像次數較少的擺法（轉 90° 放得下就轉）
+ if(t3IsSnap(s)){
+  const n=function(a,b){ return Math.ceil(partX/a)*Math.ceil(partY/b); };
+  if(n(s.fovY,s.fovX)<n(s.fovX,s.fovY)){ fov=s.fovY; fovY=s.fovX; rot=true; } else fovY=s.fovY;
+ }
 
  // 標題列
  c.textAlign='left'; c.textBaseline='top';
@@ -2675,8 +2752,8 @@ function drawT3Diagram(){
  c.textAlign='right'; c.fillStyle=col; c.font='700 10px -apple-system,sans-serif';
  c.fillText(M3D[mk].name+(t3DgView==='top'?' · 俯視':' · 側視'), W-10, 6);
 
- if(t3DgView==='top') drawT3Top(c,W,H,s,b,fov,partX,partY,col,ink,sub,dark);
- else                 drawT3Side(c,W,H,s,b,fov,wd,partX,col,ink,sub,dark,mk);
+ if(t3DgView==='top') drawT3Top(c,W,H,s,b,fov,partX,partY,col,ink,sub,dark,fovY,rot);
+ else                 drawT3Side(c,W,H,s,b,fov,wd,partX,col,ink,sub,dark,mk,rot);
 
  if(cap){
   const z=zSpec(s);
@@ -2693,7 +2770,7 @@ function drawT3Diagram(){
 }
 
 // ── 側視：感測器在上、待測物在下，標註機體尺寸 / WD / 視野 / Z 量程 ──
-function drawT3Side(c,W,H,s,b,fov,wd,partX,col,ink,sub,dark,mk){
+function drawT3Side(c,W,H,s,b,fov,wd,partX,col,ink,sub,dark,mk,rot){
  const padL=54,padR=18,padT=44,padB=44;      // padT 預留標題 + 長度尺寸線
  const yPart=H-padB-12;                       // 待測物上表面
  const availW=W-padL-padR, availH=yPart-padT;
@@ -2779,7 +2856,7 @@ function drawT3Side(c,W,H,s,b,fov,wd,partX,col,ink,sub,dark,mk){
   c.textAlign='left'; c.textBaseline='middle';
   c.fillText('WD '+fmtN(wd)+'mm', Math.min(W-64,x0+bw+9), (yBodyBot+yPart)/2);
  }
- if(fov>0) _sideDimH(c, cx-halfF, cx+halfF, yPart+29, '視野 '+fmtN(fov)+'mm', sub, ink);
+ if(fov>0) _sideDimH(c, cx-halfF, cx+halfF, yPart+29, '視野 '+fmtN(fov)+'mm'+(rot?'（轉 90°）':''), sub, ink);
 
  // 待測物說明
  c.font='700 9px -apple-system,sans-serif'; c.textBaseline='top';
@@ -2792,7 +2869,7 @@ function drawT3Side(c,W,H,s,b,fov,wd,partX,col,ink,sub,dark,mk){
 }
 
 // ── 俯視：待測範圍 vs 感測器覆蓋（拼接 / 掃描道數） ──
-function drawT3Top(c,W,H,s,b,fov,partX,partY,col,ink,sub,dark){
+function drawT3Top(c,W,H,s,b,fov,partX,partY,col,ink,sub,dark,fovY,rot){
  const padL=36,padR=20,padT=30,padB=36;
  const availW=W-padL-padR, availH=H-padT-padB;
  const pw=Math.max(partX,1), ph=Math.max(partY,1);
@@ -2810,17 +2887,18 @@ function drawT3Top(c,W,H,s,b,fov,partX,partY,col,ink,sub,dark){
  if(fov>0){
   const cw=fov*scale, nx=Math.ceil(pw/fov);
   if(snap){
-   const ny=Math.ceil(ph/fov);
+   const fy=fovY||fov, ch=fy*scale, ny=Math.ceil(ph/fy);   // 沒填 Y 向視野的舊資料當正方形
    for(let i=0;i<nx;i++) for(let j=0;j<ny;j++){
-    const tx=x0+i*cw, ty=y0+j*cw;
-    const tw=Math.min(cw,x0+bwPx-tx), th=Math.min(cw,y0+bhPx-ty);
+    const tx=x0+i*cw, ty=y0+j*ch;
+    const tw=Math.min(cw,x0+bwPx-tx), th=Math.min(ch,y0+bhPx-ty);
     c.globalAlpha=((i+j)%2)?0.09:0.17; c.fillStyle=col; c.fillRect(tx,ty,tw,th);
     c.globalAlpha=.5; c.strokeStyle=col; c.lineWidth=1;
     c.strokeRect(tx+.5,ty+.5,Math.max(tw-1,0),Math.max(th-1,0));
    }
    c.globalAlpha=1;
-   firstTile={x:x0,y:y0,w:Math.min(cw,bwPx),h:Math.min(cw,bhPx)};
-   note='快照式 · 單次視野 '+fmtN(fov)+'×'+fmtN(fov)+'mm → 需 '+nx+'×'+ny+' = '+(nx*ny)+' 次取像';
+   firstTile={x:x0,y:y0,w:Math.min(cw,bwPx),h:Math.min(ch,bhPx)};
+   note='快照式 · 單次視野 '+fmtN(fov)+'×'+fmtN(fy)+'mm'+(rot?'（轉 90°）':'')
+       +(nx*ny===1?' → 1 次取像涵蓋':' → 需 '+nx+'×'+ny+' = '+(nx*ny)+' 次取像');
   } else {
    for(let i=0;i<nx;i++){
     const tx=x0+i*cw, tw=Math.min(cw,x0+bwPx-tx);
@@ -3962,7 +4040,7 @@ function saveEval(){
   const r = ss ? calculateStatic(p,ss) : calculate(p);
   const ci=document.getElementById('cam-pick').value;
   const li=document.getElementById('lens-pick').value;
-  evals.unshift({
+  commitEval({
     id:Date.now(), mode:S.mode,
     name:getProjName(S.mode)||'新評估',
     date:new Date().toLocaleString('zh-TW'),
@@ -3971,9 +4049,7 @@ function saveEval(){
     camIdx:ci, lensIdx:li,
     notes:document.getElementById('eval-notes').value,
     p, r, ss
-  });
-  persistEvals();
-  renderEvals(); showTab('res');
+  }, 'res');
 }
 function saveEvalArea(){
   const ci=document.getElementById('cam-pick').value;
@@ -3998,7 +4074,7 @@ function saveEvalArea(){
   const lim=Math.min(1,Math.max(0.05,p.limit||0));
   const nX=(xFOV>0)?Math.max(1,Math.ceil(xRatio/lim)):0, nY=(yFOV>0)?Math.max(1,Math.ceil(yRatio/lim)):0;
   const r={resolution,xFOV,yFOV,wd,nX,nY,totalCams:nX*nY};
-  evals.unshift({
+  commitEval({
     id:Date.now(), mode:'area',
     name:getProjName('area')||'新評估',
     date:new Date().toLocaleString('zh-TW'),
@@ -4007,9 +4083,7 @@ function saveEvalArea(){
     camIdx:ci, lensIdx:li,
     notes:document.getElementById('eval-notes').value,
     p, r
-  });
-  persistEvals();
-  renderEvals(); showTab('hist');
+  }, 'hist');
 }
 function saveEval3D(){
   calc3D();
@@ -4017,10 +4091,10 @@ function saveEval3D(){
     goal:s3('t3-goal'), zres:v3('t3-zres'), zrange:v3('t3-zrange'),
     surf:s3('t3-surf'), x:v3('t3-x'), y:v3('t3-y'), feat:v3('t3-feat'), ar:v3('t3-ar'),
     motion:s3('t3-motion'), tt:v3('t3-tt'), wd:v3('t3-wd'),
-    ownOnly:ownOnly3, pick:t3SelName, dgView:t3DgView,
+    ownOnly:ownOnly3, pick:t3UserPick?t3SelName:null, dgView:t3DgView,
   };
   const sel=t3Selected();
-  evals.unshift({
+  commitEval({
     id:Date.now(), mode:'3d',
     name:getProjName('3d')||'新評估',
     date:new Date().toLocaleString('zh-TW'),
@@ -4028,22 +4102,56 @@ function saveEval3D(){
     lens:'',
     notes:document.getElementById('eval-notes').value,
     p, r:Object.assign({}, _t3Last)
-  });
-  persistEvals();
-  renderEvals(); showTab('hist');
+  }, 'hist');
 }
+// 從歷史紀錄載入的評估（id）；再按儲存時問「覆蓋原紀錄 / 另存新檔」
+let _curEvalId=null, _saveCb=null;
+function commitEval(rec, tab){
+  const idx=_curEvalId!=null ? evals.findIndex(e=>e.id===_curEvalId) : -1;
+  const done=i=>{
+    if(i>=0){ rec.id=evals[i].id; evals[i]=rec; } else evals.unshift(rec);
+    _curEvalId=rec.id; persistEvals(); renderEvals(); showTab(tab);
+  };
+  // 沒有載入中的紀錄，或已切到別的模式 → 直接存新的
+  if(idx<0 || (evals[idx].mode||'scan')!==(rec.mode||'scan')){ done(-1); return; }
+  openSaveModal(evals[idx].name, rec.name, (choice,name)=>{
+    if(name && name!==rec.name){ rec.name=name; setProjName(rec.mode, name); }
+    done(choice==='over'?idx:-1);
+  });
+}
+function openSaveModal(orig, name, cb){
+  _saveCb=cb;
+  document.getElementById('save-orig').textContent=orig;
+  document.getElementById('save-name').value=name;
+  document.getElementById('save-modal').style.display='flex';
+  document.getElementById('save-overlay').style.display='block';
+}
+function closeSaveModal(){
+  _saveCb=null;
+  document.getElementById('save-modal').style.display='none';
+  document.getElementById('save-overlay').style.display='none';
+}
+function saveModalPick(choice){
+  const cb=_saveCb, name=document.getElementById('save-name').value.trim();
+  closeSaveModal(); if(cb) cb(choice, name);
+}
+function evalIs3D(e){ return e.mode==='3d'; }
+// 只清除目前分類（2D 或 3D），另一類看不到，不能一起刪
 function clearEvals(){
-  if(!confirm('確定清除所有評估記錄？'))return;
-  evals=[]; persistEvals(); renderEvals();
+  const want3=(dim==='3d'), lbl=want3?'3D 量測':'2D 取像';
+  if(!confirm('確定清除所有「'+lbl+'」評估記錄？（另一類不受影響）'))return;
+  evals=evals.filter(e=>evalIs3D(e)!==want3); _curEvalId=null; persistEvals(); renderEvals();
 }
 function renderEvals(){
   const el=document.getElementById('ev-list');
-  document.getElementById('ev-cnt').textContent=`${evals.length} 筆評估`;
-  if(!evals.length){
-    el.innerHTML='<div class="empty">📄<br>尚無儲存的評估<br><small>在計算器完成後按「儲存評估」</small></div>';
+  const want3=(dim==='3d'), lbl=want3?'3D 量測':'2D 取像';
+  const list=evals.map((e,i)=>({e,i})).filter(o=>evalIs3D(o.e)===want3);
+  document.getElementById('ev-cnt').textContent=`${lbl} ${list.length} 筆評估`+(list.length!==evals.length?`（全部 ${evals.length} 筆）`:'');
+  if(!list.length){
+    el.innerHTML=`<div class="empty">📄<br>尚無${lbl}的評估<br><small>在計算器完成後按「儲存評估」</small></div>`;
     return;
   }
-  el.innerHTML=evals.map((e,i)=>{
+  el.innerHTML=list.map(({e,i})=>{
     const isArea=(e.mode==='area'), is3D=(e.mode==='3d'), isStatic=(e.mode==='static');
     const badge=is3D
       ?'<span style="font-size:10px;background:#7F77DD;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">3D</span>'
@@ -4063,10 +4171,11 @@ function renderEvals(){
       :isArea
       ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
       :`TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
+    const cur=(e.id===_curEvalId);
     return `
-    <div class="ec">
-      <h3>${esc(e.name)}${badge}</h3>
-      <p>${e.date} · ${esc(e.camera)}</p>
+    <div class="ec"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
+      <h3>${esc(e.name)}${badge}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
+      <p>${esc(e.date)} · ${esc(e.camera)}</p>
       <p>${summary}</p>
       <div style="margin-top:6px;display:flex;gap:6px">
         <button class="btn-sec" style="font-size:11px" onclick="loadEval(${i})">📂 載入</button>
@@ -4078,6 +4187,7 @@ function renderEvals(){
 }
 function loadEval(i){
   const e=evals[i];
+  _curEvalId=e.id; renderEvals();
   if(e.mode==='3d'){ loadEval3D(e); return; }
   if(dim==='3d') setDim('2d');   // 從 3D 載入 2D 評估：先切回 2D，否則結果頁仍停在 3D
   if(e.mode==='area'){ loadEvalArea(e); return; }
@@ -4132,13 +4242,13 @@ function loadEval3D(e){
   sv('t3-surf',p.surf); sv('t3-x',p.x); sv('t3-y',p.y); sv('t3-feat',p.feat); sv('t3-ar',p.ar);
   sv('t3-motion',p.motion); sv('t3-tt',p.tt); sv('t3-wd',p.wd);
   ownOnly3=!!p.ownOnly; segSet('t3-own-seg',ownOnly3?1:0);
-  t3SelName=p.pick||null;
+  t3SelName=p.pick||null; t3UserPick=!!p.pick;
   setT3DgView(p.dgView||'side');
   setProjName('3d', e.name||'新評估');
   document.getElementById('eval-notes').value=e.notes||'';
   setDim('3d');   // 內含 calc3D() + showTab('res')
 }
-function delEval(i){ evals.splice(i,1); persistEvals(); renderEvals(); }
+function delEval(i){ if(evals[i]&&evals[i].id===_curEvalId) _curEvalId=null; evals.splice(i,1); persistEvals(); renderEvals(); }
 function exportEval(i){ loadEval(i); setTimeout(()=>exportPDFMode(evals[i]?.mode||'scan'),300); }
 function exportPDF(){ openPdfExport(dim==='3d'?'3d':S.mode); }
 
@@ -4207,13 +4317,25 @@ async function exportPDFMode(mode){
   // 匯出期間：藏起操作用元件(品牌勾選、視角切換…)；3D「為什麼不是其他方法」展開放進報告
   const restore=[];
   el.querySelectorAll('.pdf-hide').forEach(x=>{ restore.push([x,x.style.display]); x.style.display='none'; });
-  if(mode==='3d'){
+  const onePage = mode==='3d';
+  if(onePage){
     const why=document.getElementById('t3-why'), chev=document.getElementById('t3-why-chev');
     restore.push([why,why.style.display]); why.style.display='';
     const c0=chev.textContent; chev.textContent='▾'; restore.push([null,()=>{ chev.textContent=c0; }]);
+    // 改成一頁版排法，畫布依新尺寸重畫；匯出後改回並再重畫
+    const redraw=()=>{ _t3Rechart(); drawT3Diagram(); };
+    // PDF 勾選取消的欄整欄收掉，不留空白
+    const vis=sel=>[...el.querySelectorAll(sel)].some(x=>x.style.display!=='none');
+    el.style.gridTemplateColumns=[vis('.t3-chartcol')?'1.2fr':'0', vis('.t3-infocol')?'1fr':'0',
+                                  vis('.t3-blk-dg,.t3-blk-models,.t3-blk-why')?'1.25fr':'0'].join(' ');
+    el.classList.add('pdf-1page'); redraw();
+    // 太扁就收窄（字會相對變大），讓比例接近 A4 橫向可用區 281×194
+    for(let w=1400; w>1100 && el.offsetWidth/el.offsetHeight>281/194+0.03; ){ w-=50; el.style.width=w+'px'; redraw(); }
+    restore.push([null,()=>{ el.classList.remove('pdf-1page'); el.style.width=''; el.style.gridTemplateColumns=''; redraw(); }]);
   }
   let canvas;
-  try{ canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' }); }
+  try{ canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff',
+                                        windowWidth: Math.max(window.innerWidth, el.offsetWidth + 40) }); }
   finally{ restore.forEach(([x,v])=>{ if(x) x.style.display=v; else v(); }); }
 
   const pageW = 297, pageH = 210, margin = 8;
@@ -4226,7 +4348,12 @@ async function exportPDFMode(mode){
   const pxPerMm  = canvas.width / availW;
   const pageHpx  = Math.floor(availH * pxPerMm);
 
-  if (canvas.height <= pageHpx) {
+  if (onePage) {
+    // 3D：整份放進一頁（等比縮放、水平置中）
+    const k = Math.min(availW / canvas.width, availH / canvas.height);
+    const w = canvas.width * k, h = canvas.height * k;
+    pdf.addImage(canvas.toDataURL('image/jpeg', 0.96), 'JPEG', margin + (availW - w) / 2, margin, w, h);
+  } else if (canvas.height <= pageHpx) {
     pdf.addImage(canvas.toDataURL('image/jpeg', 0.96), 'JPEG', margin, margin, availW, canvas.height / pxPerMm);
   } else {
     let offset = 0, page = 0;
