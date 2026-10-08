@@ -283,8 +283,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .bdg-sl{background:color-mix(in srgb,#D85A30 18%,transparent);color:#9c3d1d;}
 .bdg-cf{background:color-mix(in srgb,#1D9E75 18%,transparent);color:#126b4f;}
 /* ── 3D 選型圖 hover tooltip ── */
-#t3-chart-wrap{position:relative;}
-#t3-chart{display:block;width:100%;}
+#t3-chart-wrap{position:relative;flex:1 1 auto;min-height:230px;}
+#t3-chart{display:block;position:absolute;left:0;top:0;width:100%;height:100%;}
 #t3-tip{position:absolute;left:0;top:0;display:none;z-index:6;pointer-events:none;
   transform:translate(-50%,-100%);background:rgba(28,43,69,.96);color:#fff;
   border-radius:8px;padding:7px 10px;font-size:11px;line-height:1.6;white-space:nowrap;
@@ -360,19 +360,16 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .rpt-2col-left .rpt-body{grid-template-columns:1fr 1fr;}
 .rpt-2col-right{border-left:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
 .rpt-2col-right .rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border);}
-.t3-2col{display:grid;grid-template-columns:1.55fr 1fr;}
-@media(max-width:900px){.t3-2col{grid-template-columns:1fr;}}
-.t3-chartcol{padding:12px 8px 12px 14px;display:flex;flex-direction:column;min-width:0;}
-.t3-chartcol canvas{display:block;width:100%;height:auto;flex:1 1 auto;min-height:400px;}
-.t3-infocol{padding:12px 14px;border-left:1px solid var(--border);min-width:0;}
-@media(max-width:900px){.t3-infocol{border-left:none;border-top:1px solid var(--border);}}
+/* 3D 報告主體 2×2：左＝選型圖／推導出的需求＋風險，右＝架構示意圖／可用機種＋其他方法（同一列等高） */
+.t3-main{display:grid;grid-template-columns:1.32fr 1fr;grid-template-areas:"chart dg" "info mw";}
+.t3-chartcol{grid-area:chart;padding:12px 8px 12px 14px;display:flex;flex-direction:column;min-width:0;}
+.t3-infocol{grid-area:info;padding:12px 14px;border-top:1px solid var(--border);min-width:0;}
+.t3-mw{grid-area:mw;border-left:1px solid var(--border);border-top:1px solid var(--border);min-width:0;}
 /* 3D 架構示意圖 */
 #t3-dg{display:block;width:100%;height:330px;flex:1 1 auto;min-height:300px;max-height:440px;}
-/* 3D 第二列比照 2D：左＝可用機種＋其他方法，右＝架構示意圖 */
-.t3-2colb{display:grid;grid-template-columns:1.32fr 1fr;border-top:1px solid var(--border);}
-.t3-2colb-left{min-width:0;}
-.t3-blk-dg{border-left:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
-@media(max-width:900px){.t3-2colb{grid-template-columns:1fr;}.t3-blk-dg{border-left:none;border-top:1px solid var(--border);}}
+.t3-blk-dg{grid-area:dg;border-left:1px solid var(--border);padding:12px 14px;display:flex;flex-direction:column;min-width:0;}
+@media(max-width:900px){.t3-main{grid-template-columns:1fr;grid-template-areas:"chart" "info" "dg" "mw";}
+  .t3-blk-dg,.t3-mw{border-left:none;border-top:1px solid var(--border);}}
 /* 可用機種卡片：點選＝指定最終採用機種 */
 .t3-mc{border:1px solid var(--border);border-radius:8px;padding:7px 9px;background:var(--surf);cursor:pointer;transition:border-color .15s,box-shadow .15s;}
 .t3-mc:hover{border-color:var(--accent);}
@@ -380,19 +377,10 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .t3-mc.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);}
 .pdf-only{display:none;}
 @media(max-width:768px){#t3-dg{height:280px;}}
-/* 3D PDF 一頁版：匯出時暫時改成橫式三欄（選型圖｜需求與風險｜示意圖＋機種＋其他方法），整份縮進一張 A4 橫向 */
-.rpt-card.pdf-1page{width:1400px;max-width:none;display:grid;grid-template-columns:1.2fr 1fr 1.25fr;
-  grid-template-rows:auto auto auto auto 1fr;grid-template-areas:"hdr hdr hdr" "ver ver ver" "chart info dg" "chart info models" "chart info why";}
-.pdf-1page > .rpt-hdr{grid-area:hdr;}
-.pdf-1page #t3-verdict{grid-area:ver;}
-.pdf-1page .t3-2col,.pdf-1page .t3-2colb,.pdf-1page .t3-2colb-left{display:contents;}
-.pdf-1page .t3-chartcol{grid-area:chart;}
-.pdf-1page .t3-chartcol canvas{min-height:440px;}
-.pdf-1page .t3-infocol{grid-area:info;border-top:none;border-left:1px solid var(--border);border-right:1px solid var(--border);}
-.pdf-1page .t3-blk-dg{grid-area:dg;border-left:none;display:block;}
-.pdf-1page .t3-blk-models{grid-area:models;border-top:1px solid var(--border);}
-.pdf-1page .t3-blk-why{grid-area:why;}
-.pdf-1page #t3-dg{height:280px;min-height:0;max-height:none;}
+/* 3D PDF 一頁版：版面同畫面（2×2），固定寬度後整份縮進一張 A4 橫向 */
+.rpt-card.pdf-1page{width:1400px;max-width:none;}
+.pdf-1page .t3-main{grid-template-columns:1.32fr 1fr;grid-template-areas:"chart dg" "info mw";}
+.pdf-1page #t3-dg{height:300px;min-height:0;max-height:none;}
 /* 報告只列最終採用機種 */
 .pdf-1page .t3-mc:not(.on),.pdf-1page .scr-only{display:none;}
 .pdf-1page .pdf-only{display:inline;}
@@ -1281,25 +1269,36 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <!-- ① 結論：主建議 -->
       <div id="t3-verdict" data-pdf-block="結論：建議方案" style="padding:14px 16px;border-bottom:1px solid var(--border);"></div>
 
-      <!-- ② 選型圖（左，放大） + 需求與風險（右） -->
-      <div class="t3-2col">
-        <div class="t3-chartcol" data-pdf-block="選型圖（視野 × Z 精度）" data-pdf-collapse="1">
+      <!-- ② 2×2：左＝選型圖／推導出的需求＋風險，右＝架構示意圖／可用機種＋其他方法 -->
+      <div class="t3-main">
+        <div class="t3-chartcol" data-pdf-block="選型圖（視野 × Z 精度）">
           <div class="rpt-ctitle">📊 選型圖（視野 × Z 精度）<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　滑鼠移到點上可看型號</span></div>
           <div id="t3-chart-wrap"><canvas id="t3-chart"></canvas><div id="t3-tip"></div></div>
           <div id="t3-chart-cap" style="display:flex;justify-content:center;gap:10px;padding:6px 4px 0;font-size:10px;flex-wrap:wrap;"></div>
           <div id="t3-brandbar" class="pdf-hide"></div>
         </div>
-        <div class="t3-infocol" data-pdf-block="推導出的需求 / 風險與注意" data-pdf-collapse="1">
+        <div class="t3-blk-dg" data-pdf-block="架構示意圖">
+          <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+            <span>📐 架構示意圖</span>
+            <div style="display:flex;align-items:center;gap:6px 8px;flex:0 1 auto;flex-wrap:wrap;justify-content:flex-end;min-width:0;">
+              <span style="font-weight:400;color:var(--sub);font-size:10px;">採用機種</span>
+              <select id="t3-pick" onchange="t3PickModel(this.value)"></select>
+              <div class="seg t3-dg-view-seg pdf-hide" style="flex:0 0 auto;">
+                <button class="on" type="button" onclick="setT3DgView('side')">側視</button>
+                <button type="button" onclick="setT3DgView('top')">俯視</button>
+              </div>
+            </div>
+          </div>
+          <canvas id="t3-dg"></canvas>
+          <div id="t3-dg-caption"></div>
+        </div>
+        <div class="t3-infocol" data-pdf-block="推導出的需求 / 風險與注意">
           <div class="rpt-ctitle">📐 推導出的需求</div>
-          <div class="res-grid" id="t3-derived" style="grid-template-columns:1fr 1fr;"></div>
+          <div class="res-grid" id="t3-derived" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr));"></div>
           <div class="rpt-ctitle" style="margin-top:12px;">⚠️ 風險與注意</div>
           <div id="t3-risks"></div>
         </div>
-      </div>
-
-      <!-- ③ 比照 2D：左＝可用機種＋其他方法，右＝架構示意圖 -->
-      <div class="t3-2colb">
-        <div class="t3-2colb-left">
+        <div class="t3-mw">
           <!-- 可用機種：點選卡片＝最終採用機種；PDF 只列採用機種 -->
           <div class="t3-blk-models" data-pdf-block="採用機種" style="padding:12px 14px;">
             <div class="rpt-ctitle">🔧 <span class="scr-only">可用機種</span><span class="pdf-only">採用機種</span><span class="scr-only pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　點選卡片指定最終採用的機種（報告只列採用機種）</span></div>
@@ -1312,21 +1311,6 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             </div>
             <div id="t3-why" style="display:none;margin-top:8px;"></div>
           </div>
-        </div>
-        <div class="t3-blk-dg" data-pdf-block="架構示意圖" data-pdf-collapse="1">
-        <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-          <span>📐 架構示意圖</span>
-          <div style="display:flex;align-items:center;gap:8px;flex:0 0 auto;">
-            <span style="font-weight:400;color:var(--sub);font-size:10px;">採用機種</span>
-            <select id="t3-pick" onchange="t3PickModel(this.value)"></select>
-            <div class="seg t3-dg-view-seg pdf-hide" style="flex:0 0 auto;">
-              <button class="on" type="button" onclick="setT3DgView('side')">側視</button>
-              <button type="button" onclick="setT3DgView('top')">俯視</button>
-            </div>
-          </div>
-        </div>
-        <canvas id="t3-dg"></canvas>
-        <div id="t3-dg-caption"></div>
         </div>
       </div>
     </div>
@@ -2406,6 +2390,7 @@ function calc3D(){
   card('取像方式',motion==='moving'?'線掃描':'快照','',motion==='moving'?'待測物移動':'待測物靜止');
 
  // ── 篩選可用機種 ──
+ let brandCut=0;   // 符合條件、但品牌在選型圖沒勾選而排除的款數
  const hits=allS3D().filter(function(x){
   const mk=methodOf(x);
   if(ownOnly3&&!x.owned) return false;
@@ -2414,6 +2399,7 @@ function calc3D(){
   const z=zSpec(x); if(!z||z.v>zres) return false;
   if(!t3FovFits(x,fx,fy)) return false;
   if(x.zRange!=null&&x.zRange<zrange&&x.principle!=='confocal') return false;
+  if(t3HideBrands.has(x.brand||brandOf(x.n))){ brandCut++; return false; }   // 選型圖沒勾的品牌不列入
   return true;
  }).sort(function(p,q){ return score[methodOf(q)]-score[methodOf(p)] || (q.owned?1:0)-(p.owned?1:0) || zSpec(p).v-zSpec(q).v; });
 
@@ -2430,7 +2416,8 @@ function calc3D(){
    +'<div style="font-size:12px;color:var(--sub);line-height:1.75;">'
    +(anyOk.length? '方法上 '+anyOk.map(function(k){return M3D[k].name;}).join('、')+' 可行，但資料庫中沒有同時滿足 <b>視野 '+need.toFixed(0)+'mm</b> 與 <b>Z 精度 '+zres+'µm</b> 的機種。'
      : '此表面性質與量測目標的組合，三種方法皆不適用。')
-   +'<br>可考慮：放寬其一、<b>多台拼接</b>覆蓋大視野、或改變表面處理（如噴顯影劑使鏡面轉為擴散面）。</div>';
+   +'<br>可考慮：放寬其一、<b>多台拼接</b>覆蓋大視野、或改變表面處理（如噴顯影劑使鏡面轉為擴散面）。</div>'
+   +(brandCut?'<div class="pdf-hide" style="font-size:12px;color:#854F0B;margin-top:6px;">⚠ 另有 '+brandCut+' 款符合條件，但品牌在選型圖未勾選（勾回品牌即可列入）</div>':'');
  } else {
   const mk=methodOf(top), cond=score[mk]===1;
   const same=hits.filter(function(x){return methodOf(x)===mk;});
@@ -2498,6 +2485,7 @@ function calc3D(){
       +(x.zRange!=null?' · Z '+x.zRange+'mm':'')+'<br>'+M3D[methodOf(x)].name
       +(x.motion===true?'（需運動）':x.motion===false?'（免運動）':'')+(x.wavelength?' · '+x.wavelength+'nm':'')+'</div></div>';
    }).join('')+'</div>'
+   +(brandCut?'<div class="scr-only pdf-hide" style="font-size:11px;color:var(--sub);margin-top:6px;">另有 '+brandCut+' 款符合條件，但品牌在選型圖未勾選，未列入</div>':'')
    +(hits.length>shown.length?'<div class="scr-only" style="font-size:11px;color:var(--sub);margin-top:6px;">…另有 '+(hits.length-shown.length)+' 款（可在架構示意圖的「採用機種」下拉選單選）</div>':'');
 
  // ── ④ 為什麼不是其他方法 ──
@@ -2511,10 +2499,10 @@ function calc3D(){
     return '<div style="font-size:11.5px;line-height:1.7;margin-bottom:5px;"><b style="color:'+col+'">'+M3D[k].name+'：'+lbl+'</b> — '+why+'</div>';
   }).join('');
 
- drawChart3D(need,zres,hits);
- renderT3Brands();
+ renderT3Brands();   // 先排好品牌列、示意圖，選型圖（與示意圖同列等高）的高度才會是最終值
  fillT3Pick(hits);
  drawT3Diagram();
+ drawChart3D(need,zres,hits);
 }
 function t3ToggleWhy(){
  const e=document.getElementById('t3-why'), c=document.getElementById('t3-why-chev');
@@ -2531,6 +2519,19 @@ let _t3Pts=[], _t3Hover=null, _t3Chart=null;
 
 function drawChart3D(needFov,needZ,hits){
  const cv=document.getElementById('t3-chart'); if(!cv) return;
+ if(!cv._ro && window.ResizeObserver){
+   cv._ro=new ResizeObserver(function(){
+     const d=window.devicePixelRatio||1;
+     if(_t3Chart && cv.offsetHeight && (Math.abs(cv.width-cv.offsetWidth*d)>1 || Math.abs(cv.height-cv.offsetHeight*d)>1))
+       drawChart3D(_t3Chart.needFov,_t3Chart.needZ,_t3Chart.hits);
+   });
+   cv._ro.observe(cv);
+ }
+ // 圖例先放好（會影響選型圖可用高度）
+ const cap=document.getElementById('t3-chart-cap');
+ if(cap) cap.innerHTML=['tri','sl','cf'].map(function(k){
+   return '<span style="color:'+M3D[k].color+'">● '+M3D[k].name+'</span>';}).join('')
+   +'<span style="color:var(--sub)">○ 外框=實驗室現有</span>';
  const dpr=window.devicePixelRatio||1, W=cv.offsetWidth, H=cv.offsetHeight;
  if(!W||!H) return;
  _t3Chart={needFov:needFov,needZ:needZ,hits:hits};
@@ -2575,10 +2576,6 @@ function drawChart3D(needFov,needZ,hits){
  c.globalAlpha=1; c.fillStyle='#6e6e73'; c.font='9px -apple-system,sans-serif';
  c.textAlign='right'; c.fillText('視野 mm →',pl+pw,pt+ph+26);
  c.textAlign='left';  c.fillText('↑ Z 精度 µm（越上越精細）',pl,pt-3);
- const cap=document.getElementById('t3-chart-cap');
- if(cap) cap.innerHTML=['tri','sl','cf'].map(function(k){
-   return '<span style="color:'+M3D[k].color+'">● '+M3D[k].name+'</span>';}).join('')
-   +'<span style="color:var(--sub)">○ 外框=實驗室現有</span>';
 }
 
 // ── 選型圖：滑鼠移到點上顯示型號 ──
@@ -2648,11 +2645,12 @@ function t3BrandList(){
  return order.map(function(b){ return {b:b, n:cnt[b]}; });
 }
 function _t3SaveBrands(){ localStorage.setItem('aoi_t3_hb', JSON.stringify([...t3HideBrands])); }
-function _t3Rechart(){ if(_t3Chart) drawChart3D(_t3Chart.needFov,_t3Chart.needZ,_t3Chart.hits); renderT3Brands(); }
-function t3ToggleBrand(b,on){ if(on) t3HideBrands.delete(b); else t3HideBrands.add(b); _t3SaveBrands(); _t3Rechart(); }
+function _t3Rechart(){ renderT3Brands(); if(_t3Chart) drawChart3D(_t3Chart.needFov,_t3Chart.needZ,_t3Chart.hits); }
+// 品牌勾選同時決定可用機種 → 整份重算（結論、卡片、採用機種、示意圖）
+function t3ToggleBrand(b,on){ if(on) t3HideBrands.delete(b); else t3HideBrands.add(b); _t3SaveBrands(); calc3D(); }
 function t3AllBrands(on){
  t3HideBrands = on ? new Set() : new Set(t3BrandList().map(function(x){ return x.b; }));
- _t3SaveBrands(); _t3Rechart();
+ _t3SaveBrands(); calc3D();
 }
 function renderT3Brands(){
  const bar=document.getElementById('t3-brandbar'); if(!bar) return;
@@ -2664,7 +2662,7 @@ function renderT3Brands(){
    }).join('')
   +'<button type="button" onclick="t3AllBrands(true)">全選</button>'
   +'<button type="button" onclick="t3AllBrands(false)">全不選</button>'
-  +'<span class="bb-dim">'+shown+'/'+list.length+' 品牌 · 僅影響選型圖顯示</span>';
+  +'<span class="bb-dim">'+shown+'/'+list.length+' 品牌 · 未勾選的品牌不列入可用機種</span>';
  if(!bar._bound){
   bar._bound=true;
   bar.addEventListener('change', function(ev){
@@ -2698,7 +2696,8 @@ function t3Selected(){
 }
 function fillT3Pick(hits){
  const sel=document.getElementById('t3-pick'); if(!sel) return;
- const list=(hits&&hits.length)?hits:allS3D();
+ const shownB=allS3D().filter(function(x){ return !t3HideBrands.has(x.brand||brandOf(x.n)); });
+ const list=(hits&&hits.length)?hits:(shownB.length?shownB:allS3D());
  const ok=t3UserPick && t3SelName && list.some(function(x){ return x.n===t3SelName; });
  if(!ok) t3UserPick=false;   // 指定的機種已不符合 → 回到系統首選
  const keep=ok ? t3SelName : (list[0]?list[0].n:null);
@@ -2706,7 +2705,7 @@ function fillT3Pick(hits){
  sel.innerHTML=list.map(function(x){
    return '<option value="'+esc(x.n)+'"'+(x.n===keep?' selected':'')+'>'+(x.owned?'★ ':'')+esc(x.n)+'</option>';
  }).join('');
- sel.title=(hits&&hits.length)?'符合目前需求的機種':'目前無符合機種，列出資料庫全部機種';
+ sel.title=(hits&&hits.length)?'符合目前需求的機種':'目前無符合機種，列出資料庫中已勾選品牌的機種';
 }
 // 機體外形：資料庫有填 長/寬/高 就照實際尺寸，否則依量測方法給概略比例（標示為示意）
 function t3Body(s){
@@ -4323,15 +4322,20 @@ async function exportPDFMode(mode){
     restore.push([why,why.style.display]); why.style.display='';
     const c0=chev.textContent; chev.textContent='▾'; restore.push([null,()=>{ chev.textContent=c0; }]);
     // 改成一頁版排法，畫布依新尺寸重畫；匯出後改回並再重畫
-    const redraw=()=>{ _t3Rechart(); drawT3Diagram(); };
-    // PDF 勾選取消的欄整欄收掉，不留空白
+    const redraw=()=>{ drawT3Diagram(); _t3Rechart(); };
+    // PDF 勾選取消的區塊不留空白：同一列另一塊改成橫跨兩欄
     const vis=sel=>[...el.querySelectorAll(sel)].some(x=>x.style.display!=='none');
-    el.style.gridTemplateColumns=[vis('.t3-chartcol')?'1.2fr':'0', vis('.t3-infocol')?'1fr':'0',
-                                  vis('.t3-blk-dg,.t3-blk-models,.t3-blk-why')?'1.25fr':'0'].join(' ');
+    const main=el.querySelector('.t3-main');
+    const row=(l,r,ln,rn)=> l&&!r ? ln+' '+ln : r&&!l ? rn+' '+rn : ln+' '+rn;
+    const c=vis('.t3-chartcol'), d=vis('.t3-blk-dg'), i=vis('.t3-infocol'), m=vis('.t3-blk-models,.t3-blk-why');
+    main.style.gridTemplateAreas='"'+row(c,d,'chart','dg')+'" "'+row(i,m,'info','mw')+'"';
+    const spans=[[!c&&d,el.querySelector('.t3-blk-dg')],[!i&&m,el.querySelector('.t3-mw')]];
+    spans.forEach(([on,x])=>{ if(on){ const v=x.style.borderLeft; x.style.borderLeft='none'; restore.push([null,()=>{ x.style.borderLeft=v; }]); } });
+    const mw=el.querySelector('.t3-mw'); if(!m){ restore.push([mw,mw.style.display]); mw.style.display='none'; }
     el.classList.add('pdf-1page'); redraw();
     // 太扁就收窄（字會相對變大），讓比例接近 A4 橫向可用區 281×194
     for(let w=1400; w>1100 && el.offsetWidth/el.offsetHeight>281/194+0.03; ){ w-=50; el.style.width=w+'px'; redraw(); }
-    restore.push([null,()=>{ el.classList.remove('pdf-1page'); el.style.width=''; el.style.gridTemplateColumns=''; redraw(); }]);
+    restore.push([null,()=>{ el.classList.remove('pdf-1page'); el.style.width=''; main.style.gridTemplateAreas=''; redraw(); }]);
   }
   let canvas;
   try{ canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff',
