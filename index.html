@@ -179,6 +179,48 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .cost-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 4px;}
 .cost-foot .cost-btn{margin-left:0;}
 .cost-sum{font-size:11.5px;color:var(--sub);margin-left:auto;}
+/* 實測回饋 */
+#fb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+#fb-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;
+  background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
+.fb-subt{font-size:12px;color:var(--sub);margin:-4px 0 6px;}
+.fb-body{overflow-y:auto;flex:1;min-height:0;padding-right:2px;}
+.fb-sec{font-size:11px;font-weight:700;color:var(--text);margin:12px 0 6px;}
+.fb-hint{font-size:10px;font-weight:400;color:var(--sub);}
+.fb-in{padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:12px;background:var(--surf);color:var(--text);}
+.fb-in.n{width:96px;text-align:right;font-variant-numeric:tabular-nums;}
+.fb-grid{display:grid;grid-template-columns:auto auto 1fr auto;gap:6px 10px;align-items:center;font-size:12px;}
+.fb-inw{display:flex;align-items:center;gap:5px;}
+.fb-u{font-size:10.5px;color:var(--sub);}
+.fb-pred{font-size:11px;color:var(--sub);}
+.fb-none{color:var(--sub);opacity:.6;}
+.fb-dev{min-width:52px;text-align:right;}
+.fb-d{font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;font-variant-numeric:tabular-nums;}
+.fb-d.ok{color:#1E8E3E;background:#E6F4EA;}
+.fb-d.mid{color:#B26A00;background:#FEF3D9;}
+.fb-d.bad{color:#D93025;background:#FCE8E6;}
+.fb-concl{display:flex;gap:6px;flex-wrap:wrap;}
+.fb-chip{font-size:12px;padding:5px 12px;border-radius:16px;border:1px solid var(--border);background:var(--surf);color:var(--text);cursor:pointer;}
+.fb-chip.on{border-color:var(--cc);background:var(--cc);color:#fff;font-weight:600;}
+.fb-causes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:4px 10px;font-size:12px;margin-bottom:8px;}
+.fb-cause{display:flex;align-items:center;gap:5px;cursor:pointer;}
+.fb-note{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:inherit;background:var(--surf);color:var(--text);resize:vertical;}
+.fb-docs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.ec-fb{margin-top:3px;}
+.ec-fb .fb-d{font-size:10px;padding:0 5px;}
+.fb-blk{border-top:1px solid var(--border);padding:12px 14px;}
+.fb-blk .rpt-ctitle{display:flex;align-items:center;gap:8px;}
+.fb-badge{font-size:11px;font-weight:700;color:#fff;background:var(--cc);padding:1px 8px;border-radius:10px;}
+.fb-tbl td{font-size:12px;}
+.fb-tbl .fb-hint{line-height:1.2;}
+.fb-line{font-size:12px;margin-top:7px;line-height:1.55;}
+.fb-link{cursor:pointer;color:var(--accent);}
+@media (max-width:560px){
+  .fb-grid{grid-template-columns:auto 1fr auto;grid-auto-flow:row dense;gap:4px 8px;}
+  .fb-grid>label{grid-column:1;} .fb-inw{grid-column:2;} .fb-dev{grid-column:3;}
+  .fb-pred{grid-column:1/-1;margin:-2px 0 6px;}
+  #fb-modal{padding:14px 14px;}
+}
 
 /* ── Warning banner ── */
 #vwarn{display:none;background:color-mix(in srgb,#ff3b30 8%,transparent);
@@ -586,7 +628,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#about-fab,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#fb-modal,#fb-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -696,6 +738,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   <label for="save-name" style="font-size:11px;color:var(--sub);">名稱</label>
   <input id="save-name" type="text">
   <div class="af-btns"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveModalPick('over')">覆蓋原紀錄</button><button class="btn-sec" style="flex:1;font-size:12px" onclick="saveModalPick('new')">另存新檔</button><button class="btn-sec" style="font-size:12px" onclick="closeSaveModal()">取消</button></div>
+</div>
+<div id="fb-overlay" onclick="closeFb()"></div>
+<div id="fb-modal">
+  <div class="af-hdr"><b>📝 實測回饋</b><button class="af-x" onclick="closeFb()" aria-label="關閉">✕</button></div>
+  <div id="fb-sub" class="fb-subt"></div>
+  <div id="fb-body" class="fb-body"></div>
+  <div class="af-btns"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveFb()">儲存回饋</button><button class="btn-sec" style="font-size:12px" onclick="closeFb()">取消</button><button class="btn-sec" id="fb-del" style="font-size:12px;color:#ff3b30" onclick="delFb()">刪除回饋</button></div>
 </div>
 <div id="pick-overlay" onclick="closePicker()"></div>
 <div id="pick-modal">
@@ -1128,6 +1177,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <!-- 資料量與電腦規格 -->
       <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="scan"><div class="rpt-ctitle">🖥 資料量與電腦規格<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　依相機規格估算；電腦配置為經驗值，可調整下方假設</span></div><div class="sys-in"></div><div class="sys-out"></div></div>
       <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="scan"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
+      <div class="fb-blk" data-fb="scan" style="display:none"></div>
     </div><!-- /rpt-card -->
 
   </div>
@@ -1222,6 +1272,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <!-- 資料量與電腦規格 -->
       <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="static"><div class="rpt-ctitle">🖥 資料量與電腦規格<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　依相機規格估算；電腦配置為經驗值，可調整下方假設</span></div><div class="sys-in"></div><div class="sys-out"></div></div>
       <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="static"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
+      <div class="fb-blk" data-fb="static" style="display:none"></div>
     </div><!-- /rpt-card -->
   </div><!-- /#pane-static-res -->
 
@@ -1301,6 +1352,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <!-- 資料量與電腦規格 -->
       <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="area"><div class="rpt-ctitle">🖥 資料量與電腦規格<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　依相機規格估算；電腦配置為經驗值，可調整下方假設</span></div><div class="sys-in"></div><div class="sys-out"></div></div>
       <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="area"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
+      <div class="fb-blk" data-fb="area" style="display:none"></div>
     </div>
   </div><!-- /#pane-area-res -->
 
@@ -1363,6 +1415,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
       </div>
       <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="3d"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
+      <div class="fb-blk" data-fb="3d" style="display:none"></div>
     </div>
   </div><!-- /#pane-3d-res -->
 
@@ -4191,7 +4244,7 @@ function commitEval(rec, tab){
   rec.costTotal=costTotal(rec.mode||'scan');
   const idx=_curEvalId!=null ? evals.findIndex(e=>e.id===_curEvalId) : -1;
   const done=i=>{
-    if(i>=0){ rec.id=evals[i].id; evals[i]=rec; } else evals.unshift(rec);
+    if(i>=0){ rec.id=evals[i].id; if(evals[i].fb) rec.fb=evals[i].fb; evals[i]=rec; } else evals.unshift(rec);   // 覆蓋時保留實測回饋
     _curEvalId=rec.id; persistEvals(); renderEvals(); showTab(tab);
   };
   // 沒有載入中的紀錄，或已切到別的模式 → 直接存新的
@@ -4225,6 +4278,7 @@ function clearEvals(){
   evals=evals.filter(e=>evalIs3D(e)!==want3); _curEvalId=null; persistEvals(); renderEvals();
 }
 function renderEvals(){
+  fbRenderBlk();
   const el=document.getElementById('ev-list');
   const want3=(dim==='3d'), lbl=want3?'3D 量測':'2D 取像';
   const list=evals.map((e,i)=>({e,i})).filter(o=>evalIs3D(o.e)===want3);
@@ -4252,16 +4306,18 @@ function renderEvals(){
         :`${fmt(e.r.optRes,3)} µm/px · 舊紀錄（未存待測範圍，載入後請確認）`)
       :isArea
       ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
-      :`TT: ${fmt(e.r.roundTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
+      :`TT: ${fmt((e.p&&e.p.scanMode==='round')?e.r.roundTT:e.r.singleTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
     const cur=(e.id===_curEvalId);
     return `
     <div class="ec"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
       <h3>${esc(e.name)}${badge}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${esc(e.date)} · ${esc(e.camera)}</p>
       <p>${summary}</p>
+      ${fbSummary(e)}
       <div style="margin-top:6px;display:flex;gap:6px">
         <button class="btn-sec" style="font-size:11px" onclick="loadEval(${i})">📂 載入</button>
         <button class="btn-sec" style="font-size:11px" onclick="exportEval(${i})">📄 PDF</button>
+        <button class="btn-sec" style="font-size:11px" onclick="openFb(${i})">📝 ${e.fb?'編輯回饋':'實測回饋'}</button>
         <button class="btn-sec" style="font-size:11px;color:#ff3b30" onclick="delEval(${i})">🗑 刪除</button>
       </div>
     </div>`;
@@ -4759,6 +4815,154 @@ function costSetExtra(mode,i,f,val){ const x=costOf(mode).extra[i]; if(!x) retur
 function costTotal(mode){ const rows=_costRows[mode]||[]; let t=rows.reduce(function(a,r){ return a+r.sub; },0);
   costOf(mode).extra.forEach(function(x){ t+=(+x.qty||0)*(+x.price||0); }); return t; }
 
+// ═══════════════════════════════════════════
+// 實測回饋（第一階段：填寫＋與預估對照）
+// ═══════════════════════════════════════════
+// 回饋掛在評估紀錄 e.fb，隨 aoi_evals 一起雲端同步
+const FB_CONC={pass:{t:'✓ 達標',c:'#1E8E3E'}, partial:{t:'△ 部分達標',c:'#B26A00'}, fail:{t:'✕ 未達標',c:'#D93025'}, na:{t:'— 未導入',c:'#8A8F98'}};
+const FB_CAUSES=['打光／光源','對焦／景深','物件表面材質（反光、透明、深色）','機構震動／運動','規格書數值偏樂觀','演算法／軟體','其他'];
+// 評估當時的預估值（依模式不同，沒有的項目為 null）
+function fbPred(e){
+  const r=e.r||{}, m=e.mode||'scan', o={};
+  const pos=x=>(isFinite(x)&&x>0)?+x:null;
+  if(m==='3d'){
+    const s=r.pick ? allS3D().filter(function(x){ return x.n===r.pick; })[0] : null;
+    const z=s?zSpec(s):null;
+    o.z   = z&&pos(z.v) ? {v:z.v, lbl:'規格書 '+z.k} : null;
+    o.xres= s&&pos(s.xRes) ? {v:s.xRes, lbl:'規格書'} : null;
+    o.tt  = e.p&&pos(e.p.tt) ? {v:e.p.tt, lbl:'需求'} : null;
+  } else {
+    const res=m==='area'?r.resolution:r.optRes;
+    o.res   = pos(res) ? {v:res, lbl:'估算'} : null;
+    o.defect= m==='scan'&&pos(r.minDetRes) ? {v:r.minDetRes, lbl:'估算最小檢測解析度'} : null;
+    const tt=(e.p&&e.p.scanMode==='round')?r.roundTT:r.singleTT;   // 與報告「估算 TT」同一個值（單向／來回）
+    o.tt    = m==='scan'&&pos(tt) ? {v:tt*60, lbl:'估算'} : null;
+  }
+  o.cost = pos(e.costTotal) ? {v:e.costTotal, lbl:'估算'} : null;
+  return o;
+}
+// 回饋欄位定義：key、名稱、單位、適用模式
+function fbFields(m){
+  const f=m==='3d'
+    ? [{k:'z',t:'Z 重複性',u:'µm'},{k:'xres',t:'X 解析度',u:'µm'}]
+    : [{k:'res',t:'實際解析度',u:'µm/px'},{k:'defect',t:'最小可檢出缺陷',u:'µm'}];
+  return f.concat([{k:'tt',t:'節拍 TT',u:'秒'},{k:'cost',t:'實際成本',u:'NT$'}]);
+}
+function fbDev(act,pred){
+  if(!(act>0) || !pred || !(pred.v>0)) return null;
+  const d=(act-pred.v)/pred.v*100, a=Math.abs(d);
+  return {d, cls:a<=10?'ok':a<=30?'mid':'bad', txt:(d>0?'+':'')+d.toFixed(Math.abs(d)<10?1:0)+'%'};
+}
+const _fbNum=(v,u)=>u==='NT$'?_money(v):(+v).toLocaleString('en-US',{maximumFractionDigits:u==='秒'?1:3});
+
+let _fbIdx=null, _fbDraft=null;
+function openFb(i){
+  const e=evals[i]; if(!e) return;
+  _fbIdx=i; _fbDraft=JSON.parse(JSON.stringify(e.fb||{}));
+  if(!_fbDraft.date) _fbDraft.date=new Date().toISOString().slice(0,10);
+  _fbDraft.causes=_fbDraft.causes||[]; _fbDraft.docs=_fbDraft.docs||[];
+  document.getElementById('fb-sub').innerHTML='<b>'+esc(e.name)+'</b>　'+esc(e.date)+' · '+esc(e.camera||'');
+  document.getElementById('fb-del').style.display=e.fb?'':'none';
+  fbRenderForm();
+  document.getElementById('fb-modal').style.display='flex';
+  document.getElementById('fb-overlay').style.display='block';
+}
+function closeFb(){ _fbIdx=null; _fbDraft=null;
+  document.getElementById('fb-modal').style.display='none'; document.getElementById('fb-overlay').style.display='none'; }
+function fbRenderForm(){
+  const e=evals[_fbIdx], d=_fbDraft, pr=fbPred(e);
+  let h='<div class="fb-sec">實測日期</div><div class="fb-row"><input type="date" class="fb-in" value="'+esc(d.date||'')+'" onchange="_fbDraft.date=this.value"></div>';
+  h+='<div class="fb-sec">實測數值 <span class="fb-hint">空白＝沒量測；差距 ±10% 內綠、10–30% 黃、超過 30% 紅</span></div><div class="fb-grid">';
+  fbFields(e.mode||'scan').forEach(function(f){
+    const p=pr[f.k], dv=fbDev(d[f.k],p);
+    h+='<label>'+f.t+'</label><div class="fb-inw"><input type="number" min="0" step="any" class="fb-in n" value="'+(d[f.k]!=null?d[f.k]:'')+'" oninput="fbSetNum(\''+f.k+'\',this.value)"><span class="fb-u">'+f.u+'</span></div>'
+      +'<div class="fb-pred">'+(p?p.lbl+' '+_fbNum(p.v,f.u)+' '+f.u:'<span class="fb-none">評估時無此預估</span>')+'</div>'
+      +'<div class="fb-dev" id="fb-dev-'+f.k+'">'+(dv?'<span class="fb-d '+dv.cls+'">'+dv.txt+'</span>':'')+'</div>';
+  });
+  h+='</div><div class="fb-sec">結論</div><div class="fb-concl">';
+  Object.keys(FB_CONC).forEach(function(k){
+    h+='<button type="button" class="fb-chip'+(d.concl===k?' on':'')+'" style="--cc:'+FB_CONC[k].c+'" onclick="_fbDraft.concl=(_fbDraft.concl===\''+k+'\'?null:\''+k+'\');fbRenderForm()">'+FB_CONC[k].t+'</button>';
+  });
+  h+='</div><div class="fb-sec">落差原因 <span class="fb-hint">可複選</span></div><div class="fb-causes">';
+  FB_CAUSES.forEach(function(c,ci){
+    h+='<label class="fb-cause"><input type="checkbox"'+(d.causes.indexOf(c)>=0?' checked':'')+' onchange="fbToggleCause('+ci+',this.checked)"> '+c+'</label>';
+  });
+  h+='</div><textarea class="fb-note" rows="3" placeholder="說明：實際狀況、怎麼克服、下次評估要注意什麼…" oninput="_fbDraft.note=this.value">'+esc(d.note||'')+'</textarea>';
+  h+='<div class="fb-sec">實測報告</div><div class="fb-docs">'
+    +d.docs.map(function(doc,di){ return '<span class="db-doc-chip"><a onclick="openDoc(\''+esc(doc.path)+'\')" title="'+esc(doc.name)+'">📄 '+esc(doc.name)+'</a><button onclick="fbDelDoc('+di+')" title="移除">✕</button></span>'; }).join('')
+    +'<button type="button" class="btn-sec" style="font-size:11px" onclick="fbAddDoc()">📎 附加檔案</button>'
+    +(ghReady()?'':'<span class="fb-hint">需先設定「☁ 雲端同步」才能附檔</span>')+'</div>';
+  document.getElementById('fb-body').innerHTML=h;
+}
+function fbSetNum(k,v){
+  _fbDraft[k]=(v===''||!(+v>=0))?null:+v;
+  const dv=fbDev(_fbDraft[k], fbPred(evals[_fbIdx])[k]);
+  document.getElementById('fb-dev-'+k).innerHTML=dv?'<span class="fb-d '+dv.cls+'">'+dv.txt+'</span>':'';
+}
+function fbToggleCause(ci,on){ const c=FB_CAUSES[ci], a=_fbDraft.causes, j=a.indexOf(c);
+  if(on&&j<0) a.push(c); if(!on&&j>=0) a.splice(j,1); }
+function fbAddDoc(){
+  if(!ghReady()){ alert('請先設定「☁ 雲端同步」——實測報告會存到你的雲端資料庫，才能跨電腦共用。'); return; }
+  const input=document.createElement('input');
+  input.type='file'; input.accept='.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg';
+  input.onchange=async function(){
+    const f=input.files[0]; if(!f||!_fbDraft) return;
+    const ent={n:'fb_'+(evals[_fbIdx]||{}).name, docs:_fbDraft.docs};
+    setSyncStatus('sync','⟳ 上傳實測報告…');
+    try{ await putDocFile(ent,f); _fbDraft.docs=ent.docs; fbRenderForm(); setSyncStatus('ok','☁ 已上傳，按「儲存回饋」後生效'); }
+    catch(err){ setSyncStatus('err','⚠ 上傳失敗：'+err.message); alert('上傳失敗：'+err.message); }
+  };
+  input.click();
+}
+function fbDelDoc(di){ if(!confirm('移除這份附件的連結？（雲端上的檔案不會被刪除）')) return; _fbDraft.docs.splice(di,1); fbRenderForm(); }
+function saveFb(){
+  const e=evals[_fbIdx]; if(!e) return;
+  const d=_fbDraft, has=fbFields(e.mode||'scan').some(function(f){ return d[f.k]!=null; });
+  if(!has && !d.concl && !d.causes.length && !(d.note||'').trim() && !d.docs.length){ alert('還沒有填任何內容。'); return; }
+  const old=e.fb; d.updated=new Date().toISOString(); e.fb=d;
+  persistEvals(); closeFb(); renderEvals();
+  showToast('已儲存「'+e.name+'」的實測回饋', function(){ if(old) e.fb=old; else delete e.fb; persistEvals(); renderEvals(); });
+}
+function delFb(){
+  const e=evals[_fbIdx]; if(!e||!e.fb) return;
+  if(!confirm('刪除「'+e.name+'」的實測回饋？')) return;
+  const old=e.fb; delete e.fb; persistEvals(); closeFb(); renderEvals();
+  showToast('已刪除實測回饋', function(){ e.fb=old; persistEvals(); renderEvals(); });
+}
+// 歷史卡片上的一行摘要
+function fbSummary(e){
+  const fb=e.fb; if(!fb) return '';
+  const pr=fbPred(e), parts=[];
+  fbFields(e.mode||'scan').forEach(function(f){ const dv=fbDev(fb[f.k],pr[f.k]); if(dv) parts.push(f.t.replace('實際','')+' <span class="fb-d '+dv.cls+'">'+dv.txt+'</span>'); });
+  const c=FB_CONC[fb.concl];
+  return '<p class="ec-fb">📝 實測'+(c?' <b style="color:'+c.c+'">'+c.t+'</b>':'')+(parts.length?' · '+parts.join(' · '):'')+(fb.causes&&fb.causes.length?' · 原因：'+esc(fb.causes.map(function(c){ return c.replace(/（.*）/,''); }).join('、')):'')+'</p>';
+}
+// 報告頁的「實測回饋」區塊：只在目前開啟的評估有回饋時顯示（PDF 才列入勾選）
+function fbRenderBlk(){
+  const cur=_curEvalId!=null ? evals.filter(function(x){ return x.id===_curEvalId; })[0] : null;
+  document.querySelectorAll('.fb-blk').forEach(function(blk){
+    const e=(cur && cur.fb && (cur.mode||'scan')===blk.dataset.fb) ? cur : null;
+    if(!e){ blk.style.display='none'; blk.removeAttribute('data-pdf-block'); blk.innerHTML=''; return; }
+    const fb=e.fb, pr=fbPred(e), c=FB_CONC[fb.concl];
+    let rows='';
+    fbFields(e.mode||'scan').forEach(function(f){
+      const p=pr[f.k], a=fb[f.k]; if(a==null && !p) return;
+      const dv=fbDev(a,p);
+      rows+='<tr><td>'+f.t+'</td><td class="n">'+(p?_fbNum(p.v,f.u)+' <span class="fb-u">'+f.u+'</span><div class="fb-hint">'+p.lbl+'</div>':'—')+'</td>'
+        +'<td class="n">'+(a!=null?_fbNum(a,f.u)+' <span class="fb-u">'+f.u+'</span>':'—')+'</td>'
+        +'<td class="n">'+(dv?'<span class="fb-d '+dv.cls+'">'+dv.txt+'</span>':'—')+'</td></tr>';
+    });
+    blk.setAttribute('data-pdf-block','📝 實測回饋');
+    blk.style.display='';
+    blk.innerHTML='<div class="rpt-ctitle">📝 實測回饋<span style="font-weight:400;color:var(--sub);font-size:10px;">　'+esc(fb.date||'')+'</span>'
+      +(c?'<span class="fb-badge" style="--cc:'+c.c+'">'+c.t+'</span>':'')
+      +'<button type="button" class="cost-btn pdf-hide" style="margin-left:auto" onclick="openFb(evals.indexOf(evals.filter(function(x){return x.id===_curEvalId;})[0]))">✎ 編輯</button></div>'
+      +(rows?'<div class="cost-wrap"><table class="cost-tbl fb-tbl"><thead><tr><th>項目</th><th class="n">預估</th><th class="n">實測</th><th class="n">差距</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'')
+      +(fb.causes&&fb.causes.length?'<div class="fb-line"><b>落差原因</b>　'+esc(fb.causes.join('、'))+'</div>':'')
+      +((fb.note||'').trim()?'<div class="fb-line"><b>說明</b>　'+esc(fb.note).replace(/\n/g,'<br>')+'</div>':'')
+      +(fb.docs&&fb.docs.length?'<div class="fb-line pdf-hide"><b>實測報告</b>　'+fb.docs.map(function(doc){ return '<a class="fb-link" onclick="openDoc(\''+esc(doc.path)+'\')">📄 '+esc(doc.name)+'</a>'; }).join('　')+'</div>':'');
+  });
+}
 // ═══════════════════════════════════════════
 // CARD CUSTOMIZATION
 // ═══════════════════════════════════════════
