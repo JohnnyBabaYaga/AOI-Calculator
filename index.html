@@ -179,6 +179,18 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .cost-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 4px;}
 .cost-foot .cost-btn{margin-left:0;}
 .cost-sum{font-size:11.5px;color:var(--sub);margin-left:auto;}
+.cost-bar{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap;margin:0 0 8px;font-size:10.5px;color:var(--sub);}
+.cur-seg{display:inline-flex;border:1px solid var(--border);border-radius:7px;overflow:hidden;flex:none;}
+.cur-seg button{font-size:10.5px;font-weight:600;padding:2px 10px;border:none;background:var(--surf);color:var(--sub);cursor:pointer;}
+.cur-seg button+button{border-left:1px solid var(--border);}
+.cur-seg button.on{background:var(--accent);color:#fff;}
+.fx-line{display:inline-flex;align-items:center;flex-wrap:wrap;gap:2px 0;margin-left:auto;font-variant-numeric:tabular-nums;}
+.fx-line .cost-btn{margin-left:6px;}
+.fx-src.warn{color:#854F0B;}
+@media(max-width:520px){ .cost-tbl td.it{min-width:110px;} .cost-tbl td,.cost-tbl th{padding:4px 4px;} .cost-in{width:72px;} .cost-in.q{width:42px;} }
+.fx-line .cost-in{width:66px;margin:0 3px;}
+.af-pw{display:flex;gap:6px;min-width:0;}
+.af-row .af-pw select.af-cur{width:auto;flex:none;padding:5px 4px;font-size:11px;}
 /* 實測回饋 */
 #fb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
 #fb-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;
@@ -1479,7 +1491,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <label>鏡頭接口</label>
           <input list="mount-opts" id="afc-mount" placeholder="C / F / M42…（決定可搭配鏡頭）">
         </div>
-        <div class="af-row"><label>單價</label><input type="number" min="0" id="afc-price" placeholder="NT$（可空，成本估算自動帶入）"><span style="font-size:10px;color:var(--sub)">NT$</span></div>
+        <div class="af-row"><label>單價</label><div class="af-pw"><input type="number" min="0" step="any" id="afc-price" placeholder="可空，成本估算自動帶入"><select id="afc-cur" class="af-cur" title="單價幣別"><option value="NTD">NT$</option><option value="USD">US$</option><option value="RMB">RMB</option></select></div></div>
         <div class="af-more-tog" onclick="toggleAfMore('cam')"><span id="afc-more-chev">▸</span> 進階 / 規格書（選填）</div>
         <div id="afc-more" style="display:none">
           <div class="af-row">
@@ -1546,7 +1558,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             <option>M72</option><option>M95</option><option>V-mount</option>
           </datalist>
         </div>
-        <div class="af-row"><label>單價</label><input type="number" min="0" id="afl-price" placeholder="NT$（可空，成本估算自動帶入）"><span style="font-size:10px;color:var(--sub)">NT$</span></div>
+        <div class="af-row"><label>單價</label><div class="af-pw"><input type="number" min="0" step="any" id="afl-price" placeholder="可空，成本估算自動帶入"><select id="afl-cur" class="af-cur" title="單價幣別"><option value="NTD">NT$</option><option value="USD">US$</option><option value="RMB">RMB</option></select></div></div>
         <div class="af-more-tog" onclick="toggleAfMore('lens')"><span id="afl-more-chev">▸</span> 官網 / 規格書（選填）</div>
         <div id="afl-more" style="display:none">
           <div class="af-row"><label>官網連結</label><input class="wide" type="text" id="afl-url" placeholder="https://…（可空）"></div>
@@ -1603,7 +1615,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           </select></div>
         <div class="af-row"><label>實驗室現有</label>
           <select id="af3-owned"><option value="no">否</option><option value="yes">是</option></select></div>
-        <div class="af-row"><label>單價</label><input type="number" min="0" id="af3-price" placeholder="NT$（可空，成本估算自動帶入）"><span style="font-size:10px;color:var(--sub)">NT$</span></div>
+        <div class="af-row"><label>單價</label><div class="af-pw"><input type="number" min="0" step="any" id="af3-price" placeholder="可空，成本估算自動帶入"><select id="af3-cur" class="af-cur" title="單價幣別"><option value="NTD">NT$</option><option value="USD">US$</option><option value="RMB">RMB</option></select></div></div>
         <div class="af-more-tog" onclick="toggleAfMore('s3d')"><span id="af3-more-chev">▸</span> 進階 / 規格書（選填）</div>
         <div id="af3-more" style="display:none">
           <div class="af-row"><label>X 解析度</label><input type="number" id="af3-xres" step="0.1"><span>µm</span></div>
@@ -1893,7 +1905,7 @@ function editCustS3D(i, builtin){
     .forEach(function(a){ document.getElementById('af3-'+a[0]).value = s[a[1]]!=null ? s[a[1]] : ''; });
   document.getElementById('af3-note').value = s.note || '';
   document.getElementById('af3-url').value  = s.url  || '';
-  document.getElementById('af3-price').value = priceGet('s3d',s.n) || '';
+  afPriceFill('af3', priceRaw('s3d',s.n));
   const zs=zSpec(s), zp=document.getElementById('af3-zrepeat');   // 原廠沒標重複性時，提示改用哪個值比較精度
   zp.placeholder = (s.zRepeat==null && zs) ? '未標，沿用'+zs.k+' '+fmtN(zs.v)+'µm' : '必填';
   document.getElementById('af3-doc').value  = '';
@@ -1944,7 +1956,7 @@ function submitAddS3D(){
   }
   else if(_editS3DIdx!==null){ const _on=custS3D[_editS3DIdx].n; if(_on!==entry.n) priceSet('s3d',_on,0); entry.docs=custS3D[_editS3DIdx].docs; custS3D[_editS3DIdx]=entry; }
   else { custS3D.push(entry); }
-  priceSet('s3d', entry.n, document.getElementById('af3-price').value);
+  priceSet('s3d', entry.n, document.getElementById('af3-price').value, afCur('af3'));
   saveCustS3D(); renderDb3List(); if(dim==='3d') calc3D();
   toggleAF('s3d');
   ['af3-n','af3-note','af3-url','af3-brand'].forEach(function(id){ document.getElementById(id).value=''; });
@@ -2146,7 +2158,7 @@ function editCustCam(i){
   document.getElementById('afc-type').value  = c.line  ? 'line'  : 'area';
   document.getElementById('afc-color').value = c.color ? 'color' : 'gray';
   document.getElementById('afc-iface').value  = c.iface  || '';
-  document.getElementById('afc-price').value  = priceGet('cam',c.n) || '';
+  afPriceFill('afc', priceRaw('cam',c.n));
   document.getElementById('afc-mount').value  = c.mount  || '';
   document.getElementById('afc-sensor').value = c.sensor || '';
   document.getElementById('afc-url').value    = c.url    || '';
@@ -2182,7 +2194,7 @@ function editCustLens(i){
     updateAflMagComputed();
   }
   document.getElementById('afl-mount').value = l.mount || 'C';
-  document.getElementById('afl-price').value = priceGet('lens',l.n) || '';
+  afPriceFill('afl', priceRaw('lens',l.n));
   document.getElementById('afl-url').value   = l.url   || '';
   document.getElementById('afl-doc').value='';
   afMoreSet('lens', true);
@@ -2245,7 +2257,7 @@ function toggleAF(type){
       if(oe && oe.style.display!=='none'){ oe.style.display='none'; _resetEditMode(o); }
     });
     const t=document.getElementById(AFPRE[type]+'-title'); if(t) t.textContent=AFTITLE[type];
-    const pe=document.getElementById(AFPRE[type]+'-price'); if(pe) pe.value='';   // 新增時單價欄清空
+    afPriceFill(AFPRE[type], 0);   // 新增時單價欄清空，幣別預設為目前顯示幣別
     fillBrandDatalist(type);
     el.style.display='';
   } else {
@@ -2300,7 +2312,7 @@ function submitAddCam(){
   const docFile=document.getElementById('afc-doc').files[0];
   if(_editCamIdx!==null){ const _on=custCams[_editCamIdx].n; if(_on!==entry.n) priceSet('cam',_on,0); entry.docs=custCams[_editCamIdx].docs; custCams[_editCamIdx]=entry; }
   else { custCams.push(entry); }
-  priceSet('cam', n, document.getElementById('afc-price').value);
+  priceSet('cam', n, document.getElementById('afc-price').value, afCur('afc'));
   saveCustCams(); refreshCamPicker(); renderDbLists();
   toggleAF('cam');
   ['afc-n','afc-sensor','afc-url','afc-mount','afc-brand'].forEach(id=>document.getElementById(id).value='');
@@ -2340,7 +2352,7 @@ function submitAddLens(){
   const docFile=document.getElementById('afl-doc').files[0];
   if(_editLensIdx!==null){ const _on=custLens[_editLensIdx].n; if(_on!==lens.n) priceSet('lens',_on,0); lens.docs=custLens[_editLensIdx].docs; custLens[_editLensIdx]=lens; }
   else { custLens.push(lens); }
-  priceSet('lens', lens.n, document.getElementById('afl-price').value);
+  priceSet('lens', lens.n, document.getElementById('afl-price').value, afCur('afl'));
   saveCustLens(); refreshLensPicker(); renderDbLists();
   toggleAF('lens');
   ['afl-n','afl-url','afl-brand'].forEach(id=>document.getElementById(id).value='');
@@ -4693,25 +4705,87 @@ function sysCtx2D(mode, p, r, extra){
 // 成本估算（2D 三種模式＋3D）
 // ═══════════════════════════════════════════
 // 單價表：元件依型號名稱存（內建 3D 感測器也能定價），通用項目存 gen；隨雲端同步（prices）
+// 幣別：單價存「原幣」——新台幣存純數字（相容舊資料），美元／人民幣存 {v,c}；
+// 計算一律換成新台幣（評估存的 costTotal、實測回饋的成本都是新台幣），顯示時再換成目前選的幣別
+const CURS={NTD:{sym:'NT$',dp:0}, USD:{sym:'US$',dp:2}, RMB:{sym:'RMB',dp:2}};
+let CUR=(function(){ try{ const c=localStorage.getItem('aoi_cur'); return CURS[c]?c:'NTD'; }catch(e){ return 'NTD'; } })();
+// 匯率＝1 外幣折合多少新台幣；src：auto 自動更新 | manual 手動輸入 | default 內建預設（還沒成功更新過）
+let FX=(function(){ try{ const o=JSON.parse(localStorage.getItem('aoi_fx')||'null'); if(o&&o.USD>0&&o.RMB>0) return o; }catch(e){} return {USD:31.9, RMB:4.76, date:'', src:'default', ts:0}; })();
+function fxSave(){ try{ localStorage.setItem('aoi_fx', JSON.stringify(FX)); }catch(e){} }
+const fxRate=c=>c==='USD'?FX.USD:c==='RMB'?FX.RMB:1;
+const _isP=p=>!!p&&typeof p==='object';
+function pNTD(p){ return _isP(p) ? (+p.v||0)*fxRate(p.c) : (+p||0); }                       // 原幣 → 新台幣
+function pMk(v,c){ v=+v; if(!(v>0)) return 0; return (!CURS[c]||c==='NTD') ? v : {v:v, c:c}; }  // 輸入值＋幣別 → 存檔格式
+function pIn(p){   // 放進輸入框的數值（目前幣別）；原幣跟目前幣別相同就給原值，不經匯率
+  if(_isP(p)&&p.c===CUR&&+p.v>0) return +p.v;
+  const n=pNTD(p); if(!(n>0)) return '';
+  const k=Math.pow(10,CURS[CUR].dp); return Math.round(n/fxRate(CUR)*k)/k;
+}
+function afPriceFill(pre, raw){   // 資料庫表單：單價照原幣顯示
+  const el=document.getElementById(pre+'-price'), sel=document.getElementById(pre+'-cur'), has=pNTD(raw)>0;
+  if(el) el.value=has?(_isP(raw)?+raw.v:+raw):'';
+  if(sel) sel.value=has?(_isP(raw)?raw.c:'NTD'):CUR;
+}
+function afCur(pre){ const sel=document.getElementById(pre+'-cur'); return sel?sel.value:'NTD'; }
+function setCur(c){ if(!CURS[c]) return; CUR=c; try{ localStorage.setItem('aoi_cur', c); }catch(e){} _fxEdit=false; costRecalc(); fbRenderBlk(); }
+let _fxBusy=false, _fxEdit=false;
+async function fxFetch(user){
+  if(_fxBusy) return; _fxBusy=true;
+  const today=new Date().toISOString().slice(0,10);
+  const SRC=[   // 兩個免金鑰的公開匯率來源，第一個抓不到再試第二個
+    ['https://open.er-api.com/v6/latest/USD', function(d){ return {t:d.rates&&d.rates.TWD, c:d.rates&&d.rates.CNY, date:d.time_last_update_unix?new Date(d.time_last_update_unix*1000).toISOString().slice(0,10):''}; }],
+    ['https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json', function(d){ return {t:d.usd&&d.usd.twd, c:d.usd&&d.usd.cny, date:d.date||''}; }],
+  ];
+  let ok=false;
+  for(let i=0;i<SRC.length&&!ok;i++){
+    try{
+      const ctl=new AbortController(), tm=setTimeout(function(){ ctl.abort(); },6000);
+      const r=SRC[i][1](await (await fetch(SRC[i][0],{cache:'no-store',signal:ctl.signal})).json()); clearTimeout(tm);
+      if(+r.t>0&&+r.c>0){ FX={USD:+(+r.t).toFixed(4), RMB:+(r.t/r.c).toFixed(4), date:r.date||today, src:'auto', ts:Date.now()}; fxSave(); ok=true; }
+    }catch(e){}
+  }
+  _fxBusy=false;
+  if(ok){ _fxEdit=false; costRecalc(); fbRenderBlk(); }
+  else if(user) alert('抓不到最新匯率（可能是公司網路擋住外部網站）。\n可以按「✎ 手動」自己輸入匯率。');
+}
+function fxManualOk(btn){
+  const box=btn.closest('.fx-line'), u=+box.querySelector('.fx-usd').value, r=+box.querySelector('.fx-rmb').value;
+  if(!(u>0&&r>0)){ alert('請輸入大於 0 的匯率。'); return; }
+  FX={USD:u, RMB:r, date:new Date().toISOString().slice(0,10), src:'manual', ts:Date.now()}; fxSave();
+  _fxEdit=false; costRecalc(); fbRenderBlk();
+}
+// 成本區塊上方：幣別切換＋目前匯率
+function costCurBar(foreign){
+  const seg='<span class="cur-seg pdf-hide">'+Object.keys(CURS).map(function(c){ return '<button type="button"'+(c===CUR?' class="on"':'')+' onclick="setCur(\''+c+'\')">'+c+'</button>'; }).join('')+'</span>';
+  if(_fxEdit) return '<div class="cost-bar">'+seg+'<span class="fx-line pdf-hide">1 USD =<input type="number" min="0" step="any" class="cost-in fx-usd" value="'+FX.USD+'">NTD　1 RMB =<input type="number" min="0" step="any" class="cost-in fx-rmb" value="'+FX.RMB+'">NTD'
+    +'<button type="button" class="cost-btn" onclick="fxManualOk(this)">確定</button><button type="button" class="cost-btn" onclick="_fxEdit=false;costRecalc()">取消</button></span></div>';
+  const src=FX.src==='manual'?FX.date+' 手動輸入':FX.src==='default'?'預設值，尚未連線更新':FX.date+' 自動更新';
+  return '<div class="cost-bar">'+seg+'<span class="fx-line'+(CUR==='NTD'&&!foreign?' pdf-hide':'')+'">匯率 1 USD = '+FX.USD.toFixed(2)+' NTD · 1 RMB = '+FX.RMB.toFixed(2)+' NTD'
+    +'<span class="fx-src'+(FX.src==='default'?' warn':'')+'">（'+src+'）</span>'
+    +'<button type="button" class="cost-btn pdf-hide" title="重新抓取最新匯率" onclick="fxFetch(true)">↻ 更新</button>'
+    +'<button type="button" class="cost-btn pdf-hide" title="公司網路抓不到匯率時，可自己輸入" onclick="_fxEdit=true;costRecalc()">✎ 手動</button></span></div>';
+}
 function _priceNorm(o){
   o=(o&&typeof o==='object')?o:{};
-  const g=(o.gen&&typeof o.gen==='object')?o.gen:{};
+  const g=(o.gen&&typeof o.gen==='object')?o.gen:{}, k=function(x){ return _isP(x)?x:(+x||0); };
   return {cam:o.cam||{}, lens:o.lens||{}, s3d:o.s3d||{},
-          gen:{pc:+g.pc||0, storTB:+g.storTB||0, ctrl3d:+g.ctrl3d||0, card:(g.card&&typeof g.card==='object')?g.card:{}}};
+          gen:{pc:k(g.pc), storTB:k(g.storTB), ctrl3d:k(g.ctrl3d), card:(g.card&&typeof g.card==='object')?g.card:{}}};
 }
 let PRICES=(function(){ try{ return _priceNorm(JSON.parse(localStorage.getItem('aoi_prices')||'{}')); }catch(e){ return _priceNorm({}); } })();
 function pricesSave(){ try{ localStorage.setItem('aoi_prices', JSON.stringify(PRICES)); }catch(e){} aoiTouch(); }
 // path：'cam' | 'lens' | 's3d' | 'gen.pc' | 'gen.storTB' | 'gen.ctrl3d' | 'gen.card'（name＝介面 key）
-function priceGet(path, name){
-  if(path.indexOf('gen.')===0){ const k=path.slice(4); return k==='card' ? (+PRICES.gen.card[name]||0) : (+PRICES.gen[k]||0); }
-  return name ? (+PRICES[path][name]||0) : 0;
+function priceRaw(path, name){   // 原幣存檔值（數字＝新台幣，或 {v,c}）
+  if(path.indexOf('gen.')===0){ const k=path.slice(4); return k==='card' ? (PRICES.gen.card[name]||0) : (PRICES.gen[k]||0); }
+  return name ? (PRICES[path][name]||0) : 0;
 }
-function priceSet(path, name, val){
-  const v=+val>0?+val:0;
+function priceGet(path, name){ return pNTD(priceRaw(path, name)); }   // 換算成新台幣
+function priceSetRaw(path, name, p){
+  const v=pNTD(p)>0?p:0;
   if(path.indexOf('gen.')===0){ const k=path.slice(4); if(k==='card'){ if(v) PRICES.gen.card[name]=v; else delete PRICES.gen.card[name]; } else PRICES.gen[k]=v; }
   else if(name){ if(v) PRICES[path][name]=v; else delete PRICES[path][name]; }
   pricesSave();
 }
+function priceSet(path, name, val, cur){ priceSetRaw(path, name, pMk(val, cur||'NTD')); }
 
 // 每種模式目前的成本設定：ovr＝自動項目的覆寫（數量／單價），extra＝自訂項目
 let COST=(function(){ try{ return JSON.parse(localStorage.getItem('aoi_cost_cur')||'{}')||{}; }catch(e){ return {}; } })();
@@ -4752,23 +4826,29 @@ function costRows3D(sel){
   if(sel&&sel.motion===true) r.push({key:'motion', item:'運動軸／機構', spec:'線掃式需外部運動軸與 encoder', qty:1, unit:'式', path:null});
   return r;
 }
-const _money=x=>Math.round(+x||0).toLocaleString('en-US');
+const _money=ntd=>((+ntd||0)/fxRate(CUR)).toLocaleString('en-US',{minimumFractionDigits:CURS[CUR].dp, maximumFractionDigits:CURS[CUR].dp});   // 傳入新台幣，依目前幣別顯示
+function _moneyBig(ntd){
+  const x=(+ntd||0)/fxRate(CUR);
+  if(CUR==='USD') return '約 US$ '+(x>=1e6?(x/1e6).toFixed(2)+'M':(x/1000).toFixed(x>=1e5?0:1)+'K');
+  return '約 '+(x/10000).toFixed(x>=1e6?0:1)+' 萬'+(CUR==='RMB'?'人民幣':'元');
+}
 function costRender(mode, rows){
   const blk=document.querySelector('.cost-blk[data-cost="'+mode+'"]'); if(!blk) return;
   const c=costOf(mode);
   rows.forEach(function(r){
     const ov=c.ovr[r.key]||{};
     if(ov.price!=null && (ov.pn||'')!==(r.name||'')){ delete ov.price; delete ov.pn; if(!Object.keys(ov).length) delete c.ovr[r.key]; costSave(); }   // 換了型號，舊的單價覆寫作廢
-    r.qtyAuto=r.qty; r.priceDb=r.path?priceGet(r.path,r.name):0;
+    r.qtyAuto=r.qty; r.priceRawDb=r.path?priceRaw(r.path,r.name):0; r.priceDb=pNTD(r.priceRawDb);
     r.qOv=ov.qty!=null; r.pOv=ov.price!=null;
-    r.qty=r.qOv?+ov.qty:r.qtyAuto; r.price=r.pOv?+ov.price:r.priceDb;
+    r.qty=r.qOv?+ov.qty:r.qtyAuto; r.priceRaw=r.pOv?ov.price:r.priceRawDb; r.price=pNTD(r.priceRaw);
     r.sub=r.qty*r.price;
   });
   _costRows[mode]=rows;
   const M="'"+mode+"'";
   const numIn=(val,on,q)=>'<input type="number" min="0" class="cost-in'+(q?' q':'')+'" value="'+(val||val===0?val:'')+'" onchange="'+on+'">';
-  let total=0, need=0;
-  let h='<div class="cost-wrap"><table class="cost-tbl"><thead><tr><th>項目／規格</th><th class="n">數量</th><th class="u">單位</th><th class="n">單價 NT$</th><th class="n">小計 NT$</th><th class="pdf-hide"></th></tr></thead><tbody>';
+  let total=0, need=0, sym=CURS[CUR].sym;
+  const foreign=rows.some(function(r){ return _isP(r.priceRaw); })||c.extra.some(function(x){ return _isP(x.price); });
+  let h=costCurBar(foreign)+'<div class="cost-wrap"><table class="cost-tbl"><thead><tr><th>項目／規格</th><th class="n">數量</th><th class="u">單位</th><th class="n">單價 '+sym+'</th><th class="n">小計 '+sym+'</th><th class="pdf-hide"></th></tr></thead><tbody>';
   rows.forEach(function(r){
     total+=r.sub; const miss=r.qty>0&&!(r.price>0); if(miss) need++;
     const K="'"+r.key+"'";
@@ -4778,26 +4858,26 @@ function costRender(mode, rows){
     if(r.pOv) act+='<button type="button" class="cost-btn" title="單價回到資料庫值" onclick="costReset('+M+','+K+',\'price\')">↺ 單價</button>';
     h+='<tr'+(miss?' class="cost-need"':'')+'><td class="it"><div class="nm">'+esc(r.item)+(miss?'<span class="cost-tag">待填</span>':'')+'</div><div class="sp">'+esc(r.spec)+'</div></td>'
       +'<td class="n">'+numIn(r.qty,'costSetRow('+M+','+K+',\'qty\',this.value)',1)+'</td><td class="u">'+r.unit+'</td>'
-      +'<td class="n">'+numIn(r.price||'','costSetRow('+M+','+K+',\'price\',this.value)')+'</td>'
+      +'<td class="n">'+numIn(pIn(r.priceRaw),'costSetRow('+M+','+K+',\'price\',this.value)')+'</td>'
       +'<td class="n sub">'+(r.sub?_money(r.sub):'—')+'</td><td class="pdf-hide act">'+act+'</td></tr>';
   });
   c.extra.forEach(function(x,i){
-    const sub=(+x.qty||0)*(+x.price||0); total+=sub; const miss=(+x.qty||0)>0&&!(+x.price>0); if(miss) need++;
+    const sub=(+x.qty||0)*pNTD(x.price); total+=sub; const miss=(+x.qty||0)>0&&!(pNTD(x.price)>0); if(miss) need++;
     const txt=(f,ph,w)=>'<input type="text" class="cost-in t" style="width:'+w+'" placeholder="'+ph+'" value="'+esc(x[f]||'')+'" onchange="costSetExtra('+M+','+i+',\''+f+'\',this.value)">';
     h+='<tr'+(miss?' class="cost-need"':'')+'><td class="it"><div class="nm">'+txt('name','項目名稱','100%')+(miss?'<span class="cost-tag">待填</span>':'')+'</div><div class="sp">'+txt('spec','規格／說明','100%')+'</div></td>'
       +'<td class="n">'+numIn(x.qty,'costSetExtra('+M+','+i+',\'qty\',this.value)',1)+'</td><td class="u">'+txt('unit','式','34px')+'</td>'
-      +'<td class="n">'+numIn(x.price||'','costSetExtra('+M+','+i+',\'price\',this.value)')+'</td>'
+      +'<td class="n">'+numIn(pIn(x.price),'costSetExtra('+M+','+i+',\'price\',this.value)')+'</td>'
       +'<td class="n sub">'+(sub?_money(sub):'—')+'</td><td class="pdf-hide act"><button type="button" class="cost-btn" onclick="costDelExtra('+M+','+i+')">✕ 刪除</button></td></tr>';
   });
-  h+='</tbody><tfoot><tr><td colspan="4" class="n">合計</td><td class="n tot">NT$ '+_money(total)+'</td><td class="pdf-hide"></td></tr></tfoot></table></div>'
+  h+='</tbody><tfoot><tr><td colspan="4" class="n">合計</td><td class="n tot">'+sym+' '+_money(total)+'</td><td class="pdf-hide"></td></tr></tfoot></table></div>'
     +'<div class="cost-foot"><button type="button" class="cost-btn pdf-hide" onclick="costAddExtra('+M+')">＋ 新增項目（機構、軟體、整合、安裝…）</button>'
-    +'<span class="cost-sum">約 '+(total/10000).toFixed(total>=1e6?0:1)+' 萬元'+(need?' · <b style="color:#854F0B">'+need+' 項未填單價，合計偏低</b>':'')+'</span></div>'
-    +'<div class="sys-note">單價自動帶入資料庫值，可逐項修改（只影響這份評估）；按「存為資料庫單價」才會更新資料庫。未稅、未含運費與安裝，除非另列項目。</div>';
+    +'<span class="cost-sum">'+_moneyBig(total)+(need?' · <b style="color:#854F0B">'+need+' 項未填單價，合計偏低</b>':'')+'</span></div>'
+    +'<div class="sys-note">單價自動帶入資料庫值，可逐項修改（只影響這份評估）；按「存為資料庫單價」才會更新資料庫。單價以輸入時的幣別保存，切換幣別時依匯率換算。未稅、未含運費與安裝，除非另列項目。</div>';
   blk.querySelector('.cost-out').innerHTML=h;
 }
 function costSetRow(mode,key,f,val){
   const c=costOf(mode); c.ovr[key]=c.ovr[key]||{};
-  if(val===''||!(+val>=0)) delete c.ovr[key][f]; else c.ovr[key][f]=+val;
+  if(val===''||!(+val>=0)) delete c.ovr[key][f]; else c.ovr[key][f]=(f==='price')?pMk(+val,CUR):+val;   // 單價以目前幣別保存
   if(f==='price'){ const r=(_costRows[mode]||[]).filter(function(x){ return x.key===key; })[0];
     if(c.ovr[key].price!=null && r && r.name) c.ovr[key].pn=r.name; else delete c.ovr[key].pn; }
   if(!Object.keys(c.ovr[key]).length) delete c.ovr[key];
@@ -4806,14 +4886,14 @@ function costSetRow(mode,key,f,val){
 function costReset(mode,key,f){ const c=costOf(mode); if(c.ovr[key]){ delete c.ovr[key][f]; if(f==='price') delete c.ovr[key].pn; if(!Object.keys(c.ovr[key]).length) delete c.ovr[key]; } costSave(); costRecalc(); }
 function costToDb(mode,key){
   const r=(_costRows[mode]||[]).filter(function(x){ return x.key===key; })[0]; if(!r||!r.path) return;
-  priceSet(r.path, r.name, r.price); costReset(mode,key,'price');
+  priceSetRaw(r.path, r.name, r.priceRaw); costReset(mode,key,'price');
 }
 function costAddExtra(mode){ costOf(mode).extra.push({name:'',spec:'',qty:1,unit:'式',price:''}); costSave(); costRecalc(); }
 function costDelExtra(mode,i){ costOf(mode).extra.splice(i,1); costSave(); costRecalc(); }
 function costSetExtra(mode,i,f,val){ const x=costOf(mode).extra[i]; if(!x) return;
-  x[f]=(f==='qty'||f==='price') ? (val===''?'':+val) : val; costSave(); costRecalc(); }
+  x[f]=f==='qty' ? (val===''?'':+val) : f==='price' ? (val===''?'':pMk(+val,CUR)) : val; costSave(); costRecalc(); }
 function costTotal(mode){ const rows=_costRows[mode]||[]; let t=rows.reduce(function(a,r){ return a+r.sub; },0);
-  costOf(mode).extra.forEach(function(x){ t+=(+x.qty||0)*(+x.price||0); }); return t; }
+  costOf(mode).extra.forEach(function(x){ t+=(+x.qty||0)*pNTD(x.price); }); return t; }
 
 // ═══════════════════════════════════════════
 // 實測回饋（第一階段：填寫＋與預估對照）
@@ -4846,14 +4926,14 @@ function fbFields(m){
   const f=m==='3d'
     ? [{k:'z',t:'Z 重複性',u:'µm'},{k:'xres',t:'X 解析度',u:'µm'}]
     : [{k:'res',t:'實際解析度',u:'µm/px'},{k:'defect',t:'最小可檢出缺陷',u:'µm'}];
-  return f.concat([{k:'tt',t:'節拍 TT',u:'秒'},{k:'cost',t:'實際成本',u:'NT$'}]);
+  return f.concat([{k:'tt',t:'節拍 TT',u:'秒'},{k:'cost',t:'實際成本',u:CURS[CUR].sym}]);
 }
 function fbDev(act,pred){
   if(!(act>0) || !pred || !(pred.v>0)) return null;
   const d=(act-pred.v)/pred.v*100, a=Math.abs(d);
   return {d, cls:a<=10?'ok':a<=30?'mid':'bad', txt:(d>0?'+':'')+d.toFixed(Math.abs(d)<10?1:0)+'%'};
 }
-const _fbNum=(v,u)=>u==='NT$'?_money(v):(+v).toLocaleString('en-US',{maximumFractionDigits:u==='秒'?1:3});
+const _fbNum=(v,u)=>u===CURS[CUR].sym?_money(v):(+v).toLocaleString('en-US',{maximumFractionDigits:u==='秒'?1:3});
 
 let _fbIdx=null, _fbDraft=null;
 function openFb(i){
@@ -4875,7 +4955,7 @@ function fbRenderForm(){
   h+='<div class="fb-sec">實測數值 <span class="fb-hint">空白＝沒量測；差距 ±10% 內綠、10–30% 黃、超過 30% 紅</span></div><div class="fb-grid">';
   fbFields(e.mode||'scan').forEach(function(f){
     const p=pr[f.k], dv=fbDev(d[f.k],p);
-    h+='<label>'+f.t+'</label><div class="fb-inw"><input type="number" min="0" step="any" class="fb-in n" value="'+(d[f.k]!=null?d[f.k]:'')+'" oninput="fbSetNum(\''+f.k+'\',this.value)"><span class="fb-u">'+f.u+'</span></div>'
+    h+='<label>'+f.t+'</label><div class="fb-inw"><input type="number" min="0" step="any" class="fb-in n" value="'+(d[f.k]==null?'':f.k==='cost'?pIn(d.costC!=null?d.costC:d.cost):d[f.k])+'" oninput="fbSetNum(\''+f.k+'\',this.value)"><span class="fb-u">'+f.u+'</span></div>'
       +'<div class="fb-pred">'+(p?p.lbl+' '+_fbNum(p.v,f.u)+' '+f.u:'<span class="fb-none">評估時無此預估</span>')+'</div>'
       +'<div class="fb-dev" id="fb-dev-'+f.k+'">'+(dv?'<span class="fb-d '+dv.cls+'">'+dv.txt+'</span>':'')+'</div>';
   });
@@ -4896,6 +4976,7 @@ function fbRenderForm(){
 }
 function fbSetNum(k,v){
   _fbDraft[k]=(v===''||!(+v>=0))?null:+v;
+  if(k==='cost'){ _fbDraft.costC=_fbDraft.cost==null?null:pMk(_fbDraft.cost,CUR); if(_fbDraft.cost!=null) _fbDraft.cost=pNTD(_fbDraft.costC); }   // 成本：存新台幣比對，另存原幣
   const dv=fbDev(_fbDraft[k], fbPred(evals[_fbIdx])[k]);
   document.getElementById('fb-dev-'+k).innerHTML=dv?'<span class="fb-d '+dv.cls+'">'+dv.txt+'</span>':'';
 }
@@ -5825,6 +5906,7 @@ initPickers();
 loadRptMeta();
 initCardCfg();
 calc();
+if(FX.src!=='manual' && Date.now()-(FX.ts||0)>6*3600e3) setTimeout(function(){ fxFetch(false); }, 600);
 if(ghReady()){ cloudPull({force:false}); } else { setSyncStatus('off'); }
 window.addEventListener('resize', ()=>{
   if(dim==='3d'){ calc3D(); return; }
