@@ -140,6 +140,45 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .metric .mt{font-size:10px;color:var(--sub);line-height:1.3;margin-bottom:3px;}
 .metric .mv{font-size:15px;font-weight:700;color:var(--text);line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .metric .mu{font-size:10px;color:var(--sub);font-weight:400;}
+.metric .ms{font-size:9.5px;color:var(--sub);margin-top:2px;line-height:1.35;white-space:normal;}
+/* 資料量與電腦規格（2D 三種模式共用） */
+.sys-blk{border-top:1px solid var(--border);padding:12px 14px;}
+.sys-in{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:11px;color:var(--sub);background:var(--surf2);border-radius:8px;padding:7px 10px;margin-bottom:10px;}
+.sys-in label{display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.sys-in input{width:60px;font-size:11px;padding:2px 5px;border:1px solid var(--border);border-radius:5px;background:var(--surf);color:var(--text);}
+.sys-in select{font-size:11px;padding:2px 4px;border:1px solid var(--border);border-radius:5px;background:var(--surf);color:var(--text);max-width:210px;}
+.sys-sec{font-size:11px;font-weight:700;color:var(--text);margin:2px 0 6px;}
+.sys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:10px;}
+.sys-warn{font-size:11.5px;color:#854F0B;line-height:1.65;}
+.sys-note{font-size:10px;color:var(--sub);line-height:1.5;}
+/* 成本估算 */
+.cost-blk{border-top:1px solid var(--border);padding:12px 14px;}
+.cost-wrap{overflow-x:auto;}
+.cost-tbl{width:100%;border-collapse:collapse;font-size:11.5px;}
+.cost-tbl th{font-size:10px;font-weight:600;color:var(--sub);text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);white-space:nowrap;}
+.cost-tbl td{padding:4px 6px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.cost-tbl .n{text-align:right;white-space:nowrap;width:1%;}
+.cost-tbl .u{white-space:nowrap;width:1%;color:var(--sub);}
+.cost-tbl .it .nm{font-weight:600;display:flex;align-items:center;gap:6px;}
+.cost-tbl .it .sp{color:var(--sub);font-size:10.5px;margin-top:1px;}
+.cost-tbl .it .sp .cost-in{margin-top:3px;}
+.cost-tbl .it .cost-in.t{max-width:280px;}
+.cost-tbl .sub{font-variant-numeric:tabular-nums;}
+.cost-tbl .act{text-align:right;width:1%;}
+.cost-tbl .act .cost-btn{margin:1px 0 1px 4px;}
+.cost-tbl tfoot td{border-bottom:none;font-weight:700;padding-top:7px;}
+.cost-tbl .tot{font-size:13px;color:var(--accent-deep,var(--accent));}
+.cost-tbl tr.cost-need td{background:#FFF8EC;}
+.cost-in{width:84px;font-size:11.5px;padding:2px 5px;border:1px solid var(--border);border-radius:5px;background:var(--surf);color:var(--text);text-align:right;font-variant-numeric:tabular-nums;}
+.cost-in.t{text-align:left;}
+.cost-in.q{width:54px;}
+.pdf-out .cost-in{border-color:transparent;background:transparent;}
+.cost-tag{font-size:9px;font-weight:700;color:#854F0B;background:#FCEBD0;border-radius:4px;padding:0 5px;line-height:15px;flex:none;}
+.cost-btn{font-size:10px;padding:2px 7px;border:1px solid var(--border);border-radius:6px;background:var(--surf);color:var(--sub);cursor:pointer;margin-left:4px;white-space:nowrap;}
+.cost-btn:hover{border-color:var(--accent);color:var(--accent);}
+.cost-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 4px;}
+.cost-foot .cost-btn{margin-left:0;}
+.cost-sum{font-size:11.5px;color:var(--sub);margin-left:auto;}
 
 /* ── Warning banner ── */
 #vwarn{display:none;background:color-mix(in srgb,#ff3b30 8%,transparent);
@@ -228,8 +267,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .db-brand-link:hover{text-decoration:underline;}
 .db-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;padding:0 12px 8px;}
 .db-card{background:var(--surf);border:1px solid var(--border);border-radius:11px;padding:9px 11px 8px;box-shadow:0 1px 2px rgba(30,50,90,.05);}
-.db-card-top{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
-.db-card-model{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
+.db-card-top{display:flex;flex-wrap:wrap;align-items:center;gap:5px 7px;margin-bottom:5px;}
+.db-card-top .db-card-acts{margin-left:auto;}
+.db-card-model{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;overflow-wrap:break-word;order:3;flex:1 1 100%;min-width:0;}
 .db-card-spec{font-size:12px;color:var(--sub);line-height:1.45;}
 .db-card-meta{font-size:11px;color:var(--sub);opacity:.8;margin-top:2px;line-height:1.4;}
 .db-card-acts{display:flex;gap:2px;flex-shrink:0;}
@@ -572,7 +612,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     </svg>
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
-  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.1</span></h1></div>
+  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.2</span></h1></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <!-- 第一級：量測維度 -->
     <div class="seg dim-seg" id="dim-seg" style="flex-shrink:0;font-size:11px;">
@@ -1085,6 +1125,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <div id="dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
+      <!-- 資料量與電腦規格 -->
+      <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="scan"><div class="rpt-ctitle">🖥 資料量與電腦規格<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　依相機規格估算；電腦配置為經驗值，可調整下方假設</span></div><div class="sys-in"></div><div class="sys-out"></div></div>
+      <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="scan"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
     </div><!-- /rpt-card -->
 
   </div>
@@ -1176,6 +1219,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <div id="st-dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
+      <!-- 資料量與電腦規格 -->
+      <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="static"><div class="rpt-ctitle">🖥 資料量與電腦規格<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　依相機規格估算；電腦配置為經驗值，可調整下方假設</span></div><div class="sys-in"></div><div class="sys-out"></div></div>
+      <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="static"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
     </div><!-- /rpt-card -->
   </div><!-- /#pane-static-res -->
 
@@ -1252,6 +1298,9 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <div id="as-dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
+      <!-- 資料量與電腦規格 -->
+      <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="area"><div class="rpt-ctitle">🖥 資料量與電腦規格<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　依相機規格估算；電腦配置為經驗值，可調整下方假設</span></div><div class="sys-in"></div><div class="sys-out"></div></div>
+      <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="area"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
     </div>
   </div><!-- /#pane-area-res -->
 
@@ -1313,6 +1362,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           </div>
         </div>
       </div>
+      <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="3d"><div class="rpt-ctitle">💰 成本估算<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　數量依評估結果自動計算；單價取自資料庫，可逐項修改</span></div><div class="cost-out"></div></div>
     </div>
   </div><!-- /#pane-3d-res -->
 
@@ -1376,6 +1426,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <label>鏡頭接口</label>
           <input list="mount-opts" id="afc-mount" placeholder="C / F / M42…（決定可搭配鏡頭）">
         </div>
+        <div class="af-row"><label>單價</label><input type="number" min="0" id="afc-price" placeholder="NT$（可空，成本估算自動帶入）"><span style="font-size:10px;color:var(--sub)">NT$</span></div>
         <div class="af-more-tog" onclick="toggleAfMore('cam')"><span id="afc-more-chev">▸</span> 進階 / 規格書（選填）</div>
         <div id="afc-more" style="display:none">
           <div class="af-row">
@@ -1442,6 +1493,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             <option>M72</option><option>M95</option><option>V-mount</option>
           </datalist>
         </div>
+        <div class="af-row"><label>單價</label><input type="number" min="0" id="afl-price" placeholder="NT$（可空，成本估算自動帶入）"><span style="font-size:10px;color:var(--sub)">NT$</span></div>
         <div class="af-more-tog" onclick="toggleAfMore('lens')"><span id="afl-more-chev">▸</span> 官網 / 規格書（選填）</div>
         <div id="afl-more" style="display:none">
           <div class="af-row"><label>官網連結</label><input class="wide" type="text" id="afl-url" placeholder="https://…（可空）"></div>
@@ -1498,6 +1550,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           </select></div>
         <div class="af-row"><label>實驗室現有</label>
           <select id="af3-owned"><option value="no">否</option><option value="yes">是</option></select></div>
+        <div class="af-row"><label>單價</label><input type="number" min="0" id="af3-price" placeholder="NT$（可空，成本估算自動帶入）"><span style="font-size:10px;color:var(--sub)">NT$</span></div>
         <div class="af-more-tog" onclick="toggleAfMore('s3d')"><span id="af3-more-chev">▸</span> 進階 / 規格書（選填）</div>
         <div id="af3-more" style="display:none">
           <div class="af-row"><label>X 解析度</label><input type="number" id="af3-xres" step="0.1"><span>µm</span></div>
@@ -1620,7 +1673,7 @@ function lensMeta(l){ return l.mount?`${l.mount}-mount`:''; }
 const DBACT={
   cam :{hide:'hideBuiltinCam', edit:'editCustCam', del:'delCustCam'},
   lens:{hide:'hideBuiltinLens',edit:'editCustLens',del:'delCustLens'},
-  s3d :{hide:'hideBuiltinS3D', edit:'editCustS3D', del:'delCustS3D'}
+  s3d :{hide:'hideBuiltinS3D', edit:'editCustS3D', del:'delCustS3D', editB:'editBuiltinS3D'}
 };
 const AFPRE={cam:'afc', lens:'afl', s3d:'af3'};
 const AFTITLE={cam:'📷 新增相機', lens:'🔭 新增鏡頭', s3d:'📡 新增 3D 感測器'};
@@ -1665,10 +1718,11 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
       const linkBtn=purl?`<a class="db-doc" href="${esc(purl)}" target="_blank" rel="noopener noreferrer" title="官方規格頁 ↗">🔗</a>`:'';
       const acts=linkBtn+(it.builtin
         ? `<button class="db-doc" onclick="uploadDoc('${kind}',${it.ref},1)" title="上傳規格書 / 手冊">📎</button>`
+          +(A.editB?`<button class="db-edit" onclick="${A.editB}(${it.ref})" title="編輯（存成你的版本，原廠資料保留可恢復）">✎</button>`:'')
           +`<button class="db-del" onclick="${A.hide}(${it.ref})" title="刪除">✕</button>`
         : `<button class="db-doc" onclick="uploadDoc('${kind}',${it.ref})" title="上傳規格書 / 手冊">📎</button>`
           +`<button class="db-edit" onclick="${A.edit}(${it.ref})" title="編輯">✎</button>`
-          +`<button class="db-del" onclick="${A.del}(${it.ref})" title="刪除">✕</button>`);
+          +`<button class="db-del" onclick="${A.del}(${it.ref})" title="${it.x.fromB!=null?'刪除修改，恢復內建原始資料':'刪除'}">✕</button>`);
       const meta=metaFn?metaFn(it.x):'';
       let docsHtml='';
       const dl=it.builtin ? bDocsGet(kind,it.ref) : (it.x.docs||[]);
@@ -1746,6 +1800,7 @@ function s3dMeta(s){
   if(s.maxTilt!=null)   p.push(`可傾斜 ±${fmtN(s.maxTilt)}°`);
   p.push(s.motion===true?'需外部運動軸':s.motion===false?'免運動':'');
   if(s.owned) p.push('★ 實驗室現有');
+  if(s.fromB!=null) p.push('✎ 已修改內建資料');
   return p.filter(Boolean).join(' · ');
 }
 function renderDb3List(){
@@ -1756,19 +1811,23 @@ function renderDb3List(){
 function hideBuiltinS3D(i){ hiddenS3D.add(i); saveHiddenS3D(); renderDb3List(); if(dim==='3d') calc3D(); }
 function delCustS3D(i){
   const item=custS3D.splice(i,1)[0];
+  const rb=item.fromB!=null && S3D[item.fromB];   // 修改過的內建 → 刪除即恢復原廠資料
+  if(rb){ hiddenS3D.delete(item.fromB); saveHiddenS3D(); }
   saveCustS3D(); renderDb3List(); if(dim==='3d') calc3D();
-  showToast(`已刪除「${item.n}」`, ()=>{
-    custS3D.splice(i,0,item); saveCustS3D(); renderDb3List(); if(dim==='3d') calc3D();
+  showToast(rb?`已恢復「${S3D[item.fromB].n}」原廠資料`:`已刪除「${item.n}」`, ()=>{
+    custS3D.splice(i,0,item); if(rb){ hiddenS3D.add(item.fromB); saveHiddenS3D(); }
+    saveCustS3D(); renderDb3List(); if(dim==='3d') calc3D();
   });
 }
 
-let _editS3DIdx=null;
+let _editS3DIdx=null, _editS3DB=null;   // _editS3DB：正在編輯的內建機種 index
 function _n3(id){ const e=document.getElementById(id); const v=e?e.value.trim():''; return v===''?null:+v; }
 function _s3(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
 
-function editCustS3D(i){
-  const s=custS3D[i];
-  _editS3DIdx=i;
+function editBuiltinS3D(i){ editCustS3D(i, true); }
+function editCustS3D(i, builtin){
+  const s=builtin?S3D[i]:custS3D[i];
+  _editS3DIdx=builtin?null:i; _editS3DB=builtin?i:null;
   fillBrandDatalist('s3d');
   document.getElementById('af3-brand').value     = s.brand || brandOf(s.n);
   document.getElementById('af3-n').value         = s.model || modelOf(s.n);
@@ -1781,10 +1840,13 @@ function editCustS3D(i){
     .forEach(function(a){ document.getElementById('af3-'+a[0]).value = s[a[1]]!=null ? s[a[1]] : ''; });
   document.getElementById('af3-note').value = s.note || '';
   document.getElementById('af3-url').value  = s.url  || '';
+  document.getElementById('af3-price').value = priceGet('s3d',s.n) || '';
+  const zs=zSpec(s), zp=document.getElementById('af3-zrepeat');   // 原廠沒標重複性時，提示改用哪個值比較精度
+  zp.placeholder = (s.zRepeat==null && zs) ? '未標，沿用'+zs.k+' '+fmtN(zs.v)+'µm' : '必填';
   document.getElementById('af3-doc').value  = '';
   afMoreSet('s3d', true);
   ['cam','lens'].forEach(function(o){ const e=document.getElementById('af-'+o); if(e) e.style.display='none'; });
-  const t=document.getElementById('af3-title'); if(t) t.textContent='📡 編輯 3D 感測器';
+  const t=document.getElementById('af3-title'); if(t) t.textContent=builtin?'📡 編輯 3D 感測器（內建資料，存成你的版本）':'📡 編輯 3D 感測器';
   document.getElementById('af-s3d').style.display='';
   document.getElementById('af-overlay').style.display='';
   document.querySelector('#af-s3d .btn-pri').textContent='確認修改';
@@ -1794,9 +1856,8 @@ function submitAddS3D(){
   const model=_s3('af3-n');
   if(!model){ alert('請輸入 3D 感測器型號'); return; }
   const zr=_n3('af3-zrepeat');
-  if(zr==null){ alert('請輸入 Z 重複性（µm）—— 選型篩選與選型圖都靠這個值比較精度'); return; }
   const brand=getFormBrand('s3d'), mo=_s3('af3-motion');
-  const entry={
+  let entry={
     n: joinBrandModel(brand, model),
     brand: brand || '其他',
     model: model,
@@ -1818,9 +1879,19 @@ function submitAddS3D(){
     note: _s3('af3-note'),
     url:  _s3('af3-url')
   };
+  // 表單沒有的欄位（解析度、綜合精度、Y 視野、線性度…）沿用原資料
+  const base=_editS3DB!==null?S3D[_editS3DB]:_editS3DIdx!==null?custS3D[_editS3DIdx]:null;
+  if(base){ const keep={}; Object.keys(base).forEach(function(k){ if(!(k in entry) && k!=='docs') keep[k]=base[k]; }); entry=Object.assign(keep, entry); }
+  if(!zSpec(entry)){ alert('請輸入 Z 重複性（µm）—— 選型篩選與選型圖都靠這個值比較精度'); return; }
   const docFile=document.getElementById('af3-doc').files[0];
-  if(_editS3DIdx!==null){ entry.docs=custS3D[_editS3DIdx].docs; custS3D[_editS3DIdx]=entry; }
+  if(_editS3DB!==null){   // 內建 → 存成自訂版本並藏起原廠那筆；刪除自訂版本即恢復
+    const b=_editS3DB; if(S3D[b].n!==entry.n) priceSet('s3d',S3D[b].n,0);
+    entry.fromB=b; entry.docs=bDocsGet('s3d',b).slice(); custS3D.push(entry);
+    hiddenS3D.add(b); saveHiddenS3D();
+  }
+  else if(_editS3DIdx!==null){ const _on=custS3D[_editS3DIdx].n; if(_on!==entry.n) priceSet('s3d',_on,0); entry.docs=custS3D[_editS3DIdx].docs; custS3D[_editS3DIdx]=entry; }
   else { custS3D.push(entry); }
+  priceSet('s3d', entry.n, document.getElementById('af3-price').value);
   saveCustS3D(); renderDb3List(); if(dim==='3d') calc3D();
   toggleAF('s3d');
   ['af3-n','af3-note','af3-url','af3-brand'].forEach(function(id){ document.getElementById(id).value=''; });
@@ -2022,6 +2093,7 @@ function editCustCam(i){
   document.getElementById('afc-type').value  = c.line  ? 'line'  : 'area';
   document.getElementById('afc-color').value = c.color ? 'color' : 'gray';
   document.getElementById('afc-iface').value  = c.iface  || '';
+  document.getElementById('afc-price').value  = priceGet('cam',c.n) || '';
   document.getElementById('afc-mount').value  = c.mount  || '';
   document.getElementById('afc-sensor').value = c.sensor || '';
   document.getElementById('afc-url').value    = c.url    || '';
@@ -2057,6 +2129,7 @@ function editCustLens(i){
     updateAflMagComputed();
   }
   document.getElementById('afl-mount').value = l.mount || 'C';
+  document.getElementById('afl-price').value = priceGet('lens',l.n) || '';
   document.getElementById('afl-url').value   = l.url   || '';
   document.getElementById('afl-doc').value='';
   afMoreSet('lens', true);
@@ -2119,6 +2192,7 @@ function toggleAF(type){
       if(oe && oe.style.display!=='none'){ oe.style.display='none'; _resetEditMode(o); }
     });
     const t=document.getElementById(AFPRE[type]+'-title'); if(t) t.textContent=AFTITLE[type];
+    const pe=document.getElementById(AFPRE[type]+'-price'); if(pe) pe.value='';   // 新增時單價欄清空
     fillBrandDatalist(type);
     el.style.display='';
   } else {
@@ -2136,7 +2210,7 @@ function _resetEditMode(type){
   afMoreSet(type,false);
   if(type==='cam')       _editCamIdx=null;
   else if(type==='lens') _editLensIdx=null;
-  else                   _editS3DIdx=null;
+  else                 { _editS3DIdx=null; _editS3DB=null; const zp=document.getElementById('af3-zrepeat'); if(zp) zp.placeholder='必填'; }
   const btn=document.querySelector('#af-'+type+' .btn-pri');
   if(btn) btn.textContent='確認新增';
 }
@@ -2171,8 +2245,9 @@ function submitAddCam(){
     url: document.getElementById('afc-url').value.trim(),
   };
   const docFile=document.getElementById('afc-doc').files[0];
-  if(_editCamIdx!==null){ entry.docs=custCams[_editCamIdx].docs; custCams[_editCamIdx]=entry; }
+  if(_editCamIdx!==null){ const _on=custCams[_editCamIdx].n; if(_on!==entry.n) priceSet('cam',_on,0); entry.docs=custCams[_editCamIdx].docs; custCams[_editCamIdx]=entry; }
   else { custCams.push(entry); }
+  priceSet('cam', n, document.getElementById('afc-price').value);
   saveCustCams(); refreshCamPicker(); renderDbLists();
   toggleAF('cam');
   ['afc-n','afc-sensor','afc-url','afc-mount','afc-brand'].forEach(id=>document.getElementById(id).value='');
@@ -2210,8 +2285,9 @@ function submitAddLens(){
   lens.mount = document.getElementById('afl-mount').value;
   lens.url   = document.getElementById('afl-url').value.trim();
   const docFile=document.getElementById('afl-doc').files[0];
-  if(_editLensIdx!==null){ lens.docs=custLens[_editLensIdx].docs; custLens[_editLensIdx]=lens; }
+  if(_editLensIdx!==null){ const _on=custLens[_editLensIdx].n; if(_on!==lens.n) priceSet('lens',_on,0); lens.docs=custLens[_editLensIdx].docs; custLens[_editLensIdx]=lens; }
   else { custLens.push(lens); }
+  priceSet('lens', lens.n, document.getElementById('afl-price').value);
   saveCustLens(); refreshLensPicker(); renderDbLists();
   toggleAF('lens');
   ['afl-n','afl-url','afl-brand'].forEach(id=>document.getElementById(id).value='');
@@ -2503,6 +2579,7 @@ function calc3D(){
  fillT3Pick(hits);
  drawT3Diagram();
  drawChart3D(need,zres,hits);
+ costRender('3d', costRows3D(sel||null));
 }
 function t3ToggleWhy(){
  const e=document.getElementById('t3-why'), c=document.getElementById('t3-why-chev');
@@ -3089,10 +3166,11 @@ function calculate(p){
   r.minPulseNs = r.encFreq>0 ? 1000/r.encFreq : 0;
   r.nonBlurExp = r.speed>0 ? r.optRes/r.speed*1000 : 0;
 
+  // 與「資料量與電腦規格」一致：十進位 GB/s（1e9），Binning 後的實際輸出像素
   const ch = p.color?3:1;
   r.dataFlow = p.lineScan
-    ? p.rW*p.fps*ch*p.bit/8/1024/1024/1024
-    : p.rW*p.rH*p.fps*ch*p.bit/8/1024/1024/1024;
+    ? hPx*p.fps*ch*p.bit/8/1e9
+    : hPx*vPx*p.fps*ch*p.bit/8/1e9;
 
   r.lensRes = (p.objective&&p.na>0) ? (1.22*p.wl/(2*p.na))/1000 : 0;
   r.camResNyq = 2.3*r.optRes;
@@ -3237,6 +3315,7 @@ function calcStatic(){
     }
   }
   drawStaticDiagram(ss,r);
+  sysRender('static', sysCtx2D('static',p,r,{n:r.total}));
 }
 
 function drawStaticDiagram(ss,r){
@@ -3978,6 +4057,7 @@ function calc(){
   }
   const datEl=document.getElementById('rpt-date');
   if(datEl) datEl.textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
+  sysRender('scan', sysCtx2D('scan',p,r));
 }
 function set(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
 
@@ -3993,7 +4073,7 @@ function initPickers(){
   allLens().forEach((l,i)=>lp.appendChild(new Option(l.n,i)));
 }
 function applyCamera(){
-  const i=document.getElementById('cam-pick').value; if(i===''){ updateMountWarn(); return; }
+  const i=document.getElementById('cam-pick').value; if(i===''){ updateMountWarn(); calc(); return; }
   const c=allCams()[+i];
   sv('p-px',c.px); sv('p-rw',c.rw); sv('p-rh',c.rh);
   sv('p-fps',c.fps); sv('p-bit',c.bit);
@@ -4001,7 +4081,7 @@ function applyCamera(){
   updateMountWarn();
 }
 function applyLens(){
-  const i=document.getElementById('lens-pick').value; if(i===''){ updateMountWarn(); return; }
+  const i=document.getElementById('lens-pick').value; if(i===''){ updateMountWarn(); calc(); return; }
   const l=allLens()[+i];
   sv('p-ic',l.ic); sv('p-wd',l.wd);
   // Also sync Area-mode min WD so the shared lens picker works for Area
@@ -4106,6 +4186,9 @@ function saveEval3D(){
 // 從歷史紀錄載入的評估（id）；再按儲存時問「覆蓋原紀錄 / 另存新檔」
 let _curEvalId=null, _saveCb=null;
 function commitEval(rec, tab){
+  if(rec.mode!=='3d') rec.sys=sysSnap();   // 資料量與電腦規格的假設條件隨評估存
+  rec.cost=costSnap(rec.mode||'scan');      // 成本的覆寫與自訂項目隨評估存
+  rec.costTotal=costTotal(rec.mode||'scan');
   const idx=_curEvalId!=null ? evals.findIndex(e=>e.id===_curEvalId) : -1;
   const done=i=>{
     if(i>=0){ rec.id=evals[i].id; evals[i]=rec; } else evals.unshift(rec);
@@ -4187,7 +4270,9 @@ function renderEvals(){
 function loadEval(i){
   const e=evals[i];
   _curEvalId=e.id; renderEvals();
+  costLoad(e.mode||'scan', e.cost);
   if(e.mode==='3d'){ loadEval3D(e); return; }
+  if(e.sys) sysLoad(e.sys);
   if(dim==='3d') setDim('2d');   // 從 3D 載入 2D 評估：先切回 2D，否則結果頁仍停在 3D
   if(e.mode==='area'){ loadEvalArea(e); return; }
   if((e.mode||'scan')!==S.mode) setMode(e.mode||'scan');
@@ -4269,6 +4354,8 @@ function openPdfExport(mode){
     const items=[...sec.querySelectorAll('.metric')].map(m=>({el:m, title:(m.querySelector('.mt')?.textContent||'').trim()}));
     _pdfBlocks.push({el:sec, title:(sec.querySelector('.shdr')?.textContent||'規格').trim(), items});
   });
+  // 勾選清單依報告由上而下的順序
+  _pdfBlocks.sort((a,b)=>(a.el.compareDocumentPosition(b.el)&Node.DOCUMENT_POSITION_FOLLOWING)?-1:1);
   renderPdfList();
   document.getElementById('pdf-modal').style.display='flex';
   document.getElementById('pdf-overlay').style.display='';
@@ -4316,6 +4403,9 @@ async function exportPDFMode(mode){
   // 匯出期間：藏起操作用元件(品牌勾選、視角切換…)；3D「為什麼不是其他方法」展開放進報告
   const restore=[];
   el.querySelectorAll('.pdf-hide').forEach(x=>{ restore.push([x,x.style.display]); x.style.display='none'; });
+  // 成本表的輸入框在報告裡改成純文字（去框、去提示字）
+  el.classList.add('pdf-out'); restore.push([null,()=>el.classList.remove('pdf-out')]);
+  el.querySelectorAll('.cost-in[placeholder]').forEach(x=>{ const ph=x.placeholder; x.placeholder=''; restore.push([null,()=>{ x.placeholder=ph; }]); });
   const onePage = mode==='3d';
   if(onePage){
     const why=document.getElementById('t3-why'), chev=document.getElementById('t3-why-chev');
@@ -4375,6 +4465,299 @@ async function exportPDFMode(mode){
   }
   pdf.save(`${projName}_${date}.pdf`);
 }
+
+// ═══════════════════════════════════════════
+// 資料量與電腦規格（2D 三種模式共用）
+// ═══════════════════════════════════════════
+// 介面有效頻寬（MB/s，十進位）為常見組態的參考值；perCard = 一張擷取卡／網卡可接幾台相機
+// 開關：false＝整個「資料量與電腦規格」區塊不顯示（線上 v4.2 先關閉），成本估算改用簡化項目
+const SYS_ON=false;
+if(!SYS_ON) document.querySelectorAll('.sys-blk').forEach(function(e){ e.remove(); });
+const SYS_IF={
+  'GigE':       {bw:115,  perCard:4, card:'四埠 GigE PoE 網卡'},
+  '2.5GigE':    {bw:290,  perCard:4, card:'四埠 2.5GigE 網卡'},
+  '5GigE':      {bw:580,  perCard:4, card:'四埠 5GigE 網卡'},
+  '10GigE':     {bw:1150, perCard:2, card:'雙埠 10GigE 網卡'},
+  '25GigE':     {bw:2900, perCard:2, card:'雙埠 25GigE 網卡'},
+  'USB3':       {bw:380,  perCard:4, card:'四埠 USB3 擴充卡（獨立控制器）'},
+  'Camera Link':{bw:680,  perCard:1, card:'Camera Link 擷取卡（Full）'},
+  'CoaXPress':  {bw:5000, perCard:1, card:'CXP-12 四通道擷取卡'},
+  'CLHS':       {bw:2100, perCard:1, card:'CLHS 擷取卡'},
+  'Dual CLHS':  {bw:4200, perCard:1, card:'Dual CLHS 擷取卡'},
+  'XoFLink':    {bw:2900, perCard:1, card:'XoFLink 光纖擷取卡'},
+};
+const SYS_FMT={raw:{k:1,n:'原始檔 RAW/BMP'}, png:{k:2,n:'PNG 無損（約 1/2）'}, jpg:{k:10,n:'JPEG（約 1/10）'}};
+const SYS_DEF={iface:'auto', ifBw:'', pcCams:4, pcBw:2000, save:10, fmt:'raw', hours:20, days:7,
+               static:{shots:1, takt:10}, area:{shots:10, takt:30}};
+let SYS=(function(){
+  let o={}; try{ o=JSON.parse(localStorage.getItem('aoi_sys_cfg')||'{}')||{}; }catch(e){}
+  return Object.assign(JSON.parse(JSON.stringify(SYS_DEF)), o,
+    {static:Object.assign({},SYS_DEF.static,o.static), area:Object.assign({},SYS_DEF.area,o.area)});
+})();
+function sysSave(){ try{ localStorage.setItem('aoi_sys_cfg', JSON.stringify(SYS)); }catch(e){} }
+function sysSnap(){ return JSON.parse(JSON.stringify(SYS)); }
+function sysLoad(o){
+  if(!o) return;
+  SYS=Object.assign(JSON.parse(JSON.stringify(SYS_DEF)), o,
+    {static:Object.assign({},SYS_DEF.static,o.static), area:Object.assign({},SYS_DEF.area,o.area)});
+  sysSave(); document.querySelectorAll('.sys-blk .sys-in').forEach(x=>{ x._built=false; });
+}
+// 相機資料庫的介面文字 → 對照表的 key
+function sysIfKey(t){
+  t=String(t||'').toLowerCase();
+  if(!t) return null;
+  if(t.includes('xof')) return 'XoFLink';
+  if(t.includes('clhs')) return t.includes('dual')?'Dual CLHS':'CLHS';
+  if(t.includes('cxp')||t.includes('coax')) return 'CoaXPress';
+  if(t.includes('camera link')||t.includes('cameralink')||/^cl\b/.test(t)) return 'Camera Link';
+  if(t.includes('usb')) return 'USB3';
+  if(t.includes('25g')) return '25GigE';
+  if(t.includes('10g')) return '10GigE';
+  if(t.includes('2.5g')) return '2.5GigE';
+  if(t.includes('5g')) return '5GigE';
+  if(t.includes('gig')) return 'GigE';
+  return null;
+}
+function sysCamIface(){
+  const ci=document.getElementById('cam-pick').value;
+  return ci!=='' ? (allCams()[+ci].iface||'') : '';
+}
+function sysSet(k,val,sub){
+  let v2=val;
+  if(k==='ifBw') v2=+val>0?+val:'';
+  else if(k!=='iface'&&k!=='fmt'){
+    const d=sub?SYS_DEF[sub][k]:SYS_DEF[k];
+    v2=(val===''||!(+val>=0)) ? d : +val;
+    if(k!=='save' && !(v2>0)) v2=d;      // 存圖比例可為 0（不存圖），其餘須 > 0
+  }
+  if(sub) SYS[sub][k]=v2; else SYS[k]=v2;
+  sysSave(); calc();
+}
+function sysBuildInputs(box, mode){
+  const camIf=sysCamIface(), auto=sysIfKey(camIf);
+  const opt=(v,t,on)=>'<option value="'+esc(v)+'"'+(on?' selected':'')+'>'+esc(t)+'</option>';
+  const ifSel='<select onchange="sysSet(\'iface\',this.value)">'
+    +opt('auto','自動：'+(camIf?camIf+(auto?'':'（無法辨識，用 GigE）'):'未選相機（用 GigE）'),SYS.iface==='auto')
+    +Object.keys(SYS_IF).map(k=>opt(k,k,SYS.iface===k)).join('')+'</select>';
+  const num=(k,val,unit,w,sub)=>'<input type="number" value="'+val+'" style="width:'+(w||60)+'px" onchange="sysSet(\''+k+'\',this.value'+(sub?',\''+sub+'\'':'')+')">'+(unit?' '+unit:'');
+  let h='<label>相機介面 '+ifSel+'</label>'
+    +'<label>介面上限 <input type="number" placeholder="自動" value="'+(SYS.ifBw||'')+'" style="width:64px" onchange="sysSet(\'ifBw\',this.value)"> MB/s</label>';
+  if(mode!=='scan'){
+    h+='<label>每片每台取像 '+num('shots',SYS[mode].shots,'張',48,mode)+'</label>'
+      +'<label>節拍 '+num('takt',SYS[mode].takt,'秒/片',52,mode)+'</label>';
+  }
+  h+='<label>每台電腦最多接 '+num('pcCams',SYS.pcCams,'台相機',44)+'</label>'
+    +'<label>每台電腦處理上限 '+num('pcBw',SYS.pcBw,'MB/s',64)+'</label>'
+    +'<label title="整片原圖存檔的比例；只存 NG 或缺陷小圖時可設低">原圖存檔比例 '+num('save',SYS.save,'%',48)+'</label>'
+    +'<label>存圖格式 <select onchange="sysSet(\'fmt\',this.value)">'+Object.keys(SYS_FMT).map(k=>opt(k,SYS_FMT[k].n,SYS.fmt===k)).join('')+'</select></label>'
+    +'<label>稼動 '+num('hours',SYS.hours,'小時/日',44)+'</label>'
+    +'<label>保存 '+num('days',SYS.days,'天',44)+'</label>';
+  box.innerHTML=h; box._built=true; box._camIf=camIf;
+}
+// ctx：n 相機台數、w/h 每張像素（線掃 h=1）、rate 幀率或線率、ch 色彩通道、bit 位元深度、
+//      frames 每片每台取像張數（線掃為行數）、takt 節拍秒、line 是否線掃
+function sysCalc(ctx){
+  const key=SYS.iface==='auto' ? (sysIfKey(sysCamIface())||'GigE') : SYS.iface;
+  const IF=SYS_IF[key]||SYS_IF.GigE, ifCap=+SYS.ifBw>0?+SYS.ifBw:IF.bw;
+  const fk=(SYS_FMT[SYS.fmt]||SYS_FMT.raw).k, save=Math.min(100,Math.max(0,+SYS.save))/100;
+  const frameB=ctx.w*ctx.h*ctx.ch*ctx.bit/8;
+  const o={key, IF, ifCap, n:ctx.n};
+  o.peakCam=frameB*ctx.rate/1e6;                 // MB/s
+  o.peakSys=o.peakCam*ctx.n;
+  o.pieceCam=frameB*ctx.frames;                  // bytes
+  o.pieceSys=o.pieceCam*ctx.n;
+  o.avgSys=ctx.takt>0 ? o.pieceSys/1e6/ctx.takt : 0;
+  // 每台電腦接幾台相機：同時受「最多可接台數」與「處理頻寬上限」限制，至少 1 台（一台相機不能拆給兩台電腦）
+  o.camsPC=ctx.n>0 ? Math.min(ctx.n, Math.max(1, Math.min(SYS.pcCams, Math.floor(SYS.pcBw/Math.max(o.peakCam,1e-9))))) : 0;
+  o.nPC=o.camsPC ? Math.ceil(ctx.n/o.camsPC) : 0;
+  o.peakPC=o.peakCam*o.camsPC;
+  o.cardsPC=Math.ceil(o.camsPC/IF.perCard);
+  // 雙緩衝 + 系統 8GB：掃描式以「一道」為處理單位（邊掃邊處理），靜態／畫檢以「一片」
+  const ramNeed=2*frameB*(ctx.buf||ctx.frames)*o.camsPC/1e9+8;
+  o.ram=[16,32,64,128,256,512,1024].find(x=>x>=ramNeed)||null; o.ramNeed=ramNeed;
+  o.write=o.peakPC*save/fk;                      // 每台電腦即時存圖寫入（峰值）
+  o.ssd=o.write<=450?'SATA SSD':o.write<=3000?'NVMe Gen3':o.write<=6000?'NVMe Gen4':o.write<=12000?'NVMe Gen5':'多顆 NVMe RAID 0';
+  o.pcsDay=ctx.takt>0 ? SYS.hours*3600/ctx.takt : 0;
+  o.dayTB=o.pieceSys*save/fk*o.pcsDay/1e12;
+  o.keepTB=o.dayTB*SYS.days;
+  o.capTime=ctx.rate>0 ? ctx.frames/ctx.rate : 0;   // 單台取完一片所需的純取像時間
+  return o;
+}
+function sysRender(mode, ctx){
+  if(!SYS_ON){ costRender(mode, costRows2D(mode,{n:ctx.n||0, lite:true})); return; }
+  const blk=document.querySelector('.sys-blk[data-sys="'+mode+'"]'); if(!blk) return;
+  const box=blk.querySelector('.sys-in');
+  if(!box._built || box._camIf!==sysCamIface()) sysBuildInputs(box, mode);
+  const out=blk.querySelector('.sys-out');
+  if(!(ctx.n>0 && ctx.w>0 && ctx.rate>0)){ out.innerHTML='<div class="sys-note">相機台數或相機規格未定，暫無法估算。</div>'; costRender(mode, costRows2D(mode,{n:ctx.n||0, lite:true})); return; }
+  const o=sysCalc(ctx);
+  const f=(x,d)=>!isFinite(x)?'—':x>=1000&&d===0?Math.round(x).toLocaleString():x.toFixed(d);
+  const mb=x=>x>=1000?[f(x/1000,2),'GB/s']:[f(x,0),'MB/s'];
+  const sz=b=>b>=1e12?[f(b/1e12,2),'TB']:b>=1e9?[f(b/1e9,2),'GB']:[f(b/1e6,1),'MB'];
+  const card=(t,v,u,sub,cls)=>'<div class="metric"><div class="mt">'+t+'</div><div class="mv"><span'+(cls?' class="'+cls+'"':'')+'>'+v+'</span> <span class="mu">'+(u||'')+'</span></div>'+(sub?'<div class="ms">'+sub+'</div>':'')+'</div>';
+  const pc=mb(o.peakCam), ps=mb(o.peakSys), av=mb(o.avgSys), pp=mb(o.peakPC), wr=mb(o.write);
+  const noPiece=!(o.pieceSys>0), noDay=noPiece||!(o.pcsDay>0), dash=['—',''];
+  const pz=noPiece?dash:sz(o.pieceSys), dz=noDay?dash:o.dayTB>=1?[f(o.dayTB,2),'TB']:[f(o.dayTB*1000,0),'GB'];
+  const over=o.peakCam>o.ifCap;
+  const fk=SYS_FMT[SYS.fmt]||SYS_FMT.raw;
+  let h='<div class="sys-sec">📦 資料量</div><div class="sys-grid">'
+    +card('單台峰值頻寬',pc[0],pc[1],(ctx.line?'線率 '+f(ctx.rate,0)+' Hz':'幀率 '+f(ctx.rate,0)+' fps')+' · '+o.key+' 上限約 '+f(o.ifCap,0)+' MB/s',over?'over':'good')
+    +card('系統總頻寬（峰值）',ps[0],ps[1],o.n+' 台同時取像')
+    +card('單片資料量',pz[0],pz[1],ctx.line?'每台 '+f(ctx.frames,0)+' 行':'每台 '+f(ctx.frames,0)+' 張')
+    +card('平均資料率',noDay?'—':av[0],noDay?'':av[1],'單片資料量 ÷ 節拍 '+(ctx.takt>0?f(ctx.takt,1)+' 秒':'—'))
+    +card('每日存圖量',dz[0],dz[1],'約 '+f(o.pcsDay,0)+' 片/日 · 存 '+SYS.save+'% · '+fk.n.split('（')[0])
+    +card('保存 '+SYS.days+' 天容量',noDay?'—':f(o.keepTB,1),noDay?'':'TB','建議再留 30% 餘裕')
+    +'</div><div class="sys-sec">🖥 電腦配置（建議）</div><div class="sys-grid">'
+    +card('電腦台數',o.nPC,'台','每台接 '+o.camsPC+' 台相機')
+    +card('每台電腦峰值頻寬',pp[0],pp[1],'上限設定 '+f(SYS.pcBw,0)+' MB/s',o.peakPC>SYS.pcBw?'over':'')
+    +card('擷取卡／網卡',o.cardsPC,'張/台',o.IF.card+'（需 PCIe 槽 '+o.cardsPC+' 個）')
+    +card('建議記憶體',o.ram?o.ram:'>1024','GB/台','可放下 2 '+(ctx.buf?'道掃描':'片')+'影像＋系統（約 '+f(o.ramNeed,0)+' GB）')
+    +card('即時存圖寫入',wr[0],wr[1],'建議 '+o.ssd+'（每台）')
+    +card('存圖空間／台',noDay?'—':f(o.keepTB/Math.max(1,o.nPC)*1.3,1),noDay?'':'TB','保存 '+SYS.days+' 天，含 30% 餘裕')
+    +'</div>';
+  const w=[];
+  if(over) w.push('單台相機峰值 '+f(o.peakCam,0)+' MB/s 超過 '+o.key+' 介面上限約 '+f(o.ifCap,0)+' MB/s：會掉幀。可降低'+(ctx.line?'線率':'幀率')+'或位元深度，或改用更高頻寬的介面。');
+  if(o.peakPC>SYS.pcBw) w.push('單台相機頻寬已超過每台電腦處理上限，需更高階電腦或 GPU 處理。');
+  if(mode!=='scan' && ctx.takt>0 && o.capTime>ctx.takt) w.push('每台取 '+f(ctx.frames,0)+' 張需 '+f(o.capTime,1)+' 秒，已超過節拍 '+f(ctx.takt,1)+' 秒。');
+  if(!o.ram) w.push((ctx.buf?'單道':'單片')+'影像量過大（每台電腦需約 '+f(o.ramNeed,0)+' GB 記憶體），建議分段邊取像邊處理。');
+  if(noPiece) w.push('掃描道數或取像張數為 0（可能有暗角、FOV 未定），單片與每日資料量暫無法估算。');
+  h+=w.length ? w.map(x=>'<div class="sys-warn">⚠ '+x+'</div>').join('') : '';
+  h+='<div class="sys-note" style="margin-top:4px;">介面頻寬為常見組態參考值（可在「介面上限」自行輸入）；每台電腦接的相機數，取「最多可接台數」與「處理上限 ÷ 單台峰值頻寬」較小者。</div>';
+  out.innerHTML=h;
+  costRender(mode, costRows2D(mode,o));
+}
+function sysCtx2D(mode, p, r, extra){
+  const hPx=p.binning?p.rW/2:p.rW, vPx=p.binning?p.rH/2:p.rH;
+  const base={w:hPx, h:p.lineScan&&mode==='scan'?1:vPx, rate:p.fps, ch:p.color?3:1, bit:p.bit||8, line:p.lineScan&&mode==='scan'};
+  if(mode==='scan') return Object.assign(base,{n:r.totalOpt, frames:(r.capturesPerPass||0)*(r.passes||0), buf:r.capturesPerPass||0, takt:(r.singleTT||0)*60});
+  return Object.assign(base,{n:extra.n, frames:SYS[mode].shots, takt:SYS[mode].takt});
+}
+
+// ═══════════════════════════════════════════
+// 成本估算（2D 三種模式＋3D）
+// ═══════════════════════════════════════════
+// 單價表：元件依型號名稱存（內建 3D 感測器也能定價），通用項目存 gen；隨雲端同步（prices）
+function _priceNorm(o){
+  o=(o&&typeof o==='object')?o:{};
+  const g=(o.gen&&typeof o.gen==='object')?o.gen:{};
+  return {cam:o.cam||{}, lens:o.lens||{}, s3d:o.s3d||{},
+          gen:{pc:+g.pc||0, storTB:+g.storTB||0, ctrl3d:+g.ctrl3d||0, card:(g.card&&typeof g.card==='object')?g.card:{}}};
+}
+let PRICES=(function(){ try{ return _priceNorm(JSON.parse(localStorage.getItem('aoi_prices')||'{}')); }catch(e){ return _priceNorm({}); } })();
+function pricesSave(){ try{ localStorage.setItem('aoi_prices', JSON.stringify(PRICES)); }catch(e){} aoiTouch(); }
+// path：'cam' | 'lens' | 's3d' | 'gen.pc' | 'gen.storTB' | 'gen.ctrl3d' | 'gen.card'（name＝介面 key）
+function priceGet(path, name){
+  if(path.indexOf('gen.')===0){ const k=path.slice(4); return k==='card' ? (+PRICES.gen.card[name]||0) : (+PRICES.gen[k]||0); }
+  return name ? (+PRICES[path][name]||0) : 0;
+}
+function priceSet(path, name, val){
+  const v=+val>0?+val:0;
+  if(path.indexOf('gen.')===0){ const k=path.slice(4); if(k==='card'){ if(v) PRICES.gen.card[name]=v; else delete PRICES.gen.card[name]; } else PRICES.gen[k]=v; }
+  else if(name){ if(v) PRICES[path][name]=v; else delete PRICES[path][name]; }
+  pricesSave();
+}
+
+// 每種模式目前的成本設定：ovr＝自動項目的覆寫（數量／單價），extra＝自訂項目
+let COST=(function(){ try{ return JSON.parse(localStorage.getItem('aoi_cost_cur')||'{}')||{}; }catch(e){ return {}; } })();
+function costOf(mode){ if(!COST[mode]||typeof COST[mode]!=='object') COST[mode]={ovr:{}, extra:[]};
+  COST[mode].ovr=COST[mode].ovr||{}; COST[mode].extra=COST[mode].extra||[]; return COST[mode]; }
+function costSave(){ try{ localStorage.setItem('aoi_cost_cur', JSON.stringify(COST)); }catch(e){} }
+function costSnap(mode){ return JSON.parse(JSON.stringify(costOf(mode))); }
+function costLoad(mode, c){ COST[mode]=c&&typeof c==='object' ? JSON.parse(JSON.stringify(c)) : {ovr:{}, extra:[]}; costSave(); }
+let _costRows={};   // 最近一次算出的項目，給輸入事件用
+function costRecalc(){ if(dim==='3d') calc3D(); else calc(); }
+
+// 2D 自動項目：數量來自評估結果與「資料量與電腦規格」
+function costRows2D(mode, o){
+  const ci=document.getElementById('cam-pick').value, li=document.getElementById('lens-pick').value;
+  const cam=ci!==''?allCams()[+ci].n:null, lens=li!==''?allLens()[+li].n:null;
+  const n=o?o.n:0;
+  if(o&&o.lite) return [   // 沒有電腦規格估算時：電腦先列 1 台，擷取卡、儲存請用「新增項目」自填
+    {key:'cam',  item:'相機', spec:cam||'手動輸入（無型號，請直接填單價）', qty:n, unit:'台', path:cam?'cam':null, name:cam},
+    {key:'lens', item:'鏡頭', spec:lens||'手動輸入（無型號，請直接填單價）', qty:n, unit:'顆', path:lens?'lens':null, name:lens},
+    {key:'light',item:'光源（客製）', spec:'依專案需求客製，請填廠商報價', qty:1, unit:'式', path:null},
+    {key:'pc',   item:'工控電腦', spec:'數量依實際規劃調整', qty:1, unit:'台', path:'gen.pc'},
+  ];
+  return [
+    {key:'cam',  item:'相機', spec:cam||'手動輸入（無型號，請直接填單價）', qty:n, unit:'台', path:cam?'cam':null, name:cam},
+    {key:'lens', item:'鏡頭', spec:lens||'手動輸入（無型號，請直接填單價）', qty:n, unit:'顆', path:lens?'lens':null, name:lens},
+    {key:'light',item:'光源（客製）', spec:'依專案需求客製，請填廠商報價', qty:1, unit:'式', path:null},
+    {key:'card', item:'擷取卡／網卡', spec:o?o.IF.card:'—', qty:o?o.nPC*o.cardsPC:0, unit:'張', path:'gen.card', name:o?o.key:''},
+    {key:'pc',   item:'工控電腦', spec:o?'每台接 '+o.camsPC+' 台相機 · 記憶體 '+(o.ram||'>1024')+' GB · '+o.ssd:'—', qty:o?o.nPC:0, unit:'台', path:'gen.pc'},
+    {key:'stor', item:'存圖儲存', spec:'保存 '+SYS.days+' 天＋30% 餘裕', qty:o&&o.keepTB>0?Math.max(1,Math.ceil(o.keepTB*1.3)):0, unit:'TB', path:'gen.storTB'},
+  ];
+}
+// 3D 自動項目：依最終採用機種
+function costRows3D(sel){
+  const r=[
+    {key:'s3d',  item:'3D 感測器', spec:sel?sel.n:'尚未選定機種', qty:sel?1:0, unit:'台', path:sel?'s3d':null, name:sel?sel.n:null},
+    {key:'ctrl', item:'控制器／量測主機', spec:'感測器控制器或量測電腦', qty:sel?1:0, unit:'台', path:'gen.ctrl3d'},
+  ];
+  if(sel&&sel.motion===true) r.push({key:'motion', item:'運動軸／機構', spec:'線掃式需外部運動軸與 encoder', qty:1, unit:'式', path:null});
+  return r;
+}
+const _money=x=>Math.round(+x||0).toLocaleString('en-US');
+function costRender(mode, rows){
+  const blk=document.querySelector('.cost-blk[data-cost="'+mode+'"]'); if(!blk) return;
+  const c=costOf(mode);
+  rows.forEach(function(r){
+    const ov=c.ovr[r.key]||{};
+    if(ov.price!=null && (ov.pn||'')!==(r.name||'')){ delete ov.price; delete ov.pn; if(!Object.keys(ov).length) delete c.ovr[r.key]; costSave(); }   // 換了型號，舊的單價覆寫作廢
+    r.qtyAuto=r.qty; r.priceDb=r.path?priceGet(r.path,r.name):0;
+    r.qOv=ov.qty!=null; r.pOv=ov.price!=null;
+    r.qty=r.qOv?+ov.qty:r.qtyAuto; r.price=r.pOv?+ov.price:r.priceDb;
+    r.sub=r.qty*r.price;
+  });
+  _costRows[mode]=rows;
+  const M="'"+mode+"'";
+  const numIn=(val,on,q)=>'<input type="number" min="0" class="cost-in'+(q?' q':'')+'" value="'+(val||val===0?val:'')+'" onchange="'+on+'">';
+  let total=0, need=0;
+  let h='<div class="cost-wrap"><table class="cost-tbl"><thead><tr><th>項目／規格</th><th class="n">數量</th><th class="u">單位</th><th class="n">單價 NT$</th><th class="n">小計 NT$</th><th class="pdf-hide"></th></tr></thead><tbody>';
+  rows.forEach(function(r){
+    total+=r.sub; const miss=r.qty>0&&!(r.price>0); if(miss) need++;
+    const K="'"+r.key+"'";
+    let act='';
+    if(r.qOv) act+='<button type="button" class="cost-btn" title="數量回到自動計算值 '+r.qtyAuto+'" onclick="costReset('+M+','+K+',\'qty\')">↺ 數量</button>';
+    if(r.pOv && r.path && r.price!==r.priceDb) act+='<button type="button" class="cost-btn" title="把這個單價存進資料庫，之後的評估自動帶入" onclick="costToDb('+M+','+K+')">存為資料庫單價</button>';
+    if(r.pOv) act+='<button type="button" class="cost-btn" title="單價回到資料庫值" onclick="costReset('+M+','+K+',\'price\')">↺ 單價</button>';
+    h+='<tr'+(miss?' class="cost-need"':'')+'><td class="it"><div class="nm">'+esc(r.item)+(miss?'<span class="cost-tag">待填</span>':'')+'</div><div class="sp">'+esc(r.spec)+'</div></td>'
+      +'<td class="n">'+numIn(r.qty,'costSetRow('+M+','+K+',\'qty\',this.value)',1)+'</td><td class="u">'+r.unit+'</td>'
+      +'<td class="n">'+numIn(r.price||'','costSetRow('+M+','+K+',\'price\',this.value)')+'</td>'
+      +'<td class="n sub">'+(r.sub?_money(r.sub):'—')+'</td><td class="pdf-hide act">'+act+'</td></tr>';
+  });
+  c.extra.forEach(function(x,i){
+    const sub=(+x.qty||0)*(+x.price||0); total+=sub; const miss=(+x.qty||0)>0&&!(+x.price>0); if(miss) need++;
+    const txt=(f,ph,w)=>'<input type="text" class="cost-in t" style="width:'+w+'" placeholder="'+ph+'" value="'+esc(x[f]||'')+'" onchange="costSetExtra('+M+','+i+',\''+f+'\',this.value)">';
+    h+='<tr'+(miss?' class="cost-need"':'')+'><td class="it"><div class="nm">'+txt('name','項目名稱','100%')+(miss?'<span class="cost-tag">待填</span>':'')+'</div><div class="sp">'+txt('spec','規格／說明','100%')+'</div></td>'
+      +'<td class="n">'+numIn(x.qty,'costSetExtra('+M+','+i+',\'qty\',this.value)',1)+'</td><td class="u">'+txt('unit','式','34px')+'</td>'
+      +'<td class="n">'+numIn(x.price||'','costSetExtra('+M+','+i+',\'price\',this.value)')+'</td>'
+      +'<td class="n sub">'+(sub?_money(sub):'—')+'</td><td class="pdf-hide act"><button type="button" class="cost-btn" onclick="costDelExtra('+M+','+i+')">✕ 刪除</button></td></tr>';
+  });
+  h+='</tbody><tfoot><tr><td colspan="4" class="n">合計</td><td class="n tot">NT$ '+_money(total)+'</td><td class="pdf-hide"></td></tr></tfoot></table></div>'
+    +'<div class="cost-foot"><button type="button" class="cost-btn pdf-hide" onclick="costAddExtra('+M+')">＋ 新增項目（機構、軟體、整合、安裝…）</button>'
+    +'<span class="cost-sum">約 '+(total/10000).toFixed(total>=1e6?0:1)+' 萬元'+(need?' · <b style="color:#854F0B">'+need+' 項未填單價，合計偏低</b>':'')+'</span></div>'
+    +'<div class="sys-note">單價自動帶入資料庫值，可逐項修改（只影響這份評估）；按「存為資料庫單價」才會更新資料庫。未稅、未含運費與安裝，除非另列項目。</div>';
+  blk.querySelector('.cost-out').innerHTML=h;
+}
+function costSetRow(mode,key,f,val){
+  const c=costOf(mode); c.ovr[key]=c.ovr[key]||{};
+  if(val===''||!(+val>=0)) delete c.ovr[key][f]; else c.ovr[key][f]=+val;
+  if(f==='price'){ const r=(_costRows[mode]||[]).filter(function(x){ return x.key===key; })[0];
+    if(c.ovr[key].price!=null && r && r.name) c.ovr[key].pn=r.name; else delete c.ovr[key].pn; }
+  if(!Object.keys(c.ovr[key]).length) delete c.ovr[key];
+  costSave(); costRecalc();
+}
+function costReset(mode,key,f){ const c=costOf(mode); if(c.ovr[key]){ delete c.ovr[key][f]; if(f==='price') delete c.ovr[key].pn; if(!Object.keys(c.ovr[key]).length) delete c.ovr[key]; } costSave(); costRecalc(); }
+function costToDb(mode,key){
+  const r=(_costRows[mode]||[]).filter(function(x){ return x.key===key; })[0]; if(!r||!r.path) return;
+  priceSet(r.path, r.name, r.price); costReset(mode,key,'price');
+}
+function costAddExtra(mode){ costOf(mode).extra.push({name:'',spec:'',qty:1,unit:'式',price:''}); costSave(); costRecalc(); }
+function costDelExtra(mode,i){ costOf(mode).extra.splice(i,1); costSave(); costRecalc(); }
+function costSetExtra(mode,i,f,val){ const x=costOf(mode).extra[i]; if(!x) return;
+  x[f]=(f==='qty'||f==='price') ? (val===''?'':+val) : val; costSave(); costRecalc(); }
+function costTotal(mode){ const rows=_costRows[mode]||[]; let t=rows.reduce(function(a,r){ return a+r.sub; },0);
+  costOf(mode).extra.forEach(function(x){ t+=(+x.qty||0)*(+x.price||0); }); return t; }
 
 // ═══════════════════════════════════════════
 // CARD CUSTOMIZATION
@@ -4884,6 +5267,7 @@ function calcAS(){
   }
 
   drawASDiagram(nX, nY, panelX, panelY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0));
+  sysRender('area', sysCtx2D('area',P(),null,{n:totalCams}));
 }
 
 // ═══════════════════════════════════════════
@@ -5095,7 +5479,8 @@ function aoiGatherData(){
     hcams: [...hiddenCams], hlens: [...hiddenLens],
     s3d: custS3D, hs3d: [...hiddenS3D],
     bdocs: bDocs,
-    rptMeta: JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}')
+    rptMeta: JSON.parse(localStorage.getItem('aoi_rpt_meta')||'{}'),
+    prices: PRICES
   };
 }
 function aoiApplyData(d){
@@ -5110,6 +5495,7 @@ function aoiApplyData(d){
   if(Array.isArray(d.hs3d)){  hiddenS3D=new Set(d.hs3d); localStorage.setItem('aoi_hs3d', JSON.stringify([...hiddenS3D])); }
   if(d.bdocs && typeof d.bdocs==='object' && !Array.isArray(d.bdocs)){ bDocs=d.bdocs; localStorage.setItem('aoi_bdocs', JSON.stringify(bDocs)); }
   if(d.rptMeta){ localStorage.setItem('aoi_rpt_meta', JSON.stringify(d.rptMeta)); }
+  if(d.prices && typeof d.prices==='object'){ PRICES=_priceNorm(d.prices); localStorage.setItem('aoi_prices', JSON.stringify(PRICES)); }
   if(d.meta&&d.meta.updated) localStorage.setItem('aoi_sync_updated', d.meta.updated);
   refreshCamPicker(); refreshLensPicker(); renderDbLists(); renderDb3List(); renderEvals(); loadRptMeta(); updateMountWarn();
   if(dim==='3d') calc3D();
