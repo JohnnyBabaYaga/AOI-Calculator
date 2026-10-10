@@ -990,7 +990,13 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <option value="thick">膜厚 / 透明多層</option>
           <option value="form">曲面形狀</option>
         </select><span class="unit"></span></div>
-      <div class="row"><label>Z 重複性需求</label><input type="number" id="t3-zres" value="1" step="0.1" oninput="calc3D()"><span class="unit">µm</span></div>
+      <div class="row"><label>Z 需求種類</label>
+        <div class="seg" id="t3-zmode-seg">
+          <button class="on" onclick="setZMode('rep')">重複性</button>
+          <button onclick="setZMode('acc')">精度</button>
+        </div></div>
+      <div class="row"><label id="t3-zres-lbl">Z 重複性需求</label><input type="number" id="t3-zres" value="1" step="0.1" oninput="calc3D()"><span class="unit">µm</span></div>
+      <div id="t3-zhint" style="display:none;font-size:10.5px;color:var(--sub);line-height:1.55;padding:0 12px 6px;">依「Z 量測範圍」估算各機種精度。手上是公差的話，填公差的 1/10（公差 ±10 µm → 填 1 µm）</div>
       <div class="row"><label>Z 量測範圍</label><input type="number" id="t3-zrange" value="5" step="0.5" oninput="calc3D()"><span class="unit">mm</span></div>
     </div>
 
@@ -1385,7 +1391,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       <!-- ② 2×2：左＝選型圖／推導出的需求＋風險，右＝架構示意圖／可用機種＋其他方法 -->
       <div class="t3-main">
         <div class="t3-chartcol" data-pdf-block="選型圖（視野 × Z 重複性）">
-          <div class="rpt-ctitle">📊 選型圖（視野 × Z 重複性）<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　滑鼠移到點上可看型號</span></div>
+          <div class="rpt-ctitle">📊 選型圖（視野 × <span id="t3-chart-zt">Z 重複性</span>）<span class="pdf-hide" style="font-weight:400;color:var(--sub);font-size:10px;">　滑鼠移到點上可看型號</span></div>
           <div id="t3-chart-wrap"><canvas id="t3-chart"></canvas><div id="t3-tip"></div></div>
           <div id="t3-chart-cap" style="display:flex;justify-content:center;gap:10px;padding:6px 4px 0;font-size:10px;flex-wrap:wrap;"></div>
           <div id="t3-brandbar" class="pdf-hide"></div>
@@ -2399,6 +2405,7 @@ const S3D=[{"brand":"KEYENCE","model":"LJ-X8020","principle":"tri-line","motion"
 // v4: 3D 量測 — 規則引擎 + 選型圖
 // ═══════════════════════════════════════════
 let dim='2d', ownOnly3=false, _t3Last=null;
+let t3ZMode='rep', _t3Dz=0;   // Z 需求種類：rep 重複性 | acc 精度；_t3Dz＝估算精度用的量測高度差（mm）
 
 // 方法定義：物理適用性規則
 const M3D={
@@ -2478,6 +2485,25 @@ function setDim(d){
  showTab('res');
 }
 function setOwnOnly(v){ ownOnly3=v; segSet('t3-own-seg',v?1:0); calc3D(); }
+function setZMode(m, noCalc){
+  t3ZMode=m==='acc'?'acc':'rep'; segSet('t3-zmode-seg',t3ZMode==='acc'?1:0);
+  document.getElementById('t3-zres-lbl').textContent=t3ZMode==='acc'?'Z 精度需求':'Z 重複性需求';
+  document.getElementById('t3-zhint').style.display=t3ZMode==='acc'?'':'none';
+  const zt=t3ZMode==='acc'?'Z 精度':'Z 重複性', ct=document.getElementById('t3-chart-zt'), cc=document.querySelector('.t3-chartcol');
+  if(ct) ct.textContent=zt; if(cc) cc.setAttribute('data-pdf-block','選型圖（視野 × '+zt+'）');
+  if(!noCalc) calc3D();
+}
+// 依需求種類取機種的比較值：重複性模式用 zSpec；精度模式用預估精度，算不出來就退回重複性並標「精度未知」
+function t3Z(s){
+  const z=zSpec(s);
+  if(t3ZMode==='acc'){
+    const a=zAccEst(s,_t3Dz);
+    if(a&&a.v!=null) return {v:+_um(a.v), k:a.src==='原廠綜合精度'?'綜合精度':'預估精度', unk:false};
+    return z?{v:z.v, k:z.k, unk:true}:null;
+  }
+  return z?{v:z.v, k:z.k, unk:false}:null;
+}
+function t3ZTxt(s){ const z=t3Z(s); return z?z.k+' '+z.v+'µm'+(z.unk?'（精度未知）':''):''; }
 
 function v3(id){ return +document.getElementById(id).value; }
 function s3(id){ return document.getElementById(id).value; }
@@ -2523,7 +2549,7 @@ function methodOf(s){ return s.principle==='confocal'?'cf':(s.principle==='sl-sn
 function calc3D(){
  if(dim!=='3d') return;
  const goal=s3('t3-goal'), surf=s3('t3-surf');
- const zres=v3('t3-zres'), zrange=v3('t3-zrange');
+ const zres=v3('t3-zres'), zrange=v3('t3-zrange'); _t3Dz=zrange;
  const fx=v3('t3-x'), fy=v3('t3-y'), feat=v3('t3-feat'), ar=v3('t3-ar');
  const motion=s3('t3-motion'), tt=v3('t3-tt');
  const need=Math.max(fx,fy);
@@ -2541,7 +2567,7 @@ function calc3D(){
  document.getElementById('t3-derived').innerHTML=
   card('需求視野',need.toFixed(0),'mm')+
   card('X 解析需求',xresNeed.toFixed(1),'µm','最小特徵 3 點取樣')+
-  card('Z 重複性需求',zres.toFixed(2),'µm')+
+  card(t3ZMode==='acc'?'Z 精度需求':'Z 重複性需求',zres.toFixed(2),'µm',t3ZMode==='acc'?'量測高度差 '+zrange+' mm':'')+
   card('Z 量程需求',zrange.toFixed(1),'mm')+
   card('建議三角夾角',triAngle.toFixed(0),'°','深寬比 '+ar+' 的遮蔽上限')+
   card('取像方式',motion==='moving'?'線掃描':'快照','',motion==='moving'?'待測物移動':'待測物靜止');
@@ -2553,12 +2579,13 @@ function calc3D(){
   if(ownOnly3&&!x.owned) return false;
   if(score[mk]===0) return false;
   if(x.motion===true&&motion==='static') return false;
-  const z=zSpec(x); if(!z||z.v>zres) return false;
+  const z=t3Z(x); if(!z||z.v>zres) return false;
   if(!t3FovFits(x,fx,fy)) return false;
   if(x.zRange!=null&&x.zRange<zrange&&x.principle!=='confocal') return false;
   if(t3HideBrands.has(x.brand||brandOf(x.n))){ brandCut++; return false; }   // 選型圖沒勾的品牌不列入
   return true;
- }).sort(function(p,q){ return score[methodOf(q)]-score[methodOf(p)] || (q.owned?1:0)-(p.owned?1:0) || zSpec(p).v-zSpec(q).v; });
+ }).sort(function(p,q){ const zp=t3Z(p), zq=t3Z(q);   // 精度模式：精度已知的排前面
+   return score[methodOf(q)]-score[methodOf(p)] || (zp.unk?1:0)-(zq.unk?1:0) || (q.owned?1:0)-(p.owned?1:0) || zp.v-zq.v; });
 
  // ── ① 結論 ──
  const vd=document.getElementById('t3-verdict');
@@ -2576,7 +2603,7 @@ function calc3D(){
    +'<br>可考慮：放寬其一、<b>多台拼接</b>覆蓋大視野、或改變表面處理（如噴顯影劑使鏡面轉為擴散面）。</div>'
    +(brandCut?'<div class="pdf-hide" style="font-size:12px;color:#854F0B;margin-top:6px;">⚠ 另有 '+brandCut+' 款符合條件，但品牌在選型圖未勾選（勾回品牌即可列入）</div>':'');
  } else {
-  const mk=methodOf(top), cond=score[mk]===1;
+  const mk=methodOf(top), cond=score[mk]===1||t3Z(sel).unk;
   const same=hits.filter(function(x){return methodOf(x)===mk;});
   const ownedN=hits.filter(function(x){return x.owned;}).length;
   const z=zSpec(sel);
@@ -2596,7 +2623,7 @@ function calc3D(){
    +(sel.zRange!=null?' · Z 量程 '+sel.zRange+'mm':'')
    +(sel.motion===true?' · 需外部運動軸':sel.motion===false?' · 免運動':'')
    +'　|　同方法另有 '+(same.length-1)+' 款可選'+(ownedN?'，全部符合中 '+ownedN+' 款為實驗室現有':'')+'</div>'
-   +(goal!=='thick'?t3AccLine(sel,zrange):'');
+   +(goal!=='thick'?t3AccLine(sel,zrange,t3ZMode==='acc'?zres:null):'');
  }
 
  _t3Last={method: top?M3D[methodOf(top)].name:null, cond: !!top&&score[methodOf(top)]===1,
@@ -2624,7 +2651,8 @@ function calc3D(){
  if(sel&&goal!=='thick'){
    const a=zAccEst(sel, zrange);
    if(a&&a.lin!=null&&a.r!=null&&a.lin>a.r) risks.push('線性度誤差約 '+_um(a.lin)+' µm，大於重複性 '+a.r+' µm：量的高度差越大誤差越大。量絕對高度時建議用標準塊規做多點校正，或縮小量測高度差');
-   if(a&&a.v==null&&goal==='step') risks.push('規格書未標線性度，段差/高度的精度無法估算：請向廠商索取線性度，或用標準塊規實測');
+   if(t3ZMode==='acc'&&t3Z(sel).unk) risks.push('採用機種的精度未知（只用重複性篩選）：請向廠商索取線性度，或用標準塊規實測確認能達到精度需求');
+   else if(a&&a.v==null&&goal==='step') risks.push('規格書未標線性度，段差/高度的精度無法估算：請向廠商索取線性度，或用標準塊規實測');
  }
  document.getElementById('t3-risks').innerHTML = risks.length
   ? risks.map(function(r){return '<div style="font-size:11.5px;color:#854F0B;line-height:1.65;margin-bottom:5px;">⚠ '+r+'</div>';}).join('')
@@ -2639,12 +2667,13 @@ function calc3D(){
     +(hits.filter(function(x){return x.owned;}).length?'，其中 '+hits.filter(function(x){return x.owned;}).length+' 款實驗室現有':'')+'</div>'
    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:6px;">'
    +shown.map(function(x,i){ const z=zSpec(x), on=(x===sel);
+     const zu=t3Z(x).unk;
      return '<div class="t3-mc'+(x.owned?' own':'')+(on?' on':'')+'" onclick="t3PickIdx('+i+')" title="設為採用機種">'
       +'<div style="font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">'+(x.owned?'★ ':'')+esc(x.brand+' '+x.model)
-      +(score[methodOf(x)]===1?' <span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:#FAEEDA;color:#854F0B;">有條件</span>':'')
+      +(score[methodOf(x)]===1||zu?' <span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:#FAEEDA;color:#854F0B;">'+(zu&&score[methodOf(x)]!==1?'精度未知':'有條件')+'</span>':'')
       +(on?'<span style="margin-left:auto;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--accent);color:#fff;">✓ 採用</span>':'')+'</div>'
       +'<div style="font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.5;">'
-      +t3FovTxt(x)+(t3FovRot(x,fx,fy)?'（轉 90°）':'')+' · '+z.k+' '+z.v+'µm'
+      +t3FovTxt(x)+(t3FovRot(x,fx,fy)?'（轉 90°）':'')+' · '+t3ZTxt(x).replace('（精度未知）','')
       +(x.zRange!=null?' · Z '+x.zRange+'mm':'')+'<br>'+M3D[methodOf(x)].name
       +(x.motion===true?'（需運動）':x.motion===false?'（免運動）':'')+(x.wavelength?' · '+x.wavelength+'nm':'')+'</div></div>';
    }).join('')+'</div>'
@@ -2669,8 +2698,19 @@ function calc3D(){
  costRender('3d', costRows3D(sel||null));
 }
 // 結論區的精度估算說明
-function t3AccLine(s, dz){
+function t3AccLine(s, dz, need){
   const a=zAccEst(s, dz); let t;
+  const box=function(h){ return '<div style="font-size:12px;color:var(--sub);margin-top:4px;line-height:1.7;">'+h+'</div>'; };
+  if(need!=null){   // 精度模式：反推這台機種的重複性上限
+    if(a&&a.src==='原廠綜合精度') return box('<b>Z 精度 ≈ '+_um(a.v)+' µm</b>（原廠標示綜合精度，已 ≤ 需求 '+need+' µm）');
+    if(a&&a.v!=null){
+      const rMax=Math.sqrt(Math.max(0,need*need-a.lin*a.lin));
+      return box('<b>Z 精度 ≈ '+_um(a.v)+' µm</b>（重複性 '+(a.r!=null?a.r+' µm ⊕ ':'')+'線性度 '+linTxt(s)+(a.span!=null?' × '+a.span+' mm':'')+' = '+_um(a.lin)+' µm）'
+        +'<br>要達到 '+need+' µm 精度，此機種重複性需 ≤ <b>'+_um(rMax)+' µm</b>（線性度已用掉 '+_um(a.lin)+' µm）'+(a.r!=null?'，規格 '+a.r+' µm ✓':''));
+    }
+    const z=zSpec(s);
+    return z?box('<b style="color:#854F0B">Z 精度未知</b>（規格書只標'+z.k+' '+z.v+' µm，已 ≤ 需求 '+need+' µm；未標線性度，實際精度需實測或向廠商索取）'):'';
+  }
   if(!a){ const z=zSpec(s); return z?'<div style="font-size:12px;color:var(--sub);margin-top:4px;line-height:1.7;"><b>Z 精度：無法估算</b>（規格書只標'+z.k+' '+z.v+' µm，未標重複性與線性度）</div>':''; }
   if(a.src==='原廠綜合精度') t='<b>Z 精度 ≈ '+_um(a.v)+' µm</b>（原廠標示綜合精度'+(a.r!=null?'；重複性 '+a.r+' µm':'')+'）';
   else if(a.v==null) t='<b>Z 精度：無法估算</b>（規格書只標重複性 '+a.r+' µm，未標線性度；精度一定比重複性差）';
@@ -2705,7 +2745,8 @@ function drawChart3D(needFov,needZ,hits){
  const cap=document.getElementById('t3-chart-cap');
  if(cap) cap.innerHTML=['tri','sl','cf'].map(function(k){
    return '<span style="color:'+M3D[k].color+'">● '+M3D[k].name+'</span>';}).join('')
-   +'<span style="color:var(--sub)">○ 外框=實驗室現有</span>';
+   +'<span style="color:var(--sub)">○ 外框=實驗室現有</span>'
+   +(t3ZMode==='acc'?'<span style="color:var(--sub)">◌ 空心=精度未知（畫在重複性）</span>':'');
  const dpr=window.devicePixelRatio||1, W=cv.offsetWidth, H=cv.offsetHeight;
  if(!W||!H) return;
  _t3Chart={needFov:needFov,needZ:needZ,hits:hits};
@@ -2731,13 +2772,15 @@ function drawChart3D(needFov,needZ,hits){
  const hitSet={}; hits.forEach(function(h){hitSet[h.brand+h.model]=1;});
  _t3Pts=[];
  allS3D().forEach(function(s){
-  const z=zSpec(s); if(!z||s.fovX==null) return;
+  const z=t3Z(s); if(!z||s.fovX==null) return;
   if(t3HideBrands.has(s.brand||brandOf(s.n))) return;   // 品牌顯示篩選
   const mk=methodOf(s), ok=!!hitSet[s.brand+s.model];
   const px=X(t3ChartFov(s)), py=Y(z.v), rr=s.owned?5.5:3.6;
   _t3Pts.push({x:px,y:py,r:rr,s:s,z:z,mk:mk,ok:ok});
   c.globalAlpha=ok?1:0.18; c.fillStyle=M3D[mk].color;
-  c.beginPath(); c.arc(px,py,rr,0,6.284); c.fill();
+  c.beginPath(); c.arc(px,py,rr,0,6.284);
+  if(z.unk){ c.fillStyle='#fff'; c.fill(); c.strokeStyle=M3D[mk].color; c.lineWidth=1.6; c.stroke(); }   // 精度未知：空心點，畫在重複性的位置
+  else c.fill();
   if(s.owned){c.globalAlpha=1;c.strokeStyle='#1c2b45';c.lineWidth=1.8;c.stroke();}
  });
  // hover 高亮環
@@ -2749,7 +2792,7 @@ function drawChart3D(needFov,needZ,hits){
  }
  c.globalAlpha=1; c.fillStyle='#6e6e73'; c.font='9px -apple-system,sans-serif';
  c.textAlign='right'; c.fillText('視野 mm →',pl+pw,pt+ph+26);
- c.textAlign='left';  c.fillText('↑ Z 重複性 µm（越上越好）',pl,pt-3);
+ c.textAlign='left';  c.fillText(t3ZMode==='acc'?'↑ Z 精度 µm（越上越好）':'↑ Z 重複性 µm（越上越好）',pl,pt-3);
 }
 
 // ── 選型圖：滑鼠移到點上顯示型號 ──
@@ -2760,7 +2803,7 @@ function t3TipHtml(group){
    +'<b>'+(s.owned?'★ ':'')+esc(s.brand)+' '+esc(s.model)+'</b>'
    +'<div style="opacity:.9;margin-top:3px;">'
    +'<span style="color:'+M3D[p.mk].color+'">●</span> '+M3D[p.mk].name
-   +' · '+t3FovTxt(s)+' · '+z.k+' '+z.v+'µm'
+   +' · '+t3FovTxt(s)+' · '+z.k+' '+z.v+'µm'+(z.unk?'（精度未知）':'')
    +(s.zRange!=null?' · Z 量程 '+s.zRange+'mm':'')+'</div>'
    +'<div style="opacity:.75;margin-top:2px;">'
    +(p.ok?'✓ 符合目前需求':'✕ 不符合目前需求')
@@ -4264,7 +4307,7 @@ function saveEvalArea(){
 function saveEval3D(){
   calc3D();
   const p={
-    goal:s3('t3-goal'), zres:v3('t3-zres'), zrange:v3('t3-zrange'),
+    goal:s3('t3-goal'), zmode:t3ZMode, zres:v3('t3-zres'), zrange:v3('t3-zrange'),
     surf:s3('t3-surf'), x:v3('t3-x'), y:v3('t3-y'), feat:v3('t3-feat'), ar:v3('t3-ar'),
     motion:s3('t3-motion'), tt:v3('t3-tt'), wd:v3('t3-wd'),
     ownOnly:ownOnly3, pick:t3UserPick?t3SelName:null, dgView:t3DgView,
@@ -4342,8 +4385,8 @@ function renderEvals(){
       :'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">掃描</span>';
     const summary=is3D
       ?(e.r.method
-        ?`${e.r.method}${e.r.cond?'（有條件）':''} · Z 重複性 ${e.p.zres} µm · 視野 ${fmt(e.r.need,0)} mm · 符合 ${e.r.hitsN} 款`
-        :`無可用方案 · Z 重複性 ${e.p.zres} µm · 視野 ${fmt(Math.max(e.p.x,e.p.y),0)} mm`)
+        ?`${e.r.method}${e.r.cond?'（有條件）':''} · Z ${e.p.zmode==='acc'?'精度':'重複性'} ${e.p.zres} µm · 視野 ${fmt(e.r.need,0)} mm · 符合 ${e.r.hitsN} 款`
+        :`無可用方案 · Z ${e.p.zmode==='acc'?'精度':'重複性'} ${e.p.zres} µm · 視野 ${fmt(Math.max(e.p.x,e.p.y),0)} mm`)
       :isStatic
       ?(e.ss
         ?`${fmt(e.r.optRes,3)} µm/px · ${e.r.total||'—'} 台 (${e.r.nX||'—'}×${e.r.nY||'—'}) · 範圍 ${e.ss.objW}×${e.ss.objH} mm`
@@ -4422,7 +4465,7 @@ function loadEvalArea(e){
 }
 function loadEval3D(e){
   const p=e.p;
-  sv('t3-goal',p.goal); sv('t3-zres',p.zres); sv('t3-zrange',p.zrange);
+  sv('t3-goal',p.goal); sv('t3-zres',p.zres); sv('t3-zrange',p.zrange); setZMode(p.zmode||'rep', true);   // 舊紀錄沒有 zmode＝重複性
   sv('t3-surf',p.surf); sv('t3-x',p.x); sv('t3-y',p.y); sv('t3-feat',p.feat); sv('t3-ar',p.ar);
   sv('t3-motion',p.motion); sv('t3-tt',p.tt); sv('t3-wd',p.wd);
   ownOnly3=!!p.ownOnly; segSet('t3-own-seg',ownOnly3?1:0);
