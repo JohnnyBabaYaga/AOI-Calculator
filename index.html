@@ -661,6 +661,37 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   body.print-static #pane-static-res{display:block!important;overflow:visible;}
   body.print-static #pane-res       {display:none!important;}
 }
+
+/* ── 新手導覽 ＋ 名詞小辭典 ── */
+.gi{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid currentColor;color:var(--sub);opacity:.65;
+  font:italic 700 8.5px/11px Georgia,serif;text-align:center;margin-left:4px;cursor:help;vertical-align:1px;box-sizing:border-box;flex-shrink:0;}
+.gi::before{content:'i';}
+.gi:hover{color:var(--accent);opacity:1;}
+.gi-demo{cursor:default;margin:0 1px;}
+#gl-pop{display:none;position:fixed;z-index:2500;max-width:260px;background:var(--surf);color:var(--text);border:1px solid var(--border);
+  border-radius:10px;padding:9px 11px;font-size:11.5px;line-height:1.65;box-shadow:0 8px 24px rgba(0,0,0,.16);}
+#gl-pop>b{display:block;font-size:12px;margin-bottom:3px;}
+#gd-back{display:none;position:fixed;inset:0;z-index:3000;}
+#gd-spot{display:none;position:fixed;z-index:3001;pointer-events:none;box-shadow:0 0 0 200vmax rgba(10,20,40,.55);
+  outline:2px solid #5b9dff;outline-offset:0;transition:left .25s,top .25s,width .25s,height .25s;}
+#gd-pop{display:none;position:fixed;z-index:3002;background:var(--surf);color:var(--text);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px 12px;box-shadow:0 12px 36px rgba(0,0,0,.25);font-size:12px;transition:left .25s,top .25s;}
+#gd-pop .gd-t{font-size:13.5px;font-weight:700;margin-bottom:6px;padding-right:20px;}
+#gd-pop .gd-d{line-height:1.75;}
+#gd-pop .gd-f{display:flex;align-items:center;gap:6px;margin-top:12px;}
+#gd-pop .gd-f button{font-size:12px;padding:5px 12px;}
+#gd-pop .gd-n{margin-right:auto;font-size:11px;color:var(--sub);}
+#gd-pop .gd-x{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;color:var(--sub);font-size:15px;line-height:1;padding:2px;}
+#gd-hint{display:none;position:fixed;right:80px;bottom:22px;width:250px;z-index:1500;background:var(--surf);color:var(--text);
+  border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:0 8px 28px rgba(0,0,0,.18);}
+#gd-hint .gd-ht{font-size:12.5px;font-weight:700;}
+#gd-hint .gd-hd{font-size:11.5px;color:var(--sub);margin:3px 0 10px;line-height:1.55;}
+#gd-hint .gd-hb{display:flex;gap:6px;justify-content:flex-end;}
+#gd-hint .gd-hb button{font-size:11.5px;padding:4px 11px;}
+@media(max-width:768px){ #gd-hint{right:12px;left:12px;width:auto;bottom:118px;}
+  /* 手機標題列多了「?」：縮一點按鍵內距，讓 ☁ 不被擠出畫面 */
+  header > div[style*="margin-left:auto"]{gap:6px!important;}
+  #dim-seg button{padding:3px 9px;} #mode-seg button{padding:4px 8px;} }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -676,12 +707,12 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     </svg>
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
-  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.2</span></h1></div>
+  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.3</span></h1></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <!-- 第一級：量測維度 -->
     <div class="seg dim-seg" id="dim-seg" style="flex-shrink:0;font-size:11px;">
-      <button class="on" onclick="setDim('2d')">2D 取像</button>
-      <button onclick="setDim('3d')">3D 量測</button>
+      <button class="on" onclick="setDim('2d')"><span class="ml">2D 取像</span><span class="ms">2D</span></button>
+      <button onclick="setDim('3d')"><span class="ml">3D 量測</span><span class="ms">3D</span></button>
     </div>
     <!-- 第二級：2D 模式 -->
     <div class="seg" id="mode-seg" style="flex-shrink:0;font-size:11px;">
@@ -691,6 +722,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     </div>
     <button class="btn-sec hdr-action" onclick="exportPDF()">📄 匯出 PDF</button>
     <button class="btn-pri hdr-action" onclick="saveEval()">💾 儲存評估</button>
+    <button id="guide-btn" class="btn-about" onclick="guideStart()" title="使用導覽（這一頁）" style="font-size:14px;font-weight:700;line-height:1;">?</button>
     <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="雲端同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);">☁</button>
   </div>
 </header>
@@ -867,7 +899,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     <div class="row"><label>像素大小</label><input type="number" id="p-px" value="2.5" step="0.01" oninput="calc()"><span class="unit">µm</span></div>
     <div class="row"><label>解析度 寬</label><input type="number" id="p-rw" value="5120" step="1" oninput="calc()"><span class="unit">px</span></div>
     <div class="row" id="row-rh"><label>解析度 高</label><input type="number" id="p-rh" value="5120" step="1" oninput="calc()"><span class="unit">px</span></div>
-    <div class="row" data-hide-area><label id="lbl-fps">幀率</label><input type="number" id="p-fps" value="125" step="1" oninput="calc()"><span class="unit" id="unit-fps">fps</span></div>
+    <div class="row" data-hide-area><label><span id="lbl-fps">幀率</span></label><input type="number" id="p-fps" value="125" step="1" oninput="calc()"><span class="unit" id="unit-fps">fps</span></div>
     <div class="row" data-hide-area><label>位元深度</label><input type="number" id="p-bit" value="8" step="1" oninput="calc()"><span class="unit">bit</span></div>
   </div>
 
@@ -1005,7 +1037,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <button class="on" onclick="setZMode('rep')">重複性</button>
           <button onclick="setZMode('acc')">精度</button>
         </div></div>
-      <div class="row"><label id="t3-zres-lbl">Z 重複性需求</label><input type="number" id="t3-zres" value="1" step="0.1" oninput="calc3D()"><span class="unit">µm</span></div>
+      <div class="row"><label><span id="t3-zres-lbl">Z 重複性需求</span></label><input type="number" id="t3-zres" value="1" step="0.1" oninput="calc3D()"><span class="unit">µm</span></div>
       <div id="t3-zhint" style="display:none;font-size:10.5px;color:var(--sub);line-height:1.55;padding:0 12px 6px;">依「Z 量測範圍」估算各機種精度。手上是公差的話，填公差的 1/10（公差 ±10 µm → 填 1 µm）</div>
       <div class="row"><label>Z 量測範圍</label><input type="number" id="t3-zrange" value="5" step="0.5" oninput="calc3D()"><span class="unit">mm</span></div>
     </div>
@@ -1186,7 +1218,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
             <div class="metric" data-cid="r-cs"><div class="mt">等速掃描時間</div><div class="mv"><span id="r-cs">—</span> <span class="mu">s/道</span></div></div>
             <div class="metric" data-cid="r-ct"><div class="mt">換道時間</div><div class="mv"><span id="r-ct">—</span> <span class="mu">s</span></div></div>
             <div class="metric" data-cid="r-rt"><div class="mt">單趟返回時間</div><div class="mv"><span id="r-rt">—</span> <span class="mu">s/道</span></div></div>
-            <div class="metric" data-cid="r-tt"><div class="mt" id="r-tt-label">掃描週期 TT</div><div class="mv"><span id="r-tt">—</span> <span class="mu">min</span></div></div>
+            <div class="metric" data-cid="r-tt"><div class="mt"><span id="r-tt-label">掃描週期 TT</span></div><div class="mv"><span id="r-tt">—</span> <span class="mu">min</span></div></div>
           </div>
         </div>
 
@@ -5603,7 +5635,7 @@ function calcAS(){
   const yFOV = camRY * resolution / 1000;
   const wd   = (camRX>0&&camPx>0) ? ((xFOV*1e-3)*(fl*1e-3)/(camRX*camPx*1e-6))*1e3 : 0;
   const safeWD = minWD + 30;
-  const xAngle = (wd>0) ? 2*Math.atan((xFOV/2)/wd)*180/Math.PI : 0;
+  const xAngle = (wd>0) ? Math.atan((panelX/2)/wd)*180/Math.PI : 0;   // X 半角＝整片面板 X 方向顯示區（AA）邊緣對應的半角
   const xRatio = (xFOV>0) ? panelX/xFOV : 0;
   const yRatio = (yFOV>0) ? panelY/yFOV : 0;
   const wdOK   = wd > safeWD;
@@ -6022,6 +6054,383 @@ async function testCloud(){
 }
 
 // ═══════════════════════════════════════════
+// 新手導覽（每個頁面各一套）＋ 名詞小辭典（ⓘ）
+// ═══════════════════════════════════════════
+// ── 名詞小辭典：key → [標題, 白話說明] ──
+const GL={
+  camType:['相機類型','<b>面陣飛拍</b>：像拍照，一次拍一塊矩形，邊移動邊用閃光把畫面「凍結」。<br><b>線掃描</b>：感測器只有一條線，靠移動一行一行組成影像，適合連續的大面積。'],
+  color:['彩色感測器','彩色相機每個像素只收紅、綠、藍其中一色，實際解析力比灰階差。<b>除非要分辨顏色，AOI 一般用灰階</b>。'],
+  bin:['2×2 Binning','把相鄰 2×2 個像素合成 1 個：亮度和速度提升，但<b>解析度變一半</b>（等效像素變 2 倍大）。'],
+  px:['像素大小','感測器上每個像素的邊長。<b>同樣倍率下，像素越小看得越細</b>，但每個像素收到的光較少。'],
+  res:['解析度（像素數）','感測器寬、高各有幾個像素。像素數 × 像素大小＝感測器尺寸，決定<b>一次能拍多寬</b>。'],
+  fps:['幀率 / 線率','每秒能拍幾張（線掃描則是每秒幾行）。決定<b>掃描速度的上限</b>，越高 TT 越短。'],
+  bit:['位元深度','每個像素能分幾階亮度（8 bit＝256 階）。越高越能分辨細微的明暗差，但資料量也越大。'],
+  lensType:['鏡頭類型','<b>物鏡</b>：顯微鏡式高倍率，看細節，景深很淺。<br><b>遠心</b>：倍率不隨距離改變、影像不變形，適合量尺寸。<br><b>CCTV</b>：一般定焦鏡頭，靠焦距與工作距離決定倍率，適合看大範圍。'],
+  mag:['放大倍率','樣品成像到感測器上被放大幾倍。<b>系統解析度＝像素大小 ÷ 倍率</b>，倍率越大看得越細、但一次拍到的範圍越小。'],
+  ic:['像圈直徑','鏡頭能成像的圓形範圍。要<b>大於等於感測器對角線</b>，否則畫面四角會變暗（暗角）。'],
+  wd:['工作距離','鏡頭前端到樣品的距離。太短機構難擺、容易撞到，<b>要跟機構確認空間</b>。'],
+  na:['NA（數值孔徑）','鏡頭收光的角度大小。<b>NA 越大，鏡頭能分辨越細</b>（鏡頭解析度＝1.22λ ÷ 2NA），<b>但景深越淺</b>（DoF＝λ ÷ 2NA²）。'],
+  fn:['F#（光圈值）','數字越大光圈越小：<b>景深越深</b>，但進光變少，太大還會因繞射讓影像變糊。'],
+  fl:['焦距','CCTV 鏡頭的焦距。同樣的工作距離，<b>焦距越長放大越多、視野越小</b>；要拍到同樣範圍就得架得更遠。'],
+  wl:['光源波長','照明光的顏色（藍約 450、綠約 530、紅約 630 nm）。<b>波長越短，鏡頭能分辨越細</b>，景深也越淺。'],
+  sample:['樣品尺寸','要檢查的整片樣品大小（mm）。'],
+  scanDir:['掃描方向','平台沿哪一邊連續移動拍攝。方向不同，掃描道數和 TT 會不一樣，<b>兩個都切切看比較 TT</b>。'],
+  scanMode:['掃描模式','<b>單向</b>：每趟掃完要空跑回起點再掃下一道。<br><b>來回</b>：去程、回程都拍，省掉返回時間，但對機構精度要求較高。'],
+  nc:['每排相機數量','同一排並排幾台相機一起掃，台數越多，一次涵蓋越寬、掃描道數越少。'],
+  nr:['相機排數','前後放幾排相機，每排各掃一段，<b>可縮短每趟的掃描行程</b>。'],
+  ov:['影像重疊率','相鄰影像互相重疊的比例，避免缺陷剛好落在接縫被漏掉，<b>一般 5～10%</b>。'],
+  acc:['加速度','平台加速、減速的快慢。越大，花在加減速的時間越少。<b>請參考機構規格，不確定先用預設值</b>。'],
+  ct:['換道時間','一道掃完後，平台橫移到下一道所需的時間。'],
+  bs:['返回速度','單向掃描時，平台空跑回起點的速度。'],
+  ep:['Encoder 解析度','平台位置編碼器每個脈衝代表的移動距離，用來精準觸發相機拍照。'],
+  stArea:['待測範圍','要拍的區域大小（mm）。'],
+  aa:['面板 AA 區','Active Area，面板<b>實際會發光顯示的區域</b>尺寸（不含邊框）。'],
+  panelRes:['面板解析度','面板的像素數，例如 4K＝3840 × 2160。'],
+  pitch:['Pitch（取樣倍數）','每 1 顆面板像素，用幾個相機像素去拍。<b>建議 ≥ 3</b>，才分得出單顆的亮點、暗點。'],
+  minWd:['最短工作距離','機構允許相機最靠近面板的距離。系統會再加 30 mm 當作安全工作距離。'],
+  limit:['單台有效佔屏比','每台相機只用畫面的幾成（其餘留給重疊）。<b>1＝完全不重疊</b>（物理最少台數），越小重疊越多、台數越多。'],
+  goal:['量測目標','要量的是哪一種 3D 特性：翹曲、段差、共面度、膜厚或曲面形狀。不同目標適合的量測原理不同。'],
+  zmode:['Z 需求種類','<b>重複性</b>：同一點重複量，結果有多穩定（原廠規格書最常標這個）。<br><b>精度</b>：量測值跟真實值差多少，包含重複性、線性度等誤差。<b>手上是公差的話選精度</b>。'],
+  zres:['Z 需求數值','你需要的 Z 重複性或精度（µm）。經驗法則：<b>量測系統的精度要是公差的 1/10</b>，例如公差 ±10 µm → 填 1 µm。'],
+  zrange:['Z 量測範圍','要量的最大高度差（含翹曲、擺放高低的誤差），感測器的量程要大於它。'],
+  surf:['表面性質','<b>最影響選型的條件</b>。鏡面會把光反射走、透明會讓光穿透，很多三角雷射、結構光會量不到，可能要改用共焦。'],
+  feat:['最小特徵','要量到的最小結構尺寸（例如 bump 直徑），決定 XY 解析度要多細。'],
+  ar:['最大深寬比','結構的深度 ÷ 寬度。越大越容易被遮住（陰影），斜著投光的原理會看不到底部。'],
+  motion:['取像時待測物','<b>靜止</b>：可以用快照式（一次拍完一個區域）。<br><b>移動</b>：要用線掃式（邊走邊掃）。'],
+  tt:['節拍需求','每片可以花多少秒量測，太慢的機種會被排除。'],
+  t3wd:['可用工作距離','感測器下方到待測物，機構最多能留多少空間。'],
+  own:['只看實驗室現有','選「現有」只列出實驗室已經有的機種，方便先拿現有設備驗證。'],
+  // ── 結果卡 ──
+  or:['系統解析度','一個相機像素對應到樣品上的大小（µm/px）＝像素大小 ÷ 倍率。經驗法則：<b>最小缺陷至少要佔 3 個像素</b>才穩定抓得到。'],
+  dg:['感測器對角線','感測器的對角長度，要<b>小於等於鏡頭像圈</b>，否則會有暗角。'],
+  hf:['水平 FOV / 台','每台相機一次拍到的寬度（mm）。'],
+  vf:['垂直 FOV','每台相機一次拍到的高度（mm）。'],
+  lr:['鏡頭解析度','鏡頭本身能分辨的最小距離（依 NA 與波長計算）。相機像素再細，也不會超過鏡頭的極限。'],
+  mr:['最小檢測解析度','相機取樣（系統解析度 × 2.3）和鏡頭解析度兩者<b>取較差的那個</b>，就是整套系統實際能分辨的最小尺寸。'],
+  df:['景深 DoF','對焦清楚的高度容許範圍。<b>樣品翹曲或平台起伏超過它，影像就會糊</b>。'],
+  omag:['光學倍率','目前使用的放大倍率（CCTV 鏡頭是用焦距與工作距離推算的）。'],
+  margin:['解析餘裕','目標檢測精度 ÷ 系統解析度＝<b>缺陷佔幾個像素</b>，建議 ≥ 3 倍。'],
+  qty:['光學總數量','要幾套相機＋鏡頭（每排台數 × 排數）。'],
+  se:['掃描行程','每排相機單趟要掃的長度。'],
+  sh:['換道行程','垂直掃描方向、需要涵蓋的總寬度。'],
+  sp:['掃描速度','平台等速掃描時的速度，由幀率與拍攝張數決定。'],
+  cp:['單道拍攝張數','每掃一道要拍幾張（線掃描為幾行）。'],
+  ps:['掃描道數','要掃幾趟才能涵蓋整個寬度。<b>道數越多，TT 越長</b>。'],
+  rp:['單排鏡組 Pitch','同一排相機之間的間距，<b>要大於相機＋鏡頭的機身寬度</b>，否則擺不下。'],
+  fbp:['前後排鏡組 Pitch','前後兩排相機之間的距離。'],
+  ex:['不模糊曝光上限','移動中拍照時，曝光期間樣品移動不能超過 1 個像素，否則會拖影。<b>相機曝光（或閃光）時間要短於這個值</b>。'],
+  ef:['Encoder 頻率','掃描時編碼器每秒送出的脈衝數，觸發卡、控制器要接得住。'],
+  pw:['最小脈衝寬度','Encoder 相鄰脈衝的時間間隔，觸發卡的反應速度要比它快。'],
+  dfl:['資料流量','單台相機每秒輸出的影像資料量，要在相機介面（GigE、CoaXPress…）的頻寬內。'],
+  at:['加減速時間','每一道開始與結束時，平台加速、減速所花的時間。'],
+  cs:['等速掃描時間','每一道以等速拍攝的時間。'],
+  tct:['換道時間','每一道之間橫移到下一道的時間。'],
+  rt:['單趟返回時間','單向掃描時，每道掃完空跑回起點的時間（來回掃描不需要）。'],
+  ttr:['掃描 TT','<b>掃完一片的總時間（分鐘）</b>＝各道的加減速＋等速掃描＋換道（＋返回）加總。'],
+  nx:['X / Y 方向台數','X、Y 方向各要幾台相機，才能把待測範圍拍滿（已含重疊）。'],
+  tot:['光學總台數','要買幾套相機＋鏡頭。'],
+  cov:['總覆蓋範圍','所有相機合起來拍到的範圍，<b>要大於等於待測範圍</b>。'],
+  asRes:['系統解析能','每個相機像素對應到面板上幾 µm＝面板像素大小 ÷ Pitch。'],
+  asFov:['FOV','每台相機一次拍到的面板範圍（mm）。'],
+  asWd:['工作距離 WD','依焦距推算：要達到這個解析能，相機要離面板多遠。<b>必須大於安全工作距離</b>。'],
+  asSafe:['安全工作距離','最短工作距離 ＋ 30 mm 的安全餘量。'],
+  asAng:['X 半角','面板 X 方向顯示區（AA）邊緣對應的半角＝atan（面板 X-AA ÷ 2 ÷ 工作距離）。<b>角度越大，面板邊緣越是斜著拍</b>，亮度、色偏越容易受面板視角特性影響。'],
+  asRatio:['佔屏比','面板尺寸是單台 FOV 的幾倍。<b>大於 1 代表一台拍不下</b>，需要多台拼接。'],
+  asPitch:['Pitch 檢查','Pitch ≥ 3 才算解析足夠，顯示 ✗ 代表分不出單顆面板像素。'],
+  asCams:['建議台數（含重疊）','依「單台有效佔屏比」算出的台數，已預留重疊。'],
+  asMin:['物理最少（無重疊）','完全不重疊時的最少台數，作為下限對照。']
+};
+// 左側輸入元件 id → 名詞
+const GL_IN={'cam-type-seg':'camType','color-seg':'color','bin-seg':'bin','p-px':'px','p-rw':'res','p-rh':'res','p-fps':'fps','p-bit':'bit',
+  'lens-type-seg':'lensType','p-mag':'mag','p-ic':'ic','p-wd':'wd','p-na':'na','p-fn':'fn','p-fn-sel':'fn','p-fl':'fl','p-wl':'wl',
+  'p-sw':'sample','p-sh':'sample','scan-dir-seg':'scanDir','scan-mode-seg':'scanMode','p-nc':'nc','p-nr':'nr','p-ov':'ov','p-ac':'acc','p-ct':'ct','p-bs':'bs','p-ep':'ep',
+  'st-objw':'stArea','st-objh':'stArea','st-ov':'ov',
+  'as-panel-x':'aa','as-panel-y':'aa','as-panel-rx':'panelRes','as-panel-ry':'panelRes','as-pitch':'pitch','as-min-wd':'minWd','as-limit':'limit',
+  't3-goal':'goal','t3-zmode-seg':'zmode','t3-zres':'zres','t3-zrange':'zrange','t3-surf':'surf','t3-x':'stArea','t3-y':'stArea','t3-feat':'feat','t3-ar':'ar',
+  't3-motion':'motion','t3-tt':'tt','t3-wd':'t3wd','t3-own-seg':'own'};
+// 結果卡 data-cid → 名詞
+const GL_OUT={'r-or':'or','st-r-or':'or','r-dg':'dg','st-r-dg':'dg','r-hf':'hf','st-r-hf':'hf','r-vf':'vf','st-r-vf':'vf','r-lr':'lr','r-mr':'mr',
+  'r-df':'df','st-r-df':'df','r-mag':'omag','st-r-mag':'omag','st-r-margin':'margin','st-r-wd':'wd',
+  'r-qty':'qty','r-se':'se','r-sh':'sh','r-sp':'sp','r-cp':'cp','r-ps':'ps','r-rp':'rp','r-fbp':'fbp',
+  'r-ex':'ex','r-ef':'ef','r-pw':'pw','r-dfl':'dfl','r-at':'at','r-cs':'cs','r-ct':'tct','r-rt':'rt','r-tt':'ttr',
+  'st-r-nx':'nx','st-r-ny':'nx','st-r-tot':'tot','st-r-covx':'cov','st-r-covy':'cov',
+  'as-r-res':'asRes','as-r-xfov':'asFov','as-r-yfov':'asFov','as-r-wd':'asWd','as-r-safe-wd':'asSafe','as-r-xangle':'asAng',
+  'as-r-xratio':'asRatio','as-r-yratio':'asRatio','as-r-pitch-ok':'asPitch','as-r-min-cams':'asCams','as-r-min-cams-ref':'asMin'};
+function glIcon(k){
+  const s=document.createElement('span'); s.className='gi pdf-hide'; s.dataset.g=k; s.setAttribute('role','button'); s.setAttribute('aria-label','說明');
+  s.addEventListener('mouseenter',function(){ if(matchMedia('(hover:hover)').matches) glShow(s); });
+  s.addEventListener('mouseleave',function(){ if(matchMedia('(hover:hover)').matches) glHide(); });
+  s.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); (_glCur===s)?glHide():glShow(s); });
+  return s;
+}
+function glInject(){
+  Object.keys(GL_IN).forEach(function(id){
+    const el=document.getElementById(id), row=el&&el.closest('.row'), lb=row&&row.querySelector('label');
+    if(lb&&!lb.querySelector('.gi')) lb.appendChild(glIcon(GL_IN[id]));
+  });
+  Object.keys(GL_OUT).forEach(function(cid){
+    document.querySelectorAll('.metric[data-cid="'+cid+'"] > .mt').forEach(function(mt){ if(!mt.querySelector('.gi')) mt.appendChild(glIcon(GL_OUT[cid])); });
+  });
+}
+let _glCur=null;
+function glShow(icon){
+  const g=GL[icon.dataset.g]; if(!g) return;
+  let p=document.getElementById('gl-pop');
+  if(!p){ p=document.createElement('div'); p.id='gl-pop'; document.body.appendChild(p); }
+  p.innerHTML='<b>'+g[0]+'</b><div>'+g[1]+'</div>';
+  p.style.display='block'; _glCur=icon;
+  const r=icon.getBoundingClientRect(), w=p.offsetWidth, h=p.offsetHeight, vw=innerWidth, vh=innerHeight;
+  let left=Math.min(Math.max(8, r.left+r.width/2-w/2), vw-w-8);
+  let top=r.bottom+6; if(top+h>vh-8) top=Math.max(8, r.top-h-6);
+  p.style.left=left+'px'; p.style.top=top+'px';
+}
+function glHide(){ const p=document.getElementById('gl-pop'); if(p) p.style.display='none'; _glCur=null; }
+document.addEventListener('click',function(e){ if(_glCur&&!e.target.closest('#gl-pop')) glHide(); });
+document.addEventListener('scroll',function(){ if(_glCur) glHide(); },true);
+
+// ── 導覽 ──
+const $gd=function(id){ return document.getElementById(id); };
+const gdSec=function(s){ const c=document.querySelector('[data-sec="'+s+'"]'); return c?c.closest('.rg-sec'):null; };
+const gdLeft=function(i){ return document.querySelectorAll('#left > .card')[i]; };
+const gdCard=function(secId,i){ const s=$gd(secId); return s?s.querySelectorAll('.card')[i]:null; };
+function gdDg(id){ const c=$gd(id); return c?(c.closest('.rpt-2col-right')||c):null; }
+function gdActs(){ const a=[...document.querySelectorAll('header .hdr-action')].filter(gdVis); return a.length?a:$gd('mobile-bar'); }
+const GD_HINT='把滑鼠移到名稱旁的 <span class="gi gi-demo"></span> 就有白話解釋（手機用點的）。';
+const GD_ST={
+  mode2d:{el:function(){ return [$gd('dim-seg'),$gd('mode-seg')]; }, t:'先確認模式選對了',
+    d:'<b>2D 取像</b>看平面外觀，<b>3D 量測</b>量高度、段差、翹曲。<br>2D 再分三種：<br>・<b>掃描取像</b>：拍大面積，相機或產品會移動<br>・<b>靜態取像</b>：產品停住，定點拍完<br>・<b>畫檢評估</b>：拍點亮的面板畫面（mura、亮暗點）'},
+  cam:{el:function(){ return gdLeft(0); }, t:'選相機',
+    d:'不熟型號的話，按「<b>資料庫</b>」直接挑，參數會自動帶入。<br>新手先看兩個：<b>像素大小</b>（越小看得越細）和<b>解析度</b>（像素越多，一次拍得越寬）。<br>'+GD_HINT},
+  lens:{el:function(){ return gdLeft(1); }, t:'選鏡頭',
+    d:'一樣可以從資料庫挑。<br><b>倍率是最關鍵的取捨</b>：倍率越大看得越細，但一次拍到的範圍越小，相機台數或掃描趟數就越多。'},
+  save:{el:gdActs, t:'存檔與報告',
+    d:'<b>💾 儲存評估</b>：存到「歷史紀錄」，之後可以叫回來繼續改。<br><b>📄 匯出 PDF</b>：勾選要放哪些區塊，直接當報告用。'},
+  tabs:{el:function(){ return $gd('tabbar'); }, t:'其他分頁',
+    d:'<b>📋 歷史紀錄</b>：存過的評估都在這裡。<br><b>資料庫分頁</b>：可以新增型號、填單價、附規格書。<br>每個分頁都有自己的導覽，切過去再按右上角的 <b>?</b>。'},
+  end:{el:function(){ return $gd('guide-btn'); }, t:'導覽結束 🎉',
+    d:'隨時按右上角的 <b>?</b> 重看這一頁的導覽。<br>名詞看不懂，就看名稱旁的 <span class="gi gi-demo"></span>。'}
+};
+function gdCost(m){ return {el:function(){ return document.querySelector('.cost-blk[data-cost="'+m+'"]'); }, t:'成本估算', d:'依資料庫單價自動估算總價，可以加項目、切換幣別（USD／NTD／RMB）。'}; }
+function gdEdit(id){ return {el:function(){ return $gd(id); }, t:'版面可以自訂', d:'用不到的卡片，按「✎ 自訂版面」可以隱藏或拖曳換順序，設定會自動記住。'}; }
+const GUIDES={
+  scan:[
+    {el:null, t:'掃描取像：這頁在評估什麼？', d:'相機架在平台上<b>邊移動邊拍</b>，把整片樣品掃完。<br>這頁幫你算出：<b>要幾台相機、跑幾趟、一片要掃多久（TT）、解析度夠不夠</b>。<br>左邊填條件，右邊結果<b>即時更新</b>，不用按計算。'},
+    GD_ST.mode2d,
+    {el:function(){ const e=$gd('rpt-target-tt'); return e&&e.closest('.rpt-pair'); }, t:'第一步：填目標',
+     d:'<b>目標 TT</b>：一片最多可以掃幾分鐘。<br><b>目標檢測精度</b>：要抓到多小的缺陷（µm）。<br>填了之後結果會亮燈：系統解析度 <b style="color:#34c759">綠</b>＝餘裕 ≥ 3 倍、<b style="color:#ff9500">黃</b>＝2～3 倍、<b style="color:#ff3b30">紅</b>＝不到 2 倍；TT 超過目標也會變紅。'},
+    {el:function(){ return gdCard('sec-scan',0); }, t:'填樣品與掃描條件',
+     d:'<b>樣品寬度、高度</b>是最基本的。<b>每排相機數量</b>、<b>相機排數</b>決定一次能掃多寬。<br>加速度、換道時間、返回速度、Encoder 是機構參數，<b>不確定就先用預設值</b>，之後再跟機構工程師確認。'},
+    GD_ST.cam, GD_ST.lens,
+    {el:function(){ return gdSec('opt'); }, t:'看結果：光學規格',
+     d:'最重要的是<b>系統解析度</b>＝一個像素對應樣品上幾 µm。經驗法則：<b>最小缺陷至少要佔 3 個像素</b>才穩定抓得到。<br><b>景深 DoF</b> 是對焦的容許高度，樣品翹曲超過它影像就會糊。'},
+    {el:function(){ return gdSec('scan'); }, t:'掃描規格：要幾台、跑幾趟',
+     d:'<b>光學總數量</b>＝要買幾套相機＋鏡頭；<b>掃描道數</b>＝要跑幾趟。<br><b>單排鏡組 Pitch</b> 是相機間距，要比相機機身寬，否則擺不下。'},
+    {el:function(){ return gdSec('timing'); }, t:'時序分析：一片要多久',
+     d:'最後一格 <b>TT</b> 就是掃完一片的時間（分鐘）。<br>TT 太長 → 加相機、加排數、改來回掃描，或降低倍率。<br>解析度不夠 → 提高倍率或換像素更小的相機。<b>這兩者通常要互相妥協</b>。'},
+    {el:function(){ return gdSec('hw'); }, t:'硬體需求',
+     d:'<b>不模糊曝光上限</b>：邊移動邊拍時，曝光時間要短於這個值，否則影像會拖影。<br>Encoder 頻率、資料流量給電控與電腦規格參考。'},
+    gdEdit('card-edit-btn'),
+    {el:function(){ return gdDg('dg'); }, t:'架構示意圖', d:'確認相機排列與掃描路徑，有沒有涵蓋整片樣品。'},
+    gdCost('scan'), GD_ST.save, GD_ST.tabs, GD_ST.end
+  ],
+  static:[
+    {el:null, t:'靜態取像：這頁在評估什麼？', d:'產品<b>停住不動</b>，用一台或多台相機定點拍完待測範圍。<br>這頁幫你算出：<b>要幾台相機、怎麼排、解析度夠不夠、相機要架多遠</b>。<br>左邊填條件，右邊結果<b>即時更新</b>。'},
+    GD_ST.mode2d,
+    {el:function(){ const e=$gd('st-target-res'); return e&&e.closest('.rpt-field'); }, t:'第一步：填目標',
+     d:'<b>目標檢測精度</b>：要抓到多小的缺陷（µm）。<br>填了之後，「<b>解析餘裕</b>」會算出缺陷佔幾個像素，<b>建議 ≥ 3 倍</b>。'},
+    {el:function(){ return gdCard('sec-static',0); }, t:'填待測範圍',
+     d:'<b>待測範圍 X、Y</b>＝要拍的區域大小。<br><b>影像重疊率</b>讓相鄰相機的畫面重疊一點，避免缺陷剛好落在接縫被漏掉（一般 5～10%）。'},
+    GD_ST.cam, GD_ST.lens,
+    {el:function(){ return gdSec('st-opt'); }, t:'看結果：光學規格',
+     d:'<b>系統解析度</b>＝一個像素對應樣品上幾 µm；<b>解析餘裕</b>＝缺陷佔幾個像素，≥ 3 倍比較穩。<br><b>工作距離</b>要跟機構確認擺得下；<b>景深</b>要大於樣品的高低起伏。'},
+    {el:function(){ return gdSec('st-cfg'); }, t:'配置規格：要幾台',
+     d:'X、Y 方向各要幾台相機才能拍滿待測範圍，<b>光學總台數</b>就是要買的套數。<br>台數太多 → 降低倍率，或換解析度更高的相機。'},
+    gdEdit('st-card-edit-btn'),
+    {el:function(){ return gdDg('st-dg'); }, t:'架構示意圖', d:'確認每台相機的拍攝範圍，有沒有把待測範圍蓋滿。'},
+    gdCost('static'), GD_ST.save, GD_ST.tabs, GD_ST.end
+  ],
+  area:[
+    {el:null, t:'畫檢評估：這頁在評估什麼？', d:'面板<b>點亮後</b>，用相機拍整個顯示畫面，檢查 mura、亮暗點、線缺陷。<br>這頁幫你算出：<b>相機要多細才分得出每顆面板像素、要幾台、相機要架多遠</b>。'},
+    GD_ST.mode2d,
+    {el:function(){ return gdCard('sec-area',0); }, t:'填面板規格',
+     d:'<b>AA 區</b>＝面板實際發光的區域（例：65 吋 4K 約 1884 × 1070 mm、3840 × 2160）。<br><b>Pitch</b>＝每顆面板像素用幾個相機像素去拍，<b>建議 ≥ 3</b>，才分得出單顆亮暗點。'},
+    {el:function(){ return gdCard('sec-area',1); }, t:'填配置條件',
+     d:'<b>最短工作距離</b>：機構允許相機最靠近面板多少。<br><b>單台有效佔屏比</b>：每台相機只用畫面的幾成（留重疊）；1＝不重疊，越小台數越多。'},
+    {el:function(){ return gdLeft(0); }, t:'選相機', d:'畫檢只用到<b>像素大小</b>和<b>解析度</b>，其他欄位會自動隱藏。不熟的話按「<b>資料庫</b>」直接挑。<br>'+GD_HINT},
+    {el:function(){ return gdLeft(1); }, t:'選鏡頭', d:'畫檢用一般定焦（CCTV）鏡頭，只要填<b>焦距</b>：焦距越長，相機要架得越遠。'},
+    {el:function(){ return gdSec('as-opt'); }, t:'看結果：光學規格',
+     d:'<b>系統解析能</b>＝面板像素大小 ÷ Pitch。<br><b>工作距離 WD</b>＝相機要架多遠，<b>必須大於安全工作距離</b>（最短工作距離＋30 mm）。報告上方的「WD 可用」會直接顯示 ✓ 或 ✗。'},
+    {el:function(){ return gdSec('as-cov'); }, t:'覆蓋評估：要幾台',
+     d:'<b>佔屏比</b>＝面板是單台視野的幾倍；<b>建議台數</b>已含重疊，<b>物理最少</b>是完全不重疊的下限。<br><b>Pitch 檢查</b>顯示 ✗，代表分不出單顆面板像素。'},
+    gdEdit('as-card-edit-btn'),
+    {el:function(){ return gdDg('as-dg'); }, t:'配置示意圖', d:'確認多台相機怎麼拼接、有沒有蓋滿整個面板。'},
+    gdCost('area'), GD_ST.save, GD_ST.tabs, GD_ST.end
+  ],
+  '3d':[
+    {el:null, t:'3D 量測：這頁在評估什麼？', d:'要量<b>高度、段差、翹曲、共面度、膜厚</b>時用這頁。<br>不需要先懂 3D 感測器——<b>依序回答左邊三個問題</b>，系統會從資料庫挑出可用機種，給出建議方案與風險。'},
+    {el:function(){ return $gd('dim-seg'); }, t:'2D / 3D 切換', d:'只看平面外觀（髒污、刮傷、線路缺陷）用 <b>2D 取像</b>；要知道「多高、多深、多平」用 <b>3D 量測</b>。'},
+    {el:function(){ return gdCard('sec-3d',0); }, t:'① 我要量什麼',
+     d:'<b>量測目標</b>：翹曲、段差、共面度…<br><b>Z 需求種類</b>：規格書大多只標<b>重複性</b>；手上是<b>公差</b>的話選「精度」，並填公差的 1/10。<br><b>Z 量測範圍</b>：要量的最大高度差（含擺放誤差）。<br>'+GD_HINT},
+    {el:function(){ return gdCard('sec-3d',1); }, t:'② 待測物長怎樣',
+     d:'<b>表面性質最關鍵</b>：鏡面會把光反射走、透明會讓光穿透，很多原理會量不到。<br><b>最小特徵</b>決定 XY 要多細；<b>深寬比</b>越大越容易被遮住（看不到底部）。'},
+    {el:function(){ return gdCard('sec-3d',2); }, t:'③ 產線條件',
+     d:'<b>取像時待測物</b>：靜止可以用快照式，移動要用線掃式。<br>節拍、可用工作距離會再篩掉不合的機種；選「現有」只看實驗室已經有的。'},
+    {el:function(){ return $gd('t3-verdict'); }, t:'結論：先看這裡', d:'最上方就是答案：<b>建議用哪種量測原理、哪台機種</b>，以及有沒有前提條件。'},
+    {el:function(){ return document.querySelector('.t3-chartcol'); }, t:'選型圖',
+     d:'每個點是一台機種：<b>越上面 Z 越好、越右邊視野越大</b>，淡掉的點代表不符合條件。<br>滑鼠移到點上可以看規格。'},
+    {el:function(){ return document.querySelector('.t3-infocol'); }, t:'推導出的需求、風險與注意',
+     d:'系統依你的條件推導出 XY 解析度、量程等需求。<br><b>⚠️ 風險與注意一定要看</b>，例如表面反光、遮擋、精度無法估算等。'},
+    {el:function(){ return document.querySelector('.t3-blk-models'); }, t:'可用機種',
+     d:'列出所有符合條件的機種，<b>點一下卡片就改成採用機種</b>，結論與示意圖會跟著更新。<br>卡片上的「📄 規格書」可以直接打開原廠規格書。'},
+    {el:function(){ return document.querySelector('.t3-blk-dg'); }, t:'架構示意圖', d:'用側視、俯視確認感測器擺放、工作距離與量測範圍。'},
+    {el:function(){ return document.querySelector('.t3-blk-why'); }, t:'為什麼不是其他方法？', d:'展開可以看到其他量測原理被排除的原因，跟主管或廠商討論時很好用。'},
+    gdCost('3d'), GD_ST.save, GD_ST.tabs, GD_ST.end
+  ],
+  hist:[
+    {el:function(){ return document.querySelector('#pane-hist > div'); }, t:'歷史紀錄',
+     d:'所有存過的評估都在這裡，<b>2D 與 3D 分開顯示</b>（看你目前在哪個維度）。<br><b>📤 匯出</b>備份成 JSON 給同事，<b>📥 匯入</b>讀回來。<b>清除全部</b>會刪掉所有紀錄，請小心。'},
+    {el:function(){ return $gd('ev-list'); }, t:'每一筆評估',
+     d:'<b>📂 載入</b>：回到當時的設定繼續改，再儲存時可以選覆蓋或另存。<br><b>📄 PDF</b>：直接匯出那一筆的報告。<br><b>📝 實測回饋</b>：導入後填上實際結果，累積經驗給下次評估參考。'},
+    {el:function(){ return $gd('syncStatus'); }, t:'雲端同步', d:'設定 GitHub 同步後，歷史紀錄與資料庫可以在不同電腦之間共用（需要管理者提供權杖）。'},
+    GD_ST.end
+  ],
+  db:[
+    {el:function(){ return document.querySelector('#pane-db > div'); }, t:'資料庫共用', d:'<b>📤 匯出</b>成 JSON 檔分享給同事，<b>📥 匯入</b>同事的檔案，大家就能用同一份資料庫。'},
+    {el:function(){ const e=$gd('db-cam-list'); return e&&e.closest('.card'); }, t:'相機資料庫',
+     d:'左邊「相機設定 → 資料庫」的選單就是從這裡來。<br>可以新增、編輯型號，填<b>單價</b>（成本估算會用到）、附<b>規格書</b>。<b>規格請照原廠規格書填</b>。'},
+    {el:function(){ const e=$gd('db-lens-list'); return e&&e.closest('.card'); }, t:'鏡頭資料庫', d:'左邊「鏡頭設定 → 資料庫」的選單從這裡來，用法和相機相同。'},
+    GD_ST.end
+  ],
+  db3:[
+    {el:function(){ return document.querySelector('#pane-db3 > div'); }, t:'3D 資料庫共用', d:'<b>📤 匯出</b>成 JSON 檔分享給同事，<b>📥 匯入</b>同事的檔案。'},
+    {el:function(){ const e=$gd('db-s3d-list'); return e&&e.closest('.card'); }, t:'3D 感測器資料庫',
+     d:'3D 頁面的「可用機種」都從這裡篩選。<br><b>Z 重複性、量程、視野請照原廠規格書填</b>；標記「實驗室現有」的機種會優先推薦。'},
+    GD_ST.end
+  ]
+};
+const GD_NAME={scan:'掃描取像',static:'靜態取像',area:'畫檢評估','3d':'3D 量測',hist:'歷史紀錄',db:'相機鏡頭資料庫',db3:'3D 感測器資料庫'};
+function gdPage(){
+  const is3=(typeof dim!=='undefined'&&dim==='3d');
+  if($gd('tab-hist').classList.contains('on')) return 'hist';
+  if($gd('tab-db').classList.contains('on')) return is3?'db3':'db';
+  return is3?'3d':S.mode;
+}
+function gdVis(e){ if(!e) return false; const r=e.getBoundingClientRect(); return r.width>0&&r.height>0; }
+function gdEls(st){
+  if(!st.el) return [];
+  let x=st.el(); x=Array.isArray(x)?x:[x];
+  return x.filter(gdVis);
+}
+let _gd=null;
+function guideStart(page){
+  gdHintClose(true); glHide();
+  page=page||gdPage();
+  _gd={page:page, steps:GUIDES[page]||[], i:-1};
+  if(!$gd('gd-back')){
+    document.body.insertAdjacentHTML('beforeend','<div id="gd-back"></div><div id="gd-spot"></div><div id="gd-pop" role="dialog" aria-live="polite"></div>');
+    $gd('gd-back').addEventListener('click',function(){ guideEnd(); });
+  }
+  $gd('gd-back').style.display='block'; $gd('gd-spot').style.display='block';
+  const pop=$gd('gd-pop'); pop.style.display='block'; pop.style.visibility='hidden';   // 對位完成前先藏起來，避免從舊位置滑過來
+  gdSeen(page);
+  guideGo(1);
+}
+function guideGo(dir){
+  if(!_gd) return;
+  let i=_gd.i+dir;
+  // 找不到目標的步驟直接跳過（例如某些卡片被自訂版面隱藏）
+  while(i>=0&&i<_gd.steps.length&&_gd.steps[i].el&&!gdEls(_gd.steps[i]).length) i+=dir;
+  if(i<0) return;
+  if(i>=_gd.steps.length){ guideEnd(); return; }
+  _gd.i=i;
+  const st=_gd.steps[i], els=gdEls(st);
+  const inLeft=els.some(function(e){ return e.closest('#left'); });
+  const mobile=innerWidth<=768;
+  let wait=40;
+  if(mobile){
+    const open=$gd('left').classList.contains('drawer-open');
+    if(inLeft&&!open){ toggleDrawer(); wait=320; }
+    if(!inLeft&&open){ closeDrawer(); wait=320; }
+  }
+  if(els[0]) els[0].scrollIntoView({block:els[0].offsetHeight>innerHeight*0.7?'start':'center', inline:'nearest'});
+  const n=_gd.steps.length;
+  $gd('gd-pop').innerHTML='<button class="gd-x" onclick="guideEnd()" aria-label="關閉導覽">✕</button>'
+    +'<div class="gd-t">'+st.t+'</div><div class="gd-d">'+st.d+'</div>'
+    +'<div class="gd-f"><span class="gd-n">'+(i+1)+' / '+n+'</span>'
+    +(i>0?'<button class="btn-sec" onclick="guideGo(-1)">上一步</button>':'')
+    +'<button class="btn-pri" onclick="guideGo(1)">'+(i===n-1?'完成':'下一步')+'</button></div>';
+  setTimeout(gdPlace, wait);
+  if(wait>40) setTimeout(gdPlace, wait+300);   // 手機抽屜滑動結束後再對位一次
+}
+function gdPlace(){
+  if(!_gd) return;
+  const st=_gd.steps[_gd.i], els=gdEls(st), spot=$gd('gd-spot'), pop=$gd('gd-pop');
+  const vw=innerWidth, vh=innerHeight, pad=6, gap=12;
+  let r=null;
+  els.forEach(function(e){ const b=e.getBoundingClientRect(); if(!b.width&&!b.height) return;
+    r=r?{l:Math.min(r.l,b.left),t:Math.min(r.t,b.top),r:Math.max(r.r,b.right),b:Math.max(r.b,b.bottom)}:{l:b.left,t:b.top,r:b.right,b:b.bottom}; });
+  if(r){
+    r={l:Math.max(4,r.l-pad), t:Math.max(4,r.t-pad), r:Math.min(vw-4,r.r+pad), b:Math.min(vh-4,r.b+pad)};
+    Object.assign(spot.style,{left:r.l+'px',top:r.t+'px',width:(r.r-r.l)+'px',height:(r.b-r.t)+'px',borderRadius:'10px',outlineWidth:'2px'});
+  } else {
+    Object.assign(spot.style,{left:vw/2+'px',top:vh/2+'px',width:'0px',height:'0px',outlineWidth:'0px'});
+  }
+  const pw=Math.min(330, vw-24); pop.style.width=pw+'px';
+  const ph=pop.offsetHeight;
+  let x, y;
+  if(!r){ x=(vw-pw)/2; y=(vh-ph)/2; }
+  else if(vw<=768){
+    x=(vw-pw)/2;
+    y = (vh-r.b>=ph+gap+8) ? r.b+gap : (r.t>=ph+gap+8) ? r.t-ph-gap : vh-ph-12;
+  } else {
+    const cy=Math.min(Math.max(12, r.t), vh-ph-12), cx=Math.min(Math.max(12, r.l), vw-pw-12);
+    if(vw-r.r>=pw+gap+12){ x=r.r+gap; y=cy; }
+    else if(r.l>=pw+gap+12){ x=r.l-pw-gap; y=cy; }
+    else if(vh-r.b>=ph+gap+12){ x=cx; y=r.b+gap; }
+    else if(r.t>=ph+gap+12){ x=cx; y=r.t-ph-gap; }
+    else { x=vw-pw-16; y=vh-ph-16; }
+  }
+  pop.style.left=Math.round(x)+'px'; pop.style.top=Math.round(y)+'px';
+  if(pop.style.visibility==='hidden'){ pop.style.transition='none'; setTimeout(function(){ pop.style.visibility=''; pop.style.transition=''; }, 30); }
+}
+function guideEnd(){
+  if(!_gd) return;
+  ['gd-back','gd-spot','gd-pop'].forEach(function(id){ const e=$gd(id); if(e) e.style.display='none'; });
+  if(innerWidth<=768) closeDrawer();
+  _gd=null;
+}
+window.addEventListener('resize',function(){ if(_gd) gdPlace(); });
+document.addEventListener('scroll',function(){ if(_gd) requestAnimationFrame(gdPlace); },true);
+document.addEventListener('keydown',function(e){
+  if(!_gd) return;
+  if(e.key==='Escape') guideEnd();
+  else if(e.key==='ArrowRight') guideGo(1);
+  else if(e.key==='ArrowLeft') guideGo(-1);
+});
+// ── 每頁第一次進來時，右下角提示一次（不打斷操作）──
+function gdSeenMap(){ try{ return JSON.parse(localStorage.getItem('aoi_guide')||'{}'); }catch(e){ return {}; } }
+function gdSeen(p){ try{ const m=gdSeenMap(); m[p]=1; localStorage.setItem('aoi_guide',JSON.stringify(m)); }catch(e){} }
+let _gdHintT=null;
+function guideHintSoon(){ clearTimeout(_gdHintT); _gdHintT=setTimeout(guideHint,700); }
+function guideHint(){
+  if(_gd) return;
+  const p=gdPage(); if(gdSeenMap()[p]){ gdHintClose(); return; }
+  let h=$gd('gd-hint');
+  if(!h){ h=document.createElement('div'); h.id='gd-hint'; h.className='pdf-hide'; document.body.appendChild(h); }
+  h.innerHTML='<div class="gd-ht">👋 第一次用「'+GD_NAME[p]+'」？</div><div class="gd-hd">花一分鐘看導覽，帶你走過這一頁。</div>'
+    +'<div class="gd-hb"><button class="btn-sec" onclick="gdHintClose(true)">不用了</button><button class="btn-pri" onclick="guideStart()">開始導覽</button></div>';
+  h.dataset.page=p; h.style.display='block';
+}
+function gdHintClose(mark){
+  const h=$gd('gd-hint'); if(!h) return;
+  if(mark&&h.style.display!=='none'&&h.dataset.page) gdSeen(h.dataset.page);
+  h.style.display='none';
+}
+// 換頁（切 2D/3D、模式、分頁）都會經過 showTab
+const _gdShowTab=showTab;
+showTab=function(t){ _gdShowTab(t); guideHintSoon(); };
+
+// ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
 // 把新增/編輯 modal 與遮罩移到 body，避免被玻璃卡片(backdrop-filter)困住定位
@@ -6030,6 +6439,8 @@ initPickers();
 loadRptMeta();
 initCardCfg();
 calc();
+glInject();
+setTimeout(guideHint, 1200);
 if(FX.src!=='manual' && Date.now()-(FX.ts||0)>6*3600e3) setTimeout(function(){ fxFetch(false); }, 600);
 if(ghReady()){ cloudPull({force:false}); } else { setSyncStatus('off'); }
 window.addEventListener('resize', ()=>{
