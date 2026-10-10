@@ -724,7 +724,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
     <button class="btn-sec hdr-action" onclick="exportPDF()">📄 匯出 PDF</button>
     <button class="btn-pri hdr-action" onclick="saveEval()">💾 儲存評估</button>
     <button id="guide-btn" class="btn-about" onclick="guideStart()" title="使用導覽（這一頁）" style="font-size:14px;font-weight:700;line-height:1;">?</button>
-    <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="雲端同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);">☁</button>
+    <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="雲端同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></button>
   </div>
 </header>
 
@@ -748,7 +748,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <div>
       <div style="font-size:14px;font-weight:700;">AOI 光學架構評估計算器</div>
-      <div style="font-size:11px;color:var(--sub);margin-top:2px;">開發者・聯絡人・負責人</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:2px;">關於本工具</div>
     </div>
     <button onclick="toggleAbout()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
   </div>
@@ -5960,11 +5960,15 @@ function aoiApplyData(d){
 
 function setSyncStatus(state,msg){
   const el=document.getElementById('syncStatus'); if(!el) return;
-  const map={ off:['rgba(255,255,255,.55)','☁','雲端未連線（點此設定）'],
-              ok: ['#7CFFA8','☁','雲端已同步'],
-              sync:['#FFE08A','⟳','同步中…'],
-              err:['#FF9B8A','⚠','同步失敗'] };
-  const a=map[state]||map.off; el.textContent=a[1]; el.style.color=a[0]; el.title=msg||a[2];
+  // 用 SVG 圖示而非 ☁ ⟳ ⚠ 字元：手機（iOS/Android）會把這些字元畫成彩色 emoji，CSS 顏色無效，連線後不會變綠
+  const ic={ cloud:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>',
+    sync:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
+    warn:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' };
+  const map={ off:['rgba(255,255,255,.55)','cloud','雲端未連線（點此設定）'],
+              ok: ['#7CFFA8','cloud','雲端已同步'],
+              sync:['#FFE08A','sync','同步中…'],
+              err:['#FF9B8A','warn','同步失敗'] };
+  const a=map[state]||map.off; el.innerHTML=ic[a[1]]; el.style.color=a[0]; el.title=msg||a[2]; el.setAttribute('aria-label',msg||a[2]);
 }
 
 async function cloudPull(opts){
