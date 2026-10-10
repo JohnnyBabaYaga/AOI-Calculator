@@ -580,6 +580,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .card-dh{display:none;position:absolute;top:3px;left:5px;font-size:14px;color:var(--sub);cursor:grab;line-height:1;user-select:none;}
 .card-vis-btn{display:none;position:absolute;top:2px;right:4px;background:none;border:none;cursor:pointer;font-size:11px;color:var(--sub);padding:0;line-height:1;}
 .card-vis-btn:hover{color:var(--accent);}
+.rpt-secs.has-edit{position:relative;}
+.card-edit-btn{position:absolute;top:13px;right:12px;z-index:2;font-size:10px!important;padding:2px 9px!important;}
 .card-edit-mode .card-dh,.card-edit-mode .card-vis-btn{display:block;}
 .card-edit-mode .metric{cursor:grab;padding-top:17px;}
 .card-edit-mode .metric:active{cursor:grabbing;}
@@ -1134,7 +1136,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
       </div><!-- /rpt-body -->
 
       <!-- Technical detail sections -->
-      <div style="border-top:1px solid var(--border);padding:5px 10px;display:flex;justify-content:flex-end;"><button id="card-edit-btn" class="btn-sec" style="font-size:10px;padding:2px 9px" onclick="toggleCardEdit()">✎ 自訂版面</button></div><div class="res-grid rpt-secs" id="card-edit-target" style="border-top:none">
+      <div class="res-grid rpt-secs has-edit" id="card-edit-target"><button id="card-edit-btn" class="btn-sec card-edit-btn pdf-hide" onclick="toggleCardEdit()">✎ 自訂版面</button>
 
         <div class="rg-sec">
           <div class="shdr">🔭 光學規格</div>
@@ -1253,10 +1255,8 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         </div>
       </div><!-- /rpt-body -->
       <!-- Technical sections -->
-      <div style="border-top:1px solid var(--border);padding:5px 10px;display:flex;justify-content:flex-end;">
-        <button id="st-card-edit-btn" class="btn-sec" style="font-size:10px;padding:2px 9px" onclick="toggleStCardEdit()">✎ 自訂版面</button>
-      </div>
-      <div class="res-grid rpt-secs" id="st-card-edit-target" style="border-top:none">
+      <div class="res-grid rpt-secs has-edit" id="st-card-edit-target">
+        <button id="st-card-edit-btn" class="btn-sec card-edit-btn pdf-hide" onclick="toggleStCardEdit()">✎ 自訂版面</button>
         <div class="rg-sec">
           <div class="shdr">🔭 光學規格</div>
           <div class="cg" data-sec="st-opt">
@@ -1341,26 +1341,27 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <div class="rpt-kv"><span class="rpt-k">WD 可用</span><span class="rpt-v" id="as-rpt-wd-ok">—</span></div>
         </div>
       </div><!-- /rpt-body -->
-      <div class="res-grid rpt-secs" style="border-top:1px solid var(--border)">
+      <div class="res-grid rpt-secs has-edit" id="as-card-edit-target">
+        <button id="as-card-edit-btn" class="btn-sec card-edit-btn pdf-hide" onclick="toggleAsCardEdit()">✎ 自訂版面</button>
         <div class="rg-sec">
           <div class="shdr">🔭 光學規格</div>
-          <div class="cg">
-            <div class="metric"><div class="mt">系統解析能</div><div class="mv"><span id="as-r-res">—</span> <span class="mu">µm</span></div></div>
-            <div class="metric"><div class="mt">X-FOV</div><div class="mv"><span id="as-r-xfov">—</span> <span class="mu">mm</span></div></div>
-            <div class="metric"><div class="mt">Y-FOV</div><div class="mv"><span id="as-r-yfov">—</span> <span class="mu">mm</span></div></div>
-            <div class="metric"><div class="mt">工作距離 WD</div><div class="mv"><span id="as-r-wd">—</span> <span class="mu">mm</span></div></div>
-            <div class="metric"><div class="mt">安全工作距離</div><div class="mv"><span id="as-r-safe-wd">—</span> <span class="mu">mm</span></div></div>
-            <div class="metric"><div class="mt">X 半角</div><div class="mv"><span id="as-r-xangle">—</span> <span class="mu">°</span></div></div>
+          <div class="cg" data-sec="as-opt">
+            <div class="metric" data-cid="as-r-res"><div class="mt">系統解析能</div><div class="mv"><span id="as-r-res">—</span> <span class="mu">µm</span></div></div>
+            <div class="metric" data-cid="as-r-xfov"><div class="mt">X-FOV</div><div class="mv"><span id="as-r-xfov">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="as-r-yfov"><div class="mt">Y-FOV</div><div class="mv"><span id="as-r-yfov">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="as-r-wd"><div class="mt">工作距離 WD</div><div class="mv"><span id="as-r-wd">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="as-r-safe-wd"><div class="mt">安全工作距離</div><div class="mv"><span id="as-r-safe-wd">—</span> <span class="mu">mm</span></div></div>
+            <div class="metric" data-cid="as-r-xangle"><div class="mt">X 半角</div><div class="mv"><span id="as-r-xangle">—</span> <span class="mu">°</span></div></div>
           </div>
         </div>
         <div class="rg-sec">
           <div class="shdr">📊 覆蓋評估</div>
-          <div class="cg">
-            <div class="metric"><div class="mt">X 佔屏比</div><div class="mv"><span id="as-r-xratio">—</span></div></div>
-            <div class="metric"><div class="mt">Y 佔屏比</div><div class="mv"><span id="as-r-yratio">—</span></div></div>
-            <div class="metric"><div class="mt">Pitch 檢查</div><div class="mv"><span id="as-r-pitch-ok">—</span></div></div>
-            <div class="metric"><div class="mt">建議台數（含重疊）</div><div class="mv"><span id="as-r-min-cams">—</span></div></div>
-            <div class="metric"><div class="mt">物理最少（無重疊）</div><div class="mv" style="font-size:13px;color:var(--sub)"><span id="as-r-min-cams-ref">—</span></div></div>
+          <div class="cg" data-sec="as-cov">
+            <div class="metric" data-cid="as-r-xratio"><div class="mt">X 佔屏比</div><div class="mv"><span id="as-r-xratio">—</span></div></div>
+            <div class="metric" data-cid="as-r-yratio"><div class="mt">Y 佔屏比</div><div class="mv"><span id="as-r-yratio">—</span></div></div>
+            <div class="metric" data-cid="as-r-pitch-ok"><div class="mt">Pitch 檢查</div><div class="mv"><span id="as-r-pitch-ok">—</span></div></div>
+            <div class="metric" data-cid="as-r-min-cams"><div class="mt">建議台數（含重疊）</div><div class="mv"><span id="as-r-min-cams">—</span></div></div>
+            <div class="metric" data-cid="as-r-min-cams-ref"><div class="mt">物理最少（無重疊）</div><div class="mv" style="font-size:13px;color:var(--sub)"><span id="as-r-min-cams-ref">—</span></div></div>
           </div>
         </div>
       </div><!-- /res-grid -->
@@ -5192,7 +5193,20 @@ const CARD_DEFS = [
   {cid:'st-r-tot',    sec:'st-cfg', label:'光學總台數'},
   {cid:'st-r-covx',   sec:'st-cfg', label:'總覆蓋 X'},
   {cid:'st-r-covy',   sec:'st-cfg', label:'總覆蓋 Y'},
+  // ── Area (畫檢) mode cards ──
+  {cid:'as-r-res', sec:'as-opt', label:'系統解析能'},
+  {cid:'as-r-xfov', sec:'as-opt', label:'X-FOV'},
+  {cid:'as-r-yfov', sec:'as-opt', label:'Y-FOV'},
+  {cid:'as-r-wd', sec:'as-opt', label:'工作距離 WD'},
+  {cid:'as-r-safe-wd', sec:'as-opt', label:'安全工作距離'},
+  {cid:'as-r-xangle', sec:'as-opt', label:'X 半角'},
+  {cid:'as-r-xratio', sec:'as-cov', label:'X 佔屏比'},
+  {cid:'as-r-yratio', sec:'as-cov', label:'Y 佔屏比'},
+  {cid:'as-r-pitch-ok', sec:'as-cov', label:'Pitch 檢查'},
+  {cid:'as-r-min-cams', sec:'as-cov', label:'建議台數（含重疊）'},
+  {cid:'as-r-min-cams-ref', sec:'as-cov', label:'物理最少（無重疊）'},
 ];
+const CARD_SECS=['opt','scan','hw','timing','st-opt','st-cfg','as-opt','as-cov'];
 
 let cardCfg = {};
 let _dragSrc = null;
@@ -5207,7 +5221,7 @@ function initCardCfg(){
     });
   } else {
     cardCfg={};
-    ['opt','scan','hw','timing','st-opt','st-cfg'].forEach(sec=>{
+    CARD_SECS.forEach(sec=>{
       cardCfg[sec]=CARD_DEFS.filter(d=>d.sec===sec).map(({cid})=>({cid,visible:true}));
     });
   }
@@ -5218,13 +5232,13 @@ function initCardCfg(){
 function saveCardCfg(){ localStorage.setItem('aoi_cardcfg',JSON.stringify(cardCfg)); }
 
 function applyCardCfg(){
-  ['opt','scan','hw','timing','st-opt','st-cfg'].forEach(sec=>{
+  CARD_SECS.forEach(sec=>{
     const cg = document.querySelector(`.cg[data-sec="${sec}"]`);
     if(!cg) return;
     (cardCfg[sec]||[]).forEach(({cid,visible})=>{
       const el = cg.querySelector(`[data-cid="${cid}"]`);
       if(!el) return;
-      const editOn = _cardEditFlags['scan']||_cardEditFlags['static'];
+      const editOn = !!cg.closest('.card-edit-mode');   // 只看這一區自己是否在編輯中
       if(!editOn) el.style.display = visible ? '' : 'none';
       else { el.style.display=''; el.classList.toggle('card-hidden',!visible); }
       cg.appendChild(el);
@@ -5272,6 +5286,9 @@ function toggleCardEdit(){
 }
 function toggleStCardEdit(){
   _toggleCardEditFor('st-card-edit-target','st-card-edit-btn',['st-opt','st-cfg'],'static');
+}
+function toggleAsCardEdit(){
+  _toggleCardEditFor('as-card-edit-target','as-card-edit-btn',['as-opt','as-cov'],'area');
 }
 
 function toggleCardVis(cid, sec, btn){
