@@ -334,6 +334,48 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
 .ec p{font-size:11px;color:var(--sub);}
 .ec .ec-notes{color:var(--text);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line;}
 .empty{text-align:center;padding:40px 20px;color:var(--sub);font-size:12px;}
+/* ── 歷史紀錄：搜尋／篩選／標籤分組／檢索地圖 ── */
+#ev-tools{padding:9px 10px 0;}
+.ev-bar .btn-sec{white-space:nowrap;}
+@media(max-width:768px){ .ev-bar{flex-wrap:wrap;row-gap:6px;} .ev-bar #ev-cnt{flex-basis:100%;} }
+.ev-srow{display:flex;gap:6px;align-items:stretch;}
+.ev-srow .db-search{margin:0;flex:1;min-width:0;width:auto;}
+.ev-sort{padding:8px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surf2);color:var(--text);font-size:12px;font-family:inherit;outline:none;cursor:pointer;}
+.ev-chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;}
+.ev-chips .sep{width:1px;height:16px;background:var(--border);margin:0 2px;}
+.ev-chips .pick-chip .n{opacity:.7;margin-left:3px;font-weight:400;}
+.ec-lamp{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;
+  font-size:9px;font-weight:800;color:#fff;margin-right:6px;vertical-align:1px;box-sizing:border-box;line-height:1;}
+.ec-lamp.ok{background:#1E8E3E;} .ec-lamp.warn{background:#F29900;} .ec-lamp.bad{background:#D93025;}
+.ec-lamp.na{border:1.5px solid var(--sub);color:var(--sub);} .ec-lamp.unk{border:1.5px dashed var(--border);}
+.ec-tags{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:5px;}
+.ec-tag{font-size:10.5px;padding:1px 8px;border-radius:999px;border:none;background:color-mix(in srgb,var(--accent) 11%,transparent);
+  color:var(--accent-deep);cursor:pointer;font-family:inherit;line-height:1.6;}
+.ec-tag:hover{background:var(--accent);color:#fff;}
+.ec-tag-ed{font-size:10.5px;padding:0 8px;border-radius:999px;border:1px dashed var(--border);background:none;color:var(--sub);cursor:pointer;font-family:inherit;line-height:1.6;}
+.ec-tag-ed:hover{border-color:var(--accent);color:var(--accent);}
+.ec-tag-in{flex:1;min-width:120px;max-width:380px;font-size:12px;padding:3px 8px;border:1px solid var(--accent);border-radius:7px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
+.ec.flash{animation:ecFlash 1.4s ease;}
+@keyframes ecFlash{0%,45%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 45%,transparent);border-color:var(--accent);}100%{box-shadow:none;}}
+.ev-grp{display:flex;align-items:center;gap:6px;margin:12px 10px 7px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;user-select:none;-webkit-user-select:none;}
+.ev-grp .n{font-weight:500;color:var(--sub);font-size:11px;}
+.ev-grp .car{display:inline-block;width:10px;color:var(--sub);font-size:9px;transition:transform .15s;}
+.ev-grp.closed .car{transform:rotate(-90deg);}
+.ev-grp::after{content:'';flex:1;height:1px;background:var(--border);}
+.ev-map{margin:9px 10px 4px;border:1px solid var(--border);border-radius:var(--rad);background:var(--surf);}
+.ev-map-hd{display:flex;align-items:center;gap:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;user-select:none;-webkit-user-select:none;flex-wrap:wrap;}
+.ev-map-hd .car{display:inline-block;width:10px;color:var(--sub);font-size:9px;transition:transform .15s;}
+.ev-map.closed .ev-map-hd .car{transform:rotate(-90deg);}
+.ev-map-hd small{font-weight:400;color:var(--sub);font-size:11px;}
+.ev-map-lg{margin-left:auto;display:flex;gap:10px;font-size:11px;font-weight:400;color:var(--sub);align-items:center;}
+.ev-map-lg span{display:inline-flex;align-items:center;gap:3px;}
+#ev-map-svg{padding:0 6px 6px;}
+.ev-map.closed #ev-map-svg{display:none;}
+#ev-map-svg svg{display:block;width:100%;}
+#ev-map-svg .pt{cursor:pointer;}
+#ev-map-svg .pt:hover .sh{stroke:var(--text)!important;stroke-opacity:1!important;stroke-width:1.6!important;}
+.tag-sug{display:flex;flex-wrap:wrap;gap:4px;margin:-6px 0 12px;min-height:0;}
+.tag-sug .ec-tag{font-size:11px;}
 
 /* ── Database pane ── */
 .db-row{display:flex;align-items:center;padding:4px 12px;border-bottom:1px solid var(--border);gap:6px;min-height:28px;}
@@ -502,8 +544,8 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
 #save-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
   width:min(380px,94vw);flex-direction:column;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
-#save-name,#save-desc{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
-#save-name:focus,#save-desc:focus{border-color:var(--accent);}
+#save-name,#save-desc,#save-tags{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
+#save-name:focus,#save-desc:focus,#save-tags:focus{border-color:var(--accent);}
 #save-desc{height:68px;resize:vertical;font-size:12px;line-height:1.5;}
 .pdf-list{overflow-y:auto;flex:1;min-height:100px;}
 .pdf-block{border:1px solid var(--border);border-radius:9px;padding:7px 11px;margin-bottom:6px;}
@@ -838,7 +880,7 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
     </svg>
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
-  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.4</span></h1></div>
+  <div id="hdr-title"><h1>AOI Calculator <span class="ver-pill">v4.5</span></h1></div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <!-- 模式：2D 三種＋3D 合成一組，切換時版面不會跳 -->
     <div class="seg" id="nav-seg" style="flex-shrink:0;font-size:11px;">
@@ -947,7 +989,10 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
   <div class="af-hdr"><b>💾 儲存評估</b><button class="af-x" onclick="closeSaveModal()" aria-label="關閉">✕</button></div>
   <div id="save-orig-wrap" style="font-size:12px;color:var(--sub);line-height:1.65;margin-bottom:10px;">目前開啟的是歷史紀錄「<b id="save-orig" style="color:var(--text)"></b>」，<br>要更新這筆紀錄，還是另存成一筆新的？</div>
   <label for="save-name" style="font-size:11px;color:var(--sub);">名稱</label>
-  <input id="save-name" type="text" placeholder="專案／設備名稱">
+  <input id="save-name" type="text" placeholder="專案／設備名稱" oninput="saveTagSug()">
+  <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，第一個標籤會當作分組）</span></label>
+  <input id="save-tags" type="text" placeholder="用逗號或空白分開，例：B6, Cell, 貼合" oninput="saveTagSug()">
+  <div id="save-tag-sug" class="tag-sug"></div>
   <label for="save-desc" style="font-size:11px;color:var(--sub);">說明／備註</label>
   <textarea id="save-desc" placeholder="例：用途、檢測項目、待確認事項…（會顯示在報告的「設備／用途描述」）"></textarea>
   <div class="af-btns" id="save-btns-over"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveModalPick('over')">覆蓋原紀錄</button><button class="btn-sec" style="flex:1;font-size:12px" onclick="saveModalPick('new')">另存新檔</button><button class="btn-sec" style="font-size:12px" onclick="closeSaveModal()">取消</button></div>
@@ -1614,12 +1659,25 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
 
   <!-- History pane -->
   <div id="pane-hist" style="display:none;overflow-y:auto;flex:1">
-    <div style="padding:7px 10px 4px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);">
+    <div class="ev-bar" style="padding:7px 10px 4px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);">
       <span style="font-size:12px;color:var(--sub)" id="ev-cnt">0 筆評估</span>
       <button class="btn-sec" style="margin-left:auto;font-size:11px" onclick="exportEvals()" title="把所有歷史評估匯出成 JSON 備份檔">📤 匯出</button>
       <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('ev-import-input').click()" title="從 JSON 備份檔匯入評估">📥 匯入</button>
       <input type="file" id="ev-import-input" accept=".json" style="display:none" onchange="handleEvalImport(this)">
       <button class="btn-sec" onclick="clearEvals()" style="font-size:11px;color:var(--warn);border-color:rgba(224,86,63,.4)">清除全部</button>
+    </div>
+    <div id="ev-tools" style="display:none">
+      <div class="ev-srow">
+        <input id="ev-q" class="db-search" type="search" placeholder="🔍 搜尋名稱、說明、相機、鏡頭、標籤…" oninput="renderEvals()" autocomplete="off">
+        <select id="ev-sort" class="ev-sort" onchange="renderEvals()" aria-label="排序">
+          <option value="new">最近儲存</option><option value="old">最早建立</option><option value="name">名稱</option>
+        </select>
+      </div>
+      <div class="ev-chips" id="ev-chips"></div>
+    </div>
+    <div class="ev-map" id="ev-map" style="display:none">
+      <div class="ev-map-hd" onclick="evMapToggle()"><span class="car">▼</span>🗺 檢索地圖<small id="ev-map-t"></small><span class="ev-map-lg" id="ev-map-lg"></span></div>
+      <div id="ev-map-svg"></div>
     </div>
     <div id="ev-list"></div>
   </div>
@@ -4892,22 +4950,29 @@ function commitEval(rec, tab){
   if(rec.mode!=='3d') rec.sys=sysSnap();   // 資料量與電腦規格的假設條件隨評估存
   rec.cost=costSnap(rec.mode||'scan');      // 成本的覆寫與自訂項目隨評估存
   rec.costTotal=costTotal(rec.mode||'scan');
+  if(rec.mode!=='3d') rec.st=concSt(rec.mode||'scan');   // 存檔當下的結論（符合／需注意／需調整），歷史紀錄的燈號與篩選用
   const idx=_curEvalId!=null ? evals.findIndex(e=>e.id===_curEvalId) : -1;
   const done=i=>{
+    rec.ts=Date.now();
     if(i>=0){ rec.id=evals[i].id; if(evals[i].fb) rec.fb=evals[i].fb; evals[i]=rec; } else evals.unshift(rec);   // 覆蓋時保留實測回饋
     _curEvalId=rec.id; persistEvals(); renderEvals(); showTab(tab);
     if(_afterSave){ const f=_afterSave; _afterSave=null; setTimeout(f,60); }
   };
   // 有載入中的同模式紀錄 → 多問「覆蓋原紀錄 / 另存新檔」；沒有就只確認名稱與說明
   const canOver = idx>=0 && (evals[idx].mode||'scan')===(rec.mode||'scan');
-  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc)=>{
+  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags)=>{
     if(name && name!==rec.name){ rec.name=name; setProjName(rec.mode, name); }
     rec.notes=desc; syncDesc(desc);
+    if(tags.length) rec.tags=tags;
     done(choice==='over'?idx:-1);
-  });
+  }, idx>=0 ? evals[idx].tags : null);   // 從舊紀錄改的，標籤先帶入
+}
+function concSt(mode){
+  const b=document.getElementById('conc-'+mode+'-badge');
+  return b ? (['bad','warn','ok','na'].filter(function(c){ return b.classList.contains(c); })[0]||null) : null;
 }
 let _afterSave=null;   // 「儲存並匯出 PDF」：存完再做的事
-function openSaveModal(orig, name, desc, cb){
+function openSaveModal(orig, name, desc, cb, tags){
   _saveCb=cb;
   const over=orig!=null;
   document.getElementById('save-orig').textContent=orig||'';
@@ -4915,7 +4980,9 @@ function openSaveModal(orig, name, desc, cb){
   document.getElementById('save-btns-over').style.display=over?'':'none';
   document.getElementById('save-btns-new').style.display=over?'none':'';
   document.getElementById('save-name').value=name==='新評估'?'':name;
+  document.getElementById('save-tags').value=(tags||[]).join(', ');
   document.getElementById('save-desc').value=desc||'';
+  saveTagSug();
   document.getElementById('save-modal').style.display='flex';
   document.getElementById('save-overlay').style.display='block';
   setTimeout(function(){ const n=document.getElementById('save-name'); n.focus(); n.select(); },40);
@@ -4927,13 +4994,39 @@ function closeSaveModal(){
 }
 function saveModalPick(choice){
   const cb=_saveCb, after=_afterSave, name=document.getElementById('save-name').value.trim()||'新評估';
-  const desc=document.getElementById('save-desc').value.trim();
-  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc);
+  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value);
+  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags);
+}
+// 標籤：逗號、頓號、分號或空白分開；去掉 #、去重（不分大小寫）
+function parseTags(s){
+  const out=[], seen={};
+  String(s||'').split(/[,，、;；\s]+/).forEach(function(t){
+    t=t.replace(/^#+/,'').trim().slice(0,20); const k=t.toLowerCase();
+    if(t && !seen[k]){ seen[k]=1; out.push(t); }
+  });
+  return out;
+}
+// 建議標籤：名稱的第一個詞＋已經用過、次數最多的標籤
+function saveTagSug(){
+  const box=document.getElementById('save-tag-sug'); if(!box) return;
+  const have={}; parseTags(document.getElementById('save-tags').value).forEach(function(t){ have[t.toLowerCase()]=1; });
+  const cnt={}, disp={};
+  evals.forEach(function(e){ (e.tags||[]).forEach(function(t){ const k=t.toLowerCase(); cnt[k]=(cnt[k]||0)+1; disp[k]=disp[k]||t; }); });
+  let sug=Object.keys(cnt).sort(function(a,b){ return cnt[b]-cnt[a] || a.localeCompare(b,'zh-Hant'); });
+  const nm=document.getElementById('save-name').value.trim(), w=nm.split(/[\s_\-－—/／,，、:：()（）]+/)[0];
+  if(w && w!==nm && w.length<=12 && !cnt[w.toLowerCase()]){ sug.unshift(w.toLowerCase()); disp[w.toLowerCase()]=w; }
+  sug=sug.filter(function(k){ return !have[k]; }).slice(0,8);
+  box.innerHTML=sug.map(function(k){ return '<button type="button" class="ec-tag" onclick="saveTagAdd(this.dataset.t)" data-t="'+esc(disp[k])+'">＋ '+esc(disp[k])+'</button>'; }).join('');
+  box.style.display=sug.length?'':'none';
+}
+function saveTagAdd(t){
+  const el=document.getElementById('save-tags'), a=parseTags(el.value); a.push(t);
+  el.value=a.join(', '); saveTagSug(); el.focus();
 }
 document.addEventListener('keydown',function(e){
   if(document.getElementById('save-modal').style.display!=='flex') return;
   if(e.key==='Escape') closeSaveModal();
-  else if(e.key==='Enter' && e.target.id==='save-name' && !e.isComposing){ e.preventDefault(); saveModalPick(document.getElementById('save-btns-over').style.display==='none'?'new':'over'); }
+  else if(e.key==='Enter' && (e.target.id==='save-name'||e.target.id==='save-tags') && !e.isComposing){ e.preventDefault(); saveModalPick(document.getElementById('save-btns-over').style.display==='none'?'new':'over'); }
 });
 function evalIs3D(e){ return e.mode==='3d'; }
 // 只清除目前分類（2D 或 3D），另一類看不到，不能一起刪
@@ -4942,42 +5035,124 @@ function clearEvals(){
   if(!confirm('確定清除所有「'+lbl+'」評估記錄？（另一類不受影響）'))return;
   evals=evals.filter(e=>evalIs3D(e)!==want3); _curEvalId=null; persistEvals(); renderEvals();
 }
+// ── 歷史紀錄：搜尋／篩選／標籤分組／檢索地圖 ──
+const EV_ML={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D'};
+const EV_MC={scan:'var(--accent)',static:'#ff9500',area:'#34c759','3d':'#7F77DD'};
+const EV_ST={ok:['✓','符合需求'],warn:['!','需注意'],bad:['✕','需調整'],na:['–','未填目標']};
+let _evF={mode:'all',fb:false,bad:false}, _evMapPts=null, _evFilt=false;
+let _evClosed=(function(){ try{ const a=JSON.parse(localStorage.getItem('aoi_hist_closed')||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } })();
+// 結論燈號：2D 用存檔當下的結論；3D 由選出的量測方法判斷
+function evSt(e){
+  if(e.mode==='3d') return (e.r&&e.r.method) ? (e.r.cond?'warn':'ok') : 'bad';
+  return e.st||null;
+}
+function evSummary(e){
+  const is3D=(e.mode==='3d'), isArea=(e.mode==='area'), isStatic=(e.mode==='static');
+  return is3D
+    ?(e.r.method
+      ?`${e.r.method}${e.r.cond?'（有條件）':''} · Z ${e.p.zmode==='acc'?'精度':'重複性'} ${e.p.zres} µm · 視野 ${fmt(e.r.need,0)} mm · 符合 ${e.r.hitsN} 款`
+      :`無可用方案 · Z ${e.p.zmode==='acc'?'精度':'重複性'} ${e.p.zres} µm · 視野 ${fmt(Math.max(e.p.x,e.p.y),0)} mm`)
+    :isStatic
+    ?(e.ss
+      ?`${fmt(e.r.optRes,3)} µm/px · ${e.r.total||'—'} 台 (${e.r.nX||'—'}×${e.r.nY||'—'}) · 範圍 ${e.ss.objW}×${e.ss.objH} mm`
+      :`${fmt(e.r.optRes,3)} µm/px · 舊紀錄（未存待測範圍，載入後請確認）`)
+    :isArea
+    ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
+    :`TT: ${fmt((e.p&&e.p.scanMode==='round')?e.r.roundTT:e.r.singleTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
+}
+// 地圖座標：2D＝解析度 µm/px × 台數；3D＝視野 mm × Z µm
+function evXY(e){
+  const r=e.r||{}, p=e.p||{};
+  if(e.mode==='3d') return [r.need||Math.max(+p.x||0,+p.y||0), +p.zres];
+  if(e.mode==='area') return [r.resolution, r.totalCams];
+  if(e.mode==='static') return [r.optRes, r.total];
+  return [r.optRes, r.totalOpt||((+p.nCams||0)*(+p.nRows||1))];
+}
+// 多個關鍵字用空白分開＝同時符合；#標籤＝標籤完全相同
+function evMatch(o, toks){
+  if(!toks.length) return true;
+  if(o.hay==null){ const e=o.e, fb=e.fb||{};
+    o.hay=[e.name,e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
+  const tl=(o.e.tags||[]).map(function(t){ return t.toLowerCase(); });
+  return toks.every(function(t){ return t==='#' ? true : t[0]==='#' ? tl.indexOf(t.slice(1))>=0 : o.hay.indexOf(t)>=0; });
+}
+function evChip(on, t, n, fn){ return `<span class="pick-chip${on?' on':''}" onclick="${fn}">${t}${n!=null?'<span class="n">'+n+'</span>':''}</span>`; }
 function renderEvals(){
   fbRenderBlk();
-  const el=document.getElementById('ev-list');
+  const el=document.getElementById('ev-list'), tools=document.getElementById('ev-tools'), map=document.getElementById('ev-map');
   const want3=(dim==='3d'), lbl=want3?'3D 量測':'2D 取像';
-  const list=evals.map((e,i)=>({e,i})).filter(o=>evalIs3D(o.e)===want3);
-  document.getElementById('ev-cnt').textContent=`${lbl} ${list.length} 筆評估`+(list.length!==evals.length?`（全部 ${evals.length} 筆）`:'');
-  if(!list.length){
+  const all=evals.map((e,i)=>({e,i,sum:evSummary(e)})).filter(o=>evalIs3D(o.e)===want3);
+  tools.style.display=all.length?'':'none';
+  if(!all.length){
+    document.getElementById('ev-cnt').textContent=`${lbl} 0 筆評估`+(evals.length?`（全部 ${evals.length} 筆）`:'');
+    map.style.display='none'; _evMapPts=null;
     el.innerHTML=`<div class="empty">📄<br>尚無${lbl}的評估<br><small>在計算器完成後按「儲存評估」</small></div>`;
     return;
   }
-  el.innerHTML=list.map(({e,i})=>{
-    const isArea=(e.mode==='area'), is3D=(e.mode==='3d'), isStatic=(e.mode==='static');
-    const badge=is3D
-      ?'<span style="font-size:10px;background:#7F77DD;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">3D</span>'
-      :isArea
-      ?'<span style="font-size:10px;background:#34c759;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">畫檢</span>'
-      :isStatic
-      ?'<span style="font-size:10px;background:#ff9500;color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">靜態</span>'
-      :'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">掃描</span>';
-    const summary=is3D
-      ?(e.r.method
-        ?`${e.r.method}${e.r.cond?'（有條件）':''} · Z ${e.p.zmode==='acc'?'精度':'重複性'} ${e.p.zres} µm · 視野 ${fmt(e.r.need,0)} mm · 符合 ${e.r.hitsN} 款`
-        :`無可用方案 · Z ${e.p.zmode==='acc'?'精度':'重複性'} ${e.p.zres} µm · 視野 ${fmt(Math.max(e.p.x,e.p.y),0)} mm`)
-      :isStatic
-      ?(e.ss
-        ?`${fmt(e.r.optRes,3)} µm/px · ${e.r.total||'—'} 台 (${e.r.nX||'—'}×${e.r.nY||'—'}) · 範圍 ${e.ss.objW}×${e.ss.objH} mm`
-        :`${fmt(e.r.optRes,3)} µm/px · 舊紀錄（未存待測範圍，載入後請確認）`)
-      :isArea
-      ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
-      :`TT: ${fmt((e.p&&e.p.scanMode==='round')?e.r.roundTT:e.r.singleTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
-    const cur=(e.id===_curEvalId);
-    return `
-    <div class="ec"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
-      <h3>${esc(e.name)}${badge}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
+  // 篩選
+  const q=document.getElementById('ev-q').value.trim().toLowerCase(), toks=q?q.split(/\s+/):[];
+  const modeOn=!want3 && _evF.mode!=='all';
+  all.forEach(o=>{ o.hit=(!modeOn||(o.e.mode||'scan')===_evF.mode) && (!_evF.fb||!!o.e.fb) && (!_evF.bad||evSt(o.e)==='bad') && evMatch(o,toks); });
+  const list=all.filter(o=>o.hit), filtering=_evFilt=!!(toks.length||modeOn||_evF.fb||_evF.bad);
+  document.getElementById('ev-cnt').textContent = filtering ? `${lbl}：符合 ${list.length} / ${all.length} 筆`
+    : `${lbl} ${all.length} 筆評估`+(all.length!==evals.length?`（全部 ${evals.length} 筆）`:'');
+  // 篩選按鈕：只有一種模式就不顯示模式按鈕；數量是 0 的也不顯示
+  const cnt={}; all.forEach(o=>{ const m=o.e.mode||'scan'; cnt[m]=(cnt[m]||0)+1; });
+  const nFb=all.filter(o=>o.e.fb).length, nBad=all.filter(o=>evSt(o.e)==='bad').length;
+  const modes=['scan','static','area'].filter(m=>cnt[m]||_evF.mode===m);
+  let ch='';
+  if(!want3 && (modes.length>1||modeOn)){
+    ch+=evChip(_evF.mode==='all','全部',null,"evSetF('mode','all')");
+    modes.forEach(m=>{ ch+=evChip(_evF.mode===m,EV_ML[m],cnt[m]||0,"evSetF('mode','"+m+"')"); });
+  }
+  const ex=[];
+  if(nFb||_evF.fb) ex.push(evChip(_evF.fb,'📝 有實測回饋',nFb,"evSetF('fb')"));
+  if(nBad||_evF.bad) ex.push(evChip(_evF.bad,'需調整',nBad,"evSetF('bad')"));
+  if(ch&&ex.length) ch+='<span class="sep"></span>';
+  ch+=ex.join('');
+  const chEl=document.getElementById('ev-chips'); chEl.innerHTML=ch; chEl.style.display=ch?'':'none';
+  // 檢索地圖：所有紀錄都畫，符合篩選的上色、其他變淡
+  _evMapPts=all.map(o=>{ const xy=evXY(o.e); return {i:o.i, e:o.e, x:+xy[0], y:+xy[1], hit:o.hit}; })
+    .filter(p=>isFinite(p.x)&&isFinite(p.y)&&p.x>0&&p.y>0);
+  map.style.display=_evMapPts.length>=2?'':'none';
+  map.classList.toggle('closed', evMapClosed());
+  document.getElementById('ev-map-t').textContent=want3?'視野 × Z 精度':'解析度 × 台數';
+  const ms=['scan','static','area','3d'].filter(m=>_evMapPts.some(p=>(p.e.mode||'scan')===m));
+  document.getElementById('ev-map-lg').innerHTML=ms.map(m=>`<span><svg width="12" height="12" aria-hidden="true">${evShape(m,6,6.5,'fill:'+EV_MC[m])}</svg>${EV_ML[m]}</span>`).join('')
+    +(filtering?`<span><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" style="fill:none;stroke:var(--sub);stroke-opacity:.6"/></svg>不符合</span>`:'');
+  evMapDraw();
+  // 清單
+  if(!list.length){
+    el.innerHTML='<div class="empty">🔍<br>沒有符合條件的評估<br><button class="btn-sec" style="margin-top:10px;font-size:11px" onclick="evClear()">清除搜尋與篩選</button></div>';
+    return;
+  }
+  const sv=document.getElementById('ev-sort').value, ts=e=>e.ts||e.id||0;
+  list.sort(sv==='name' ? (a,b)=>String(a.e.name).localeCompare(String(b.e.name),'zh-Hant',{numeric:true})
+          : sv==='old' ? (a,b)=>(a.e.id||0)-(b.e.id||0) : (a,b)=>ts(b.e)-ts(a.e));
+  // 有任何標籤才分組：依第一個標籤，未分類放最後
+  if(!all.some(o=>o.e.tags&&o.e.tags.length)){ el.innerHTML=list.map(evCard).join(''); return; }
+  const groups=[], gm={};
+  list.forEach(o=>{ const t=(o.e.tags&&o.e.tags[0])||'', k=t.toLowerCase();
+    if(!gm[k]){ gm[k]={t,k,items:[]}; groups.push(gm[k]); } gm[k].items.push(o); });
+  if(sv==='name') groups.sort((a,b)=>a.t.localeCompare(b.t,'zh-Hant',{numeric:true}));
+  groups.sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0));
+  el.innerHTML=groups.map(g=>{
+    const closed=!filtering && _evClosed.indexOf(g.k)>=0;   // 搜尋／篩選時全部展開，才不會漏看
+    return `<div class="ev-grp${closed?' closed':''}"${filtering?' style="cursor:default"':''} data-k="${esc(g.k)}" onclick="evGrpToggle(this.dataset.k)">`
+      +`${filtering?'':'<span class="car">▼</span>'}${g.k?esc(g.t):'未分類'}<span class="n">${g.items.length}</span></div>`
+      +(closed?'':g.items.map(evCard).join(''));
+  }).join('');
+}
+function evCard(o){
+  const e=o.e, i=o.i, m=e.mode||'scan', cur=(e.id===_curEvalId), st=evSt(e), tags=e.tags||[];
+  const lamp=st ? `<span class="ec-lamp ${st}" title="${EV_ST[st][1]}">${EV_ST[st][0]}</span>`
+                : '<span class="ec-lamp unk" title="舊紀錄沒有存結論，載入一次就會補上"></span>';
+  return `
+    <div class="ec" data-i="${i}"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
+      <h3>${lamp}${esc(e.name)}<span style="font-size:10px;background:${EV_MC[m]};color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">${EV_ML[m]}</span>${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${esc(e.date)} · ${esc(e.camera)}</p>
-      <p>${summary}</p>
+      <p>${o.sum}</p>
+      <div class="ec-tags">${tags.map(t=>`<button type="button" class="ec-tag" data-t="${esc(t)}" onclick="evTagQ(this.dataset.t)" title="只看這個標籤">#${esc(t)}</button>`).join('')}<button type="button" class="ec-tag-ed" onclick="evTagEdit(${i},this)" title="編輯標籤">${tags.length?'✎':'＋ 標籤'}</button></div>
       ${e.notes?'<p class="ec-notes">'+esc(e.notes)+'</p>':''}
       ${fbSummary(e)}
       <div style="margin-top:6px;display:flex;gap:6px">
@@ -4987,12 +5162,116 @@ function renderEvals(){
         <button class="btn-sec" style="font-size:11px;color:#ff3b30" onclick="delEval(${i})">🗑 刪除</button>
       </div>
     </div>`;
-  }).join('');
+}
+function evSetF(k,v){ if(k==='mode') _evF.mode=v; else _evF[k]=!_evF[k]; renderEvals(); }
+function evClear(){ _evF={mode:'all',fb:false,bad:false}; document.getElementById('ev-q').value=''; renderEvals(); }
+function evGrpToggle(k){
+  if(_evFilt) return;
+  const j=_evClosed.indexOf(k); if(j>=0) _evClosed.splice(j,1); else _evClosed.push(k);
+  try{ localStorage.setItem('aoi_hist_closed', JSON.stringify(_evClosed)); }catch(e){}
+  renderEvals();
+}
+// 點卡片上的 #標籤：只看這個標籤（再點一次取消）
+function evTagQ(t){
+  const q=document.getElementById('ev-q'), v='#'+t;
+  q.value = q.value.trim().toLowerCase()===v.toLowerCase() ? '' : v;
+  renderEvals(); document.getElementById('pane-hist').scrollTop=0;
+}
+function evTagEdit(i, btn){
+  const e=evals[i]; if(!e) return;
+  const row=btn.parentNode;
+  row.innerHTML='<input class="ec-tag-in" placeholder="用逗號或空白分開，Enter 儲存、Esc 取消">';
+  const inp=row.firstChild; inp.value=(e.tags||[]).join(', ');
+  let fin=false;
+  const end=function(ok){
+    if(fin) return; fin=true;
+    if(ok){ const t=parseTags(inp.value);
+      if(t.join('\u0001')!==(e.tags||[]).join('\u0001')){ if(t.length) e.tags=t; else delete e.tags; persistEvals(); } }
+    renderEvals();
+  };
+  inp.addEventListener('keydown',function(ev){ if(ev.isComposing) return;
+    if(ev.key==='Enter'){ ev.preventDefault(); end(true); } else if(ev.key==='Escape'){ ev.preventDefault(); ev.stopPropagation(); end(false); } });
+  inp.addEventListener('blur',function(){ end(true); });
+  inp.focus(); inp.select();
+}
+function evMapClosed(){ try{ return localStorage.getItem('aoi_hist_map')==='0'; }catch(e){ return false; } }
+function evMapToggle(){
+  const m=document.getElementById('ev-map'), c=!m.classList.contains('closed');
+  m.classList.toggle('closed', c);
+  try{ localStorage.setItem('aoi_hist_map', c?'0':'1'); }catch(e){}
+  if(!c) evMapDraw();
+}
+function evShape(m,x,y,st){
+  x=+(+x).toFixed(1); y=+(+y).toFixed(1);
+  if(m==='static') return `<rect class="sh" x="${x-4.5}" y="${y-4.5}" width="9" height="9" rx="1.5" style="${st}"/>`;
+  if(m==='area')   return `<path class="sh" d="M${x} ${y-6}L${x+5.6} ${y+4}L${x-5.6} ${y+4}Z" style="${st}"/>`;
+  if(m==='3d')     return `<path class="sh" d="M${x} ${y-6}L${x+6} ${y}L${x} ${y+6}L${x-6} ${y}Z" style="${st}"/>`;
+  return `<circle class="sh" cx="${x}" cy="${y}" r="5" style="${st}"/>`;
+}
+// 對數刻度：優先 1-2-5，太密只留 10 的次方，太疏再補
+function evTicks(d){
+  const pick=function(ms){ const o=[];
+    for(let k=Math.floor(d[0])-1;k<=Math.ceil(d[1])+1;k++) ms.forEach(function(m){ const v=m*Math.pow(10,k), l=Math.log10(v); if(l>=d[0]-1e-9&&l<=d[1]+1e-9) o.push(v); });
+    return o; };
+  let t=pick([1,2,5]); if(t.length>7) t=pick([1]);
+  if(t.length<2) t=pick([1,1.5,2,3,5,7]); if(t.length<2) t=pick([1,1.2,1.5,2,2.5,3,4,5,6,7,8,9]);
+  return t;
+}
+function evMapDraw(){
+  const box=document.getElementById('ev-map-svg'), wrap=document.getElementById('ev-map');
+  if(!box||!_evMapPts||_evMapPts.length<2||wrap.classList.contains('closed')) return;
+  const W=box.clientWidth-12; if(W<=0) return;
+  const want3=(dim==='3d'), H=Math.round(Math.max(170,Math.min(240,W*0.34)));
+  const R=12, T=10, B=34, lg=Math.log10;
+  const dom=function(a){ const lo=lg(Math.min.apply(null,a)), hi=lg(Math.max.apply(null,a)), pad=Math.max(0.15,(hi-lo)*0.08); return [lo-pad,hi+pad]; };
+  const dx=dom(_evMapPts.map(p=>p.x)), dy=dom(_evMapPts.map(p=>p.y));
+  let ty=evTicks(dy); if(!want3){ const ti=ty.filter(v=>Number.isInteger(+v.toPrecision(6))); if(ti.length>=2) ty=ti; }   // 台數只標整數
+  const tl=v=>String(+v.toPrecision(3)), L=Math.round(Math.max(36,22+Math.max.apply(null,ty.map(v=>tl(v).length))*6.2)), pw=W-L-R, ph=H-T-B, gl='stroke:var(--border);stroke-dasharray:3 3', tx='font-size:10px;fill:var(--sub)';
+  const sx=v=>L+(lg(v)-dx[0])/(dx[1]-dx[0])*pw, sy=v=>T+ph-(lg(v)-dy[0])/(dy[1]-dy[0])*ph;
+  let s=`<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="檢索地圖">`;
+  evTicks(dx).forEach(v=>{ const x=sx(v).toFixed(1); s+=`<line x1="${x}" x2="${x}" y1="${T}" y2="${T+ph}" style="${gl}"/><text x="${x}" y="${T+ph+13}" text-anchor="middle" style="${tx}">${tl(v)}</text>`; });
+  ty.forEach(v=>{ const y=sy(v).toFixed(1); s+=`<line x1="${L}" x2="${L+pw}" y1="${y}" y2="${y}" style="${gl}"/><text x="${L-6}" y="${(+y+3.5).toFixed(1)}" text-anchor="end" style="${tx}">${tl(v)}</text>`; });
+  s+=`<rect x="${L}" y="${T}" width="${pw}" height="${ph}" style="fill:none;stroke:var(--border)"/>`;
+  s+=`<text x="${L+pw/2}" y="${H-3}" text-anchor="middle" style="${tx}">${want3?'視野 mm':'解析度 µm/px（越左越細）'}</text>`;
+  s+=`<text transform="translate(11 ${T+ph/2}) rotate(-90)" text-anchor="middle" style="${tx}">${want3?'Z µm':'台數'}</text>`;
+  // 位置重疊的點稍微錯開，才點得到
+  const occ={};
+  const pts=_evMapPts.map(p=>{ let x=sx(p.x), y=sy(p.y); const k=Math.round(x/5)+','+Math.round(y/5), n=occ[k]=(occ[k]||0)+1;
+    if(n>1){ const a=n*2.4, r=3+n*1.6; x+=Math.cos(a)*r; y+=Math.sin(a)*r; } return Object.assign({},p,{px:x,py:y}); });
+  pts.sort((a,b)=>(a.hit?1:0)-(b.hit?1:0));
+  pts.forEach(p=>{
+    const m=p.e.mode||'scan', faint=_evFilt&&!p.hit, x=p.px.toFixed(1), y=p.py.toFixed(1);
+    const st=faint?'fill:var(--surf);stroke:var(--sub);stroke-opacity:.55;stroke-width:1.2':'fill:'+EV_MC[m]+';stroke:#fff;stroke-width:1.2';
+    const val=want3?`視野 ${fmt(p.x,0)} mm · Z ${fmt(p.y,1)} µm`:`${fmt(p.x,3)} µm/px · ${fmt(p.y,0)} 台`;
+    s+=`<g class="pt" onclick="evJump(${p.i})"><title>${esc(p.e.name)}｜${val}</title><circle cx="${x}" cy="${y}" r="11" style="fill:transparent"/>`
+      +(p.e.id===_curEvalId?`<circle cx="${x}" cy="${y}" r="9.5" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>`:'')
+      +evShape(m,x,y,st)+'</g>';
+  });
+  box.innerHTML=s+'</svg>';
+}
+// 點地圖上的點：捲到那張卡片（在收合的分組就打開；被篩掉的就先清除篩選）
+function evJump(i){
+  const q=()=>document.querySelector('#ev-list .ec[data-i="'+i+'"]');
+  let c=q();
+  if(!c){ const e=evals[i]; if(!e) return;
+    const j=_evClosed.indexOf(((e.tags&&e.tags[0])||'').toLowerCase());
+    if(j>=0){ _evClosed.splice(j,1); try{ localStorage.setItem('aoi_hist_closed', JSON.stringify(_evClosed)); }catch(_){} renderEvals(); c=q(); } }
+  if(!c){ evClear(); c=q(); }
+  if(!c) return;
+  c.scrollIntoView({block:'center', behavior:'smooth'});
+  c.classList.remove('flash'); void c.offsetWidth; c.classList.add('flash');
+}
+if(window.ResizeObserver){
+  let _evMapW=0;
+  new ResizeObserver(function(es){ const w=Math.round(es[0].contentRect.width);
+    if(w!==_evMapW){ _evMapW=w; if(w) evMapDraw(); } }).observe(document.getElementById('ev-map-svg'));
 }
 function loadEval(i){
   const e=evals[i];
   _curEvalId=e.id; renderEvals();
   costLoad(e.mode||'scan', e.cost);
+  // 舊紀錄沒存結論：載入算完後補上燈號
+  if(e.mode!=='3d' && !e.st) setTimeout(function(){ if(_curEvalId!==e.id||dim==='3d'||S.mode!==(e.mode||'scan')||e.st) return; const st=concSt(e.mode||'scan'); if(st){ e.st=st; persistEvals(); renderEvals(); } },500);
   if(e.mode==='3d'){ loadEval3D(e); return; }
   if(e.sys) sysLoad(e.sys);
   if(dim==='3d') setDim('2d');   // 從 3D 載入 2D 評估：先切回 2D，否則結果頁仍停在 3D
@@ -6884,8 +7163,12 @@ const GUIDES={
   hist:[
     {el:function(){ return document.querySelector('#pane-hist > div'); }, t:'歷史紀錄',
      d:'所有存過的評估都在這裡，<b>2D 與 3D 分開顯示</b>（看你目前在哪個維度）。<br><b>📤 匯出</b>備份成 JSON 給同事，<b>📥 匯入</b>讀回來。<b>清除全部</b>會刪掉所有紀錄，請小心。'},
+    {el:function(){ return $gd('ev-tools'); }, t:'搜尋與篩選',
+     d:'輸入名稱、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看某一種模式、<b>有實測回饋</b>或<b>需調整</b>的紀錄。'},
+    {el:function(){ return $gd('ev-map'); }, t:'檢索地圖',
+     d:function(){ return '把這一類的評估依<b>'+(dim==='3d'?'視野 × Z 精度':'解析度 × 台數')+'</b>畫成一張圖。接到新需求時，可以先看看附近有沒有做過類似的案子。<br><b>點圖上的點</b>會跳到那一筆，標題列可以收合。'; }},
     {el:function(){ return $gd('ev-list'); }, t:'每一筆評估',
-     d:'<b>📂 載入</b>：回到當時的設定繼續改，再儲存時可以選覆蓋或另存。<br><b>📄 PDF</b>：直接匯出那一筆的報告。<br><b>📝 實測回饋</b>：導入後填上實際結果，累積經驗給下次評估參考。'},
+     d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄，按 ✎ 修改；有標籤時清單會<b>依第一個標籤分組</b>。<br><b>📂 載入</b>回到當時的設定繼續改；<b>📄 PDF</b> 匯出那一筆的報告；<b>📝 實測回饋</b>填上導入後的實際結果。'},
     {el:function(){ return $gd('syncStatus'); }, t:'雲端同步', d:'設定 GitHub 同步後，歷史紀錄與資料庫可以在不同電腦之間共用（需要管理者提供權杖）。'},
     GD_ST.end
   ],
@@ -6950,7 +7233,7 @@ function guideGo(dir){
   if(els[0]) els[0].scrollIntoView({block:els[0].offsetHeight>innerHeight*0.7?'start':'center', inline:'nearest'});
   const n=_gd.steps.length;
   $gd('gd-pop').innerHTML='<button class="gd-x" onclick="guideEnd()" aria-label="關閉導覽">✕</button>'
-    +'<div class="gd-t">'+st.t+'</div><div class="gd-d">'+st.d+'</div>'
+    +'<div class="gd-t">'+st.t+'</div><div class="gd-d">'+(typeof st.d==='function'?st.d():st.d)+'</div>'
     +'<div class="gd-f"><span class="gd-n">'+(i+1)+' / '+n+'</span>'
     +(i>0?'<button class="btn-sec" onclick="guideGo(-1)">上一步</button>':'')
     +'<button class="btn-pri" onclick="guideGo(1)">'+(i===n-1?'完成':'下一步')+'</button></div>';
