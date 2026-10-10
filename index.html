@@ -465,7 +465,12 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 @media(max-width:900px){.t3-main{grid-template-columns:1fr;grid-template-areas:"chart" "info" "dg" "mw";}
   .t3-blk-dg,.t3-mw{border-left:none;border-top:1px solid var(--border);}}
 /* 可用機種卡片：點選＝指定最終採用機種 */
-.t3-mc{border:1px solid var(--border);border-radius:8px;padding:7px 9px;background:var(--surf);cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.t3-mc{position:relative;border:1px solid var(--border);border-radius:8px;padding:7px 9px;background:var(--surf);cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.t3-spec{position:absolute;right:7px;bottom:6px;font-size:10px;padding:1px 7px;border:1px solid var(--border);border-radius:6px;background:var(--surf);color:var(--accent-deep,var(--accent));cursor:pointer;white-space:nowrap;}
+.t3-spec:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surf));}
+.t3-spec-menu{position:fixed;z-index:9999;min-width:180px;max-width:280px;background:var(--surf);border:1px solid var(--border);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.15);padding:4px;}
+.t3-spec-menu a{display:block;font-size:11.5px;padding:5px 8px;border-radius:5px;color:var(--text);text-decoration:none;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.t3-spec-menu a:hover{background:var(--surf2);}
 .t3-mc:hover{border-color:var(--accent);}
 .t3-mc.own{border-color:#0F6E56;background:#E1F5EE;}
 .t3-mc.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);}
@@ -2675,7 +2680,8 @@ function calc3D(){
       +'<div style="font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.5;">'
       +t3FovTxt(x)+(t3FovRot(x,fx,fy)?'（轉 90°）':'')+' · '+t3ZTxt(x).replace('（精度未知）','')
       +(x.zRange!=null?' · Z '+x.zRange+'mm':'')+'<br>'+M3D[methodOf(x)].name
-      +(x.motion===true?'（需運動）':x.motion===false?'（免運動）':'')+(x.wavelength?' · '+x.wavelength+'nm':'')+'</div></div>';
+      +(x.motion===true?'（需運動）':x.motion===false?'（免運動）':'')+(x.wavelength?' · '+x.wavelength+'nm':'')+'</div>'
+      +(t3SpecDocs(x).length||safeUrl(x.url)?'<button type="button" class="t3-spec pdf-hide" title="'+(t3SpecDocs(x).length?'開啟上傳的規格書':'開啟官方規格頁 ↗')+'" onclick="event.stopPropagation();t3SpecOpen('+i+',this)">📄 規格書</button>':'')+'</div>';
    }).join('')+'</div>'
    +(brandCut?'<div class="scr-only pdf-hide" style="font-size:11px;color:var(--sub);margin-top:6px;">另有 '+brandCut+' 款符合條件，但品牌在選型圖未勾選，未列入</div>':'')
    +(hits.length>shown.length?'<div class="scr-only" style="font-size:11px;color:var(--sub);margin-top:6px;">…另有 '+(hits.length-shown.length)+' 款（可在架構示意圖的「採用機種」下拉選單選）</div>':'');
@@ -2905,6 +2911,27 @@ let _t3Shown=[];
 // 指定採用機種 → 整份重算（結論、風險、卡片、示意圖、下拉選單同步）
 function t3PickModel(v){ t3SelName=v||null; t3UserPick=!!v; calc3D(); }
 function t3PickIdx(i){ const x=_t3Shown[i]; if(x) t3PickModel(x.n); }
+// 可用機種卡片的「規格書」：有上傳的規格書優先（多份時列出選單），沒有就開官方規格頁
+function t3SpecDocs(x){ const bi=S3D.indexOf(x); return (bi>=0?bDocsGet('s3d',bi):(x.docs||[])).filter(function(d){ return d&&d.path; }); }
+function t3SpecClose(){ const m=document.getElementById('t3-spec-menu'); if(m) m.remove(); document.removeEventListener('mousedown',t3SpecOut,true); }
+function t3SpecOut(ev){ const m=document.getElementById('t3-spec-menu'); if(m&&!m.contains(ev.target)) t3SpecClose(); }
+function t3SpecOpen(i, btn){
+  t3SpecClose();
+  const x=_t3Shown[i]; if(!x) return;
+  const docs=t3SpecDocs(x), url=safeUrl(x.url);
+  if(!docs.length||(!ghReady()&&url)){ if(url) window.open(url,'_blank','noopener'); else openDoc(docs[0].path); return; }
+  if(docs.length===1){ openDoc(docs[0].path); return; }
+  const m=document.createElement('div'); m.id='t3-spec-menu'; m.className='t3-spec-menu';
+  m.innerHTML=docs.map(function(d,di){ return '<a data-di="'+di+'" title="'+esc(d.name)+'">📄 '+esc(d.name)+'</a>'; }).join('')
+    +(url?'<a data-url="1">🔗 官方規格頁 ↗</a>':'');
+  m.addEventListener('click',function(ev){ const a=ev.target.closest('a'); if(!a) return; t3SpecClose();
+    if(a.dataset.url) window.open(url,'_blank','noopener'); else openDoc(docs[+a.dataset.di].path); });
+  document.body.appendChild(m);
+  const r=btn.getBoundingClientRect(), w=m.offsetWidth, h=m.offsetHeight;
+  m.style.left=Math.max(6,Math.min(window.innerWidth-w-6, r.right-w))+'px';
+  m.style.top=(r.bottom+4+h>window.innerHeight ? r.top-h-4 : r.bottom+4)+'px';
+  setTimeout(function(){ document.addEventListener('mousedown',t3SpecOut,true); },0);
+}
 function t3Selected(){
  const all=allS3D();
  let s=t3SelName ? all.filter(function(x){ return x.n===t3SelName; })[0] : null;
