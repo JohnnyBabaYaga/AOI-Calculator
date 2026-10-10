@@ -5114,7 +5114,7 @@ function renderEvals(){
   // 檢索地圖：所有紀錄都畫，符合篩選的上色、其他變淡
   _evMapPts=all.map(o=>{ const xy=evXY(o.e); return {i:o.i, e:o.e, x:+xy[0], y:+xy[1], hit:o.hit}; })
     .filter(p=>isFinite(p.x)&&isFinite(p.y)&&p.x>0&&p.y>0);
-  map.style.display=_evMapPts.length>=2?'':'none';
+  map.style.display=_evMapPts.length?'':'none';
   map.classList.toggle('closed', evMapClosed());
   document.getElementById('ev-map-t').textContent=want3?'視野 × Z 精度':'解析度 × 台數';
   const ms=['scan','static','area','3d'].filter(m=>_evMapPts.some(p=>(p.e.mode||'scan')===m));
@@ -5219,11 +5219,11 @@ function evTicks(d){
 }
 function evMapDraw(){
   const box=document.getElementById('ev-map-svg'), wrap=document.getElementById('ev-map');
-  if(!box||!_evMapPts||_evMapPts.length<2||wrap.classList.contains('closed')) return;
+  if(!box||!_evMapPts||!_evMapPts.length||wrap.classList.contains('closed')) return;
   const W=box.clientWidth-12; if(W<=0) return;
   const want3=(dim==='3d'), H=Math.round(Math.max(170,Math.min(240,W*0.34)));
   const R=12, T=10, B=34, lg=Math.log10;
-  const dom=function(a){ const lo=lg(Math.min.apply(null,a)), hi=lg(Math.max.apply(null,a)), pad=Math.max(0.15,(hi-lo)*0.08); return [lo-pad,hi+pad]; };
+  const dom=function(a){ const lo=lg(Math.min.apply(null,a)), hi=lg(Math.max.apply(null,a)), pad=hi-lo<0.05?0.5:Math.max(0.15,(hi-lo)*0.08); return [lo-pad,hi+pad]; };   // 只有一個點（或都一樣）：前後各留半個數量級
   const dx=dom(_evMapPts.map(p=>p.x)), dy=dom(_evMapPts.map(p=>p.y));
   let ty=evTicks(dy); if(!want3){ const ti=ty.filter(v=>Number.isInteger(+v.toPrecision(6))); if(ti.length>=2) ty=ti; }   // 台數只標整數
   const tl=v=>String(+v.toPrecision(3)), L=Math.round(Math.max(36,22+Math.max.apply(null,ty.map(v=>tl(v).length))*6.2)), pw=W-L-R, ph=H-T-B, gl='stroke:var(--border);stroke-dasharray:3 3', tx='font-size:10px;fill:var(--sub)';
