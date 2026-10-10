@@ -550,6 +550,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .rpt-ht{font-size:10px;font-weight:600;color:var(--sub);padding:6px 0 4px;}
 
 /* ── About button ── */
+.about-lbl{font-size:11px;font-weight:700;color:var(--sub);margin-bottom:6px;letter-spacing:.3px;}
 .btn-about{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
            background:var(--surf2);color:var(--sub);cursor:pointer;
            display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -728,7 +729,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 </header>
 
 <!-- ── Floating info button (bottom-right, Manager style) ── -->
-<button id="about-fab" onclick="toggleAbout()" title="開發者資訊 / 維護者">i</button>
+<button id="about-fab" onclick="toggleAbout()" title="開發者／聯絡人／負責人、工具網址">i</button>
 
 <!-- ── Drawer overlay ── -->
 <div id="drawer-overlay" onclick="toggleDrawer()"></div>
@@ -743,14 +744,16 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 <div id="about-overlay" onclick="toggleAbout()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
 <div id="about-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
      background:var(--surf);border:1px solid var(--border);border-radius:14px;
-     padding:24px 28px;z-index:2001;min-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+     padding:24px 28px;z-index:2001;min-width:280px;max-width:calc(100vw - 32px);box-sizing:border-box;box-shadow:0 8px 32px rgba(0,0,0,.2);">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <div>
       <div style="font-size:14px;font-weight:700;">AOI 光學架構評估計算器</div>
-      <div style="font-size:11px;color:var(--sub);margin-top:2px;">開發者資訊</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:2px;">開發者・聯絡人・負責人</div>
     </div>
     <button onclick="toggleAbout()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
   </div>
+  <div class="about-lbl">👥 開發者／聯絡人／負責人</div>
+  <div style="font-size:11px;color:var(--sub);margin:-2px 0 8px;line-height:1.5;">使用問題、資料庫更新、功能建議，都可以找這三位</div>
   <div style="display:flex;flex-direction:column;gap:10px;">
     <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surf2);border-radius:9px;">
       <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">M</div>
@@ -773,6 +776,11 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
         <a href="mailto:Hwasa.Chung@auo.com" style="font-size:11px;color:var(--accent);text-decoration:none;">Hwasa.Chung@auo.com</a>
       </div>
     </div>
+  </div>
+  <div class="about-lbl" style="margin-top:16px;">🔗 工具網址</div>
+  <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surf2);border-radius:9px;">
+    <a id="about-url" href="https://johnnybabayaga.github.io/AOI-Calculator/" target="_blank" rel="noopener" style="flex:1;min-width:0;font-size:11.5px;color:var(--accent);text-decoration:none;word-break:break-all;line-height:1.45;">https://johnnybabayaga.github.io/AOI-Calculator/</a>
+    <button id="about-copy" class="btn-sec" style="font-size:11px;padding:3px 10px;flex-shrink:0;" onclick="copyAboutUrl()">複製</button>
   </div>
 </div>
 
@@ -5378,6 +5386,13 @@ function toggleDrawer(){
 function closeDrawer(){
   document.getElementById('left').classList.remove('drawer-open');
   document.getElementById('drawer-overlay').classList.remove('show');
+}
+function copyAboutUrl(){
+  const url=document.getElementById('about-url').href, b=document.getElementById('about-copy');
+  const done=function(){ b.textContent='✓ 已複製'; setTimeout(function(){ b.textContent='複製'; },1500); };
+  const fallback=function(){ const t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select();
+    try{ document.execCommand('copy'); done(); }catch(e){} t.remove(); };
+  if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(url).then(done, fallback); else fallback();
 }
 function toggleAbout(){
   const show = document.getElementById('about-modal').style.display === 'none';
