@@ -1291,7 +1291,6 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
           <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="st-rpt-lens">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">光學台數</span><span class="rpt-v" id="st-rpt-qty">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">排列方式</span><span class="rpt-v" id="st-rpt-arr">—</span></div>
-          <div class="rpt-kv"><span class="rpt-k">工作距離</span><span class="rpt-v" id="st-rpt-wd">—</span></div>
         </div>
       </div><!-- /rpt-body -->
       <!-- Technical sections -->
@@ -3493,7 +3492,6 @@ function calcStatic(){
   stSet('st-rpt-lens', li!==''?allLens()[+li].n:'手動輸入');
   stSet('st-rpt-qty',  r.total>0?`${r.total} 台`:'—');
   stSet('st-rpt-arr',  (r.nX>0&&r.nY>0)?`${r.nX} 列 × ${r.nY} 排`:'—');
-  stSet('st-rpt-wd',   fmt(p.wd,1)+' mm');
   stSet('st-rpt-area', `${ss.objW} × ${ss.objH} mm`);
   // Header date（專案名稱為獨立輸入框，不由此覆寫）
   const datEl=document.getElementById('st-rpt-date');
