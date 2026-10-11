@@ -84,6 +84,7 @@ header .hdr-vk .ver-wrap:last-child .ver-btn{border-radius:999px;padding-right:1
 header .hdr-vk .ver-btn .ver-pill,header .hdr-vk .ver-btn:hover .ver-pill,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-pill{
   background:none;border:none;padding:0;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:13px;font-weight:600;letter-spacing:.2px;gap:5px;}
 header .hdr-vk .ver-caret{font-size:11px;}
+@media (min-width:769px) and (max-width:960px){ header .ver-nm{display:none;} }   /* 中等寬度版本框只留版號，代號在選單裡看（不然 AOI Calculator 會被擠成兩行） */
 header .hdr-vk .ver-btn:hover,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-btn{background:rgba(255,255,255,.18);}
 header #tab-kb{display:inline-flex;align-items:center;gap:5px;padding:0 13px 0 11px;flex-shrink:0;
   border:none;border-left:1px solid rgba(255,255,255,.35);border-radius:0 999px 999px 0;background:transparent;color:rgba(255,255,255,.92);
@@ -426,7 +427,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ver-pill{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.22);
   border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   border-radius:11px;padding:1px 8px;vertical-align:middle;margin-left:6px;letter-spacing:.3px;}
-/* 版本號＝切換選單：v5.0（目前）／v4.5 舊版（網站 v4.5/ 資料夾）；兩版同網址底下，評估紀錄共用 */
+/* 版本號＝切換選單：v5.0 Paranal Beta（目前）／v4.5 Gaia（網站 v4.5/ 資料夾）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內）；兩版同網址底下，評估紀錄共用 */
 #hdr-title{display:flex;align-items:center;}
 .ver-wrap{margin-left:6px;}
 .ver-btn{background:none;border:none;padding:0;cursor:pointer;font-family:inherit;line-height:1;display:flex;}
@@ -1283,10 +1284,10 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   <!-- 版本號＋📚 知識庫同一個框：左半切換版本、右半進知識庫（知識庫不是計算模式，是另一區）；手機標題和版本號藏起來，只留知識庫 -->
   <div class="hdr-vk">
     <div class="hdr-mwrap ver-wrap">
-      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.0 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
+      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.0<span class="ver-nm">Paranal</span> Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
       <div class="hdr-menu ver-menu" id="ver-menu">
-        <span class="ver-it on">v5.0 Beta<small>部門知識庫、找相似舊案、方案比較</small></span>
-        <a class="ver-it" href="v4.5/">v4.5 舊版<small>沒有知識庫與方案比較</small></a>
+        <span class="ver-it on">v5.0 Paranal Beta<small>部門知識庫、找相似舊案、方案比較</small></span>
+        <a class="ver-it" href="v4.5/">v4.5 Gaia<small>評估計算與報告，不含知識庫</small></a>
         <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
       </div>
     </div>
@@ -1321,7 +1322,7 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   <div class="hdr-menu fab-menu" id="help-menu">
     <button onclick="hdrMenuGo('guide')">📖 導覽這一頁</button>
     <button onclick="hdrMenuGo('about')">ℹ️ 關於本工具</button>
-    <button class="m-only" onclick="hdrMenuGo('v45')">⏪ 切換到 v4.5 舊版</button>
+    <button class="m-only" onclick="hdrMenuGo('v45')">⏪ 切換到 v4.5 Gaia</button>
   </div>
 </div>
 
