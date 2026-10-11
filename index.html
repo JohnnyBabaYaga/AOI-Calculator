@@ -97,7 +97,7 @@ body.kb-on #tabbar,body.kb-on #mobile-bar{display:none!important;}
 /* 中等寬度（平板、小筆電）模式鍵改短標，才放得下（10/11 知識庫移到左邊後，860 以上就放得下全名） */
 header .hdr-split{flex-shrink:0;} header .hdr-split .btn-pri{white-space:nowrap;}
 @media (min-width:769px) and (max-width:860px){ #nav-seg .ml{display:none;} #nav-seg .ms{display:inline;} }
-body.kb-on header .hdr-action{visibility:hidden;}   /* 用 visibility 保留位置，模式鍵才不會跳 */
+body.kb-on header .hdr-action,body.kb-on header #nav-seg{visibility:hidden;} body.kb-on header #nav-seg button{transition:none;}   /* 知識庫是另一區：模式鍵、儲存鍵都藏起來（用 visibility 保留位置，版面不會跳）；再按一次 📚 知識庫 離開 */
 /* 標題列下拉選單（儲存▾、?） */
 .hdr-mwrap{position:relative;}
 .hdr-split{display:flex;border-radius:999px;box-shadow:0 2px 8px rgba(20,40,80,.2);}
@@ -1290,7 +1290,7 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
         <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
       </div>
     </div>
-    <button data-nav="kb" id="tab-kb" onclick="setNav('kb')" title="部門知識庫（2D＋3D 案例）"><span aria-hidden="true">📚</span><span class="kb-t">知識庫</span></button>
+    <button data-nav="kb" id="tab-kb" onclick="setNav('kb')" title="部門知識庫（2D＋3D 案例）；在知識庫裡再按一次回到計算畫面"><span aria-hidden="true">📚</span><span class="kb-t">知識庫</span></button>
   </div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <!-- 模式：2D 三種｜3D 合成一組，切換時版面不會跳（📚 知識庫 10/11 Johnny 改放左邊、跟版本號同一個框） -->
@@ -3466,7 +3466,7 @@ function navSync(){
 // 在知識庫按 2D／3D 的模式鍵：切到那個模式，回到進知識庫之前的分頁
 let _kbBack='res';
 function setNav(k){
-  if(k==='kb'){ showTab('kb'); return; }
+  if(k==='kb'){ showTab(document.getElementById('tab-kb').classList.contains('on') ? (_kbBack||'res') : 'kb'); return; }   // 知識庫鍵＝開關：再按一次回到進來前的分頁
   const kb=document.getElementById('tab-kb'), fromKb=kb.classList.contains('on');
   if(fromKb) kb.classList.remove('on');
   if(k==='3d'){ if(dim!=='3d') setDim('3d'); }
@@ -9469,7 +9469,7 @@ function gdActs(){ const a=[...document.querySelectorAll('header .hdr-action')].
 const GD_HINT='把滑鼠移到名稱旁的 <span class="gi gi-demo"></span> 就有白話解釋（手機用點的）。';
 const GD_ST={
   mode2d:{el:function(){ return $gd('nav-seg'); }, t:'先確認模式選對了',
-    d:'中間三種是 <b>2D 取像</b>（看平面外觀），右邊是 <b>3D 量測</b>（量高度、段差、翹曲）；最左邊的 <b>📚 知識庫</b>可以查部門以前做過的案例。<br>2D 的三種：<br>・<b>掃描取像</b>：拍大面積，相機或產品會移動<br>・<b>靜態取像</b>：產品停住，定點拍完<br>・<b>畫檢評估</b>：拍點亮的面板畫面（mura、亮暗點）'},
+    d:'左邊三種是 <b>2D 取像</b>（看平面外觀），右邊是 <b>3D 量測</b>（量高度、段差、翹曲）。標題列左邊、跟版本號同一個框的 <b>📚 知識庫</b>可以查部門以前做過的案例。<br>2D 的三種：<br>・<b>掃描取像</b>：拍大面積，相機或產品會移動<br>・<b>靜態取像</b>：產品停住，定點拍完<br>・<b>畫檢評估</b>：拍點亮的面板畫面（mura、亮暗點）'},
   sel:{el:function(){ return $gd('sel-entry'); }, t:'不知道選哪個？用「幫我選型」',
     d:'填範圍、精度、TT 等需求，系統會把資料庫裡的<b>相機×鏡頭組合全部算一遍</b>，刷掉不合的，再依<b>成本、台數或 TT</b> 排名。<br>按「帶入」就會自動填好下面的相機與鏡頭。'},
   sim:{el:function(){ const a=$gd(dim==='3d'?'kbsim-3d':'kbsim-2d'); return a; }, t:'📚 相似舊案',
@@ -9554,7 +9554,7 @@ const GUIDES={
   ],
   '3d':[
     {el:null, t:'3D 量測：這頁在評估什麼？', d:'要量<b>高度、段差、翹曲、共面度、膜厚</b>時用這頁。<br>不需要先懂 3D 感測器——<b>依序回答左邊三個問題</b>，系統會從資料庫挑出可用機種，給出建議方案與風險。'},
-    {el:function(){ return $gd('nav-seg'); }, t:'2D / 3D 切換', d:'只看平面外觀（髒污、刮傷、線路缺陷）用 <b>2D 取像</b>；要知道「多高、多深、多平」用 <b>3D 量測</b>。<br>最左邊的 <b>📚 知識庫</b>可以查部門以前做過的案例。'},
+    {el:function(){ return $gd('nav-seg'); }, t:'2D / 3D 切換', d:'只看平面外觀（髒污、刮傷、線路缺陷）用 <b>2D 取像</b>；要知道「多高、多深、多平」用 <b>3D 量測</b>。<br>標題列左邊、跟版本號同一個框的 <b>📚 知識庫</b>可以查部門以前做過的案例。'},
     {el:function(){ return $gd('sel-entry'); }, t:'不知道選哪台？用「幫我選型」', d:'填需求後，系統會列出所有<b>符合的 3D 感測器</b>和被刷掉的原因，可以依<b>系統建議、成本或 Z 規格</b>排名，按「採用」就設為採用機種。<br>下面的三個問題也可以直接填，結果一樣。'},
     {el:function(){ return gdCard('sec-3d',0); }, t:'① 我要量什麼',
      d:'<b>量測目標</b>：翹曲、段差、共面度…<br><b>Z 需求種類</b>：規格書大多只標<b>重複性</b>；手上是<b>公差</b>的話選「精度」，並填公差的 1/10。<br><b>Z 量測範圍</b>：要量的最大高度差（含擺放誤差）。<br>'+GD_HINT},
@@ -9588,7 +9588,7 @@ const GUIDES={
   ],
   kb:[
     {el:function(){ return $gd('kb-bar'); }, t:'部門 AOI 案例知識庫',
-     d:'全部門共用的案例庫：以前做過的評估、用了什麼方案、<b>實測有沒有達標</b>、踩過什麼坑。<br><b>2D 和 3D 的案例都在這裡</b>。接到新需求時，先來這裡找有沒有類似的案子。<br>標題列左邊、跟版本號同一個框的 <b>📚 知識庫</b>一鍵進來；按右邊的 2D／3D 模式鍵就回到計算畫面。<br><b>客戶需求的評估都要提交</b>：前期評估完成交一次，實測或依經驗導入後再更新一次。評估中超過 30 天沒更新的，會列在「⏰」提醒。'},
+     d:'全部門共用的案例庫：以前做過的評估、用了什麼方案、<b>實測有沒有達標</b>、踩過什麼坑。<br><b>2D 和 3D 的案例都在這裡</b>。接到新需求時，先來這裡找有沒有類似的案子。<br>標題列左邊、跟版本號同一個框的 <b>📚 知識庫</b>一鍵進來；<b>再按一次</b>就回到原本的計算畫面。<br><b>客戶需求的評估都要提交</b>：前期評估完成交一次，實測或依經驗導入後再更新一次。評估中超過 30 天沒更新的，會列在「⏰」提醒。'},
     {el:function(){ return $gd('kb-conn'); }, t:'連線狀態',
      d:'<b style="color:#1E8E3E">●</b> 已連線、<b style="color:#B26A00">●</b> 讀取中或還沒有資料、<b style="color:#D93025">●</b> 連線失敗（會先顯示上次讀到的內容）。<br>按 <b>⟳ 重新整理</b> 讀最新的內容。'},
     {el:function(){ return $gd('kb-cfg-btn'); }, t:'連線設定',
