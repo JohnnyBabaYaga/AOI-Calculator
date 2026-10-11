@@ -69,6 +69,7 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 .hdr-split{display:flex;border-radius:999px;box-shadow:0 2px 8px rgba(20,40,80,.2);}
 header .hdr-split .btn-pri{box-shadow:none;border-radius:999px 0 0 999px;}
 header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padding-right:11px;border-left:1px solid #D5E0F2;}
+header .hdr-split .hdr-save{font-size:14px;line-height:16px;padding-left:12px;padding-right:9px;}   /* 只留 💾，文字放在滑鼠提示 */
 .hdr-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:168px;z-index:1200;
   background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:4px;box-shadow:0 8px 24px rgba(20,40,80,.18);}
 .hdr-menu.open{display:block;}
@@ -900,7 +901,7 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
     <div class="hdr-mwrap ver-wrap">
       <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v4.5<i class="ver-caret" aria-hidden="true">▾</i></span></button>
       <div class="hdr-menu ver-menu" id="ver-menu">
-        <a class="ver-it" href="../">v5.0 最新版<small>部門知識庫、找相似舊案、方案比較</small></a>
+        <a class="ver-it" href="../">v5.0 Beta<small>部門知識庫、找相似舊案、方案比較</small></a>
         <span class="ver-it on">v4.5 舊版<small>目前這一版</small></span>
         <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
       </div>
@@ -918,7 +919,7 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
     </div>
     <!-- 儲存＋匯出：主鍵存檔，▾ 選單放 PDF -->
     <div class="hdr-split hdr-action hdr-mwrap">
-      <button class="btn-pri" onclick="saveEval()">💾 儲存評估</button><button class="btn-pri hdr-caret" onclick="hdrMenuToggle('save-menu',event)" aria-label="更多儲存選項" title="匯出 PDF">▾</button>
+      <button class="btn-pri hdr-save" onclick="saveEval()" title="儲存評估" aria-label="儲存評估">💾</button><button class="btn-pri hdr-caret" onclick="hdrMenuToggle('save-menu',event)" aria-label="更多儲存選項" title="匯出 PDF">▾</button>
       <div class="hdr-menu" id="save-menu">
         <button onclick="hdrMenuGo('pdf')">📄 匯出 PDF</button>
         <button onclick="hdrMenuGo('both')">💾 儲存並匯出 PDF</button>
@@ -935,7 +936,7 @@ header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padd
   <div class="hdr-menu fab-menu" id="help-menu">
     <button onclick="hdrMenuGo('guide')">📖 導覽這一頁</button>
     <button onclick="hdrMenuGo('about')">ℹ️ 關於本工具</button>
-    <button class="m-only" onclick="hdrMenuGo('v5')">⏩ 切換到 v5.0 最新版</button>
+    <button class="m-only" onclick="hdrMenuGo('v5')">⏩ 切換到 v5.0 Beta</button>
   </div>
 </div>
 
@@ -7099,7 +7100,7 @@ const GD_ST={
   lens:{el:function(){ return gdLeft(1); }, t:'② 用什麼拍：鏡頭',
     d:'一樣可以從資料庫挑；接口跟相機不合會直接提醒。<br><b>倍率是最關鍵的取捨</b>：倍率越大看得越細，但一次拍到的範圍越小，相機台數或掃描趟數就越多。'},
   save:{el:gdActs, t:'存檔與報告',
-    d:'<b>💾 儲存評估</b>：確認名稱與說明／備註後存到「歷史紀錄」，之後可以叫回來繼續改。<br>旁邊的 <b>▾</b>：<b>📄 匯出 PDF</b>（勾選要放哪些區塊，直接當報告用），或一次「儲存並匯出 PDF」。'},
+    d:'<b>💾</b> 儲存評估：確認名稱與說明／備註後存到「歷史紀錄」，之後可以叫回來繼續改。<br>旁邊的 <b>▾</b>：<b>📄 匯出 PDF</b>（勾選要放哪些區塊，直接當報告用），或一次「儲存並匯出 PDF」。'},
   tabs:{el:function(){ return $gd('tabbar'); }, t:'其他分頁',
     d:'<b>📋 歷史紀錄</b>：存過的評估都在這裡。<br><b>資料庫分頁</b>：可以新增型號、填單價、附規格書。<br>每個分頁都有自己的導覽，切過去再按右下角的 <b>i</b> →「導覽這一頁」。'},
   end:{el:function(){ return $gd('about-fab'); }, t:'導覽結束 🎉',
