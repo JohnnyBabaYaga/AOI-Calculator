@@ -64,12 +64,33 @@ header .seg button.on{background:#fff;color:var(--accent-deep);}
 #nav-seg{display:flex;align-items:center;}
 #nav-seg .nav-grp{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);padding:0 3px 0 10px;letter-spacing:.3px;}
 #nav-seg .nav-dv{width:1px;align-self:stretch;margin:5px 3px;background:rgba(255,255,255,.4);}
+/* 標題列右邊一排（模式鍵、儲存鍵、雲端鈕）外框統一 28px 高，字跟著等比放大（原本 23／26／28 高） */
+header #nav-seg{height:28px;box-sizing:border-box;}
+header #nav-seg button{align-self:stretch;}
+@media(min-width:769px){ header #nav-seg button{font-size:13px;padding:0 12px;} header #nav-seg .nav-grp{font-size:11.5px;} }   /* 手機寬度不夠，字維持原本大小 */
+/* 儲存鍵不用白底：跟模式鍵、雲端鈕一樣是半透明外框（選單掛在裡面，所以不能 overflow:hidden，圓角交給兩顆鍵自己） */
+header .hdr-split{height:28px;box-sizing:border-box;box-shadow:none;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);}
+header .hdr-split .btn-pri{height:auto;padding-top:0;padding-bottom:0;background:transparent;color:#fff;box-shadow:none;}
+header .hdr-split .btn-pri:hover{background:rgba(255,255,255,.18);}
+header .hdr-split .hdr-caret{font-size:13px;border-left-color:rgba(255,255,255,.35);}
+/* 版本號（＋v5 的 📚 知識庫）：同一個 28px 半透明框，跟右邊一排一樣高；左半切換版本、右半進知識庫（10/11 Johnny）
+   選單掛在裡面，不能 overflow:hidden，圓角交給裡面的鍵自己 */
+header h1{font-size:17px;}
+header .hdr-vk{display:flex;height:28px;box-sizing:border-box;flex-shrink:0;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);}
+#hdr-title .hdr-vk{margin-left:10px;}
+header .hdr-vk .ver-wrap{margin-left:0;display:flex;}
+header .hdr-vk .ver-btn{align-items:center;padding:0 10px 0 13px;border-radius:999px 0 0 999px;color:#fff;transition:background .15s;}
+header .hdr-vk .ver-wrap:last-child .ver-btn{border-radius:999px;padding-right:12px;}
+header .hdr-vk .ver-btn .ver-pill,header .hdr-vk .ver-btn:hover .ver-pill,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-pill{
+  background:none;border:none;padding:0;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:13px;font-weight:600;letter-spacing:.2px;gap:5px;}
+header .hdr-vk .ver-caret{font-size:11px;}
+header .hdr-vk .ver-btn:hover,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-btn{background:rgba(255,255,255,.18);}
 /* 標題列下拉選單（儲存▾、?） */
 .hdr-mwrap{position:relative;}
 .hdr-split{display:flex;border-radius:999px;box-shadow:0 2px 8px rgba(20,40,80,.2);}
 header .hdr-split .btn-pri{box-shadow:none;border-radius:999px 0 0 999px;}
 header .hdr-split .hdr-caret{border-radius:0 999px 999px 0;padding-left:9px;padding-right:11px;border-left:1px solid #D5E0F2;}
-header .hdr-split .hdr-save{font-size:14px;line-height:16px;padding-left:12px;padding-right:9px;}   /* 只留 💾，文字放在滑鼠提示 */
+header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;padding-right:9px;}   /* 只留 💾，文字放在滑鼠提示 */
 .hdr-menu{display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:168px;z-index:1200;
   background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:4px;box-shadow:0 8px 24px rgba(20,40,80,.18);}
 .hdr-menu.open{display:block;}
@@ -898,14 +919,14 @@ header .hdr-split .hdr-save{font-size:14px;line-height:16px;padding-left:12px;pa
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
   <div id="hdr-title"><h1>AOI Calculator</h1>
-    <div class="hdr-mwrap ver-wrap">
+    <div class="hdr-vk"><div class="hdr-mwrap ver-wrap">
       <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v4.5<i class="ver-caret" aria-hidden="true">▾</i></span></button>
       <div class="hdr-menu ver-menu" id="ver-menu">
         <a class="ver-it" href="../">v5.0 Beta<small>部門知識庫、找相似舊案、方案比較</small></a>
         <span class="ver-it on">v4.5 舊版<small>目前這一版</small></span>
         <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
       </div>
-    </div>
+    </div></div>
   </div>
   <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
     <!-- 模式：2D 三種＋3D 合成一組，切換時版面不會跳 -->
