@@ -62,12 +62,12 @@ header .seg button{color:rgba(255,255,255,.85);font-weight:600;}
 header .seg button:hover{background:rgba(255,255,255,.14);}
 header .seg button.on{background:#fff;color:var(--accent-deep);}
 #nav-seg{display:flex;align-items:center;}
-#nav-seg .nav-grp{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);padding:0 3px 0 10px;letter-spacing:.3px;}
+#nav-seg .nav-grp{font-size:11px;font-weight:700;color:rgba(255,255,255,.65);padding:0 3px 0 10px;letter-spacing:.3px;}   /* 「2D」分組字：跟模式鍵一樣大，顏色淡一點 */
 #nav-seg .nav-dv{width:1px;align-self:stretch;margin:5px 3px;background:rgba(255,255,255,.4);}
 /* 標題列右邊一排（模式鍵、儲存鍵、雲端鈕）外框統一 28px 高，字跟著等比放大（原本 23／26／28 高） */
 header #nav-seg{height:28px;box-sizing:border-box;}
 header #nav-seg button{align-self:stretch;}
-@media(min-width:769px){ header #nav-seg button{font-size:13px;padding:0 12px;} header #nav-seg .nav-grp{font-size:11.5px;} }   /* 手機寬度不夠，字維持原本大小 */
+@media(min-width:769px){ header #nav-seg button{font-size:13px;padding:0 12px;} header #nav-seg .nav-grp{font-size:13px;} }   /* 手機寬度不夠，字維持原本大小 */
 /* 儲存鍵不用白底：跟模式鍵、雲端鈕一樣是半透明外框（選單掛在裡面，所以不能 overflow:hidden，圓角交給兩顆鍵自己） */
 header .hdr-split{height:28px;box-sizing:border-box;box-shadow:none;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);}
 header .hdr-split .btn-pri{height:auto;padding-top:0;padding-bottom:0;background:transparent;color:#fff;box-shadow:none;}
@@ -903,6 +903,9 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 @media(max-width:768px){ #gd-hint{right:12px;left:12px;width:auto;bottom:118px;}
   header > div[style*="margin-left:auto"]{gap:6px!important;}
   #nav-seg button{padding:4px 8px;} }
+/* 窄手機（跟 v5 一樣）：間距縮小，雲端鈕才不會被擠出畫面 */
+@media (max-width:420px){ header{padding:0 10px;gap:8px;} #nav-seg button{padding:4px 6px;} #nav-seg .nav-grp{padding-left:5px;} }
+@media (max-width:360px){ header{padding:0 8px;gap:6px;} }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
