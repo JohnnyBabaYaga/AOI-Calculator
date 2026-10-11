@@ -84,7 +84,6 @@ header .hdr-vk .ver-wrap:last-child .ver-btn{border-radius:999px;padding-right:1
 header .hdr-vk .ver-btn .ver-pill,header .hdr-vk .ver-btn:hover .ver-pill,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-pill{
   background:none;border:none;padding:0;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:13px;font-weight:600;letter-spacing:.2px;gap:5px;}
 header .hdr-vk .ver-caret{font-size:11px;}
-@media (min-width:769px) and (max-width:960px){ header .ver-nm{display:none;} }   /* 中等寬度版本框只留版號，代號在選單裡看（不然 AOI Calculator 會被擠成兩行） */
 header .hdr-vk .ver-btn:hover,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-btn{background:rgba(255,255,255,.18);}
 header #tab-kb{display:inline-flex;align-items:center;gap:5px;padding:0 13px 0 11px;flex-shrink:0;
   border:none;border-left:1px solid rgba(255,255,255,.35);border-radius:0 999px 999px 0;background:transparent;color:rgba(255,255,255,.92);
@@ -843,6 +842,29 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 
 /* ── About button ── */
 .about-lbl{font-size:11px;font-weight:700;color:var(--sub);margin-bottom:6px;letter-spacing:.3px;}
+/* 關於本工具：聯絡資訊／版本更新 兩個分頁（兩頁同高，切換時視窗不跳動；版本更新內容過長就在框內捲動） */
+.ab-tabs{display:flex;gap:2px;padding:3px;background:var(--surf2);border-radius:10px;margin:0 0 14px;}
+.ab-tab{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:none;background:none;border-radius:8px;padding:6px 0;font-family:inherit;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;transition:background .15s,color .15s;}
+.ab-tab:hover{color:var(--accent-deep);}
+.ab-tab.on{background:var(--surf);color:var(--accent-deep);box-shadow:0 1px 3px rgba(20,40,80,.15);}
+.ab-stack{display:grid;}
+.ab-pane{grid-area:1/1;visibility:hidden;min-width:0;}
+.ab-pane.on{visibility:visible;}
+#ab-p-log{contain:size;overflow-y:auto;overscroll-behavior:contain;padding-right:4px;margin-right:-4px;}
+.cl-ver{padding:10px 12px;background:var(--surf2);border-radius:9px;margin-bottom:8px;border:1px solid transparent;}
+.cl-ver:last-child{margin-bottom:0;}
+.cl-ver.cur{border-color:rgba(47,111,208,.35);}
+.cl-hd{display:flex;align-items:center;gap:6px;}
+.cl-v{font-size:13px;font-weight:700;color:var(--text);}
+.cl-tag{font-size:10px;font-weight:700;color:#fff;background:var(--accent);border-radius:999px;padding:1px 7px;line-height:1.5;}
+.cl-tag.new{background:#34c759;}
+.cl-date{font-size:11px;color:var(--sub);margin-left:auto;white-space:nowrap;}
+.cl-nm{font-size:11px;color:var(--sub);margin:3px 0 6px;line-height:1.45;}
+.cl-ver ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55;color:var(--text);}
+.cl-ver li+li{margin-top:2px;}
+.cl-note{font-size:11px;color:var(--sub);margin-top:6px;line-height:1.5;}
+.cl-note a{color:var(--accent);text-decoration:none;font-weight:600;white-space:nowrap;}
+.cl-note a:hover{text-decoration:underline;}
 .btn-about{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
            background:var(--surf2);color:var(--sub);cursor:pointer;
            display:flex;align-items:center;justify-content:center;flex-shrink:0;
@@ -1284,7 +1306,7 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   <!-- 版本號＋📚 知識庫同一個框：左半切換版本、右半進知識庫（知識庫不是計算模式，是另一區）；手機標題和版本號藏起來，只留知識庫 -->
   <div class="hdr-vk">
     <div class="hdr-mwrap ver-wrap">
-      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.0<span class="ver-nm">Paranal</span> Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
+      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.0 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
       <div class="hdr-menu ver-menu" id="ver-menu">
         <span class="ver-it on">v5.0 Paranal Beta<small>部門知識庫、找相似舊案、方案比較</small></span>
         <a class="ver-it" href="v4.5/">v4.5 Gaia<small>評估計算與報告，不含知識庫</small></a>
@@ -1339,7 +1361,7 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 <div id="about-overlay" onclick="toggleAbout()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;backdrop-filter:blur(2px);"></div>
 <div id="about-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
      background:var(--surf);border:1px solid var(--border);border-radius:14px;
-     padding:24px 28px;z-index:2001;min-width:280px;max-width:calc(100vw - 32px);box-sizing:border-box;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+     padding:24px 28px;z-index:2001;width:460px;max-width:calc(100vw - 32px);box-sizing:border-box;box-shadow:0 8px 32px rgba(0,0,0,.2);">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <div>
       <div style="font-size:14px;font-weight:700;">AOI 光學架構評估計算器</div>
@@ -1347,6 +1369,12 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
     </div>
     <button onclick="toggleAbout()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
   </div>
+  <div class="ab-tabs" role="tablist">
+    <button type="button" class="ab-tab on" data-ab="info" role="tab" onclick="abTab('info')"><span aria-hidden="true">👥</span><span>聯絡資訊</span></button>
+    <button type="button" class="ab-tab" data-ab="log" role="tab" onclick="abTab('log')"><span aria-hidden="true">🆕</span><span>版本更新</span></button>
+  </div>
+  <div class="ab-stack">
+  <div class="ab-pane on" id="ab-p-info">
   <div class="about-lbl">👥 開發者／聯絡人／負責人</div>
   <div style="font-size:11px;color:var(--sub);margin:-2px 0 8px;line-height:1.5;">使用問題、資料庫更新、功能建議，都可以找這三位</div>
   <div style="display:flex;flex-direction:column;gap:10px;">
@@ -1376,6 +1404,35 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surf2);border-radius:9px;">
     <a id="about-url" href="https://johnnybabayaga.github.io/AOI-Calculator/" target="_blank" rel="noopener" style="flex:1;min-width:0;font-size:11.5px;color:var(--accent);text-decoration:none;word-break:break-all;line-height:1.45;">https://johnnybabayaga.github.io/AOI-Calculator/</a>
     <button id="about-copy" class="btn-sec" style="font-size:11px;padding:3px 10px;flex-shrink:0;" onclick="copyAboutUrl()">複製</button>
+  </div>
+</div>
+  <div class="ab-pane" id="ab-p-log">
+    <div class="cl-ver cur">
+      <div class="cl-hd"><span class="cl-v">v5.0 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-11</span></div>
+      <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
+      <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
+    </div>
+    <div class="cl-ver">
+      <div class="cl-hd"><span class="cl-v">v4 Gaia</span><span class="cl-date">2026-08 ～ 10</span></div>
+      <div class="cl-nm">代號 Gaia：精準量測星星位置、畫出銀河立體地圖 —— 對上 3D 量測與檢索地圖</div>
+      <ul><li><b>v4.5</b>（10/10）歷史紀錄可搜尋、排序、篩選、標籤分組，加上檢索地圖</li><li><b>v4.4</b>（10/10）🔍 幫我選型：依需求算遍資料庫組合；畫面精簡、結論卡燈號</li><li><b>v4.3</b>（10/10）每一頁都有新手導覽，約 90 個名詞有白話解釋</li><li><b>v4.2</b>（10/09）成本估算（NTD／USD／RMB）、實測回饋、3D Z 精度估算</li><li><b>v4.1</b>（10/08）3D 評估可存檔、一頁 PDF、挑可用機種、看規格書</li><li><b>v4.0</b>（08/21）新增 3D 量測模式與 3D 感測器資料庫</li></ul>
+    </div>
+    <div class="cl-ver">
+      <div class="cl-hd"><span class="cl-v">v3 Yerkes</span><span class="cl-date">2026-07-25</span></div>
+      <div class="cl-nm">代號 Yerkes：世界最大的鏡片式望遠鏡 —— 對上光路側視圖</div>
+      <ul><li>三個模式的示意圖可以切「俯視／光路側視」，看得到光從待測物經過鏡頭到相機</li><li>光路圖照實際尺寸比例畫，自動直式／橫式，標出 WD、像距、FOV</li></ul>
+    </div>
+    <div class="cl-ver">
+      <div class="cl-hd"><span class="cl-v">v2 Palomar</span><span class="cl-date">2026-07-18</span></div>
+      <div class="cl-nm">代號 Palomar：拍出第一套全天星圖 —— 對上元件資料庫</div>
+      <ul><li>相機／鏡頭資料庫，選相機後只列接口相容的鏡頭</li><li>雲端同步：換一台電腦也看得到自己的紀錄</li><li>報告改左資訊右大圖，匯出 PDF 可勾選內容；FOV 示意圖照真實比例</li><li>畫檢評估的相機數計算修正</li></ul>
+    </div>
+    <div class="cl-ver">
+      <div class="cl-hd"><span class="cl-v">v1 La Silla</span><span class="cl-date">2026-03-24</span></div>
+      <div class="cl-nm">代號 La Silla：歐洲南方天文台的第一個基地 —— 一切從這裡開始</div>
+      <ul><li>第一版（MinXu 開發）：掃描取像、靜態取像、畫檢評估三種模式的光學計算</li><li>評估報告、匯出 PDF、歷史紀錄</li></ul>
+    </div>
+  </div>
   </div>
 </div>
 
@@ -7222,8 +7279,14 @@ function copyAboutUrl(){
     try{ document.execCommand('copy'); done(); }catch(e){} t.remove(); };
   if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(url).then(done, fallback); else fallback();
 }
+function abTab(k){   // 關於本工具的分頁：info＝聯絡資訊、log＝版本更新
+  document.querySelectorAll('#about-modal .ab-tab').forEach(function(b){ b.classList.toggle('on', b.dataset.ab===k); });
+  document.querySelectorAll('#about-modal .ab-pane').forEach(function(p){ p.classList.toggle('on', p.id==='ab-p-'+k); });
+  document.getElementById('ab-p-log').scrollTop=0;
+}
 function toggleAbout(){
   const show = document.getElementById('about-modal').style.display === 'none';
+  if(show) abTab('info');
   document.getElementById('about-modal').style.display  = show ? '' : 'none';
   document.getElementById('about-overlay').style.display = show ? '' : 'none';
 }
