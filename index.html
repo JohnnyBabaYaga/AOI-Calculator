@@ -1141,10 +1141,12 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   .kt-tools .ev-sort{flex:1 1 0;max-width:none;}
 }
 .kt-cnt{font-size:11px;color:var(--sub);margin-left:auto;}
+.kt-lg .kt-arr{gap:6px;}
+.kt-arr .seg button{padding:2px 9px;line-height:15px;}
 .kt-lg{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:10.5px;color:var(--sub);margin-top:8px;}
 .kt-lg span,.kt-sum span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
 .kt-lg i{width:9px;height:9px;border-radius:3px;}
-.kt-lg i.dl{width:15px;height:0;border-radius:0;border-top:1.5px dashed #8E99AB;}
+.kt-lg i.dl{width:16px;height:9px;box-sizing:border-box;border-radius:999px;border:1px dashed #8E99AB;}
 .kt-lg i.r-pass,.kt-sum i.r-pass{background:#1E8E3E;} .kt-lg i.r-part,.kt-sum i.r-part{background:#F29900;}
 .kt-lg i.r-fail,.kt-sum i.r-fail{background:#D93025;} .kt-lg i.r-exp,.kt-sum i.r-exp{background:#0E7C86;} .kt-lg i.r-none{background:#B8C2D0;}
 #kb-tree{container:kbt / inline-size;padding:4px 10px 16px;--kt-ln:#C3CCD9;--kt-a:16px;}
@@ -1170,6 +1172,24 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 .kt-p.d2{background:rgba(47,111,208,.08);border-color:rgba(47,111,208,.28);color:var(--accent-deep);}
 .kt-p.d3{background:rgba(127,119,221,.1);border-color:rgba(127,119,221,.34);color:#4F46A8;}
 .kt-p .n{background:rgba(255,255,255,.75);}
+button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
+.kt-p.d2:hover{background:rgba(47,111,208,.14);} .kt-p.d3:hover{background:rgba(127,119,221,.18);}
+.kt-p:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+.kt-p .car{display:inline-block;width:9px;font-size:8px;text-align:center;opacity:.65;transition:transform .15s;}
+.kt-row.closed>.kt-p .car{transform:rotate(-90deg);}
+.kt-fold{display:inline-flex;align-items:center;gap:10px;min-height:32px;margin-left:10px;font-size:10.5px;color:var(--sub);vertical-align:top;}
+.kt-fold .kt-sum{margin-left:0;}
+/* 依廠區分類：每個廠區一個小區塊（小標＋卡片） */
+.kt-sh{display:flex;align-items:center;gap:6px;width:100%;min-height:32px;padding:0;border:none;background:none;font-family:inherit;font-size:12px;color:var(--text);white-space:nowrap;text-align:left;cursor:pointer;}
+.kt-sh .car{display:inline-block;width:9px;font-size:8px;text-align:center;color:var(--sub);transition:transform .15s;}
+.kt-sb.closed>.kt-sh .car{transform:rotate(-90deg);}
+.kt-sh:hover .t{color:var(--accent-deep);}
+.kt-sh:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+.kt-sh .kt-sum{margin-left:6px;}
+.kt-sh .t{font-weight:600;}
+.kt-sh .l{font-size:10.5px;color:var(--sub);min-width:0;overflow:hidden;text-overflow:ellipsis;}
+.kt-sh .n{font-size:10.5px;color:var(--sub);background:var(--surf2);padding:0 7px;border-radius:999px;line-height:16px;}
+.kt-sh .ln{flex:1;min-width:12px;border-top:1px solid var(--border);margin-left:4px;}
 .kt-c{display:block;background:var(--surf);border:1px solid var(--border);border-left:4px solid #B8C2D0;border-radius:9px;padding:6px 10px 7px;cursor:pointer;min-width:0;box-shadow:0 1px 2px rgba(30,50,90,.05);}
 .kt-c:hover{border-color:var(--accent);border-left-color:#B8C2D0;}   /* 左邊色條維持實測結果的顏色（下面 r-* 會蓋過） */
 .kt-c:focus-visible,.kt-dc:focus-visible,.kt-i:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
@@ -1183,23 +1203,30 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 .kt-c .kt-k i{font-style:normal;font-size:10px;color:var(--sub);margin-right:4px;}
 .kt-c .kt-tg{display:flex;flex-wrap:wrap;gap:3px;margin:3px 0 1px;}
 .kt-tg em{font-style:normal;font-size:10px;line-height:15px;padding:0 6px;border-radius:999px;background:var(--surf2);color:var(--sub);}
-.kt-d{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:4px 5px;}
-.kt-dlb{font-size:10.5px;color:var(--sub);}
-.kt-dc{font-family:inherit;font-size:11px;line-height:16px;padding:2px 9px;border:1px dashed #8E99AB;border-radius:999px;background:var(--surf);color:var(--text);cursor:pointer;text-align:left;max-width:240px;}
+/* 衍生案例：列在來源卡片底部（虛線隔開） */
+.kt-d{display:flex;flex-wrap:wrap;align-items:center;gap:4px 5px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--kt-ln);}
+.kt-d .kt-dlb{display:inline;font-size:10.5px;color:var(--sub);line-height:16px;}
+.kt-dc{font-family:inherit;font-size:11px;line-height:16px;padding:2px 9px;border:1px dashed #8E99AB;border-radius:999px;background:var(--surf);color:var(--text);cursor:pointer;text-align:left;max-width:100%;}
 .kt-dc:hover{background:var(--surf2);}
 .kt-dc.r-pass{border-color:#1E8E3E;} .kt-dc.r-part{border-color:#F29900;} .kt-dc.r-fail{border-color:#D93025;} .kt-dc.r-exp{border-color:#0E7C86;}
-/* 寬：方案 ── 案例 ⇢ 衍生 橫排 */
+/* 寬：取像方式 ── 案例排成多欄（10/11 Johnny：右邊不要整塊留空）；同一列卡片等高 */
 @container kbt (min-width:640px){
   .kt-g>.kt-kids>.kt-row{display:flex;align-items:flex-start;}
-  .kt-p{width:132px;justify-content:space-between;}
+  .kt-p{width:132px;}
+  .kt-p .n{margin-left:auto;}
   .kt-p::after{content:'';position:absolute;right:-15px;top:calc(var(--kt-a) - 1px);width:14px;border-top:1.5px solid var(--kt-ln);}
-  .kt-row>.kt-kids{flex:1;min-width:0;margin-left:14px;}
-  .kt-row>.kt-kids>.kt-row:first-child::before{top:var(--kt-a);}
-  .kt-row>.kt-kids>.kt-row:only-child::before{display:none;}
-  .kt-row>.kt-kids>.kt-row{display:flex;align-items:flex-start;}
-  .kt-row>.kt-kids .kt-c{flex:0 1 300px;}
-  .kt-d{flex:1;min-width:0;margin-left:24px;padding-top:5px;}
-  .kt-d::before{content:'';position:absolute;left:-24px;top:calc(var(--kt-a) - 1px);width:20px;border-top:1.5px dashed #8E99AB;}
+  .kt-row.closed>.kt-p::after{display:none;}
+  .kt-fold{margin-left:14px;}
+  .kt-row>.kt-kids.kt-bysite{display:flex;flex-wrap:wrap;gap:6px 20px;}   /* 同一排的廠區區塊等高，卡片也撐滿 */
+  .kt-row>.kt-kids>.kt-row.kt-sb{flex:0 1 calc(var(--n) * 268px - 8px);flex-direction:column;min-width:0;max-width:100%;}
+  .kt-row>.kt-kids>.kt-row.kt-sb.closed{flex:0 0 auto;}   /* 收起的廠區只剩標題，寬度跟著字 */
+  .kt-sg{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
+  .kt-sg>.kt-row{display:flex;}
+  .kt-row>.kt-kids{flex:1;min-width:0;margin-left:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;}
+  .kt-row>.kt-kids>.kt-row{display:flex;padding-left:0;}
+  .kt-row>.kt-kids>.kt-row+.kt-row{margin-top:0;}
+  .kt-row>.kt-kids>.kt-row::before,.kt-row>.kt-kids>.kt-row::after{display:none;}
+  .kt-row>.kt-kids .kt-c{flex:1;}
 }
 /* 窄（手機）：縮排清單 */
 @container kbt (max-width:639.98px){
@@ -1207,8 +1234,7 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   .kt-row>.kt-kids{margin-left:12px;padding-top:6px;}
   .kt-row>.kt-kids>.kt-row:first-child::before{top:-6px;}
   .kt-row>.kt-kids>.kt-row:only-child::before{height:calc(var(--kt-a) + 6px);}
-  .kt-d{margin:5px 0 0 14px;}
-  .kt-d::before{content:'';position:absolute;left:-10px;top:-5px;width:7px;height:16px;border-left:1.5px dashed #8E99AB;border-bottom:1.5px dashed #8E99AB;border-bottom-left-radius:4px;}
+  .kt-sg>.kt-row+.kt-row{margin-top:8px;}
 }
 /* v5 第 4 步：找相似案例（計算器左邊的入口＋視窗；案例視窗疊在上面，所以 z-index 低一層） */
 .kbsim-entry{margin:0 10px 10px;}
@@ -8300,7 +8326,7 @@ function kbRender(){
     body.innerHTML=h; return;
   }
   h+=mine+(admin ? kbPendHtml(pend, admin)+kbStaleHtml(admin) : kbStaleHtml(admin)+kbPendHtml(pend, admin));   // 自己的結果先看；管理員先審核，成員先看自己該更新的
-  h+='<div class="kb-sec-h">📚 正式案例 <span class="n">'+n+'</span><span class="kb-sec-d">2D／3D → 取像方式 → 案例；顏色是實測結果</span></div>';
+  h+='<div class="kb-sec-h">📚 正式案例 <span class="n">'+n+'</span><span class="kb-sec-d" id="kb-sec-path">'+kbPathTxt()+'</span></div>';
   h+=n ? kbToolsHtml()+'<div id="kb-tree"></div>' : '<div class="empty" style="padding:20px">還沒有正式案例；上面的提交收錄後就會出現在這裡。</div>';
   const ae=document.activeElement, keep=!!(ae&&ae.id==='kb-q'), pos=keep?ae.selectionStart:0;   // 打字中剛好重新讀取：游標留在搜尋框
   body.innerHTML=h;
@@ -8833,9 +8859,10 @@ function kbCaseHtml(c, isSub){
 
 // ── 族譜：2D／3D → 取像方式 → 案例 → 衍生案例 ──
 // 10/10 Johnny：先分 2D、3D；2D 再分掃描／靜態／畫檢，3D 依量測原理（三角雷射、結構光…）。檢測項目種類太多，不拿來分類，只顯示、可搜尋
-// 衍生案例在來源旁邊用虛線連過去（點了看那一筆）
+// 衍生案例列在來源卡片底部（點了看那一筆）；電腦寬度同一種取像方式的案例排成多欄
 let _kbF={q:'', site:'', st:''}, _kbTF=false;
-let _kbClosed=(function(){ try{ const a=JSON.parse(localStorage.getItem('aoi_kb_closed')||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } })();
+let _kbClosed=(function(){ try{ const a=JSON.parse(localStorage.getItem('aoi_kb_closed')||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } })();   // 收起來的：'2d'、'3d'，或取像方式 '2d/掃描'
+let _kbArr=(function(){ try{ return localStorage.getItem('aoi_kb_arr')==='time' ? 'time' : 'site'; }catch(e){ return 'site'; } })();   // 案例排列：site＝依廠區分類（預設，10/11 Johnny）、time＝新的在前
 const KB_MODE2={scan:'掃描', static:'靜態', area:'畫檢'};
 const KB_DIM_T={'2d':'2D 取像', '3d':'3D 量測'};
 function kbSub(c){
@@ -8885,7 +8912,9 @@ function kbToolsHtml(){
     +'<select class="ev-sort" aria-label="狀態" onchange="kbSetF(\'st\',this.value)">'+sto+'</select>'
     +'<button type="button" class="btn-sec kt-sim" onclick="simOpen()" title="依需求（尺寸、精度、檢測項目）找最像的舊案">📚 找相似案例</button></div>'
     +'<div class="kt-lg"><span><i class="r-pass"></i>達標</span><span><i class="r-part"></i>部分達標</span><span><i class="r-fail"></i>未達標</span><span><i class="r-exp"></i>依經驗導入</span><span><i class="r-none"></i>還沒有實測</span><span><i class="dl"></i>衍生案例</span>'
-    +'<span class="kt-cnt" id="kb-tcnt"></span></div></div>';
+    +'<span class="kt-cnt" id="kb-tcnt"></span>'
+    +'<span class="kt-arr">排列<span class="seg" id="kb-arr">'+[['site','依廠區','同一個廠區排在一起'],['time','依時間','新的在前']].map(function(x){
+        return '<button type="button" data-v="'+x[0]+'" class="'+(_kbArr===x[0]?'on':'')+'" onclick="kbSetArr(this.dataset.v)" title="'+x[2]+'">'+x[1]+'</button>'; }).join('')+'</span></span></div></div>';
 }
 function kbSetF(k, v){ _kbF[k]=v; kbTreeRender(); }
 function kbClearF(){ _kbF={q:'', site:'', st:''}; kbRender(); }
@@ -8916,10 +8945,39 @@ function kbTreeRender(){
     return '<div class="kt-g'+(closed?' closed':'')+'"><button type="button" class="kt-i kt-node" data-k="'+g.k+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!closed)+'"'+(filt?' style="cursor:default"':'')+'>'
       +'<span class="car">▼</span><span class="t">'+KB_DIM_T[g.k]+'</span><span class="n">'+g.cs.length+'</span>'+kbSumHtml(g.cs)+'</button>'
       +(closed ? '' : '<div class="kt-kids">'+subs.map(function(sb){
-        return '<div class="kt-row"><div class="kt-p kt-node '+(g.k==='3d'?'d3':'d2')+'"><span class="t">'+esc(sb.k)+'</span><span class="n">'+sb.cs.length+'</span></div>'
-          +'<div class="kt-kids">'+sb.cs.sort(function(a,b){ return String(b.at||'').localeCompare(String(a.at||'')); }).map(kbTreeCase).join('')+'</div></div>';
+        const sk=g.k+'/'+sb.k, sc=!filt && _kbClosed.indexOf(sk)>=0;   // 取像方式這層也能收起（10/11 Johnny）
+        return '<div class="kt-row'+(sc?' closed':'')+'"><button type="button" class="kt-p kt-node '+(g.k==='3d'?'d3':'d2')+'" data-k="'+esc(sk)+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!sc)+'"'+(filt?' style="cursor:default"':'')+'>'
+          +'<span class="car">▼</span><span class="t">'+esc(sb.k)+'</span><span class="n">'+sb.cs.length+'</span></button>'
+          +(sc ? '<div class="kt-fold">已收起'+kbSumHtml(sb.cs)+'</div>' : kbSubCases(sb.cs, sk, filt))+'</div>';
       }).join('')+'</div>')+'</div>';
   }).join('')+'</div>';
+}
+// 一種取像方式底下的案例：新的在前；選「依廠區」就按廠區分成小區塊（照廠區清單的順序，清單外、沒填的排後面；電腦寬度小區塊並排）
+// 每個廠區也能收起（10/11 Johnny）：鍵＝取像方式的鍵＋'/'＋廠區，例如 '2d/靜態/S11'
+function kbSiteKey(c){ return c.site==='其他' ? '其他:'+(c.siteOther||'') : (c.site||''); }
+function kbSubCases(cs, pre, filt){
+  cs=cs.slice().sort(function(a,b){ return String(b.at||'').localeCompare(String(a.at||'')); });
+  if(_kbArr!=='site') return '<div class="kt-kids">'+cs.map(kbTreeCase).join('')+'</div>';
+  const codes=kbSites().map(function(s){ return s.code; });
+  const rank=function(c){ if(!c.site) return 9999; const i=codes.indexOf(c.site); return i<0 ? 999 : i; };
+  return '<div class="kt-kids kt-bysite">'+kbGroup(cs, kbSiteKey)
+    .sort(function(a,b){ return rank(a.cs[0])-rank(b.cs[0]) || kbSiteTxt(a.cs[0]).localeCompare(kbSiteTxt(b.cs[0]),'zh-Hant'); })
+    .map(function(s){
+      const c0=s.cs[0], ln=kbLineOf(c0), k=pre+'/'+s.k, cl=!filt && _kbClosed.indexOf(k)>=0;
+      return '<div class="kt-row kt-sb'+(cl?' closed':'')+'" style="--n:'+s.cs.length+'">'
+        +'<button type="button" class="kt-sh" data-k="'+esc(k)+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!cl)+'"'+(filt?' style="cursor:default"':'')+'>'
+        +'<span class="car">▼</span><span class="t">'+esc(kbSiteTxt(c0)||'廠區未填')+'</span>'+(ln?'<span class="l">'+esc(ln)+'</span>':'')
+        +'<span class="n">'+s.cs.length+'</span>'+(cl ? kbSumHtml(s.cs) : '<i class="ln"></i>')+'</button>'
+        +(cl ? '' : '<div class="kt-sg">'+s.cs.map(kbTreeCase).join('')+'</div>')+'</div>';
+    }).join('')+'</div>';
+}
+function kbPathTxt(){ return '2D／3D → 取像方式 → '+(_kbArr==='site'?'廠區 → ':'')+'案例；顏色是實測結果'; }
+function kbSetArr(v){
+  _kbArr=v==='time'?'time':'site';
+  try{ localStorage.setItem('aoi_kb_arr', _kbArr); }catch(e){}
+  document.querySelectorAll('#kb-arr button').forEach(function(b){ b.classList.toggle('on', b.dataset.v===_kbArr); });
+  const p=document.getElementById('kb-sec-path'); if(p) p.textContent=kbPathTxt();
+  kbTreeRender();
 }
 // 案例卡片：名稱／廠區＋線別（含站點）／狀態＋實測結果／檢測項目
 function kbTreeCase(c){
@@ -8932,10 +8990,10 @@ function kbTreeCase(c){
     +'<b>'+esc(c.title||'未命名')+'</b>'
     +'<span class="kt-k"><span><i>廠區</i>'+esc(kbSiteTxt(c)||'—')+'</span>'+(c.lineSt?'<span><i>線別</i>'+esc(c.lineSt)+'</span>':'')+'</span>'
     +(st?'<span>'+st+'</span>':'')+(tags?'<span class="kt-tg">'+tags+'</span>':'')
-    +(src?'<span class="kt-from"'+(c.fromNote?' title="差異：'+esc(c.fromNote)+'"':'')+'>↰ 衍生自 '+esc(src.title)+'</span>':'')+'</div>'
-    +(der.length ? '<div class="kt-d"><span class="kt-dlb">⇢ 衍生</span>'+der.map(function(d){
-        return '<button type="button" class="kt-dc '+kbResCls(d)+'" data-cid="'+esc(d.id)+'" onclick="kbdOpenCase(this.dataset.cid)" title="'+(d.fromNote?'差異：'+esc(d.fromNote):'以這筆為起點衍生的案例')+'">'+esc(d.title||'未命名')+'</button>';
-      }).join('')+'</div>' : '')+'</div>';
+    +(src?'<span class="kt-from"'+(c.fromNote?' title="差異：'+esc(c.fromNote)+'"':'')+'>↰ 衍生自 '+esc(src.title)+'</span>':'')
+    +(der.length ? '<div class="kt-d"><span class="kt-dlb">⇢ 衍生</span>'+der.map(function(d){   // 在卡片裡面：擋掉冒泡，才不會連來源一起開
+        return '<button type="button" class="kt-dc '+kbResCls(d)+'" data-cid="'+esc(d.id)+'" onclick="event.stopPropagation();kbdOpenCase(this.dataset.cid)" title="'+(d.fromNote?'差異：'+esc(d.fromNote):'以這筆為起點衍生的案例')+'">'+esc(d.title||'未命名')+'</button>';
+      }).join('')+'</div>' : '')+'</div></div>';
 }
 function kbTreeTog(k){
   if(_kbTF) return;
@@ -9355,8 +9413,9 @@ function simTree(id){
   const c=kbCaseById(id); if(!c) return;
   simClose(); kbdClose();
   _kbF={q:'', site:'', st:''};
-  const j=_kbClosed.indexOf(c.dim==='3d'?'3d':'2d');
-  if(j>=0){ _kbClosed.splice(j,1); try{ localStorage.setItem('aoi_kb_closed', JSON.stringify(_kbClosed)); }catch(e){} }
+  const dk=c.dim==='3d'?'3d':'2d', n0=_kbClosed.length;
+  _kbClosed=_kbClosed.filter(function(k){ return k!==dk && k!==dk+'/'+kbSub(c) && k!==dk+'/'+kbSub(c)+'/'+kbSiteKey(c); });   // 維度、所在的取像方式和廠區都展開
+  if(_kbClosed.length!==n0){ try{ localStorage.setItem('aoi_kb_closed', JSON.stringify(_kbClosed)); }catch(e){} }
   showTab('kb');
   setTimeout(function(){
     const el=document.querySelector('#kb-tree .kt-c[data-cid="'+(window.CSS&&CSS.escape?CSS.escape(id):id)+'"]'); if(!el) return;
@@ -9658,7 +9717,7 @@ const GUIDES={
     {el:function(){ return $gd('kb-cfg-btn'); }, t:'連線設定',
      d:'第一次使用要在這裡填<b>你的名字</b>（提交時記錄是誰提供的）和<b>部門共用的知識庫權杖</b>（找 Johnny 索取）。<br>權杖只存在這台電腦的瀏覽器，跟個人的「☁ 雲端同步」是分開的。'},
     {el:function(){ return document.querySelector('#kb-tree .kt-g>.kt-i'); }, t:'族譜怎麼看',
-     d:'先分 <b>2D 取像</b>、<b>3D 量測</b>；2D 再分<b>掃描／靜態／畫檢</b>，3D 依<b>量測原理</b>（三角雷射、結構光…）。<br>每張卡片有<b>廠區、線別（含站點）</b>、狀態；左邊色條是實測結果（綠＝達標、橘＝部分、紅＝未達標、青＝依經驗導入免實測）。點卡片看完整內容。'},
+     d:'先分 <b>2D 取像</b>、<b>3D 量測</b>；2D 再分<b>掃描／靜態／畫檢</b>，3D 依<b>量測原理</b>（三角雷射、結構光…）。<br>每張卡片有<b>廠區、線別（含站點）</b>、狀態；左邊色條是實測結果（綠＝達標、橘＝部分、紅＝未達標、青＝依經驗導入免實測）。點卡片看完整內容。<br>卡片底部的 <b>⇢ 衍生</b>，是有人拿這筆當起點做的新案例。<br>2D／3D 和取像方式（掃描、靜態…）都可以<b>點一下收起來</b>；右邊的<b>排列</b>預設「依廠區」分類（每個廠區也能收起來），也可以切成「依時間」。'},
     {el:function(){ return document.querySelector('#kb-body .kt-tools'); }, t:'搜尋與篩選',
      d:'輸入關鍵字找案例：名稱、廠區、線別、<b>檢測項目</b>、客戶、方案、反饋都找得到（空格隔開＝同時符合）。<br>右邊可以按廠區（或整條產品線）、狀態篩選。'},
     {el:function(){ return document.querySelector('#kb-body .kt-sim'); }, t:'📚 找相似案例',
