@@ -1038,7 +1038,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .kb-test .ok{color:#1E8E3E;} .kb-test .no{color:var(--sub);} .kb-test .bad{color:#D93025;}
 .kb-forget{margin-top:10px;text-align:right;}
 .kb-forget button{background:none;border:none;color:var(--sub);font-size:11px;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit;}
-.kb-conn{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--sub);white-space:nowrap;}
+.kb-conn{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--sub);white-space:nowrap;} .kb-conn:empty{display:none;}
 .kb-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#b8c2d0;flex-shrink:0;}
 .kb-dot.ok{background:#1E8E3E;} .kb-dot.warn{background:#F29900;} .kb-dot.err{background:#D93025;}
 .kb-role{font-size:10px;font-weight:700;color:var(--accent-deep);background:rgba(47,111,208,.1);padding:1px 7px;border-radius:999px;}
@@ -1049,7 +1049,33 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .kb-card .kb-small{font-size:11px;margin:10px auto 0;}
 .kb-warn{margin:10px 12px 0;padding:8px 12px;border-radius:10px;background:rgba(217,48,37,.07);color:#B3261E;font-size:11.5px;line-height:1.6;}
 @media(max-width:768px){ .ev-bar #kb-cnt{flex-basis:auto;} }
-.kb-bbtn{display:flex;gap:8px;margin-left:auto;}   /* 兩顆按鈕一起換行，不會只掉一顆下去 */
+@media(max-width:480px){ #kb-conn{display:none;} }   /* 手機：「管理員」小標拿掉（標題已寫「待審核」），連線鍵才不會掉到第二行 */
+.kb-bbtn{display:flex;gap:8px;margin-left:auto;}
+/* 知識庫連線鍵（10/11 Johnny：重新整理＋連線設定合成一個；參考 iOS 把訊號＋電量併成一個圖示：外圈＝連線狀態，中間＝功能圖示；連上變色跟標題列雲朵一樣） */
+.kbc-off{--kbc:#9AA5B5;} .kbc-ok{--kbc:#1E8E3E;} .kbc-sync,.kbc-nofile{--kbc:#E08A00;} .kbc-err{--kbc:#D93025;}
+.kbc-ring{flex:none;display:block;color:var(--kbc,#9AA5B5);}
+.kbc-ring .trk{opacity:.2;}
+.kbc-ring .arc{stroke-dasharray:100 0;transform-box:fill-box;transform-origin:center;}
+.kbc-sync .kbc-ring .arc{stroke-dasharray:28 72;animation:kbcSpin .9s linear infinite;}
+.kbc-off .kbc-ring .trk{opacity:0;}
+.kbc-off .kbc-ring .arc{stroke-dasharray:.01 8.33;stroke-width:2.6;}   /* 沒設定：灰色點點圈 */
+@keyframes kbcSpin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion:reduce){ .kbc-sync .kbc-ring .arc{animation-duration:2.6s;} }
+/* 一顆膠囊兩格：左＝圓環（點了重新整理），右＝⚙ 連線設定；要處理的狀態才在圓環右邊加字 */
+.kbc-cap{display:inline-flex;align-items:stretch;height:28px;box-sizing:border-box;border:1px solid var(--border);border-radius:999px;background:var(--surf);overflow:hidden;box-shadow:0 1px 2px rgba(30,50,90,.05);}
+.kbc-cap button{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:inherit;font-size:11.5px;line-height:1;color:var(--text);white-space:nowrap;}
+.kbc-cap .kbc-main{padding:0 11px 0 3px;}
+.kbc-cap .kbc-gear{padding:0 10px 0 9px;color:var(--sub);}
+.kbc-cap button:hover{background:var(--surf2);}
+.kbc-cap button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:999px;}
+.kbc-cap .kbc-dv{flex:none;width:1px;margin:6px 0;background:var(--border);}
+.kbc-sync .kbc-main{cursor:default;} .kbc-sync .kbc-main:hover{background:none;}
+.kbc-err .kbc-lb{color:var(--kbc);}
+.kbc-lb{display:inline-grid;} .kbc-lb>span{grid-area:1/1;transition:opacity .12s;}   /* 平常顯示狀態，滑鼠移上去換成動作，寬度不跳 */
+.kbc-lb .h{opacity:0;}
+.kbc-main:hover .kbc-lb .s{opacity:0;} .kbc-main:hover .kbc-lb .h{opacity:1;}
+.kbc-cap .kbc-main.ic{padding:0 6px 0 3px;}   /* 只有圓環（已連線、讀取中）：圓環跟膠囊左端同心 */
+@media (max-width:480px){ .kbc-cap .kbc-lb{display:none;} .kbc-cap .kbc-main{padding:0 6px 0 3px;} }   /* 手機：字也拿掉，只留圓環＋⚙，標題列才不會擠成兩行 */
 /* 連線設定視窗下方：提交與審核流程 */
 .kb-flow{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
 .kb-flow-t{font-size:11.5px;font-weight:700;color:var(--text);margin-bottom:8px;}
@@ -1532,7 +1558,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <ul class="kb-flow-n">
       <li><b>客戶需求的評估都要提交</b>：前期評估完成交一次（評估中），實測或依經驗導入後再更新一次；內部試算不用</li>
       <li>新案例、更新既有案例、Johnny 自己的案例，都走同一個流程</li>
-      <li>收錄後，大家按「⟳ 重新整理」就看得到</li>
+      <li>收錄後，大家用右上角的連線鍵重新整理就看得到</li>
       <li>提交是複製一份過去，你的歷史紀錄不受影響</li>
       <li>部門共用權杖：可以查詢、提交</li>
       <li>管理員權杖（只有 Johnny）：可以收錄、退回</li>
@@ -2258,8 +2284,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="ev-bar" id="kb-bar" style="padding:7px 10px 4px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);">
       <span style="font-size:12px;color:var(--sub)" id="kb-cnt"><b class="kb-ttl">📚 部門知識庫</b></span>
       <span class="kb-conn" id="kb-conn"></span>
-      <span class="kb-bbtn"><button class="btn-sec" id="kb-refresh" style="font-size:11px" onclick="kbPull()" title="重新讀取知識庫的最新內容">⟳ 重新整理</button>
-      <button class="btn-sec" id="kb-cfg-btn" style="font-size:11px" onclick="kbOpenCfg()">⚙ 連線設定</button></span>
+      <span class="kb-bbtn" id="kb-ctl"></span>
     </div>
     <div id="kb-body"></div>
   </div>
@@ -8151,6 +8176,39 @@ function kbCaseFromEval(e, f){
 
 // ── 讀寫 GitHub ──
 function kbSetSt(st, msg){ KB_ST={st:st, msg:msg||''}; kbRender(); }
+// ── 連線鍵：重新整理＋連線設定合成一顆膠囊（10/11 Johnny，參考 iOS 把訊號＋電量併成一個圖示；A 膠囊／B 圖示選單比較後選 A） ──
+// 左格＝圓環，外圈顏色＝連線狀態（跟標題列雲朵一樣連上變綠）：綠＝已連線、黃色轉圈＝讀取中、黃＝資料檔還沒建立、紅＝失敗、灰色點點＝還沒設定；點一下重新整理
+// 右格 ⚙＝連線設定。Johnny：「已連線的字不需要，只要是綠色我就知道」→ 已連線、讀取中只有圓環；要處理的狀態（沒設定、沒資料檔、失敗）才加字
+let KB_PULLED=0;   // 這次開頁最後一次讀到知識庫的時間（滑鼠提示用）
+const KBC_SVG={
+  sync:'<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>'
+};
+function kbcIcon(k, px){ return '<svg width="'+px+'" height="'+px+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+KBC_SVG[k]+'</svg>'; }
+// 外圈＋中間圖示（中間圖示縮到圈內，線寬放大讓縮完約 1.6px）
+function kbcRing(k, px){
+  return '<svg class="kbc-ring" width="'+px+'" height="'+px+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    +'<circle class="trk" cx="12" cy="12" r="10.6" stroke-width="1.9"/><circle class="arc" cx="12" cy="12" r="10.6" stroke-width="1.9" pathLength="100"/>'
+    +'<g transform="translate(6.24 6.24) scale(.48)" stroke-width="3.4">'+KBC_SVG[k]+'</g></svg>';
+}
+function kbAgoTxt(){
+  if(!KB_PULLED) return '';
+  const d=new Date(KB_PULLED), t=d.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit', hour12:false});
+  return new Date().toDateString()===d.toDateString() ? t : (d.getMonth()+1)+'/'+d.getDate()+' '+t;
+}
+function kbCtlRender(){
+  const el=document.getElementById('kb-ctl'); if(!el) return;
+  const st=kbReady() ? KB_ST.st : 'off';
+  const k={ok:'ok', sync:'sync', nofile:'nofile', err:'err'}[st]||'off';
+  const txt={off:'未連線', nofile:'資料檔尚未建立', err:'連線失敗'}[k]||'';   // 已連線、讀取中不寫字，看圓環顏色就好
+  const act=k==='off' ? '設定連線' : k==='err' ? '重試' : '重新整理';     // 有字的狀態：滑鼠移上去字換成動作
+  const ago=kbAgoTxt(), msg=k==='err' ? (KB_ST.msg||'') : '';
+  const tip=k==='off' ? '還沒設定連線，點一下設定' : k==='sync' ? '讀取中…' : k==='nofile' ? '資料檔尚未建立，點一下重新整理'
+    : k==='err' ? '連線失敗'+(msg?'：'+msg:'')+'，點一下重試' : '已連線，點一下重新整理'+(ago?'（上次讀取 '+ago+'）':'');
+  el.innerHTML='<span class="kbc-cap kbc-'+k+'"><button type="button" class="kbc-main'+(txt?'':' ic')+'" onclick="'+(k==='off'?'kbOpenCfg()':'kbPull()')+'"'+(k==='sync'?' disabled':'')+' title="'+esc(tip)+'" aria-label="'+esc(tip)+'">'
+    +kbcRing(k==='off'?'gear':'sync', 20)+(txt?'<span class="kbc-lb"><span class="s">'+txt+'</span><span class="h">'+act+'</span></span>':'')+'</button>'
+    +(k==='off' ? '' : '<i class="kbc-dv"></i><button type="button" class="kbc-gear" onclick="kbOpenCfg()" title="連線設定" aria-label="連線設定">'+kbcIcon('gear', 15)+'</button>')+'</span>';
+}
 // 讀正式資料檔：回傳 {data, sha}；檔案還不存在回傳 null
 async function kbReadFile(){
   const res=await kbFetch(kbFileUrl());
@@ -8181,6 +8239,7 @@ async function kbPull(){
     KB_SHA=f.sha; kbData=f.data;
     try{ KB_PEND=await kbLoadPend(); }catch(e){}   // 審核中清單讀不到時，保留上次的
     kbCacheSave();
+    KB_PULLED=Date.now();
     kbSetSt('ok');
     if(!document.querySelector('.ec-tag-in')) renderEvals();   // 歷史紀錄卡片上的「審核中／已收錄」跟著更新（正在改標籤時不重畫）
   }catch(e){ kbSetSt('err', e.message); }
@@ -8192,7 +8251,7 @@ async function kbPush(data, msg){
   const body={message:msg||'update knowledge base', content:b64encode(JSON.stringify(data,null,1)), branch:KB.branch||'main'};
   if(KB_SHA) body.sha=KB_SHA;
   const res=await kbFetch('/contents/'+KB_FILE, {method:'PUT', body:body});
-  if(res.status===409 || (res.status===422 && !KB_SHA)){ const x=new Error('知識庫剛被更新過，請按「⟳ 重新整理」後再做一次'); x.conflict=true; throw x; }
+  if(res.status===409 || (res.status===422 && !KB_SHA)){ const x=new Error('知識庫剛被更新過，請先重新整理（右上角的連線鍵）再做一次'); x.conflict=true; throw x; }
   if(res.status===401) throw new Error('權杖無效或已過期（401）');
   if(res.status===403 || res.status===404) throw new Error('這顆權杖不能修改知識庫（只有管理員可以）');
   if(!res.ok) throw new Error('HTTP '+res.status);
@@ -8295,14 +8354,11 @@ function kbRender(){
   const conn=document.getElementById('kb-conn'), body=document.getElementById('kb-body');
   if(!conn||!body) return;
   const st=KB_ST.st, n=kbData.cases.length, admin=kbIsAdmin();
-  const dot={ok:'ok', sync:'warn', nofile:'warn', err:'err'}[st]||'';
-  const txt={off:'未連線', sync:'讀取中…', nofile:'資料檔尚未建立', err:'連線失敗', ok:'已連線'}[st]||'未連線';
-  conn.innerHTML='<i class="kb-dot '+dot+'"></i>'+txt+(st==='ok'&&admin?' <span class="kb-role">管理員</span>':'');
-  conn.title=KB_ST.msg||'';
+  conn.innerHTML=st==='ok'&&admin ? '<span class="kb-role">管理員</span>' : '';   // 連線狀態改由右邊的連線鍵顯示（變色）
+  kbCtlRender();
   const n3=kbData.cases.filter(function(c){ return c.dim==='3d'; }).length;   // 2D、3D 放同一個知識庫，上面切 2D／3D 不影響這一頁
   const pend=kbPendVis(admin), np=pend.length;
   document.getElementById('kb-cnt').innerHTML='<b class="kb-ttl">📚 部門知識庫</b>'+(n?' · 共 '+n+' 筆（2D '+(n-n3)+'／3D '+n3+'）':'')+(np?' · '+(admin?'待審核 ':'審核中 ')+np:'');
-  document.getElementById('kb-refresh').style.display=kbReady()?'':'none';
   if(!kbReady()){
     body.innerHTML='<div class="kb-card"><div class="kb-ic">📚</div><h3>連上部門的 AOI 案例知識庫</h3>'
       +'<p>2D 取像和 3D 量測的案例都放在一起。接到新需求時，先查以前有沒有做過類似的案子：當時用什麼方案、實測有沒有達標、踩過什麼坑。</p>'
@@ -8341,7 +8397,7 @@ function kbPendTog(){ _kbPendClosed=!_kbPendClosed; try{ localStorage.setItem('a
 function kbPendHtml(list, admin){
   if(!list.length) return '';
   const head='<div class="kb-sec-h kb-tog'+(_kbPendClosed?' closed':'')+'" role="button" tabindex="0" onclick="kbPendTog()"><span class="car">▼</span>'
-    +(admin?'📥 待審核':'⏳ 審核中')+' <span class="n">'+list.length+'</span><span class="kb-sec-d">'+(admin?'收錄後，大家按「⟳ 重新整理」就看得到':'Johnny 收錄後才會變成正式案例')+'</span></div>';
+    +(admin?'📥 待審核':'⏳ 審核中')+' <span class="n">'+list.length+'</span><span class="kb-sec-d">'+(admin?'收錄後，大家重新整理就看得到':'Johnny 收錄後才會變成正式案例')+'</span></div>';
   if(_kbPendClosed) return head;
   return head+'<div style="padding:0 0 4px">'+list.map(function(p){
     const c=p.case, tgt=p.target ? kbCaseById(p.target) : null, unk=kbUnknown(c), done=admin?kbLogOf(p.num):null;
@@ -9712,10 +9768,8 @@ const GUIDES={
   kb:[
     {el:function(){ return $gd('kb-bar'); }, t:'部門 AOI 案例知識庫',
      d:'全部門共用的案例庫：以前做過的評估、用了什麼方案、<b>實測有沒有達標</b>、踩過什麼坑。<br><b>2D 和 3D 的案例都在這裡</b>。接到新需求時，先來這裡找有沒有類似的案子。<br>標題列左邊、跟版本號同一個框的 <b>📚 知識庫</b>一鍵進來；<b>再按一次</b>就回到原本的計算畫面。<br><b>客戶需求的評估都要提交</b>：前期評估完成交一次，實測或依經驗導入後再更新一次。評估中超過 30 天沒更新的，會列在「⏰」提醒。'},
-    {el:function(){ return $gd('kb-conn'); }, t:'連線狀態',
-     d:'<b style="color:#1E8E3E">●</b> 已連線、<b style="color:#B26A00">●</b> 讀取中或還沒有資料、<b style="color:#D93025">●</b> 連線失敗（會先顯示上次讀到的內容）。<br>按 <b>⟳ 重新整理</b> 讀最新的內容。'},
-    {el:function(){ return $gd('kb-cfg-btn'); }, t:'連線設定',
-     d:'第一次使用要在這裡填<b>你的名字</b>（提交時記錄是誰提供的）和<b>部門共用的知識庫權杖</b>（找 Johnny 索取）。<br>權杖只存在這台電腦的瀏覽器，跟個人的「☁ 雲端同步」是分開的。'},
+    {el:function(){ return $gd('kb-ctl'); }, t:'連線狀態與設定',
+     d:'圓環顏色是連線狀態：<b style="color:#1E8E3E">綠</b>＝已連線、<b style="color:#E08A00">黃色轉圈</b>＝讀取中、<b style="color:#D93025">紅</b>＝連線失敗（會先顯示上次讀到的內容）、灰色點點＝還沒設定。<br>點圓環＝<b>重新整理</b>（讀最新的內容）；點右邊 ⚙＝<b>連線設定</b>。<br>第一次使用要在連線設定填<b>你的名字</b>和<b>部門共用的知識庫權杖</b>（找 Johnny 索取）；權杖只存在這台電腦，跟個人的「☁ 雲端同步」是分開的。'},
     {el:function(){ return document.querySelector('#kb-tree .kt-g>.kt-i'); }, t:'族譜怎麼看',
      d:'先分 <b>2D 取像</b>、<b>3D 量測</b>；2D 再分<b>掃描／靜態／畫檢</b>，3D 依<b>量測原理</b>（三角雷射、結構光…）。<br>每張卡片有<b>廠區、線別（含站點）</b>、狀態；左邊色條是實測結果（綠＝達標、橘＝部分、紅＝未達標、青＝依經驗導入免實測）。點卡片看完整內容。<br>卡片底部的 <b>⇢ 衍生</b>，是有人拿這筆當起點做的新案例。<br>2D／3D 和取像方式（掃描、靜態…）都可以<b>點一下收起來</b>；右邊的<b>排列</b>預設「依廠區」分類（每個廠區也能收起來），也可以切成「依時間」。'},
     {el:function(){ return document.querySelector('#kb-body .kt-tools'); }, t:'搜尋與篩選',
