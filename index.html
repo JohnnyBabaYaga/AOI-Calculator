@@ -466,6 +466,9 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 @media(max-width:768px){ .ev-bar{flex-wrap:wrap;row-gap:6px;} .ev-bar #ev-cnt{flex-basis:100%;} }
 .ev-srow{display:flex;gap:6px;align-items:stretch;}
 .ev-srow .db-search{margin:0;flex:1;min-width:0;width:auto;}
+.ev-fold{flex:none;white-space:nowrap;}
+@media (max-width:480px){ .ev-fold .fx{display:none;} }   /* 手機：收合鍵只寫「收合／展開」，搜尋框才不會太窄 */
+.ev-fold:hover,.kt-foldall:hover{border-color:var(--accent);color:var(--accent-deep);}
 .ev-sort{padding:8px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surf2);color:var(--text);font-size:12px;font-family:inherit;outline:none;cursor:pointer;}
 .ev-chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px;}
 .ev-chips .sep{width:1px;height:16px;background:var(--border);margin:0 2px;}
@@ -732,10 +735,11 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 #save-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
   width:min(380px,94vw);flex-direction:column;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
-#save-name,#save-desc,#save-tags,#save-cust{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
-#save-name:focus,#save-desc:focus,#save-tags:focus,#save-cust:focus{border-color:var(--accent);}
+#save-name,#save-desc,#save-tags,#save-cust,#save-site{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
+#save-name:focus,#save-desc:focus,#save-tags:focus,#save-cust:focus,#save-site:focus{border-color:var(--accent);}
 #save-desc{height:68px;resize:vertical;font-size:12px;line-height:1.5;}
 .save-pur{display:flex;gap:6px;margin:4px 0 5px;}
+.save-2c{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .save-pur button{flex:1;font-size:12.5px;padding:7px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surf);color:var(--text);cursor:pointer;font-family:inherit;}
 .save-pur button:hover{border-color:var(--accent);}
 .save-pur button.on{border-color:var(--accent);background:rgba(47,111,208,.08);color:var(--accent-deep);font-weight:600;box-shadow:inset 0 0 0 1px var(--accent);}
@@ -1164,6 +1168,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ec-pur.trial{border:1px solid var(--border);background:var(--surf2);color:var(--sub);}
 .ec-pur:hover{border-color:var(--accent);}
 .ec-pur.on{box-shadow:inset 0 0 0 1px currentColor;font-weight:700;}
+.ec-site.on-s{border:1px solid rgba(110,90,190,.36);background:rgba(110,90,190,.07);color:#5B4AA8;}
 .ec-cust.on-c{border:1px solid rgba(14,124,134,.38);background:rgba(14,124,134,.07);color:#0B6670;}
 .ec-cust-in{font-family:inherit;font-size:11px;width:130px;margin-left:5px;padding:1px 6px;border:1px solid var(--accent);border-radius:4px;background:var(--surf);color:var(--text);outline:none;vertical-align:1px;}
 .ec-pur-ed{display:inline;}
@@ -1232,8 +1237,8 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
   .kt-tools .ev-sort{flex:1 1 0;max-width:none;}
 }
 .kt-cnt{font-size:11px;color:var(--sub);margin-left:auto;}
-.kt-lg .kt-arr{gap:6px;}
-.kt-arr .seg button{padding:2px 9px;line-height:15px;}
+.kt-foldall{font-family:inherit;font-size:10.5px;line-height:15px;padding:2px 10px;border:1px solid var(--border);border-radius:7px;background:var(--surf2);color:var(--text);cursor:pointer;white-space:nowrap;}
+.kt-foldall:disabled{opacity:.45;cursor:default;}
 .kt-lg{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:10.5px;color:var(--sub);margin-top:8px;}
 .kt-lg span,.kt-sum span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
 .kt-lg i{width:9px;height:9px;border-radius:3px;}
@@ -1573,7 +1578,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜（廠區底下）與歷史紀錄多一層<b>客戶</b>分類；存檔時可以填客戶</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -1631,11 +1636,16 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <button type="button" role="radio" data-p="trial" onclick="savePurPick('trial')">🧪 內部試算</button>
   </div>
   <div class="save-pur-h" id="save-pur-h"></div>
-  <label for="save-cust" style="font-size:11px;color:var(--sub);">客戶<span style="opacity:.75">（選填，歷史紀錄先依客戶分組）</span></label>
-  <input id="save-cust" type="text" list="cust-dl" placeholder="例：BMW、Ford、智己" autocomplete="off">
-  <datalist id="cust-dl"></datalist>
-  <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，第一個標籤會當作客戶底下的分組）</span></label>
-  <input id="save-tags" type="text" placeholder="用逗號或空白分開，例：B6, Cell, 貼合" oninput="saveTagSug()">
+  <div class="save-2c">
+    <div><label for="save-site" style="font-size:11px;color:var(--sub);">廠區<span style="opacity:.75">（選填）</span></label>
+    <input id="save-site" type="text" list="site-dl" placeholder="例：S19、L5A" autocomplete="off"></div>
+    <div><label for="save-cust" style="font-size:11px;color:var(--sub);">客戶<span style="opacity:.75">（選填）</span></label>
+    <input id="save-cust" type="text" list="cust-dl" placeholder="例：BMW、Ford" autocomplete="off"></div>
+  </div>
+  <div class="save-pur-h" style="margin-top:-8px">歷史紀錄依「廠區 → 客戶」分組，跟知識庫一樣</div>
+  <datalist id="cust-dl"></datalist><datalist id="site-dl"></datalist>
+  <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，搜尋與篩選用）</span></label>
+  <input id="save-tags" type="text" placeholder="用逗號或空白分開，例：Cell, 貼合, 異物" oninput="saveTagSug()">
   <div id="save-tag-sug" class="tag-sug"></div>
   <label for="save-desc" style="font-size:11px;color:var(--sub);">說明／備註</label>
   <textarea id="save-desc" placeholder="例：用途、檢測項目、待確認事項…（會顯示在報告的「設備／用途描述」）"></textarea>
@@ -2411,10 +2421,11 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     </div>
     <div id="ev-tools" style="display:none">
       <div class="ev-srow">
-        <input id="ev-q" class="db-search" type="search" placeholder="🔍 搜尋名稱、客戶、說明、相機、鏡頭、標籤…" oninput="renderEvals()" autocomplete="off">
+        <input id="ev-q" class="db-search" type="search" placeholder="🔍 搜尋名稱、廠區、客戶、說明、相機、鏡頭、標籤…" oninput="renderEvals()" autocomplete="off">
         <select id="ev-sort" class="ev-sort" onchange="renderEvals()" aria-label="排序">
           <option value="new">最近儲存</option><option value="old">最早建立</option><option value="name">名稱</option>
         </select>
+        <button type="button" id="ev-fold" class="ev-sort ev-fold" onclick="evFoldAll()" style="display:none"></button>
       </div>
       <div class="ev-chips" id="ev-chips"></div>
     </div>
@@ -6014,16 +6025,18 @@ function commitEval(rec, tab){
   };
   // 有載入中的同模式紀錄 → 多問「覆蓋原紀錄 / 另存新檔」；沒有就只確認名稱與說明
   const canOver = idx>=0 && (evals[idx].mode||'scan')===(rec.mode||'scan');
-  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur,cust)=>{
+  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur,cust,site)=>{
     if(name && name!==rec.name){ rec.name=name; setProjName(rec.mode, name); }
     rec.notes=desc; syncDesc(desc);
     if(tags.length) rec.tags=tags;
     rec.purpose=pur;
     if(cust) rec.customer=cust;
+    if(site) rec.site=site;
     done(choice==='over'?idx:-1);
   }, idx>=0 ? evals[idx].tags : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.tags : null,
      idx>=0 ? evals[idx].purpose : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.pur : null,
-     idx>=0 ? evals[idx].customer : _kbStart ? _kbStart.cust : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途、客戶先帶入
+     idx>=0 ? evals[idx].customer : _kbStart ? _kbStart.cust : null,
+     idx>=0 ? evSiteOf(evals[idx]) : _kbStart ? _kbStart.site : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途、客戶、廠區先帶入
 }
 function concSt(mode){
   const b=document.getElementById('conc-'+mode+'-badge');
@@ -6050,7 +6063,28 @@ function custList(){
   return out.sort(function(a,b){ return a.localeCompare(b,'zh-Hant'); });
 }
 function custDlFill(){ const dl=document.getElementById('cust-dl'); if(dl) dl.innerHTML=custList().map(function(t){ return '<option value="'+esc(t)+'">'; }).join(''); }
-function openSaveModal(orig, name, desc, cb, tags, pur, cust){
+// 廠區（10/12 Johnny：歷史紀錄跟知識庫一樣 廠區 → 客戶）：用知識庫的廠區代碼；打「S19 XM」或「s19」都存成 S19，清單外的照打的存
+function evSiteNorm(t){
+  t=String(t||'').trim().slice(0,30); if(!t) return '';
+  const w=t.split(/\s+/)[0].toUpperCase(), s=kbSites().filter(function(x){ return x.code.toUpperCase()===w; })[0];
+  return s ? s.code : t;
+}
+// 舊紀錄沒有廠區：標籤剛好是廠區代碼的（例 #S19）就當廠區
+function evSiteOf(e){
+  if(e.site) return String(e.site).trim();
+  const codes=kbSites().map(function(x){ return x.code.toUpperCase(); });
+  const t=(e.tags||[]).filter(function(t){ return codes.indexOf(String(t).toUpperCase())>=0; })[0];
+  return t ? evSiteNorm(t) : '';
+}
+function evSiteTxt(code){ const x=code&&kbSite(code); return x ? x.code+(x.place?' '+x.place:'') : (code||''); }
+function siteDlFill(){
+  const dl=document.getElementById('site-dl'); if(!dl) return;
+  const L=kbSites().map(function(x){ return x.code+(x.place?' '+x.place:''); }), have={};
+  kbSites().forEach(function(x){ have[x.code.toLowerCase()]=1; });
+  evals.forEach(function(e){ const t=String(e.site||'').trim(); if(t && !have[t.toLowerCase()]){ have[t.toLowerCase()]=1; L.push(t); } });
+  dl.innerHTML=L.map(function(t){ return '<option value="'+esc(t)+'">'; }).join('');
+}
+function openSaveModal(orig, name, desc, cb, tags, pur, cust, site){
   _saveCb=cb; savePurPick(pur==='cust'||pur==='trial'?pur:null);
   const over=orig!=null;
   document.getElementById('save-orig').textContent=orig||'';
@@ -6060,6 +6094,7 @@ function openSaveModal(orig, name, desc, cb, tags, pur, cust){
   document.getElementById('save-name').value=name==='新評估'?'':name;
   document.getElementById('save-tags').value=(tags||[]).join(', ');
   document.getElementById('save-cust').value=cust||''; custDlFill();
+  document.getElementById('save-site').value=site?evSiteTxt(site):''; siteDlFill();
   document.getElementById('save-desc').value=desc||'';
   saveTagSug();
   document.getElementById('save-modal').style.display='flex';
@@ -6074,8 +6109,8 @@ function closeSaveModal(){
 function saveModalPick(choice){
   const cb=_saveCb, after=_afterSave, pur=_savePur, name=document.getElementById('save-name').value.trim()||'新評估';
   if(!pur){ document.getElementById('save-pur').classList.add('err'); document.getElementById('save-err').textContent='請選擇用途：客戶需求或內部試算'; return; }
-  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value), cust=document.getElementById('save-cust').value.trim().slice(0,40);
-  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags, pur, cust);
+  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value), cust=document.getElementById('save-cust').value.trim().slice(0,40), site=evSiteNorm(document.getElementById('save-site').value);
+  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags, pur, cust, site);
 }
 // 標籤：逗號、頓號、分號或空白分開；去掉 #、去重（不分大小寫）
 function parseTags(s){
@@ -6154,7 +6189,7 @@ function evXY(e){
 function evMatch(o, toks){
   if(!toks.length) return true;
   if(o.hay==null){ const e=o.e, fb=e.fb||{};
-    o.hay=[e.name,e.customer,e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
+    o.hay=[e.name,e.customer,evSiteTxt(evSiteOf(e)),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
   const tl=(o.e.tags||[]).map(function(t){ return t.toLowerCase(); });
   return toks.every(function(t){ return t==='#' ? true : t[0]==='#' ? tl.indexOf(t.slice(1))>=0 : o.hay.indexOf(t)>=0; });
 }
@@ -6212,31 +6247,56 @@ function renderEvals(){
   const sv=document.getElementById('ev-sort').value, ts=e=>e.ts||e.id||0;
   list.sort(sv==='name' ? (a,b)=>String(a.e.name).localeCompare(String(b.e.name),'zh-Hant',{numeric:true})
           : sv==='old' ? (a,b)=>(a.e.id||0)-(b.e.id||0) : (a,b)=>ts(b.e)-ts(a.e));
-  // 分組：有填客戶就先依客戶，再依第一個標籤；客戶、標籤都沒填的放最後
-  const hasC=all.some(o=>String(o.e.customer||'').trim()), hasT=all.some(o=>o.e.tags&&o.e.tags.length);
-  if(!hasC && !hasT){ el.innerHTML=list.map(evCard).join(''); return; }
+  // 分組（10/12 Johnny）：廠區 → 客戶，跟知識庫一樣；廠區、客戶都沒填才照舊依第一個標籤
+  const hasS=all.some(o=>evSiteOf(o.e)), hasC=all.some(o=>String(o.e.customer||'').trim()), hasT=all.some(o=>o.e.tags&&o.e.tags.length);
+  _evTop=[];
+  if(!hasS && !hasC && !hasT){ el.innerHTML=list.map(evCard).join(''); evFoldBtn(filtering); return; }
   const grp=(arr, kf)=>{ const out=[], gm={};
     arr.forEach(o=>{ const t=kf(o), k=t.toLowerCase(); if(!gm[k]){ gm[k]={t,k,items:[]}; out.push(gm[k]); } gm[k].items.push(o); });
     if(sv==='name') out.sort((a,b)=>a.t.localeCompare(b.t,'zh-Hant',{numeric:true}));
     return out.sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0)); };
-  const hdr=(k, cls, label, n)=>{
+  const hdr=(k, sub, label, n)=>{
+    if(!sub) _evTop.push(k);
     const closed=!filtering && _evClosed.indexOf(k)>=0;   // 搜尋／篩選時全部展開，才不會漏看
-    return [closed, `<div class="ev-grp${cls}${closed?' closed':''}"${filtering?' style="cursor:default"':''} data-k="${esc(k)}" onclick="evGrpToggle(this.dataset.k)">`
+    return [closed, `<div class="ev-grp${sub?' sub':' cu'}${closed?' closed':''}"${filtering?' style="cursor:default"':''} data-k="${esc(k)}" onclick="evGrpToggle(this.dataset.k)">`
       +`${filtering?'':'<span class="car">▼</span>'}${label}<span class="n">${n}</span></div>`]; };
   const byTag=(arr, pre, sub)=>{
     if(!arr.some(o=>o.e.tags&&o.e.tags.length)) return arr.map(evCard).join('');
     return grp(arr, o=>(o.e.tags&&o.e.tags[0])||'').map(g=>{
-      const h=hdr(pre+g.k, sub?' sub':'', g.k?(sub?'#':'')+esc(g.t):(sub?'沒有標籤':'未分類'), g.items.length);
+      const h=hdr(pre+g.k, sub, g.k?(sub?'#':'')+esc(g.t):(sub?'沒有標籤':'未分類'), g.items.length);
       return h[1]+(h[0]?'':g.items.map(evCard).join(''));
     }).join(''); };
-  if(!hasC){ el.innerHTML=byTag(list, '', false); return; }
-  // 同一客戶大小寫不同（BMW／bmw）算同一組；組名用最常見的寫法，一樣多就用有大寫的
+  // 同一客戶大小寫不同（BMW／bmw）算同一組；組名用最常見的寫法，一樣多就用有大寫的；英文在前、中文在後、沒填的最後（跟知識庫一樣）
   const cn=g=>{ const c={}; g.items.forEach(o=>{ const t=String(o.e.customer||'').trim(); c[t]=(c[t]||0)+1; });
     return Object.keys(c).sort((a,b)=>c[b]-c[a] || (b!==b.toLowerCase())-(a!==a.toLowerCase()))[0]; };
-  el.innerHTML=grp(list, o=>String(o.e.customer||'').trim()).map(g=>{ g.t=cn(g);
-    const h=hdr('c:'+g.k, ' cu', g.k?'🏢 '+esc(g.t):'客戶未填', g.items.length);
-    return h[1]+(h[0]?'':byTag(g.items, 'c:'+g.k+'/', true));
-  }).join('');
+  const byCust=(arr, pre, sub)=>{
+    if(!arr.some(o=>String(o.e.customer||'').trim())) return arr.map(evCard).join('');
+    return grp(arr, o=>String(o.e.customer||'').trim()).sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true})).map(g=>{ g.t=cn(g);
+      const h=hdr(pre+'c:'+g.k, sub, '🏢 '+(g.k?esc(g.t):'客戶未填'), g.items.length);
+      return h[1]+(h[0]?'':g.items.map(evCard).join(''));
+    }).join(''); };
+  if(hasS){   // 廠區照知識庫廠區清單的順序；清單外的排後面、沒填的最後
+    const codes=kbSites().map(x=>x.code.toLowerCase()), rk=k=>{ if(!k) return 1e4; const j=codes.indexOf(k); return j<0?999:j; };
+    el.innerHTML=grp(list, o=>evSiteOf(o.e)).sort((a,b)=>rk(a.k)-rk(b.k) || a.k.localeCompare(b.k,'en',{numeric:true})).map(g=>{
+      const h=hdr('s:'+g.k, false, '📍 '+(g.k?esc(evSiteTxt(g.t)):'廠區未填'), g.items.length);
+      return h[1]+(h[0]?'':byCust(g.items, 's:'+g.k+'/', true));
+    }).join('');
+  } else el.innerHTML=hasC ? byCust(list, '', false) : byTag(list, '', false);
+  evFoldBtn(filtering);
+}
+// 一鍵收合／展開（10/12 Johnny）：收合＝只剩最上層（廠區）的標題；展開＝每一層都打開
+let _evTop=[];
+function evFoldBtn(filtering){
+  const b=document.getElementById('ev-fold'); if(!b) return;
+  b.style.display=(_evTop.length>1 && !filtering) ? '' : 'none';
+  const all=_evTop.every(k=>_evClosed.indexOf(k)>=0);
+  b.innerHTML=all ? '⊞ <span class="fx">全部</span>展開' : '⊟ <span class="fx">全部</span>收合'; b.title=all ? '每一層都打開' : '只留最上層的分組標題';
+}
+function evFoldAll(){
+  if(_evFilt || !_evTop.length) return;
+  _evClosed=_evTop.every(k=>_evClosed.indexOf(k)>=0) ? [] : _evTop.slice();
+  try{ localStorage.setItem('aoi_hist_closed', JSON.stringify(_evClosed)); }catch(e){}
+  renderEvals();
 }
 function evCard(o){
   const e=o.e, i=o.i, m=e.mode||'scan', cur=(e.id===_curEvalId), st=evSt(e), tags=e.tags||[];
@@ -6244,7 +6304,7 @@ function evCard(o){
                 : '<span class="ec-lamp unk" title="舊紀錄沒有存結論，載入一次就會補上"></span>';
   return `
     <div class="ec" data-i="${i}"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
-      <h3>${lamp}${esc(e.name)}<span style="font-size:10px;background:${EV_MC[m]};color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">${EV_ML[m]}</span>${evPurPill(e,i)}${evCustPill(e,i)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
+      <h3>${lamp}${esc(e.name)}<span style="font-size:10px;background:${EV_MC[m]};color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">${EV_ML[m]}</span>${evPurPill(e,i)}${evSitePill(e,i)}${evCustPill(e,i)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${esc(e.date)} · ${esc(e.camera)}</p>
       <p>${o.sum}</p>
       <div class="ec-tags">${tags.map(t=>`<button type="button" class="ec-tag" data-t="${esc(t)}" onclick="evTagQ(this.dataset.t)" title="只看這個標籤">#${esc(t)}</button>`).join('')}<button type="button" class="ec-tag-ed" onclick="evTagEdit(${i},this)" title="編輯標籤">${tags.length?'✎':'＋ 標籤'}</button></div>
@@ -6269,7 +6329,27 @@ function evPurPill(e,i){
 }
 function evCustPill(e,i){
   const c=String(e.customer||'').trim();
-  return '<button type="button" class="ec-pur ec-cust'+(c?' on-c':'')+'" onclick="evCustEdit('+i+',this)" title="'+(c?'改客戶':'填客戶：歷史紀錄會依客戶分組')+'">'+(c?'🏢 '+esc(c):'＋ 客戶')+'</button>';
+  return '<button type="button" class="ec-pur ec-cust'+(c?' on-c':'')+'" onclick="evCustEdit('+i+',this)" title="'+(c?'改客戶':'填客戶：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'🏢 '+esc(c):'＋ 客戶')+'</button>';
+}
+function evSitePill(e,i){
+  const c=evSiteOf(e), auto=c&&!e.site;
+  return '<button type="button" class="ec-pur ec-site'+(c?' on-s':'')+'" onclick="evSiteEdit('+i+',this)" title="'+(c?esc(evSiteTxt(c))+(auto?'（從標籤帶出）':'')+'，點一下改廠區':'填廠區：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'📍 '+esc(c):'＋ 廠區')+'</button>';
+}
+function evSiteEdit(i, btn){
+  const e=evals[i]; if(!e) return;
+  siteDlFill();
+  const inp=document.createElement('input'); inp.className='ec-cust-in'; inp.setAttribute('list','site-dl'); inp.placeholder='廠區，Enter 儲存'; inp.value=evSiteTxt(evSiteOf(e));
+  btn.replaceWith(inp); inp.focus(); inp.select();
+  let fin=false;
+  const end=function(ok){
+    if(fin) return; fin=true;
+    const v=evSiteNorm(inp.value), old=evSiteOf(e);
+    if(ok && v!==old){ if(v) e.site=v; else delete e.site; persistEvals(); }
+    renderEvals();
+  };
+  inp.addEventListener('keydown',function(ev){ if(ev.isComposing) return;
+    if(ev.key==='Enter'){ ev.preventDefault(); end(true); } else if(ev.key==='Escape'){ ev.preventDefault(); ev.stopPropagation(); end(false); } });
+  inp.addEventListener('blur',function(){ end(true); });
 }
 function evCustEdit(i, btn){
   const e=evals[i]; if(!e) return;
@@ -6391,8 +6471,10 @@ function evJump(i){
   const q=()=>document.querySelector('#ev-list .ec[data-i="'+i+'"]');
   let c=q();
   if(!c){ const e=evals[i]; if(!e) return;
-    const j=_evClosed.indexOf(((e.tags&&e.tags[0])||'').toLowerCase());
-    if(j>=0){ _evClosed.splice(j,1); try{ localStorage.setItem('aoi_hist_closed', JSON.stringify(_evClosed)); }catch(_){} renderEvals(); c=q(); } }
+    const sk='s:'+evSiteOf(e).toLowerCase(), ck='c:'+String(e.customer||'').trim().toLowerCase();
+    const ks=[sk, sk+'/'+ck, ck, ((e.tags&&e.tags[0])||'').toLowerCase()], n0=_evClosed.length;
+    _evClosed=_evClosed.filter(k=>ks.indexOf(k)<0);
+    if(_evClosed.length!==n0){ try{ localStorage.setItem('aoi_hist_closed', JSON.stringify(_evClosed)); }catch(_){} renderEvals(); c=q(); } }
   if(!c){ evClear(); c=q(); }
   if(!c) return;
   c.scrollIntoView({block:'center', behavior:'smooth'});
@@ -9497,7 +9579,9 @@ function kbsOpen(i){
   _kbs={i:i, evId:e.id, kind:c?'update':'new', target:c?c.id:'', title:e.name||'', items:[], other:false, otherTxt:'',
         site:'', siteOther:'', lineSt:'', w:nd.w||'', h:nd.h||'', customer:e.customer||'', owner:KB.who||'', status:'eval', lesson:'', report:'', from:'', fromNote:'', fromAuto:false, itemsAuto:false, who:KB.who||''};
   if(c) kbsFill(c);
-  else{   // 標籤剛好是檢測項目名稱的，先幫忙勾起來
+  else{   // 歷史紀錄填了廠區就帶入（清單外的放「其他」）
+    const es=evSiteOf(e); if(es){ if(kbSite(es)) _kbs.site=es; else { _kbs.site='其他'; _kbs.siteOther=es; } }
+    // 標籤剛好是檢測項目名稱的，先幫忙勾起來
     const all=kbItemsOf(e.mode==='3d'?'3d':'2d');
     (e.tags||[]).forEach(function(t){ if(all.indexOf(t)>=0 && _kbs.items.indexOf(t)<0) _kbs.items.push(t); });
     const src=e.kbFrom ? kbCaseById(e.kbFrom) : null;
@@ -9849,7 +9933,7 @@ function kbCaseHtml(c, isSub){
 // 衍生案例列在來源卡片底部（點了看那一筆）；電腦寬度同一種取像方式的案例排成多欄
 let _kbF={q:'', site:'', st:''}, _kbTF=false;
 let _kbClosed=(function(){ try{ const a=JSON.parse(localStorage.getItem('aoi_kb_closed')||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } })();   // 收起來的：'2d'、'3d'，或取像方式 '2d/掃描'
-let _kbArr=(function(){ try{ return localStorage.getItem('aoi_kb_arr')==='time' ? 'time' : 'site'; }catch(e){ return 'site'; } })();   // 案例排列：site＝依廠區分類（預設，10/11 Johnny）、time＝新的在前
+let _kbSiteKs=[];   // 目前族譜上所有廠區分組的鍵（一鍵收合用）
 const KB_MODE2={scan:'掃描', static:'靜態', area:'畫檢'};
 const KB_DIM_T={'2d':'2D 取像', '3d':'3D 量測'};
 function kbSub(c){
@@ -9900,8 +9984,7 @@ function kbToolsHtml(){
     +'<button type="button" class="btn-sec kt-sim" onclick="simOpen()" title="依需求（尺寸、精度、檢測項目）找最像的舊案">📚 找相似案例</button></div>'
     +'<div class="kt-lg"><span><i class="r-pass"></i>達標</span><span><i class="r-part"></i>部分達標</span><span><i class="r-fail"></i>未達標</span><span><i class="r-exp"></i>依經驗導入</span><span><i class="r-none"></i>還沒有實測</span><span><i class="dl"></i>衍生案例</span>'
     +'<span class="kt-cnt" id="kb-tcnt"></span>'
-    +'<span class="kt-arr">排列<span class="seg" id="kb-arr">'+[['site','依廠區','同一個廠區排在一起'],['time','依時間','新的在前']].map(function(x){
-        return '<button type="button" data-v="'+x[0]+'" class="'+(_kbArr===x[0]?'on':'')+'" onclick="kbSetArr(this.dataset.v)" title="'+x[2]+'">'+x[1]+'</button>'; }).join('')+'</span></span></div></div>';
+    +'<button type="button" class="kt-foldall" id="kb-fold" onclick="kbFoldAll()"></button></div></div>';
 }
 function kbSetF(k, v){ _kbF[k]=v; kbTreeRender(); }
 function kbClearF(){ _kbF={q:'', site:'', st:''}; kbRender(); }
@@ -9924,8 +10007,10 @@ function kbTreeRender(){
   const filt=_kbTF=!!(toks.length || _kbF.site || _kbF.st);
   const tc=document.getElementById('kb-tcnt');
   if(tc) tc.innerHTML=filt ? '符合 '+list.length+' / '+all.length+' 筆 · <a class="fb-link" onclick="kbClearF()">清除</a>' : '';
-  if(!list.length){ el.innerHTML='<div class="empty">🔍<br>沒有符合條件的案例<br><button class="btn-sec" style="margin-top:10px;font-size:11px" onclick="kbClearF()">清除搜尋與篩選</button></div>'; return; }
+  if(!list.length){ kbFoldBtn(true); el.innerHTML='<div class="empty">🔍<br>沒有符合條件的案例<br><button class="btn-sec" style="margin-top:10px;font-size:11px" onclick="kbClearF()">清除搜尋與篩選</button></div>'; return; }
   const groups=kbGroup(list, function(c){ return c.dim==='3d'?'3d':'2d'; }).sort(function(a,b){ return a.k<b.k ? -1 : 1; });
+  _kbSiteKs=[]; list.forEach(function(c){ const k=(c.dim==='3d'?'3d':'2d')+'/'+kbSub(c)+'/'+kbSiteKey(c); if(_kbSiteKs.indexOf(k)<0) _kbSiteKs.push(k); });
+  kbFoldBtn(filt);
   el.innerHTML='<div class="kt">'+groups.map(function(g){
     const closed=!filt && _kbClosed.indexOf(g.k)>=0;   // 搜尋／篩選時全部展開，才不會漏看
     const subs=kbGroup(g.cs, kbSub).sort(function(a,b){ return kbSubRank(g.k,a.k)-kbSubRank(g.k,b.k) || a.k.localeCompare(b.k,'zh-Hant'); });
@@ -9939,12 +10024,11 @@ function kbTreeRender(){
       }).join('')+'</div>')+'</div>';
   }).join('')+'</div>';
 }
-// 一種取像方式底下的案例：新的在前；選「依廠區」就按廠區分成小區塊（照廠區清單的順序，清單外、沒填的排後面；電腦寬度小區塊並排）
+// 一種取像方式底下的案例：按廠區分成小區塊、每塊裡新的在前（10/12 Johnny 拿掉「依時間」排列）（照廠區清單的順序，清單外、沒填的排後面；電腦寬度小區塊並排）
 // 每個廠區也能收起（10/11 Johnny）：鍵＝取像方式的鍵＋'/'＋廠區，例如 '2d/靜態/S11'
 function kbSiteKey(c){ return c.site==='其他' ? '其他:'+(c.siteOther||'') : (c.site||''); }
 function kbSubCases(cs, pre, filt){
   cs=cs.slice().sort(function(a,b){ return String(b.at||'').localeCompare(String(a.at||'')); });
-  if(_kbArr!=='site') return '<div class="kt-kids">'+cs.map(kbTreeCase).join('')+'</div>';
   const codes=kbSites().map(function(s){ return s.code; });
   const rank=function(c){ if(!c.site) return 9999; const i=codes.indexOf(c.site); return i<0 ? 999 : i; };
   return '<div class="kt-kids kt-bysite">'+kbGroup(cs, kbSiteKey)
@@ -9975,12 +10059,19 @@ function kbCustCases(cs, pre, filt){
         +(cl ? '' : g.cs.map(kbTreeCase).join(''))+'</div>';
     }).join('');
 }
-function kbPathTxt(){ return '2D／3D → 取像方式 → '+(_kbArr==='site'?'廠區 → 客戶 → ':'')+'案例；顏色是實測結果'; }
-function kbSetArr(v){
-  _kbArr=v==='time'?'time':'site';
-  try{ localStorage.setItem('aoi_kb_arr', _kbArr); }catch(e){}
-  document.querySelectorAll('#kb-arr button').forEach(function(b){ b.classList.toggle('on', b.dataset.v===_kbArr); });
-  const p=document.getElementById('kb-sec-path'); if(p) p.textContent=kbPathTxt();
+function kbPathTxt(){ return '2D／3D → 取像方式 → 廠區 → 客戶 → 案例；顏色是實測結果'; }
+// 一鍵收合／展開（10/12 Johnny）：收合＝2D／3D、取像方式打開，每個廠區收起來（看得到有哪些廠區、各幾筆）；展開＝每一層都打開
+function kbFoldBtn(filt){
+  const b=document.getElementById('kb-fold'); if(!b) return;
+  const all=_kbSiteKs.length && _kbSiteKs.every(function(k){ return _kbClosed.indexOf(k)>=0; });
+  b.textContent=all ? '⊞ 全部展開' : '⊟ 全部收合';
+  b.title=filt ? '搜尋／篩選時會全部展開' : all ? '每一層都打開' : '每個廠區收起來，只看標題和筆數';
+  b.disabled=!!filt || !_kbSiteKs.length;
+}
+function kbFoldAll(){
+  if(_kbTF || !_kbSiteKs.length) return;
+  _kbClosed=_kbSiteKs.every(function(k){ return _kbClosed.indexOf(k)>=0; }) ? [] : _kbSiteKs.slice();
+  try{ localStorage.setItem('aoi_kb_closed', JSON.stringify(_kbClosed)); }catch(e){}
   kbTreeRender();
 }
 // 案例卡片：名稱／廠區＋線別（含站點）／狀態＋實測結果／檢測項目
@@ -10479,7 +10570,7 @@ function simStart(id){
   simClose(); kbdClose();
   if(document.body.classList.contains('kb-on')) document.getElementById('tab-kb').classList.remove('on');
   loadEval(-1, e);
-  _kbStart={id:c.id, title:c.title, mode:e.mode||'scan', tags:e.tags||null, pur:e.purpose||null, cust:c.customer||e.customer||null};
+  _kbStart={id:c.id, title:c.title, mode:e.mode||'scan', tags:e.tags||null, pur:e.purpose||null, cust:c.customer||e.customer||null, site:(c.site==='其他'?c.siteOther:c.site)||null};
   showToast('已載入「'+c.title+'」當起點；改好存成新評估，提交時「衍生自」會自動選這一筆');
 }
 
@@ -10750,11 +10841,11 @@ const GUIDES={
     {el:function(){ return document.querySelector('#pane-hist > div'); }, t:'歷史紀錄',
      d:'所有存過的評估都在這裡，<b>2D 與 3D 分開顯示</b>（看你目前在哪個維度）。<br><b>📤 匯出</b>備份成 JSON 給同事，<b>📥 匯入</b>讀回來。<b>清除全部</b>會刪掉所有紀錄，請小心。'},
     {el:function(){ return $gd('ev-tools'); }, t:'搜尋與篩選',
-     d:'輸入名稱、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看某一種模式、<b>有實測回饋</b>、<b>需調整</b>或<b>📚 待提交</b>（客戶需求還沒交到知識庫）的紀錄。'},
+     d:'輸入名稱、廠區、客戶、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看某一種模式、<b>有實測回饋</b>、<b>需調整</b>或<b>📚 待提交</b>（客戶需求還沒交到知識庫）的紀錄。'},
     {el:function(){ return $gd('ev-map'); }, t:'檢索地圖',
      d:function(){ return '把這一類的評估依<b>'+(dim==='3d'?'視野 × Z 精度':'解析度 × 台數')+'</b>畫成一張圖。接到新需求時，可以先看看附近有沒有做過類似的案子。<br><b>點圖上的點</b>會跳到那一筆，標題列可以收合。'; }},
     {el:function(){ return $gd('ev-list'); }, t:'每一筆評估',
-     d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄，按 ✎ 修改；有標籤時清單會<b>依第一個標籤分組</b>。<br><b>📂 載入</b>回到當時的設定繼續改；<b>📄 PDF</b> 匯出那一筆的報告；<b>📝 實測回饋</b>填上實測或導入的結果（不實測的選「依經驗導入」）；<b>📚 提交</b>送到部門知識庫，Johnny 審核後收錄。<br>名稱後面的 <b>👥 客戶需求／🧪 內部試算</b>是存檔時選的用途，點一下可以改；客戶需求的評估都要提交。'},
+     d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄，按 ✎ 修改。<br>清單依<b>📍 廠區 → 🏢 客戶</b>分組（跟知識庫一樣），名稱旁點一下就能改；右上<b>全部收合／展開</b>一次收起或打開。<br><b>📂 載入</b>回到當時的設定繼續改；<b>📄 PDF</b> 匯出那一筆的報告；<b>📝 實測回饋</b>填上實測或導入的結果（不實測的選「依經驗導入」）；<b>📚 提交</b>送到部門知識庫，Johnny 審核後收錄。<br>名稱後面的 <b>👥 客戶需求／🧪 內部試算</b>是存檔時選的用途，點一下可以改；客戶需求的評估都要提交。'},
     {el:function(){ return $gd('syncStatus'); }, t:'雲端同步', d:'設定 GitHub 同步後，歷史紀錄與資料庫可以在不同電腦之間共用（需要管理者提供權杖）。'},
     GD_ST.end
   ],
@@ -10764,7 +10855,7 @@ const GUIDES={
     {el:function(){ return $gd('kb-ctl'); }, t:'連線狀態與設定',
      d:'圓環顏色是連線狀態：<b style="color:#1E8E3E">綠</b>＝已連線、<b style="color:#E08A00">黃色轉圈</b>＝讀取中、<b style="color:#D93025">紅</b>＝連線失敗（會先顯示上次讀到的內容）、灰色點點＝還沒設定。<br>點圓環＝<b>重新整理</b>（讀最新的內容）；點右邊 ⚙＝<b>連線設定</b>。<br>第一次使用要在連線設定填<b>你的名字</b>和<b>部門共用的知識庫權杖</b>（找 Johnny 索取）；權杖只存在這台電腦，跟個人的「☁ 雲端同步」是分開的。'},
     {el:function(){ return document.querySelector('#kb-tree .kt-g>.kt-i'); }, t:'族譜怎麼看',
-     d:'先分 <b>2D 取像</b>、<b>3D 量測</b>；2D 再分<b>掃描／靜態／畫檢</b>，3D 依<b>量測原理</b>（三角雷射、結構光…）。<br>每張卡片有<b>廠區、線別（含站點）</b>、狀態；左邊色條是實測結果（綠＝達標、橘＝部分、紅＝未達標、青＝依經驗導入免實測）。點卡片看完整內容。<br>卡片底部的 <b>⇢ 衍生</b>，是有人拿這筆當起點做的新案例。<br>2D／3D 和取像方式（掃描、靜態…）都可以<b>點一下收起來</b>；右邊的<b>排列</b>預設「依廠區」分類（每個廠區也能收起來），也可以切成「依時間」。'},
+     d:'先分 <b>2D 取像</b>、<b>3D 量測</b>；2D 再分<b>掃描／靜態／畫檢</b>，3D 依<b>量測原理</b>（三角雷射、結構光…）。<br>每張卡片有<b>廠區、線別（含站點）</b>、狀態；左邊色條是實測結果（綠＝達標、橘＝部分、紅＝未達標、青＝依經驗導入免實測）。點卡片看完整內容。<br>卡片底部的 <b>⇢ 衍生</b>，是有人拿這筆當起點做的新案例。<br>取像方式底下依<b>廠區 → 客戶</b>分組；每一層都可以<b>點一下收起來</b>，右邊的<b>全部收合</b>一次把每個廠區收起來、再按一次全部展開。'},
     {el:function(){ return document.querySelector('#kb-body .kt-tools'); }, t:'搜尋與篩選',
      d:'輸入關鍵字找案例：名稱、廠區、線別、<b>檢測項目</b>、客戶、方案、反饋都找得到（空格隔開＝同時符合）。<br>右邊可以按廠區（或整條產品線）、狀態篩選。'},
     {el:function(){ return document.querySelector('#kb-body .kt-sim'); }, t:'📚 找相似案例',

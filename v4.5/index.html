@@ -1084,7 +1084,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
     <div class="cl-ver">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag new">新版本</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜（廠區底下）與歷史紀錄多一層<b>客戶</b>分類；存檔時可以填客戶</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">v4.5 有的功能 v5 全都有，兩版的「我的評估」紀錄共用。<a href="../">→ 切到 v5.0 Paranal Beta</a></div>
     </div>
@@ -5102,7 +5102,7 @@ function commitEval(rec, tab){
   const done=i=>{
     rec.ts=Date.now();
     if(i>=0){ rec.id=evals[i].id; if(evals[i].fb) rec.fb=evals[i].fb;
-      ['purpose','cmp','kbFrom','customer'].forEach(function(k){ if(evals[i][k]!=null) rec[k]=evals[i][k]; });   // v5 存的用途、方案比較、知識庫來源、客戶：v4.5 不能改，覆蓋時原樣保留
+      ['purpose','cmp','kbFrom','customer','site'].forEach(function(k){ if(evals[i][k]!=null) rec[k]=evals[i][k]; });   // v5 存的用途、方案比較、知識庫來源、客戶：v4.5 不能改，覆蓋時原樣保留
       evals[i]=rec; } else evals.unshift(rec);   // 覆蓋時保留實測回饋
     _curEvalId=rec.id; persistEvals(); renderEvals(); showTab(tab);
     if(_afterSave){ const f=_afterSave; _afterSave=null; setTimeout(f,60); }
