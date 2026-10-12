@@ -426,7 +426,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ver-pill{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.22);
   border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   border-radius:11px;padding:1px 8px;vertical-align:middle;margin-left:6px;letter-spacing:.3px;}
-/* 版本號＝切換選單：v5.0 Paranal Beta（目前）／v4.5 Gaia（網站 v4.5/ 資料夾）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內）；兩版同網址底下，評估紀錄共用 */
+/* 版本號＝切換選單：v5.1 Paranal Beta（目前）／v4.5 Gaia（網站 v4.5/ 資料夾）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內）；兩版同網址底下，評估紀錄共用 */
 #hdr-title{display:flex;align-items:center;}
 .ver-wrap{margin-left:6px;}
 .ver-btn{background:none;border:none;padding:0;cursor:pointer;font-family:inherit;line-height:1;display:flex;}
@@ -494,6 +494,10 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ev-grp .car{display:inline-block;width:10px;color:var(--sub);font-size:9px;transition:transform .15s;}
 .ev-grp.closed .car{transform:rotate(-90deg);}
 .ev-grp::after{content:'';flex:1;height:1px;background:var(--border);}
+.ev-grp.cu{font-size:12.5px;}
+.ev-grp.sub{font-size:11px;font-weight:600;color:var(--sub);padding-left:14px;}
+#ev-list>.ev-grp.sub{margin:4px 0 -3px;}
+.ev-grp.sub::after{background:none;border-top:1px dashed var(--border);height:0;}
 .ev-map{margin:9px 10px 4px;border:1px solid var(--border);border-radius:var(--rad);background:var(--surf);}
 .ev-map-hd{display:flex;align-items:center;gap:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;user-select:none;-webkit-user-select:none;flex-wrap:wrap;}
 .ev-map-hd .car{display:inline-block;width:10px;color:var(--sub);font-size:9px;transition:transform .15s;}
@@ -583,6 +587,58 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .bdg-tele{background:color-mix(in srgb,#36b37e 18%,transparent);color:#1f7a52;}
 .bdg-fixed{background:color-mix(in srgb,#e0a000 22%,transparent);color:#8a6100;}
 .bdg-obj{background:var(--surf2);color:var(--sub);}
+.bdg-mod{background:color-mix(in srgb,#d9480f 15%,transparent);color:#b23c08;}
+#db-mod-list .db-card-spec{white-space:pre-line;}
+#as-single>.row:last-child{border-bottom:1px solid var(--border);}
+#as-rpt-panel,#as-rpt-curve{white-space:pre-line;}
+.asm-tip{padding:6px 12px;font-size:10.5px;line-height:1.5;color:var(--sub);border-bottom:1px solid var(--border);}
+.asm-scr{padding:6px 12px 7px 9px;border-left:3px solid var(--g);border-bottom:1px solid var(--border);}
+.asm-hd{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.asm-no{font-size:12px;font-weight:700;color:var(--text);}
+.asm-grp{font-size:10px;font-weight:700;color:#fff;background:var(--g);border-radius:4px;padding:0 5px;line-height:16px;}
+.asm-hd select{margin-left:auto;height:20px;font-size:11px;padding:0 3px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);outline:none;cursor:pointer;}
+.asm-r{display:flex;align-items:center;gap:4px;padding:2px 0;min-height:24px;}
+.asm-r>label{flex:1;font-size:11.5px;color:var(--text);white-space:nowrap;}
+.asm-r input[type=number]{width:58px;padding:2px 5px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);font-size:12px;font-family:'SF Mono',ui-monospace,monospace;text-align:right;outline:none;flex-shrink:0;}
+.asm-r input[type=text]{flex:3;min-width:0;padding:2px 6px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);font-size:11.5px;outline:none;}
+.asm-r input:focus{border-color:var(--accent);}
+.asm-r .x{color:var(--sub);font-size:10px;}
+.asm-r .unit{min-width:22px;}
+.asm-r .seg button{padding:2px 7px;font-size:10.5px;}
+.asm-ci{font-size:10.5px;line-height:1.45;color:var(--sub);padding-top:2px;}
+.asm-ci b{color:var(--text);font-weight:600;font-family:'SF Mono',ui-monospace,monospace;}
+.asm-ci .bad{color:#ff3b30;}
+.asm-link{display:flex;justify-content:center;padding:4px 0;border-bottom:1px solid var(--border);}
+.asm-lk{font-size:10.5px;border:1px solid var(--border);border-radius:10px;padding:1px 10px;background:var(--surf);color:var(--sub);cursor:pointer;font-family:inherit;}
+.asm-lk.on{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent);font-weight:600;}
+.asm-cnt{display:flex;align-items:center;gap:8px;}
+.asm-cnt button{width:22px;height:20px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);cursor:pointer;font-size:13px;line-height:1;padding:0;}
+.asm-cnt button:disabled{opacity:.35;cursor:default;}
+.asm-cnt b{font-size:12px;min-width:14px;text-align:center;}
+.asm-blk{border-top:1px solid var(--border);padding:12px 14px;}
+.asm-tbl{width:100%;border-collapse:collapse;font-size:11.5px;font-variant-numeric:tabular-nums;}
+.asm-tbl th{font-size:10px;font-weight:600;color:var(--sub);text-align:right;padding:4px 6px;border-bottom:1px solid var(--border);white-space:nowrap;}
+.asm-tbl th:first-child,.asm-tbl th:nth-child(2){text-align:left;}
+.asm-tbl td{padding:5px 6px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap;}
+.asm-tbl td:first-child,.asm-tbl td:nth-child(2){text-align:left;}
+.asm-tbl .gtag{display:inline-block;font-size:10px;font-weight:700;color:#fff;border-radius:4px;padding:0 6px;line-height:16px;}
+.asm-tbl td.bad{color:#ff3b30;}
+.asm-tbl tfoot td{border-bottom:none;font-weight:700;padding-top:7px;}
+.asm-tbl tfoot .tot{font-size:13px;color:var(--accent-deep,var(--accent));}
+.asm-wrap{overflow-x:auto;}
+.asm-note{font-size:10.5px;line-height:1.5;color:var(--sub);margin-top:7px;}
+.as-curve-info{padding:6px 12px 7px;font-size:11px;line-height:1.55;color:var(--sub);border-bottom:1px solid var(--border);}
+.as-curve-info b{color:var(--text);font-weight:600;font-family:'SF Mono',ui-monospace,monospace;}
+.as-curve-info .bad{color:#ff3b30;}
+.sum-light{margin-top:3px;color:#b23c08;}
+.pi-modtag{display:inline-block;margin-left:7px;font-size:10px;font-weight:700;color:#b23c08;background:color-mix(in srgb,#d9480f 12%,transparent);border-radius:5px;padding:1px 6px;vertical-align:middle;}
+#af-mod{width:min(600px,94vw);}
+.afm-sub{font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.3px;margin:12px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+.af-hdr+.afm-sub{margin-top:0;}
+.afm-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+.afm-grid .af-row{grid-template-columns:72px 1fr 22px;}
+.afm-grid .af-row.full{grid-column:1/-1;}
+@media(max-width:560px){ .afm-grid{grid-template-columns:1fr;} }
 .bdg-tri{background:color-mix(in srgb,#534AB7 16%,transparent);color:#3b3487;}
 .bdg-sl{background:color-mix(in srgb,#D85A30 18%,transparent);color:#9c3d1d;}
 .bdg-cf{background:color-mix(in srgb,#1D9E75 18%,transparent);color:#126b4f;}
@@ -676,8 +732,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 #save-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
   width:min(380px,94vw);flex-direction:column;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
-#save-name,#save-desc,#save-tags{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
-#save-name:focus,#save-desc:focus,#save-tags:focus{border-color:var(--accent);}
+#save-name,#save-desc,#save-tags,#save-cust{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
+#save-name:focus,#save-desc:focus,#save-tags:focus,#save-cust:focus{border-color:var(--accent);}
 #save-desc{height:68px;resize:vertical;font-size:12px;line-height:1.5;}
 .save-pur{display:flex;gap:6px;margin:4px 0 5px;}
 .save-pur button{flex:1;font-size:12.5px;padding:7px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surf);color:var(--text);cursor:pointer;font-family:inherit;}
@@ -868,6 +924,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .cl-nm{font-size:11px;color:var(--sub);margin:3px 0 6px;line-height:1.45;}
 .cl-ver ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55;color:var(--text);}
 .cl-ver li+li{margin-top:2px;}
+.cl-sub{font-size:11px;font-weight:600;color:var(--sub);margin:8px 0 3px;}
 .cl-note{font-size:11px;color:var(--sub);margin-top:6px;line-height:1.5;}
 .cl-note a{color:var(--accent);text-decoration:none;font-weight:600;white-space:nowrap;}
 .cl-note a:hover{text-decoration:underline;}
@@ -986,7 +1043,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#fab-wrap,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#sel-modal,#sel-overlay,#sel-entry,#fb-modal,#fb-overlay,#pane-kb,#kb-modal,#kb-overlay,#kbs-modal,#kbs-overlay,#kbd-modal,#kbd-overlay,#sim-modal,#sim-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#fab-wrap,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-mod,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#sel-modal,#sel-overlay,#sel-entry,#fb-modal,#fb-overlay,#pane-kb,#kb-modal,#kb-overlay,#kbs-modal,#kbs-overlay,#kbd-modal,#kbd-overlay,#sim-modal,#sim-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -1107,6 +1164,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ec-pur.trial{border:1px solid var(--border);background:var(--surf2);color:var(--sub);}
 .ec-pur:hover{border-color:var(--accent);}
 .ec-pur.on{box-shadow:inset 0 0 0 1px currentColor;font-weight:700;}
+.ec-cust.on-c{border:1px solid rgba(14,124,134,.38);background:rgba(14,124,134,.07);color:#0B6670;}
+.ec-cust-in{font-family:inherit;font-size:11px;width:130px;margin-left:5px;padding:1px 6px;border:1px solid var(--accent);border-radius:4px;background:var(--surf);color:var(--text);outline:none;vertical-align:1px;}
 .ec-pur-ed{display:inline;}
 .ec-pur-x{font-family:inherit;font-size:10px;line-height:11.5px;padding:0 5px;margin-left:3px;border:none;background:none;color:var(--sub);cursor:pointer;}
 @media(max-width:480px){ .ec-btxt{display:none;} .ec-btns .btn-sec{padding-left:10px;padding-right:10px;} }   /* 手機：按鈕排得下一行，刪除只留圖示 */
@@ -1211,7 +1270,19 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .kt-row.closed>.kt-p .car{transform:rotate(-90deg);}
 .kt-fold{display:inline-flex;align-items:center;gap:10px;min-height:32px;margin-left:10px;font-size:10.5px;color:var(--sub);vertical-align:top;}
 .kt-fold .kt-sum{margin-left:0;}
-/* 依廠區分類：每個廠區一個小區塊（小標＋卡片） */
+/* 依廠區分類：每個廠區一個小區塊（小標＋卡片）；廠區底下再依客戶分（客戶小標佔滿一整列） */
+.kt-cu{grid-column:1/-1;}
+.kt-cg+.kt-cg{margin-top:6px;}
+.kt-cg>.kt-row+.kt-row{margin-top:8px;}
+.kt-ch{display:flex;align-items:center;gap:6px;width:100%;min-height:24px;padding:0;border:none;background:none;font-family:inherit;font-size:11px;color:var(--sub);white-space:nowrap;text-align:left;cursor:pointer;}
+.kt-ch .car{display:inline-block;width:9px;font-size:7px;text-align:center;transition:transform .15s;}
+.kt-cu.closed .kt-ch .car{transform:rotate(-90deg);}
+.kt-ch .t{font-weight:600;color:#0B6670;}
+.kt-ch:hover .t{text-decoration:underline;}
+.kt-ch .n{font-size:10px;background:var(--surf2);padding:0 6px;border-radius:999px;line-height:15px;}
+.kt-ch .kt-sum{margin-left:6px;}
+.kt-ch::after{content:'';flex:1;min-width:12px;border-top:1px dashed var(--border);margin-left:4px;}
+.kt-ch:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
 .kt-sh{display:flex;align-items:center;gap:6px;width:100%;min-height:32px;padding:0;border:none;background:none;font-family:inherit;font-size:12px;color:var(--text);white-space:nowrap;text-align:left;cursor:pointer;}
 .kt-sh .car{display:inline-block;width:9px;font-size:8px;text-align:center;color:var(--sub);transition:transform .15s;}
 .kt-sb.closed>.kt-sh .car{transform:rotate(-90deg);}
@@ -1253,7 +1324,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   .kt-row>.kt-kids>.kt-row.kt-sb{flex:0 1 calc(var(--n) * 268px - 8px);flex-direction:column;min-width:0;max-width:100%;}
   .kt-row>.kt-kids>.kt-row.kt-sb.closed{flex:0 0 auto;}   /* 收起的廠區只剩標題，寬度跟著字 */
   .kt-sg{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
-  .kt-sg>.kt-row{display:flex;}
+  .kt-sg>.kt-row,.kt-cg>.kt-row{display:flex;}
+  /* 寬：每個客戶一個小區塊（小標＋卡片），跟廠區區塊一樣並排，右邊不留空 */
+  .kt-sg.by-c{display:flex;flex-wrap:wrap;gap:4px 18px;}
+  .kt-cg{flex:1 1 calc(var(--n) * 268px - 8px);min-width:0;max-width:100%;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;align-content:start;}
+  .kt-cg.closed{flex:0 0 auto;}
+  .kt-cg>.kt-row+.kt-row,.kt-cg+.kt-cg{margin-top:0;}
   .kt-row>.kt-kids{flex:1;min-width:0;margin-left:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;}
   .kt-row>.kt-kids>.kt-row{display:flex;padding-left:0;}
   .kt-row>.kt-kids>.kt-row+.kt-row{margin-top:0;}
@@ -1267,6 +1343,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   .kt-row>.kt-kids>.kt-row:first-child::before{top:-6px;}
   .kt-row>.kt-kids>.kt-row:only-child::before{height:calc(var(--kt-a) + 6px);}
   .kt-sg>.kt-row+.kt-row{margin-top:8px;}
+  .kt-cg{margin-left:12px;}   /* 窄：客戶比廠區縮一層 */
 }
 /* v5 第 4 步：找相似案例（計算器左邊的入口＋視窗；案例視窗疊在上面，所以 z-index 低一層） */
 .kbsim-entry{margin:0 10px 10px;}
@@ -1342,14 +1419,42 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .kbr-q{font-size:12px;margin-bottom:6px;}
 .btn-pri.kbd-danger{background:linear-gradient(120deg,#B3261E,#D93025);box-shadow:0 2px 8px rgba(179,38,30,.25);}
 .btn-pri:disabled,.btn-sec:disabled{opacity:.55;cursor:default;filter:none;}
+/* 載入畫面（D 簡約＋液態玻璃）：透明玻璃蓋住整頁，小卡片在正中間 */
+#boot{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:rgba(236,241,248,.22);
+  -webkit-backdrop-filter:blur(2.5px);backdrop-filter:blur(2.5px);transition:opacity .35s ease;}
+#boot.out{opacity:0;pointer-events:none;}
+.boot-card{position:relative;overflow:hidden;width:112px;padding:13px 0 12px;border-radius:22px;isolation:isolate;
+  display:flex;flex-direction:column;align-items:center;gap:7px;font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif;
+  background:linear-gradient(160deg,rgba(255,255,255,.20) 0%,rgba(225,236,255,.06) 55%,rgba(255,255,255,.14) 100%);
+  -webkit-backdrop-filter:blur(7px) saturate(2.1) contrast(1.05);backdrop-filter:blur(7px) saturate(2.1) contrast(1.05);
+  border:1px solid rgba(255,255,255,.35);
+  box-shadow:inset 0 2px 1px -1px rgba(255,255,255,1), inset 0 -2px 2px -1px rgba(255,255,255,.7), inset 2px 0 3px -2px rgba(255,255,255,.8), inset -2px 0 3px -2px rgba(255,255,255,.6),
+    inset 0 0 10px rgba(255,255,255,.18), inset 0 -10px 16px -10px rgba(47,111,208,.18), 0 12px 32px rgba(30,60,120,.20), 0 2px 6px rgba(30,60,120,.10);}
+.boot-card::before{content:'';position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;   /* 左上的鏡面高光 */
+  background:radial-gradient(90% 55% at 20% 0%,rgba(255,255,255,.62) 0%,rgba(255,255,255,0) 50%),radial-gradient(70% 45% at 88% 108%,rgba(255,255,255,.38) 0%,rgba(255,255,255,0) 60%);}
+.boot-card::after{content:'';position:absolute;top:-30%;bottom:-30%;width:38%;left:-60%;z-index:-1;pointer-events:none;   /* 緩慢掠過的流光 */
+  background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.38),rgba(255,255,255,0));transform:skewX(-18deg);animation:bootSheen 2.6s ease-in-out infinite;}
+.boot-dots{height:22px;display:flex;align-items:center;gap:6px;}
+.boot-dots i{width:8px;height:8px;border-radius:50%;background:#2F6FD0;box-shadow:0 1px 3px rgba(47,111,208,.35);animation:bootDot 1.2s infinite;}
+.boot-dots i:nth-child(2){animation-delay:.15s;} .boot-dots i:nth-child(3){animation-delay:.3s;}
+.boot-t{font-size:12.5px;font-weight:600;color:#1D3A66;letter-spacing:.4px;text-shadow:0 0 6px rgba(255,255,255,.9),0 1px 0 rgba(255,255,255,.7);}
+.boot-bar{position:relative;width:72px;height:3px;border-radius:2px;background:rgba(47,111,208,.16);overflow:hidden;}
+.boot-bar i{position:absolute;top:0;bottom:0;width:40%;border-radius:2px;background:#2F6FD0;animation:bootBar 1.1s ease-in-out infinite;}
+@keyframes bootDot{0%,80%,100%{transform:scale(.5);opacity:.35}40%{transform:scale(1);opacity:1}}
+@keyframes bootBar{0%{left:-40%}100%{left:100%}}
+@keyframes bootSheen{0%{left:-60%}60%,100%{left:130%}}
+@media (prefers-reduced-motion:reduce){ .boot-card *,.boot-card::after{animation-duration:3s !important;} }
 /* 手機：375 寬也放得下 📚 知識庫（放最後，蓋過前面 768 的手機設定） */
 @media (max-width:420px){ header{padding:0 10px;gap:8px;} #nav-seg button{padding:4px 6px;} #nav-seg .nav-grp{padding-left:5px;} }
 @media (max-width:360px){ header{padding:0 8px;gap:6px;} }   /* 320 寬（舊款 iPhone SE）：間距再縮一點，雲端鈕才不會貼邊 */
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+<!-- 載入畫面（10/12 Johnny）：介面還沒載完時蓋一層透明玻璃，正中間放動畫；程式跑完、雲端讀完（最多等 5 秒）才收掉 -->
+<div id="boot" role="status" aria-live="polite"><div class="boot-card"><div class="boot-dots" aria-hidden="true"><i></i><i></i><i></i></div><div class="boot-t" id="boot-t">載入中…</div><div class="boot-bar" aria-hidden="true"><i></i></div></div></div>
+<script>setTimeout(function(){ var b=document.getElementById('boot'); if(b) b.remove(); }, 15000);   /* 保險：程式出錯也不會一直蓋著 */</script>
 <div id="app">
 
 <!-- ═══════════════════ HEADER ═══════════════════ -->
@@ -1364,9 +1469,9 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <!-- 版本號＋📚 知識庫同一個框：左半切換版本、右半進知識庫（知識庫不是計算模式，是另一區）；手機標題和版本號藏起來，只留知識庫 -->
   <div class="hdr-vk">
     <div class="hdr-mwrap ver-wrap">
-      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.0 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
+      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.1 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
       <div class="hdr-menu ver-menu" id="ver-menu">
-        <span class="ver-it on">v5.0 Paranal Beta<small>部門知識庫、找相似舊案、方案比較</small></span>
+        <span class="ver-it on">v5.1 Paranal Beta<small>知識庫、多連屏、曲面、自研模組</small></span>
         <a class="ver-it" href="v4.5/">v4.5 Gaia<small>評估計算與報告，不含知識庫</small></a>
         <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
       </div>
@@ -1466,8 +1571,10 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 </div>
   <div class="ab-pane" id="ab-p-log">
     <div class="cl-ver cur">
-      <div class="cl-hd"><span class="cl-v">v5.0 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-11</span></div>
+      <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜（廠區底下）與歷史紀錄多一層<b>客戶</b>分類；存檔時可以填客戶</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li></ul>
+      <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
     <div class="cl-ver">
@@ -1524,7 +1631,10 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <button type="button" role="radio" data-p="trial" onclick="savePurPick('trial')">🧪 內部試算</button>
   </div>
   <div class="save-pur-h" id="save-pur-h"></div>
-  <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，第一個標籤會當作分組）</span></label>
+  <label for="save-cust" style="font-size:11px;color:var(--sub);">客戶<span style="opacity:.75">（選填，歷史紀錄先依客戶分組）</span></label>
+  <input id="save-cust" type="text" list="cust-dl" placeholder="例：BMW、Ford、智己" autocomplete="off">
+  <datalist id="cust-dl"></datalist>
+  <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，第一個標籤會當作客戶底下的分組）</span></label>
   <input id="save-tags" type="text" placeholder="用逗號或空白分開，例：B6, Cell, 貼合" oninput="saveTagSug()">
   <div id="save-tag-sug" class="tag-sug"></div>
   <label for="save-desc" style="font-size:11px;color:var(--sub);">說明／備註</label>
@@ -1681,11 +1791,29 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="row"><label>目標檢測精度</label><input type="number" id="st-target-res" value="" placeholder="未填" step="0.1" min="0" oninput="saveRptMeta();calcStatic()"><span class="unit">µm</span></div>
   </div>
   <div class="card" id="need-area" style="display:none">
-    <div class="row"><label>面板 X-AA</label><input type="number" id="as-panel-x" value="1884" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
-    <div class="row"><label>面板 Y-AA</label><input type="number" id="as-panel-y" value="1070" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+    <div class="row"><label>產品型態</label>
+      <select id="as-shape" class="sel-w" onchange="asShapeUI();calcAS()">
+        <option value="rect">矩形</option>
+        <option value="free">異形（非矩形）</option>
+        <option value="curve">矩形曲面</option>
+        <option value="freecurve">異形曲面</option>
+        <option value="multi">多連屏</option>
+      </select>
+    </div>
+    <div id="as-single">
+    <div class="row" id="as-row-note" style="display:none"><label>形狀說明</label><input type="text" id="as-shape-note" placeholder="例：圓角＋瀏海、D 型切角…" oninput="calcAS()"></div>
+    <div class="row as-curve-row" style="display:none"><label>彎曲方向</label>
+      <div class="seg" id="as-bend-seg"><button class="on" onclick="setBend('x')">沿 X</button><button onclick="setBend('y')">沿 Y</button></div>
+    </div>
+    <div class="row as-curve-row" style="display:none"><label>曲率半徑 R</label><input type="number" id="as-curve-r" value="1500" step="10" min="0" oninput="calcAS()"><span class="unit">mm</span></div>
+    <div class="row"><label id="as-lbl-x">面板 X-AA</label><input type="number" id="as-panel-x" value="1884" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+    <div class="row"><label id="as-lbl-y">面板 Y-AA</label><input type="number" id="as-panel-y" value="1070" step="1" oninput="calcAS()"><span class="unit">mm</span></div>
+    <div class="as-curve-info as-curve-row" id="as-curve-info" style="display:none"></div>
     <div class="row"><label>面板 X 解析度</label><input type="number" id="as-panel-rx" value="3840" step="1" oninput="calcAS()"><span class="unit">px</span></div>
     <div class="row"><label>面板 Y 解析度</label><input type="number" id="as-panel-ry" value="2160" step="1" oninput="calcAS()"><span class="unit">px</span></div>
-    <div class="row"><label>Pitch</label><input type="number" id="as-pitch" value="8" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+    </div>
+    <div id="as-multi" style="display:none"></div>
+    <div class="row" id="as-row-pitch"><label>Pitch</label><input type="number" id="as-pitch" value="8" step="0.5" oninput="calcAS()"><span class="unit">px</span></div>
   </div>
   <!-- 填完需求：知識庫有沒有相近的舊案（v5 第 4 步；連上知識庫才顯示） -->
   <div class="kbsim-entry" id="kbsim-2d" style="display:none"></div>
@@ -1944,6 +2072,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <div class="rpt-ctitle conc-hd"><span>✅ 結論</span><span class="conc-badge" id="conc-scan-badge"></span></div>
           <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="rpt-cam">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="rpt-lens">—</span></div>
+          <div class="rpt-kv" style="display:none"><span class="rpt-k">光源</span><span class="rpt-v" id="rpt-light">—</span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">光學數量</span><span class="rpt-v" id="rpt-qty">—</span><span class="rpt-s" id="rpt-arr">—</span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">系統解析度</span><span class="rpt-v"><span id="rpt-res">—</span> <span class="rpt-unit">µm/px</span></span><span class="rpt-s" id="rpt-res-s"></span></div>
           <div class="rpt-kv kv2 rpt-tt-kv"><span class="rpt-k">估算 TT</span><span class="rpt-v"><span id="rpt-tt">—</span> <span class="rpt-unit">min</span></span><span class="rpt-s" id="rpt-mode">—</span></div>
@@ -2060,6 +2189,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <div class="rpt-ctitle conc-hd"><span>✅ 結論</span><span class="conc-badge" id="conc-static-badge"></span></div>
           <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="st-rpt-cam">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="st-rpt-lens">—</span></div>
+          <div class="rpt-kv" style="display:none"><span class="rpt-k">光源</span><span class="rpt-v" id="st-rpt-light">—</span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">光學台數</span><span class="rpt-v" id="st-rpt-qty">—</span><span class="rpt-s" id="st-rpt-arr">—</span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">系統解析度</span><span class="rpt-v"><span id="st-rpt-res">—</span> <span class="rpt-unit">µm/px</span></span><span class="rpt-s" id="st-rpt-res-s"></span></div>
           <div class="rpt-kv"><span class="rpt-k">工作距離</span><span class="rpt-v"><span id="st-rpt-wd">—</span> <span class="rpt-unit">mm</span></span></div>
@@ -2133,8 +2263,16 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
             <textarea id="as-rpt-desc" class="rpt-textarea" placeholder="例：FPD Cell 前段 AOI，畫檢評估…" oninput="syncDesc(this.value)"></textarea>
           </div>
           <div class="rpt-field">
-            <div class="rpt-flabel">面板尺寸</div>
+            <div class="rpt-flabel">產品型態</div>
+            <div class="rpt-fval" id="as-rpt-shape">—</div>
+          </div>
+          <div class="rpt-field">
+            <div class="rpt-flabel" id="as-rpt-panel-lbl">面板尺寸</div>
             <div class="rpt-fval" id="as-rpt-panel">—</div>
+          </div>
+          <div class="rpt-field" id="as-rpt-curve-f" style="display:none">
+            <div class="rpt-flabel">曲面幾何</div>
+            <div class="rpt-fval" id="as-rpt-curve">—</div>
           </div>
           <div class="rpt-field">
             <div class="rpt-flabel">Pitch</div>
@@ -2145,6 +2283,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <div class="rpt-ctitle conc-hd"><span>✅ 結論</span><span class="conc-badge" id="conc-area-badge"></span></div>
           <div class="rpt-kv"><span class="rpt-k">相機</span><span class="rpt-v" id="as-rpt-cam">—</span></div>
           <div class="rpt-kv"><span class="rpt-k">鏡頭</span><span class="rpt-v" id="as-rpt-lens">—</span></div>
+          <div class="rpt-kv" style="display:none"><span class="rpt-k">光源</span><span class="rpt-v" id="as-rpt-light">—</span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">總相機數</span><span class="rpt-v" id="as-rpt-qty">—</span><span class="rpt-s" id="as-rpt-arr">—</span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">系統解析能</span><span class="rpt-v"><span id="as-rpt-res">—</span> <span class="rpt-unit">µm</span></span><span class="rpt-s" id="as-rpt-res-s"></span></div>
           <div class="rpt-kv kv2"><span class="rpt-k">工作距離</span><span class="rpt-v"><span id="as-rpt-wd">—</span> <span class="rpt-unit">mm</span></span><span class="rpt-s" id="as-rpt-wd-ok">—</span></div>
@@ -2188,6 +2327,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <div id="as-dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
+      <div class="asm-blk" id="as-multi-res" data-pdf-block="🧩 多連屏相機分組" style="display:none"></div>
       <!-- 資料量與電腦規格 -->
       <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="area"><div class="rpt-ctitle" data-gl="sysBlk">🖥 資料量與電腦規格</div><div class="spec-sum sys-asm" onclick="sysAsmToggle()"><span class="spec-txt"></span><span class="spec-tg pdf-hide"><span class="sys-asm-tg">調整</span><span class="chev">›</span></span></div><div class="sys-in" style="display:none"></div><div class="sys-out"></div></div>
       <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="area"><div class="rpt-ctitle" data-gl="costBlk">💰 成本估算</div><div class="cost-out"></div></div>
@@ -2271,7 +2411,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     </div>
     <div id="ev-tools" style="display:none">
       <div class="ev-srow">
-        <input id="ev-q" class="db-search" type="search" placeholder="🔍 搜尋名稱、說明、相機、鏡頭、標籤…" oninput="renderEvals()" autocomplete="off">
+        <input id="ev-q" class="db-search" type="search" placeholder="🔍 搜尋名稱、客戶、說明、相機、鏡頭、標籤…" oninput="renderEvals()" autocomplete="off">
         <select id="ev-sort" class="ev-sort" onchange="renderEvals()" aria-label="排序">
           <option value="new">最近儲存</option><option value="old">最早建立</option><option value="name">名稱</option>
         </select>
@@ -2310,6 +2450,67 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
       </div>
     </div>
     <div style="height:8px"></div>
+
+    <!-- ── 部門自研模組（相機＋鏡頭＋選配光源，規格全部自填）── -->
+    <div class="shdr">🛠 部門自研模組</div>
+    <div class="card">
+      <div id="db-mod-list"></div>
+      <div id="af-mod" class="af" style="display:none">
+        <div class="af-hdr"><b id="afm-title">🛠 新增自研模組</b><button class="af-x" onclick="toggleAF('mod')" aria-label="關閉">✕</button></div>
+        <div class="afm-sub">模組</div>
+        <div class="afm-grid">
+          <div class="af-row"><label>名稱</label><input type="text" id="afm-n" placeholder="例：LS-16K 線掃模組"></div>
+          <div class="af-row"><label>版本</label><input type="text" id="afm-ver" placeholder="例：v1.2（可空）"></div>
+          <div class="af-row"><label>負責人</label><input type="text" id="afm-owner" placeholder="人名 / 課別（可空）"></div>
+          <div class="af-row"><label>鏡頭接口</label><input list="mount-opts" id="afm-mount" placeholder="C / F / M42…（可空）"></div>
+          <div class="af-row full"><label>單價</label><div class="af-pw"><input type="number" min="0" step="any" id="afm-price" placeholder="整組單價，可空，成本估算自動帶入"><select id="afm-cur" class="af-cur" title="單價幣別"><option value="NTD">NT$</option><option value="USD">US$</option><option value="RMB">RMB</option></select></div></div>
+          <div class="af-row full"><label>備註</label><input type="text" id="afm-notes" placeholder="適用製程、已導入的線別、限制…（可空）"></div>
+        </div>
+        <div class="afm-sub">📷 相機</div>
+        <div class="afm-grid">
+          <div class="af-row"><label>類型</label><select id="afm-ctype" onchange="afmCamType()"><option value="area">面陣</option><option value="line">線掃</option></select></div>
+          <div class="af-row"><label>色彩</label><select id="afm-color"><option value="gray">灰階</option><option value="color">彩色</option></select></div>
+          <div class="af-row"><label>像素大小</label><input type="number" id="afm-px" step="0.01"><span>µm</span></div>
+          <div class="af-row"><label>位元深度</label><input type="number" id="afm-bit" step="1"><span>bit</span></div>
+          <div class="af-row"><label>解析度 寬</label><input type="number" id="afm-rw" step="1"><span>px</span></div>
+          <div class="af-row" id="afm-row-rh"><label>解析度 高</label><input type="number" id="afm-rh" step="1"><span>px</span></div>
+          <div class="af-row"><label id="afm-lbl-fps">幀率</label><input type="number" id="afm-fps" step="1"><span id="afm-unit-fps">fps</span></div>
+          <div class="af-row"><label>介面</label><input list="iface-opts" id="afm-iface" placeholder="可空"></div>
+          <div class="af-row"><label>感測器</label><input type="text" id="afm-sensor" placeholder="例：Gpixel GL7008（可空）"></div>
+          <div class="af-row"><label>相機型號</label><input type="text" id="afm-cmodel" placeholder="內部料號（可空）"></div>
+        </div>
+        <div class="afm-sub">🔭 鏡頭</div>
+        <div class="afm-grid">
+          <div class="af-row"><label>類型</label><select id="afm-ltype" onchange="afmLensType()"><option value="objective">物鏡</option><option value="telecentric">遠心</option><option value="cctv">定焦（CCTV）</option></select></div>
+          <div class="af-row"><label>鏡頭型號</label><input type="text" id="afm-lmodel" placeholder="內部料號（可空）"></div>
+          <div class="af-row" id="afm-row-mag"><label>放大倍率</label><input type="number" id="afm-mag" step="0.01"><span>×</span></div>
+          <div class="af-row" id="afm-row-na"><label>NA</label><input type="number" id="afm-na" step="0.001"></div>
+          <div class="af-row" id="afm-row-fn"><label>F# 光圈</label><input type="number" id="afm-fn" step="0.1"></div>
+          <div class="af-row" id="afm-row-fl"><label>焦距</label><input type="number" id="afm-fl" step="1"><span>mm</span></div>
+          <div class="af-row" id="afm-row-fnmin"><label>F# 開放端</label><input type="number" id="afm-fnmin" step="0.1"></div>
+          <div class="af-row" id="afm-row-fnmax"><label>F# 收縮端</label><input type="number" id="afm-fnmax" step="0.1"></div>
+          <div class="af-row"><label>像圈直徑</label><input type="number" id="afm-ic" step="0.5"><span>mm</span></div>
+          <div class="af-row"><label>工作距離</label><input type="number" id="afm-wd" step="1"><span>mm</span></div>
+        </div>
+        <div class="afm-sub">💡 光源（選配，只記錄不參與計算）</div>
+        <div class="afm-grid">
+          <div class="af-row"><label>光源</label><select id="afm-lt" onchange="afmLight()"><option value="">不含光源</option></select></div>
+          <div class="af-row afm-lrow"><label>顏色</label><select id="afm-lc"></select></div>
+          <div class="af-row afm-lrow"><label>波長</label><input type="number" id="afm-lwl" step="1" placeholder="可空"><span>nm</span></div>
+          <div class="af-row afm-lrow"><label>說明</label><input type="text" id="afm-lnote" placeholder="例：高均勻 / 頻閃 / 偏振（可空）"></div>
+        </div>
+        <div class="af-more-tog" onclick="toggleAfMore('mod')"><span id="afm-more-chev">▸</span> 連結 / 規格書（選填）</div>
+        <div id="afm-more" style="display:none">
+          <div class="af-row"><label>文件連結</label><input class="wide" type="text" id="afm-url" placeholder="https://…（可空）"></div>
+          <div class="af-row"><label>規格書 / 手冊</label><input class="wide" type="file" id="afm-doc" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"></div>
+          <div style="font-size:10px;color:var(--sub);padding:0 0 2px;line-height:1.4;">附檔會存到雲端資料庫（需先設定 ☁ 雲端同步）。</div>
+        </div>
+        <div class="af-btns">
+          <button class="btn-pri" style="flex:1;font-size:11px" onclick="submitMod()">確認新增</button>
+          <button class="btn-sec" style="font-size:11px" onclick="toggleAF('mod')">取消</button>
+        </div>
+      </div>
+    </div>
 
     <!-- ── Camera section ── -->
     <div class="shdr">📷 相機資料庫</div>
@@ -2517,8 +2718,15 @@ let hiddenLens = new Set(JSON.parse(localStorage.getItem('aoi_hlens')||'[]'));
 let lastR = {};
 
 // ── Combined accessors ──
-function allCams(){ return CAMS.filter((_,i)=>!hiddenCams.has(i)).concat(custCams); }
-function allLens(){ return LENS.filter((_,i)=>!hiddenLens.has(i)).concat(custLens); }
+// 部門自研模組：相機＋鏡頭（＋選配光源）一組，規格全部自填。
+// 每個模組各衍生一筆相機、一筆鏡頭（品牌「自研」，接在清單最後，既有索引不變），計算、報告、存檔沿用原本流程
+let custMods = (function(){ try{ const a=JSON.parse(localStorage.getItem('aoi_mods')||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } })();
+const MOD_BRAND='自研';
+function modCam(m){ return Object.assign({}, m.cam, {n:m.n, mount:m.mount||'', mod:m.id}); }
+function modLens(m){ return Object.assign({}, m.lens, {n:m.n, mount:m.mount||'', mod:m.id}); }
+function allCams(){ return CAMS.filter((_,i)=>!hiddenCams.has(i)).concat(custCams, custMods.map(modCam)); }
+function allLens(){ return LENS.filter((_,i)=>!hiddenLens.has(i)).concat(custLens, custMods.map(modLens)); }
+function saveCustMods(){ localStorage.setItem('aoi_mods', JSON.stringify(custMods)); aoiTouch(); }
 function saveCustCams(){ localStorage.setItem('aoi_cams', JSON.stringify(custCams)); aoiTouch(); }
 function saveCustLens(){ localStorage.setItem('aoi_lens', JSON.stringify(custLens)); aoiTouch(); }
 function saveHiddenCams(){ localStorage.setItem('aoi_hcams', JSON.stringify([...hiddenCams])); aoiTouch(); }
@@ -2590,13 +2798,15 @@ function lensMeta(l){ return l.mount?`${l.mount}-mount`:''; }
 const DBACT={
   cam :{hide:'hideBuiltinCam', edit:'editCustCam', del:'delCustCam'},
   lens:{hide:'hideBuiltinLens',edit:'editCustLens',del:'delCustLens'},
-  s3d :{hide:'hideBuiltinS3D', edit:'editCustS3D', del:'delCustS3D', editB:'editBuiltinS3D'}
+  s3d :{hide:'hideBuiltinS3D', edit:'editCustS3D', del:'delCustS3D', editB:'editBuiltinS3D'},
+  mod :{edit:'editMod', del:'delMod'}
 };
-const AFPRE={cam:'afc', lens:'afl', s3d:'af3'};
-const AFTITLE={cam:'📷 新增相機', lens:'🔭 新增鏡頭', s3d:'📡 新增 3D 感測器'};
-function custArrOf(kind){ return kind==='cam'?custCams:kind==='lens'?custLens:custS3D; }
-function builtinArrOf(kind){ return kind==='cam'?CAMS:kind==='lens'?LENS:S3D; }
-function saveCustOf(kind){ if(kind==='cam') saveCustCams(); else if(kind==='lens') saveCustLens(); else saveCustS3D(); }
+const AFPRE={cam:'afc', lens:'afl', s3d:'af3', mod:'afm'};
+const AFTITLE={cam:'📷 新增相機', lens:'🔭 新增鏡頭', s3d:'📡 新增 3D 感測器', mod:'🛠 新增自研模組'};
+const AF_KINDS=['cam','lens','s3d','mod'];
+function custArrOf(kind){ return kind==='cam'?custCams:kind==='lens'?custLens:kind==='mod'?custMods:custS3D; }
+function builtinArrOf(kind){ return kind==='cam'?CAMS:kind==='lens'?LENS:kind==='mod'?[]:S3D; }
+function saveCustOf(kind){ if(kind==='cam') saveCustCams(); else if(kind==='lens') saveCustLens(); else if(kind==='mod') saveCustMods(); else saveCustS3D(); }
 
 // ── 內建型號的規格書：內建陣列是程式碼常數不能改，另存一張以「種類|型號名」為 key 的對照表 ──
 // （以型號名而非索引為 key，日後內建清單增刪也不會錯位）
@@ -2662,6 +2872,184 @@ function renderDbGroup(containerId, builtin, hidden, custom, badgeFn, specFn, me
   box.innerHTML=html;
 }
 function dbToggleSec(hdr){ hdr.parentElement.classList.toggle('collapsed'); }
+
+// ═══════════════════════════════════════════
+// 部門自研模組 — 資料庫卡片、新增/編輯表單、計算器整組帶入、報告光源
+// ═══════════════════════════════════════════
+const LIGHT_TYPES=['環形光','同軸光','條形光','線光源','背光','穹頂光','點光源','其他'];
+const LIGHT_COLORS=['白光','紅光','綠光','藍光','紅外 IR','紫外 UV','多色 / RGB','其他'];
+function modOf(x){ return (x&&x.mod) ? (custMods.find(m=>m.id===x.mod)||null) : null; }
+function lightText(L){
+  if(!L||!L.type) return '';
+  return [L.type, [L.color, L.wl>0?L.wl+'nm':''].filter(Boolean).join(' '), L.note].filter(Boolean).join(' · ');
+}
+function modBadge(m){ return {t:(m.cam&&m.cam.line)?'線掃':'面陣', cls:'bdg-mod'}; }
+function modSpec(m){
+  const L=m.lens||{};
+  return '📷 '+camSpec(m.cam||{})+'\n🔭 '+lensBadge(L).t+(L.model?' '+L.model:'')+' · '+lensSpec(L);
+}
+function modMeta(m){
+  const p=[]; const lt=lightText(m.light);
+  if(m.ver) p.push(m.ver);
+  p.push(lt?'💡 '+lt:'不含光源');
+  if(m.owner) p.push('👤 '+m.owner);
+  if(m.mount) p.push(`🔩 ${m.mount}-mount`);
+  if(m.notes) p.push(m.notes);
+  return p.join(' · ');
+}
+function modSearch(m){
+  return [m.n, m.ver, m.owner, m.notes, m.mount, lightText(m.light), (m.cam||{}).iface, (m.cam||{}).sensor, (m.cam||{}).model, (m.lens||{}).model].filter(Boolean).join(' ');
+}
+function renderModList(){
+  const box=document.getElementById('db-mod-list'); if(!box) return;
+  const exp=collectExpanded('db-mod-list');
+  if(!box.querySelector('.db-section')) exp.add(MOD_BRAND);   // 第一次顯示就展開
+  renderDbGroup('db-mod-list', [], new Set(), custMods, modBadge, modSpec, modMeta, 'mod', exp, modSearch);
+  const tb=box.querySelector('.db-tools .btn-sec');
+  if(tb && box.querySelector('.db-section:not(.collapsed)')) tb.textContent='全部收合';
+  const em=box.querySelector('.empty');
+  if(em) em.innerHTML='還沒有自研模組。按「＋ 新增」登錄部門自己開發的<b>相機＋鏡頭</b>（可含光源），之後在計算器選相機時可整組帶入。';
+}
+
+// ── 表單 ──
+let _editModIdx=null;
+function afmFill(m){
+  const g=id=>document.getElementById('afm-'+id);
+  const v=(id,x)=>{ g(id).value=(x==null?'':x); };
+  const c=m.cam||{}, L=m.lens||{}, li=m.light||{};
+  v('n', m.n?modelOf(m.n):''); v('ver',m.ver); v('owner',m.owner); v('mount',m.mount);
+  v('ctype', c.line?'line':'area'); v('color', c.color?'color':'gray');
+  v('px',c.px); v('bit',c.bit); v('rw',c.rw); v('rh',c.line?'':c.rh); v('fps',c.fps);
+  v('iface',c.iface); v('sensor',c.sensor); v('cmodel',c.model);
+  v('ltype', L.type||'telecentric'); v('lmodel',L.model);
+  v('mag',L.mag); v('na',L.na); v('fn',L.fn); v('fl',L.fl); v('fnmin',L.fn_min); v('fnmax',L.fn_max); v('ic',L.ic); v('wd',L.wd);
+  const lt=g('lt'), lc=g('lc');
+  if(lt.options.length<2) LIGHT_TYPES.forEach(t=>lt.appendChild(new Option(t,t)));
+  if(!lc.options.length) LIGHT_COLORS.forEach(t=>lc.appendChild(new Option(t,t)));
+  v('lt', li.type||''); v('lc', li.color||'白光'); v('lwl', li.wl); v('lnote', li.note);
+  v('notes', m.notes); v('url', m.url); g('doc').value='';
+  afmCamType(); afmLensType(); afmLight();
+}
+function afmCamType(){
+  const line=document.getElementById('afm-ctype').value==='line';
+  document.getElementById('afm-row-rh').style.display=line?'none':'';
+  document.getElementById('afm-lbl-fps').textContent=line?'線率':'幀率';
+  document.getElementById('afm-unit-fps').textContent=line?'Hz':'fps';
+}
+function afmLensType(){
+  const t=document.getElementById('afm-ltype').value;
+  const show=(id,on)=>{ document.getElementById('afm-row-'+id).style.display=on?'':'none'; };
+  show('mag', t!=='cctv'); show('na', t==='objective'); show('fn', t==='telecentric');
+  show('fl', t==='cctv'); show('fnmin', t==='cctv'); show('fnmax', t==='cctv');
+}
+function afmLight(){
+  const on=!!document.getElementById('afm-lt').value;
+  document.querySelectorAll('#af-mod .afm-lrow').forEach(r=>{ r.style.display=on?'':'none'; });
+}
+function afmReset(){
+  afmFill({cam:{px:3.45,bit:8,rw:2448,rh:2048,fps:30}, lens:{type:'telecentric',mag:1,fn:8,ic:16,wd:100}});
+}
+function submitMod(){
+  const g=id=>document.getElementById('afm-'+id);
+  const num=id=>{ const t=String(g(id).value).trim(); return t===''?null:+t; };
+  const name=g('n').value.trim();
+  if(!name){ alert('請輸入模組名稱'); return; }
+  const n=joinBrandModel(MOD_BRAND, name);
+  if(custMods.some((m,i)=>m.n===n && i!==_editModIdx)){ alert('已經有同名的自研模組「'+name+'」'); return; }
+  const line=g('ctype').value==='line';
+  const cam={px:num('px'), rw:num('rw'), rh:line?1:num('rh'), fps:num('fps'), bit:num('bit')||8,
+             line, color:g('color').value==='color', iface:g('iface').value.trim(), sensor:g('sensor').value.trim(), model:g('cmodel').value.trim()};
+  if(!(cam.px>0) || !(cam.rw>0) || (!line && !(cam.rh>0))){ alert('請填相機的像素大小與解析度'); return; }
+  const t=g('ltype').value;
+  const lens={type:t, model:g('lmodel').value.trim(), ic:num('ic'), wd:num('wd')};
+  if(t==='cctv'){ lens.fl=num('fl'); lens.fn_min=num('fnmin')??2.8; lens.fn_max=num('fnmax')??22;
+    if(!(lens.fl>0)){ alert('定焦鏡頭請填焦距'); return; } }
+  else { lens.mag=num('mag'); if(t==='objective') lens.na=num('na'); else lens.fn=num('fn');
+    if(!(lens.mag>0)){ alert('請填鏡頭放大倍率'); return; } }
+  const lt=g('lt').value;
+  const light = lt ? {type:lt, color:g('lc').value, wl:num('lwl'), note:g('lnote').value.trim()} : null;
+  const old = _editModIdx!==null ? custMods[_editModIdx] : null;
+  const m={id: old?old.id:('m'+Date.now().toString(36)), n, ver:g('ver').value.trim(), owner:g('owner').value.trim(),
+           mount:g('mount').value.trim(), notes:g('notes').value.trim(), url:g('url').value.trim(), cam, lens, light};
+  if(old && old.docs) m.docs=old.docs;
+  const docFile=g('doc').files[0];
+  if(old){ if(old.n!==n) priceSet('cam', old.n, 0); custMods[_editModIdx]=m; } else custMods.push(m);
+  priceSet('cam', n, g('price').value, afCur('afm'));   // 整組單價記在模組相機名下，成本估算「自研模組」那一列帶入
+  saveCustMods(); refreshCamPicker(); refreshLensPicker(); renderDbLists();
+  toggleAF('mod');
+  if(old) modReapply(m.id);
+  if(docFile) attachDocOnAdd('mod', m, docFile);
+}
+function editMod(i){
+  const m=custMods[i]; if(!m) return;
+  AF_KINDS.forEach(k=>{ if(k==='mod') return; const e=document.getElementById('af-'+k); if(e && e.style.display!=='none'){ e.style.display='none'; _resetEditMode(k); } });
+  _editModIdx=i;
+  afmFill(m);
+  afPriceFill('afm', priceRaw('cam', m.n));
+  afMoreSet('mod', !!m.url);
+  document.getElementById('afm-title').textContent='🛠 編輯自研模組';
+  document.getElementById('af-mod').style.display='';
+  document.getElementById('af-overlay').style.display='';
+  document.querySelector('#af-mod .btn-pri').textContent='確認修改';
+}
+function delMod(i){
+  const item=custMods.splice(i,1)[0]; if(!item) return;
+  saveCustMods(); refreshCamPicker(); refreshLensPicker(); renderDbLists();
+  showToast(`已刪除「${item.n}」`, ()=>{
+    custMods.splice(i,0,item); saveCustMods(); refreshCamPicker(); refreshLensPicker(); renderDbLists();
+  });
+}
+// 修改了計算器正在用的模組 → 重新帶入規格
+function modReapply(id){
+  const ci=document.getElementById('cam-pick').value, li=document.getElementById('lens-pick').value;
+  const c=ci!==''?allCams()[+ci]:null, l=li!==''?allLens()[+li]:null;
+  if(c&&c.mod===id) applyCamera();
+  if(l&&l.mod===id) applyLens();
+}
+// 選了模組的相機（或鏡頭）→ 同一模組的另一半一起帶入
+function modLinkPick(kind, i){
+  const x=(kind==='cam'?allCams():allLens())[i]; if(!x||!x.mod) return;
+  const other=kind==='cam'?'lens':'cam', arr=other==='cam'?allCams():allLens();
+  const j=arr.findIndex(y=>y.mod===x.mod); if(j<0) return;
+  if(other==='lens' && S.mode==='area' && (arr[j].type||'')!=='cctv'){
+    showToast('這組自研模組的鏡頭不是定焦，畫檢評估不適用，鏡頭請另外選'); return;
+  }
+  document.getElementById(other+'-pick').value=String(j);
+  if(other==='cam') applyCamera(); else applyLens();
+  updatePickLabel(other);
+}
+// 目前計算器用到的自研模組（相機或鏡頭任一屬於模組即算，以相機為主）
+function curMod(){
+  const ci=document.getElementById('cam-pick').value, li=document.getElementById('lens-pick').value;
+  const c=ci!==''?allCams()[+ci]:null, l=li!==''?allLens()[+li]:null;
+  return modOf(c) || modOf(l);
+}
+function curModWhole(){   // 相機、鏡頭是同一組模組
+  const ci=document.getElementById('cam-pick').value, li=document.getElementById('lens-pick').value;
+  const c=ci!==''?allCams()[+ci]:null, l=li!==''?allLens()[+li]:null;
+  return (c&&l&&c.mod&&c.mod===l.mod) ? modOf(c) : null;
+}
+function modSnap(){
+  const m=curMod(); if(!m) return null;
+  const o={n:m.n}; if(m.ver) o.ver=m.ver; if(m.owner) o.owner=m.owner; if(m.light) o.light=Object.assign({}, m.light);
+  return o;
+}
+// 報告：相機／鏡頭顯示名稱（模組顯示版本、鏡頭標「模組內含」）與光源列
+function rptCamName(ci){
+  const c=ci!==''?allCams()[+ci]:null; if(!c) return '手動輸入';
+  const m=modOf(c); return m ? c.n+(m.ver?' '+m.ver:'') : c.n;
+}
+function rptLensName(li){
+  const l=li!==''?allLens()[+li]:null; if(!l) return '手動輸入';
+  const m=modOf(l); if(!m) return l.n;
+  return '模組內含 · '+((m.lens&&m.lens.model)||lensBadge(l).t+' '+lensSpec(l));
+}
+function rptLightSet(id){
+  const el=document.getElementById(id); if(!el) return;
+  const m=curMod(), t=m?lightText(m.light):'';
+  el.textContent=t||'—';
+  const row=el.closest('.rpt-kv'); if(row) row.style.display=t?'':'none';
+}
 function dbToggleAll(containerId, collapse){
   document.getElementById(containerId).querySelectorAll('.db-section').forEach(s=>s.classList.toggle('collapsed', collapse));
 }
@@ -2693,6 +3081,7 @@ function renderDbLists(){
   const expCam=collectExpanded('db-cam-list'), expLens=collectExpanded('db-lens-list');
   renderDbGroup('db-cam-list', CAMS, hiddenCams, custCams, camBadge, camSpec, camMeta, 'cam', expCam);
   renderDbGroup('db-lens-list', LENS, hiddenLens, custLens, lensBadge, lensSpec, lensMeta, 'lens', expLens);
+  renderModList();
 }
 
 // ═══════════════════════════════════════════
@@ -2893,12 +3282,14 @@ function renderPicker(){
   const groups={}; items.forEach(o=>{ const b=brandOf(o.x.n); (groups[b]=groups[b]||[]).push(o); });
   let html=banner+`<div class="pick-manual" onclick="pickModel('')">— 手動輸入（清除選擇）—</div>`;
   if(!items.length) html+='<div class="empty">找不到符合的型號</div>';
-  Object.keys(groups).sort((a,b)=>a.localeCompare(b)).forEach(brand=>{
-    html+=`<div class="pick-brand">${esc(brand)}</div>`;
+  Object.keys(groups).sort((a,b)=>(b===MOD_BRAND)-(a===MOD_BRAND) || a.localeCompare(b)).forEach(brand=>{
+    html+=`<div class="pick-brand">${brand===MOD_BRAND?'🛠 部門自研模組':esc(brand)}</div>`;
     groups[brand].sort((a,b)=>String(a.x.n).localeCompare(String(b.x.n))).forEach(o=>{
       const bd=badgeFn(o.x), meta=metaFn?metaFn(o.x):'';
       const bad = (o.compat===false);
-      const tag = bad?`<span class="pi-badmount">接口不符</span>`:'';
+      const md = modOf(o.x);
+      const tag = (bad?`<span class="pi-badmount">接口不符</span>`:'')
+                + (md?`<span class="pi-modtag">${kind==='cam'?'連鏡頭':'連相機'}${md.light&&md.light.type?'＋光源':''}整組帶入</span>`:'');
       html+=`<div class="pick-item${bad?' pi-bad':''}" onclick="pickModel(${o.i})"><span class="db-badge ${bd.cls}">${bd.t}</span>`
           +`<span class="pi-body"><div class="pi-model">${esc(String(o.x.n).slice(brand.length).trim()||o.x.n)}${tag}</div>`
           +`<div class="pi-spec">${esc(specFn(o.x))}${meta?' · '+esc(meta):''}</div></span></div>`;
@@ -2912,6 +3303,7 @@ function pickModel(i){
   sel.value = i===''?'':String(i);
   if(_pickKind==='cam') applyCamera(); else applyLens();
   updatePickLabel(_pickKind);
+  if(i!=='') modLinkPick(_pickKind, +i);
   closePicker();
 }
 function updatePickLabel(kind){
@@ -3017,7 +3409,7 @@ function editCustCam(i){
   document.getElementById('afc-url').value    = c.url    || '';
   document.getElementById('afc-doc').value='';
   afMoreSet('cam', true);
-  document.getElementById('af-lens').style.display='none';
+  document.getElementById('af-lens').style.display='none'; document.getElementById('af-mod').style.display='none'; _editModIdx=null;
   const _t=document.getElementById('afc-title'); if(_t) _t.textContent='📷 編輯相機';
   document.getElementById('af-cam').style.display = '';
   document.getElementById('af-overlay').style.display='';
@@ -3051,7 +3443,7 @@ function editCustLens(i){
   document.getElementById('afl-url').value   = l.url   || '';
   document.getElementById('afl-doc').value='';
   afMoreSet('lens', true);
-  document.getElementById('af-cam').style.display='none';
+  document.getElementById('af-cam').style.display='none'; document.getElementById('af-mod').style.display='none'; _editModIdx=null;
   const _t=document.getElementById('afl-title'); if(_t) _t.textContent='🔭 編輯鏡頭';
   document.getElementById('af-lens').style.display = '';
   document.getElementById('af-overlay').style.display='';
@@ -3098,19 +3490,20 @@ function delCustLens(i){
 
 // ── Add/Edit modal control ──
 function afShowOverlay(){
-  const any=['cam','lens','s3d'].some(function(k){ const e=document.getElementById('af-'+k); return e && e.style.display===''; });
+  const any=AF_KINDS.some(function(k){ const e=document.getElementById('af-'+k); return e && e.style.display===''; });
   document.getElementById('af-overlay').style.display=any?'':'none';
 }
 function toggleAF(type){
   const el=document.getElementById('af-'+type);
   const opening = el.style.display==='none';
   if(opening){
-    ['cam','lens','s3d'].forEach(function(o){
+    AF_KINDS.forEach(function(o){
       if(o===type) return;
       const oe=document.getElementById('af-'+o);
       if(oe && oe.style.display!=='none'){ oe.style.display='none'; _resetEditMode(o); }
     });
     const t=document.getElementById(AFPRE[type]+'-title'); if(t) t.textContent=AFTITLE[type];
+    if(type==='mod') afmReset();
     afPriceFill(AFPRE[type], 0);   // 新增時單價欄清空，幣別預設為目前顯示幣別
     fillBrandDatalist(type);
     el.style.display='';
@@ -3120,7 +3513,7 @@ function toggleAF(type){
   afShowOverlay();
 }
 function closeAFOverlay(){
-  ['cam','lens','s3d'].forEach(t=>{ const el=document.getElementById('af-'+t); if(el && el.style.display!=='none'){ el.style.display='none'; _resetEditMode(t); } });
+  AF_KINDS.forEach(t=>{ const el=document.getElementById('af-'+t); if(el && el.style.display!=='none'){ el.style.display='none'; _resetEditMode(t); } });
   document.getElementById('af-overlay').style.display='none';
 }
 function _resetEditMode(type){
@@ -3129,6 +3522,7 @@ function _resetEditMode(type){
   afMoreSet(type,false);
   if(type==='cam')       _editCamIdx=null;
   else if(type==='lens') _editLensIdx=null;
+  else if(type==='mod')  _editModIdx=null;
   else                 { _editS3DIdx=null; _editS3DB=null; const zp=document.getElementById('af3-zrepeat'); if(zp) zp.placeholder='必填'; }
   const btn=document.querySelector('#af-'+type+' .btn-pri');
   if(btn) btn.textContent='確認新增';
@@ -3449,13 +3843,15 @@ function selRun(){
   const tTT  = m==='scan'?_selNum('rpt-target-tt'):NaN;
   const isBi = base.scanMode==='round';
   const ss = m==='static'?{objW:_selNum('st-objw')||300, objH:_selNum('st-objh')||300, overlap:isNaN(_selNum('st-ov'))?10:_selNum('st-ov')}:null;
-  const as = m==='area'?{X:_selNum('as-panel-x'), Y:_selNum('as-panel-y'), RX:_selNum('as-panel-rx'), pitch:_selNum('as-pitch'), minWD:_selNum('as-min-wd')||0,
+  const asGs = m==='area' ? asGroupsDom() : null;   // 產品型態（異形／曲面）換算後的涵蓋尺寸與面板像素；多連屏＝每組相機一筆
+  const as = m==='area'?{RX:_selNum('as-panel-rx'), pitch:_selNum('as-pitch'), minWD:_selNum('as-min-wd')||0,
     lim:Math.min(1,Math.max(0.05,_selNum('as-limit')||0))}:null;
   cams.forEach(function(c,ci){
     if(_sel.hide.has(brandOf(c.n))) return;
     if(m!=='scan'&&c.line) return;                    // 靜態／畫檢只用面陣
     if(m==='scan'&&(_sel.type==='area'&&c.line||_sel.type==='line'&&!c.line)) return;
     lens.forEach(function(l,li){
+      if((c.mod||l.mod) && c.mod!==l.mod) return;   // 自研模組是整組，不跟別的鏡頭／相機交叉配
       const lt=l.type||'objective';
       if(m==='area'){ if(lt!=='cctv') return; } else if(lt==='cctv'&&!_sel.cctv) return;
       n++;
@@ -3469,13 +3865,14 @@ function selRun(){
       if(!(l.ic>0)) miss.push('鏡頭像圈');
       if(m==='area'){
         if(!(l.fl>0)) return bad('焦距不明');
-        const res=(as.RX>0&&as.pitch>0)?((as.X*1e-3/as.RX)/as.pitch)*1e6:0;
-        const xF=c.rw*res/1000, yF=c.rh*res/1000;
-        const wd=(c.rw>0&&c.px>0)?((xF*1e-3)*(l.fl*1e-3)/(c.rw*c.px*1e-6))*1e3:0;
-        if(!(xF>0)) return bad('無法計算');
-        if(!(wd>as.minWD+30)) return bad('工作距離不足');
-        const nX=Math.max(1,Math.ceil(as.X/xF/as.lim)), nY=Math.max(1,Math.ceil(as.Y/yF/as.lim));
-        Object.assign(x,{res:res, wd:wd, qty:nX*nY, arr:nX+' × '+nY});
+        let qty=0, res=Infinity, wd=Infinity; const arr=[];
+        for(const g of asGs){
+          const r=asCore({covX:g.covX, covY:g.covY, pix:g.pix, pitch:g.pitch!=null?g.pitch:as.pitch, camRX:c.rw, camRY:c.rh, camPx:c.px, fl:l.fl, minWD:as.minWD, limit:as.lim});
+          if(!(r.xFOV>0)) return bad('無法計算');
+          if(!(r.wd>as.minWD+30)) return bad('工作距離不足');
+          qty+=r.totalCams; res=Math.min(res,r.resolution); wd=Math.min(wd,r.wd); arr.push(r.nX+' × '+r.nY);
+        }
+        Object.assign(x,{res:res, wd:wd, qty:qty, arr:arr.join(' ＋ ')});
       } else {
         const mag = lt==='cctv' ? ((l.fl>0&&l.wd>l.fl)?l.fl/(l.wd-l.fl):0) : (+l.mag||0);
         if(!(mag>0)) return bad('倍率不明');
@@ -3501,12 +3898,14 @@ function selRun(){
           x.k=k; x.qty=k*Math.max(1,p.nRows||1); x.arr=k+' 列 × '+Math.max(1,p.nRows||1)+' 排'; x.tt=tt; x.spd=r.speed;
         }
       }
-      const cp=priceGet('cam',c.n), lp=priceGet('lens',l.n);
-      x.noPrice=!(cp>0)||!(lp>0); x.cost=(cp+lp)*x.qty;
+      const isMod=!!c.mod;   // 自研模組：整組單價記在相機名下，鏡頭不另計
+      const cp=priceGet('cam',c.n), lp=isMod?0:priceGet('lens',l.n);
+      x.noPrice=!(cp>0)||(!isMod&&!(lp>0)); x.cost=(cp+lp)*x.qty;
       if(x.cctv&&m!=='area') x.tags.push('CCTV 倍率近似');
       if(miss.length) x.tags.push('規格未標：'+miss.join('、'));
       if(x.spd>1000&&!(base.vMax>0)) x.tags.push('速度 '+Math.round(x.spd)+' mm/s，待確認平台');
-      if(x.noPrice) x.tags.push(!(cp>0)&&!(lp>0)?'缺相機、鏡頭單價':!(cp>0)?'缺相機單價':'缺鏡頭單價');
+      if(x.noPrice) x.tags.push(isMod?'缺模組單價':!(cp>0)&&!(lp>0)?'缺相機、鏡頭單價':!(cp>0)?'缺相機單價':'缺鏡頭單價');
+      if(isMod) x.tags.push('🛠 自研模組');
       out.push(x);
     });
   });
@@ -4584,8 +4983,9 @@ function calcStatic(){
   // Summary panel
   const ci=document.getElementById('cam-pick').value;
   const li=document.getElementById('lens-pick').value;
-  stSet('st-rpt-cam',  ci!==''?allCams()[+ci].n:'手動輸入');
-  stSet('st-rpt-lens', li!==''?allLens()[+li].n:'手動輸入');
+  stSet('st-rpt-cam',  rptCamName(ci));
+  stSet('st-rpt-lens', rptLensName(li));
+  rptLightSet('st-rpt-light');
   stSet('st-rpt-qty',  r.total>0?`${r.total} 台`:'—');
   stSet('st-rpt-res',  est(fmt(r.optRes,3)));
   stSet('st-rpt-wd',   fmt(p.wd,1));
@@ -5336,8 +5736,9 @@ function calc(){
   // ── Report tab fields ──
   const ci2=document.getElementById('cam-pick').value;
   const li2=document.getElementById('lens-pick').value;
-  set('rpt-cam',  ci2!==''?allCams()[+ci2].n:'手動輸入');
-  set('rpt-lens', li2!==''?allLens()[+li2].n:'手動輸入');
+  set('rpt-cam',  rptCamName(ci2));
+  set('rpt-lens', rptLensName(li2));
+  rptLightSet('rpt-light');
   set('rpt-sample', `${p.sampleW} × ${p.sampleH} mm`);
   set('rpt-qty',  `${r.totalOpt} 台`);
   set('rpt-arr',  `${p.nCams} 列 × ${p.nRows} 排`);
@@ -5465,7 +5866,13 @@ function specSync(){
     sum.classList.toggle('open', open);
     document.getElementById(k+'-spec').style.display=open?'':'none';
     document.getElementById(k+'-sum-tg').textContent=open?'收合':'規格';
-    if(picked) document.getElementById(k+'-sum-txt').innerHTML=sumHtml(specSumTxt(k));
+    if(picked){
+      let h=sumHtml(specSumTxt(k));
+      // 自研模組含光源：在鏡頭摘要下多一行光源（只記錄，不參與計算）
+      if(k==='lens'){ const li=document.getElementById('lens-pick').value, m=modOf(allLens()[+li]), lt=m?lightText(m.light):'';
+        if(lt) h+='<div class="sum-light">💡 '+esc(lt)+'</div>'; }
+      document.getElementById(k+'-sum-txt').innerHTML=h;
+    }
   });
 }
 function advSync(){
@@ -5545,14 +5952,26 @@ function areaPR(){
     fl:+document.getElementById('p-fl').value,
     minWD:+document.getElementById('as-min-wd').value,
     limit:+document.getElementById('as-limit').value,
+    shape:document.getElementById('as-shape').value,
   };
-  const resolution=(p.panelRX>0&&p.pitch>0)?((p.panelX*1e-3/p.panelRX)/p.pitch)*1e6:0;
-  const xFOV=p.camRX*resolution/1000, yFOV=p.camRY*resolution/1000;
-  const wd=(p.camRX>0&&p.camPx>0)?((xFOV*1e-3)*(p.fl*1e-3)/(p.camRX*p.camPx*1e-6))*1e3:0;
-  const xRatio=(xFOV>0)?p.panelX/xFOV:0, yRatio=(yFOV>0)?p.panelY/yFOV:0;
-  const lim=Math.min(1,Math.max(0.05,p.limit||0));
-  const nX=(xFOV>0)?Math.max(1,Math.ceil(xRatio/lim)):0, nY=(yFOV>0)?Math.max(1,Math.ceil(yRatio/lim)):0;
-  const r={resolution,xFOV,yFOV,wd,nX,nY,totalCams:nX*nY};
+  if(asIsFree(p.shape)) p.shapeNote=document.getElementById('as-shape-note').value.trim();
+  if(asIsCurve(p.shape)){ p.bend=asBend; p.curveR=+document.getElementById('as-curve-r').value; }
+  if(p.shape==='multi'){
+    if(!asMulti) asmInit();
+    p.multi=JSON.parse(JSON.stringify(asmNorm(asMulti)));
+    const M=asMultiCalc(p.multi, {pitch:p.pitch, camRX:p.camRX, camRY:p.camRY, camPx:p.camPx, fl:p.fl, minWD:p.minWD, limit:p.limit});
+    let kf=0; M.R.forEach((r,k)=>{ if(r.resolution>0 && (!(M.R[kf].resolution>0) || r.resolution<M.R[kf].resolution)) kf=k; });
+    const rf=M.R[kf]||{};
+    // 單一數值欄（解析能、FOV、WD）取最細那一組，給歷史卡片、方案比較、知識庫用；各組明細在 groups
+    const r={resolution:rf.resolution||0, xFOV:rf.xFOV||0, yFOV:rf.yFOV||0, wd:Math.min.apply(null, M.R.map(x=>x.wd)), totalCams:M.total,
+      groups:M.G.map((g,k)=>{ const x=M.R[k]; return {name:g.name, scr:g.scr.map(i=>i+1), covX:+g.covX.toFixed(2), covY:+g.covY.toFixed(2),
+        resolution:+x.resolution.toFixed(4), xFOV:+x.xFOV.toFixed(2), yFOV:+x.yFOV.toFixed(2), wd:+x.wd.toFixed(1), nX:x.nX, nY:x.nY, totalCams:x.totalCams}; })};
+    return {p, r};
+  }
+  const g=asGeom({shape:p.shape, X:p.panelX, Y:p.panelY, RX:p.panelRX, RY:p.panelRY, bend:p.bend, R:p.curveR});
+  const c=asCore({covX:g.covX, covY:g.covY, pix:g.pix, pitch:p.pitch, camRX:p.camRX, camRY:p.camRY, camPx:p.camPx, fl:p.fl, minWD:p.minWD, limit:p.limit});
+  const r={resolution:c.resolution, xFOV:c.xFOV, yFOV:c.yFOV, wd:c.wd, nX:c.nX, nY:c.nY, totalCams:c.totalCams};
+  if(g.curve && !g.err){ r.proj=+g.proj.toFixed(3); r.arcH=+g.arcH.toFixed(3); r.theta=+(g.theta*180/Math.PI).toFixed(3); const cs=asCamSag(g,c); if(cs>0) r.camSag=+cs.toFixed(3); }
   return {p, r};
 }
 function saveEval3D(){
@@ -5578,6 +5997,7 @@ function saveEval3D(){
 let _curEvalId=null, _saveCb=null;
 function commitEval(rec, tab){
   if(rec.mode!=='3d') rec.sys=sysSnap();   // 資料量與電腦規格的假設條件隨評估存
+  if(rec.mode!=='3d'){ const ms=modSnap(); if(ms) rec.mod=ms; }   // 用了自研模組：名稱、版本、光源一起存（模組日後改版也查得到當時用的）
   rec.cost=costSnap(rec.mode||'scan');      // 成本的覆寫與自訂項目隨評估存
   rec.costTotal=costTotal(rec.mode||'scan');
   const cm=cmpSnap(rec.mode||'scan'); if(cm) rec.cmp=cm;   // 方案比較（候選、實測值、優缺點、選定理由）隨評估存
@@ -5594,14 +6014,16 @@ function commitEval(rec, tab){
   };
   // 有載入中的同模式紀錄 → 多問「覆蓋原紀錄 / 另存新檔」；沒有就只確認名稱與說明
   const canOver = idx>=0 && (evals[idx].mode||'scan')===(rec.mode||'scan');
-  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur)=>{
+  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur,cust)=>{
     if(name && name!==rec.name){ rec.name=name; setProjName(rec.mode, name); }
     rec.notes=desc; syncDesc(desc);
     if(tags.length) rec.tags=tags;
     rec.purpose=pur;
+    if(cust) rec.customer=cust;
     done(choice==='over'?idx:-1);
   }, idx>=0 ? evals[idx].tags : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.tags : null,
-     idx>=0 ? evals[idx].purpose : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.pur : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途先帶入
+     idx>=0 ? evals[idx].purpose : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.pur : null,
+     idx>=0 ? evals[idx].customer : _kbStart ? _kbStart.cust : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途、客戶先帶入
 }
 function concSt(mode){
   const b=document.getElementById('conc-'+mode+'-badge');
@@ -5620,7 +6042,15 @@ function savePurPick(p){
   document.getElementById('save-err').textContent='';
   document.getElementById('save-pur-h').textContent=SAVE_PUR_H[p||''];
 }
-function openSaveModal(orig, name, desc, cb, tags, pur){
+// 客戶名稱：歷史紀錄＋知識庫用過的（不分大小寫去重，給輸入框當建議）
+function custList(){
+  const seen={}, out=[];
+  evals.map(function(e){ return e.customer; }).concat((typeof kbData!=='undefined'&&kbData&&kbData.cases||[]).map(function(c){ return c.customer; }))
+    .forEach(function(t){ t=String(t||'').trim(); const k=t.toLowerCase(); if(t && !seen[k]){ seen[k]=1; out.push(t); } });
+  return out.sort(function(a,b){ return a.localeCompare(b,'zh-Hant'); });
+}
+function custDlFill(){ const dl=document.getElementById('cust-dl'); if(dl) dl.innerHTML=custList().map(function(t){ return '<option value="'+esc(t)+'">'; }).join(''); }
+function openSaveModal(orig, name, desc, cb, tags, pur, cust){
   _saveCb=cb; savePurPick(pur==='cust'||pur==='trial'?pur:null);
   const over=orig!=null;
   document.getElementById('save-orig').textContent=orig||'';
@@ -5629,6 +6059,7 @@ function openSaveModal(orig, name, desc, cb, tags, pur){
   document.getElementById('save-btns-new').style.display=over?'none':'';
   document.getElementById('save-name').value=name==='新評估'?'':name;
   document.getElementById('save-tags').value=(tags||[]).join(', ');
+  document.getElementById('save-cust').value=cust||''; custDlFill();
   document.getElementById('save-desc').value=desc||'';
   saveTagSug();
   document.getElementById('save-modal').style.display='flex';
@@ -5643,8 +6074,8 @@ function closeSaveModal(){
 function saveModalPick(choice){
   const cb=_saveCb, after=_afterSave, pur=_savePur, name=document.getElementById('save-name').value.trim()||'新評估';
   if(!pur){ document.getElementById('save-pur').classList.add('err'); document.getElementById('save-err').textContent='請選擇用途：客戶需求或內部試算'; return; }
-  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value);
-  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags, pur);
+  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value), cust=document.getElementById('save-cust').value.trim().slice(0,40);
+  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags, pur, cust);
 }
 // 標籤：逗號、頓號、分號或空白分開；去掉 #、去重（不分大小寫）
 function parseTags(s){
@@ -5706,7 +6137,9 @@ function evSummary(e){
       ?`${fmt(e.r.optRes,3)} µm/px · ${e.r.total||'—'} 台 (${e.r.nX||'—'}×${e.r.nY||'—'}) · 範圍 ${e.ss.objW}×${e.ss.objH} mm`
       :`${fmt(e.r.optRes,3)} µm/px · 舊紀錄（未存待測範圍，載入後請確認）`)
     :isArea
-    ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`
+    ?(e.p&&e.p.shape==='multi'&&Array.isArray(e.r.groups)
+      ?`多連屏 ${(e.p.multi&&e.p.multi.screens||[]).length}in1 · 解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm（最細組）· 相機 ${e.r.totalCams??'—'} 台 (${e.r.groups.map(g=>g.name+' '+g.nX+'×'+g.nY).join('、')})`
+      :`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`+(e.p&&e.p.shape&&e.p.shape!=='rect'?' · '+asShapeText(e.p):''))
     :`TT: ${fmt((e.p&&e.p.scanMode==='round')?e.r.roundTT:e.r.singleTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
 }
 // 地圖座標：2D＝解析度 µm/px × 台數；3D＝視野 mm × Z µm
@@ -5721,7 +6154,7 @@ function evXY(e){
 function evMatch(o, toks){
   if(!toks.length) return true;
   if(o.hay==null){ const e=o.e, fb=e.fb||{};
-    o.hay=[e.name,e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
+    o.hay=[e.name,e.customer,e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
   const tl=(o.e.tags||[]).map(function(t){ return t.toLowerCase(); });
   return toks.every(function(t){ return t==='#' ? true : t[0]==='#' ? tl.indexOf(t.slice(1))>=0 : o.hay.indexOf(t)>=0; });
 }
@@ -5779,18 +6212,30 @@ function renderEvals(){
   const sv=document.getElementById('ev-sort').value, ts=e=>e.ts||e.id||0;
   list.sort(sv==='name' ? (a,b)=>String(a.e.name).localeCompare(String(b.e.name),'zh-Hant',{numeric:true})
           : sv==='old' ? (a,b)=>(a.e.id||0)-(b.e.id||0) : (a,b)=>ts(b.e)-ts(a.e));
-  // 有任何標籤才分組：依第一個標籤，未分類放最後
-  if(!all.some(o=>o.e.tags&&o.e.tags.length)){ el.innerHTML=list.map(evCard).join(''); return; }
-  const groups=[], gm={};
-  list.forEach(o=>{ const t=(o.e.tags&&o.e.tags[0])||'', k=t.toLowerCase();
-    if(!gm[k]){ gm[k]={t,k,items:[]}; groups.push(gm[k]); } gm[k].items.push(o); });
-  if(sv==='name') groups.sort((a,b)=>a.t.localeCompare(b.t,'zh-Hant',{numeric:true}));
-  groups.sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0));
-  el.innerHTML=groups.map(g=>{
-    const closed=!filtering && _evClosed.indexOf(g.k)>=0;   // 搜尋／篩選時全部展開，才不會漏看
-    return `<div class="ev-grp${closed?' closed':''}"${filtering?' style="cursor:default"':''} data-k="${esc(g.k)}" onclick="evGrpToggle(this.dataset.k)">`
-      +`${filtering?'':'<span class="car">▼</span>'}${g.k?esc(g.t):'未分類'}<span class="n">${g.items.length}</span></div>`
-      +(closed?'':g.items.map(evCard).join(''));
+  // 分組：有填客戶就先依客戶，再依第一個標籤；客戶、標籤都沒填的放最後
+  const hasC=all.some(o=>String(o.e.customer||'').trim()), hasT=all.some(o=>o.e.tags&&o.e.tags.length);
+  if(!hasC && !hasT){ el.innerHTML=list.map(evCard).join(''); return; }
+  const grp=(arr, kf)=>{ const out=[], gm={};
+    arr.forEach(o=>{ const t=kf(o), k=t.toLowerCase(); if(!gm[k]){ gm[k]={t,k,items:[]}; out.push(gm[k]); } gm[k].items.push(o); });
+    if(sv==='name') out.sort((a,b)=>a.t.localeCompare(b.t,'zh-Hant',{numeric:true}));
+    return out.sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0)); };
+  const hdr=(k, cls, label, n)=>{
+    const closed=!filtering && _evClosed.indexOf(k)>=0;   // 搜尋／篩選時全部展開，才不會漏看
+    return [closed, `<div class="ev-grp${cls}${closed?' closed':''}"${filtering?' style="cursor:default"':''} data-k="${esc(k)}" onclick="evGrpToggle(this.dataset.k)">`
+      +`${filtering?'':'<span class="car">▼</span>'}${label}<span class="n">${n}</span></div>`]; };
+  const byTag=(arr, pre, sub)=>{
+    if(!arr.some(o=>o.e.tags&&o.e.tags.length)) return arr.map(evCard).join('');
+    return grp(arr, o=>(o.e.tags&&o.e.tags[0])||'').map(g=>{
+      const h=hdr(pre+g.k, sub?' sub':'', g.k?(sub?'#':'')+esc(g.t):(sub?'沒有標籤':'未分類'), g.items.length);
+      return h[1]+(h[0]?'':g.items.map(evCard).join(''));
+    }).join(''); };
+  if(!hasC){ el.innerHTML=byTag(list, '', false); return; }
+  // 同一客戶大小寫不同（BMW／bmw）算同一組；組名用最常見的寫法，一樣多就用有大寫的
+  const cn=g=>{ const c={}; g.items.forEach(o=>{ const t=String(o.e.customer||'').trim(); c[t]=(c[t]||0)+1; });
+    return Object.keys(c).sort((a,b)=>c[b]-c[a] || (b!==b.toLowerCase())-(a!==a.toLowerCase()))[0]; };
+  el.innerHTML=grp(list, o=>String(o.e.customer||'').trim()).map(g=>{ g.t=cn(g);
+    const h=hdr('c:'+g.k, ' cu', g.k?'🏢 '+esc(g.t):'客戶未填', g.items.length);
+    return h[1]+(h[0]?'':byTag(g.items, 'c:'+g.k+'/', true));
   }).join('');
 }
 function evCard(o){
@@ -5799,7 +6244,7 @@ function evCard(o){
                 : '<span class="ec-lamp unk" title="舊紀錄沒有存結論，載入一次就會補上"></span>';
   return `
     <div class="ec" data-i="${i}"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
-      <h3>${lamp}${esc(e.name)}<span style="font-size:10px;background:${EV_MC[m]};color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">${EV_ML[m]}</span>${evPurPill(e,i)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
+      <h3>${lamp}${esc(e.name)}<span style="font-size:10px;background:${EV_MC[m]};color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">${EV_ML[m]}</span>${evPurPill(e,i)}${evCustPill(e,i)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${esc(e.date)} · ${esc(e.camera)}</p>
       <p>${o.sum}</p>
       <div class="ec-tags">${tags.map(t=>`<button type="button" class="ec-tag" data-t="${esc(t)}" onclick="evTagQ(this.dataset.t)" title="只看這個標籤">#${esc(t)}</button>`).join('')}<button type="button" class="ec-tag-ed" onclick="evTagEdit(${i},this)" title="編輯標籤">${tags.length?'✎':'＋ 標籤'}</button></div>
@@ -5821,6 +6266,26 @@ const EV_PUR={cust:'👥 客戶需求', trial:'🧪 內部試算'};
 function evPurPill(e,i){
   const p=EV_PUR[e.purpose];
   return '<button type="button" class="ec-pur'+(p?' '+e.purpose:'')+'" onclick="evPurEdit('+i+',this)" title="'+(p?'改用途':'標記用途：客戶需求要提交到知識庫，內部試算不用')+'">'+(p||'＋ 用途')+'</button>';
+}
+function evCustPill(e,i){
+  const c=String(e.customer||'').trim();
+  return '<button type="button" class="ec-pur ec-cust'+(c?' on-c':'')+'" onclick="evCustEdit('+i+',this)" title="'+(c?'改客戶':'填客戶：歷史紀錄會依客戶分組')+'">'+(c?'🏢 '+esc(c):'＋ 客戶')+'</button>';
+}
+function evCustEdit(i, btn){
+  const e=evals[i]; if(!e) return;
+  custDlFill();
+  const inp=document.createElement('input'); inp.className='ec-cust-in'; inp.setAttribute('list','cust-dl'); inp.placeholder='客戶，Enter 儲存'; inp.value=e.customer||'';
+  btn.replaceWith(inp); inp.focus(); inp.select();
+  let fin=false;
+  const end=function(ok){
+    if(fin) return; fin=true;
+    const v=inp.value.trim().slice(0,40), old=e.customer||'';
+    if(ok && v!==old){ if(v) e.customer=v; else delete e.customer; persistEvals(); }
+    renderEvals();
+  };
+  inp.addEventListener('keydown',function(ev){ if(ev.isComposing) return;
+    if(ev.key==='Enter'){ ev.preventDefault(); end(true); } else if(ev.key==='Escape'){ ev.preventDefault(); ev.stopPropagation(); end(false); } });
+  inp.addEventListener('blur',function(){ end(true); });
 }
 function evPurEdit(i, btn){
   const e=evals[i]; if(!e) return;
@@ -5989,6 +6454,13 @@ function loadEvalArea(e){
   sv('as-pitch',p.pitch);
   sv('p-rw',p.camRX); sv('p-rh',p.camRY); sv('p-px',p.camPx);
   sv('p-fl',p.fl); sv('as-min-wd',p.minWD); sv('as-limit',p.limit);
+  // 產品型態（舊紀錄沒有＝矩形）
+  sv('as-shape', AS_SHAPES[p.shape] ? p.shape : 'rect');
+  sv('as-shape-note', p.shapeNote||'');
+  if(p.curveR>0) sv('as-curve-r', p.curveR);
+  asBend = p.bend==='y' ? 'y' : 'x'; segSet('as-bend-seg', asBend==='y'?1:0);
+  if(p.shape==='multi' && p.multi) asMulti=asmNorm(JSON.parse(JSON.stringify(p.multi)));
+  asShapeUI();
   setProjName('area', e.name||'新評估');
   syncDesc(e.notes||'');
   if(e.camIdx!==undefined) document.getElementById('cam-pick').value=e.camIdx;
@@ -6056,6 +6528,7 @@ function pdfToggleBlock(bi,on){ document.querySelectorAll(`#pdf-list input[data-
 function pdfSelectAll(on){ document.querySelectorAll('#pdf-list input[type=checkbox]').forEach(c=>c.checked=on); }
 function closePdfExport(){ document.getElementById('pdf-modal').style.display='none'; document.getElementById('pdf-overlay').style.display='none'; }
 async function doPdfExport(){
+  if(!pdfLibReady()) return;
   const blockChecks=[...document.querySelectorAll('#pdf-list .pdf-block > .pdf-block-lbl > input')];
   const restore=[]; let collapsedGrid=null;
   const brief0=briefOn; briefOn=false; applyCardCfg();   // 報告放完整規格；勾選清單決定要哪些
@@ -6097,7 +6570,9 @@ function pdfSafeCuts(el, k){
   const txt=ys.filter(ok(iv));
   return {txt:txt, all:txt.filter(ok(pic))};
 }
+function pdfLibReady(){ if(window.jspdf&&window.html2canvas) return true; alert('PDF 元件還在載入，請稍等幾秒再按一次'); return false; }
 async function exportPDFMode(mode){
+  if(!pdfLibReady()) return;
   const el = document.getElementById(paneIdOf(mode)).querySelector('.rpt-card');
   const date = new Date().toLocaleDateString('zh-TW').replace(/\//g,'-');
   const projName = getProjName(mode)||'AOI評估';
@@ -6460,6 +6935,13 @@ function costRecalc(){ if(dim==='3d') calc3D(); else calc(); }
 
 // 2D 自動項目：數量來自評估結果與「資料量與電腦規格」
 function costRows2D(mode, o){
+  const rows=costRows2DBase(mode, o), mw=curModWhole();
+  if(!mw) return rows;
+  // 自研模組整組：相機那列改成「自研模組」（整組單價），鏡頭不另計；模組含光源就不再列客製光源
+  return rows.filter(r=>r.key!=='lens' && !(r.key==='light' && mw.light && mw.light.type)).map(r=> r.key!=='cam' ? r
+    : Object.assign({}, r, {item:'自研模組', unit:'組', spec:r.spec+'（相機＋鏡頭'+(mw.light&&mw.light.type?'＋光源':'')+'）'}));
+}
+function costRows2DBase(mode, o){
   const ci=document.getElementById('cam-pick').value, li=document.getElementById('lens-pick').value;
   const cam=ci!==''?allCams()[+ci].n:null, lens=li!==''?allLens()[+li].n:null;
   const n=o?o.n:0;
@@ -6874,6 +7356,7 @@ function cmpSetName(mode, i, el){ const o=cmpCol(mode,i); if(!o) return; o.name=
 function cmpSetWhy(mode, el){ cmpOf(mode).why=el.value; el.nextElementSibling.textContent=el.value||'—'; cmpFitRow(null, el); cmpSave(); }
 // 只匯出比較表：一頁 A4 橫向
 async function cmpPdf(mode){
+  if(!pdfLibReady()) return;
   const blk=document.querySelector('.cmp-blk[data-cmp="'+mode+'"]'); if(!blk) return;
   _cmpPick=null; cmpRenderNow(mode);
   const restore=[];
@@ -7358,6 +7841,7 @@ function exportDb(){
     exported: new Date().toISOString(),
     cameras: custCams,
     lenses:  custLens,
+    modules: custMods,
     hiddenBuiltinCams: [...hiddenCams],
     hiddenBuiltinLens: [...hiddenLens]
   };
@@ -7392,6 +7876,11 @@ function handleDbImport(input){
       const newLens = data.lenses.filter(l=>!existLensNames.has(l.n));
       const skipLens = data.lenses.length - newLens.length;
 
+      const existModNames = new Set(custMods.map(m=>m.n));
+      const impMods = Array.isArray(data.modules) ? data.modules.filter(m=>m && m.n && m.cam && m.lens) : [];
+      const newMods = impMods.filter(m=>!existModNames.has(m.n));
+      const skipMods = impMods.length - newMods.length;
+
       const newHiddenCams = (data.hiddenBuiltinCams||[]).filter(i=>!hiddenCams.has(i));
       const newHiddenLens = (data.hiddenBuiltinLens||[]).filter(i=>!hiddenLens.has(i));
 
@@ -7404,12 +7893,16 @@ function handleDbImport(input){
       summary += '<br>';
       summary += `🔭 鏡頭：新增 <b>${newLens.length}</b> 個`;
       if(skipLens) summary += `，跳過 ${skipLens} 筆（重複）`;
+      if(impMods.length){
+        summary += `<br>🛠 自研模組：新增 <b>${newMods.length}</b> 組`;
+        if(skipMods) summary += `，跳過 ${skipMods} 筆（重複）`;
+      }
       if(newHiddenCams.length || newHiddenLens.length){
         summary += '<br>';
         summary += `🙈 同步隱藏的內建項目：相機 ${newHiddenCams.length} 個、鏡頭 ${newHiddenLens.length} 個`;
       }
 
-      _pendingImport = { newCams, newLens, newHiddenCams, newHiddenLens };
+      _pendingImport = { newCams, newLens, newMods, newHiddenCams, newHiddenLens };
 
       document.getElementById('imp-source').textContent = `來源：${file.name}　匯出時間：${exportDate}`;
       document.getElementById('imp-summary').innerHTML = summary;
@@ -7426,15 +7919,16 @@ function handleDbImport(input){
 
 function confirmImport(){
   if(!_pendingImport) return;
-  const { newCams, newLens, newHiddenCams, newHiddenLens } = _pendingImport;
+  const { newCams, newLens, newMods, newHiddenCams, newHiddenLens } = _pendingImport;
   newCams.forEach(c => custCams.push(c));
   newLens.forEach(l => custLens.push(l));
+  (newMods||[]).forEach(m => { if(!m.id) m.id='m'+Date.now().toString(36)+Math.random().toString(36).slice(2,5); custMods.push(m); });
   newHiddenCams.forEach(i => hiddenCams.add(i));
   newHiddenLens.forEach(i => hiddenLens.add(i));
-  saveCustCams(); saveCustLens(); saveHiddenCams(); saveHiddenLens();
+  saveCustCams(); saveCustLens(); if((newMods||[]).length) saveCustMods(); saveHiddenCams(); saveHiddenLens();
   refreshCamPicker(); refreshLensPicker(); renderDbLists();
   closeImportModal();
-  showToast(`匯入完成：+${newCams.length} 相機、+${newLens.length} 鏡頭`, ()=>{});
+  showToast(`匯入完成：+${newCams.length} 相機、+${newLens.length} 鏡頭`+((newMods||[]).length?`、+${newMods.length} 自研模組`:''), ()=>{});
 }
 
 function closeImportModal(){
@@ -7577,7 +8071,391 @@ function confirmEvalImport(){
 // ═══════════════════════════════════════════
 // AREA SHOT: CALCULATION ENGINE
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+// 畫檢評估：產品型態 → 等效平面幾何，再算相機配置（多連屏每一組相機也共用這兩支）
+// ═══════════════════════════════════════════
+const AS_SHAPES={rect:'矩形', free:'異形', curve:'矩形曲面', freecurve:'異形曲面', multi:'多連屏'};
+const AS_SCR_SHAPES=['rect','free','curve','freecurve'];   // 多連屏每一屏可選的型態
+let asBend='x';
+function asIsCurve(sh){ return sh==='curve'||sh==='freecurve'; }
+function asIsFree(sh){ return sh==='free'||sh==='freecurve'; }
+// g:{shape, X, Y, RX, RY, bend:'x'|'y', R}
+// 異形：X/Y 填外接矩形，照矩形算（相機要涵蓋整個外接框）。
+// 曲面：彎曲方向填展開長度 L，相機看到的是投影寬 2R·sin(L/2R)，弧高 R(1−cos(L/2R))；
+//       邊緣傾角 θ=L/2R，那裡面板像素的投影縮成 cosθ，解析度以邊緣（最嚴格處）計。
+function asGeom(g){
+  const o={shape:g.shape||'rect', X:+g.X||0, Y:+g.Y||0, RX:+g.RX||0, RY:+g.RY||0, bend:g.bend==='y'?'y':'x', R:+g.R||0,
+           covX:+g.X||0, covY:+g.Y||0, pix:(+g.RX>0)?(+g.X)/(+g.RX):0, curve:false, L:0, proj:0, theta:0, arcH:0, err:''};
+  if(!asIsCurve(o.shape)) return o;
+  o.curve=true;
+  if(!(o.R>0)){ o.err='請填曲率半徑 R'; return o; }
+  o.L = o.bend==='y' ? o.Y : o.X;
+  o.theta = o.L/(2*o.R);
+  if(o.theta>Math.PI/2){ o.err='展開長度超過半圓（L > πR），請確認 R 與尺寸'; return o; }
+  o.proj = 2*o.R*Math.sin(o.theta);
+  o.arcH = o.R*(1-Math.cos(o.theta));
+  const c=Math.cos(o.theta);
+  if(o.bend==='y'){ o.covY=o.proj; const py=o.RY>0?(o.Y/o.RY)*c:0; if(py>0 && (!(o.pix>0) || py<o.pix)) o.pix=py; }
+  else { o.covX=o.proj; o.pix=o.pix*c; }
+  return o;
+}
+// 曲面上某段的高低差：以弧頂為 0，投影座標 x 處的下垂量
+function asSag(R, x){ x=Math.min(Math.abs(x), R); return R-Math.sqrt(R*R-x*x); }
+// o:{covX, covY, pix(mm/面板像素), pitch, camRX, camRY, camPx, fl, minWD, limit}
+function asCore(o){
+  const limit=Math.min(1, Math.max(0.05, o.limit||0));
+  const resolution=(o.pix>0&&o.pitch>0) ? ((o.pix*1e-3)/o.pitch)*1e6 : 0;
+  const xFOV=o.camRX*resolution/1000, yFOV=o.camRY*resolution/1000;
+  const wd=(o.camRX>0&&o.camPx>0) ? ((xFOV*1e-3)*(o.fl*1e-3)/(o.camRX*o.camPx*1e-6))*1e3 : 0;
+  const safeWD=(+o.minWD||0)+30;
+  const xAngle=(wd>0) ? Math.atan((o.covX/2)/wd)*180/Math.PI : 0;
+  const xRatio=(xFOV>0) ? o.covX/xFOV : 0, yRatio=(yFOV>0) ? o.covY/yFOV : 0;
+  const nX=(xFOV>0) ? Math.max(1, Math.ceil(xRatio/limit)) : 0, nY=(yFOV>0) ? Math.max(1, Math.ceil(yRatio/limit)) : 0;
+  const nXmin=(xFOV>0) ? Math.max(1, Math.ceil(xRatio)) : 0, nYmin=(yFOV>0) ? Math.max(1, Math.ceil(yRatio)) : 0;
+  return {resolution, xFOV, yFOV, wd, safeWD, xAngle, xRatio, yRatio, limit, nX, nY, totalCams:nX*nY, nXmin, nYmin, totalMin:nXmin*nYmin};
+}
+// 曲面：最外側那台相機視野內的高低差（視野貼齊產品邊緣、往內涵蓋一個 FOV）
+function asCamSag(g, r){
+  if(!g.curve || g.err || !(g.proj>0)) return 0;
+  const fov = g.bend==='y' ? r.yFOV : r.xFOV, half=g.proj/2;
+  if(!(fov>0)) return g.arcH;
+  return asSag(g.R, half) - asSag(g.R, Math.max(0, half-fov));
+}
+function asGeomDom(){
+  const v=id=>+document.getElementById(id).value;
+  return asGeom({shape:document.getElementById('as-shape').value, X:v('as-panel-x'), Y:v('as-panel-y'),
+                 RX:v('as-panel-rx'), RY:v('as-panel-ry'), bend:asBend, R:v('as-curve-r')});
+}
+function setBend(b){ asBend=b==='y'?'y':'x'; segSet('as-bend-seg', asBend==='y'?1:0); asShapeUI(); calcAS(); }
+function asShapeUI(){
+  const sh=document.getElementById('as-shape').value, cv=asIsCurve(sh), fr=asIsFree(sh), mu=sh==='multi';
+  document.getElementById('as-single').style.display=mu?'none':'';
+  document.getElementById('as-multi').style.display=mu?'':'none';
+  document.getElementById('as-row-pitch').style.display=mu?'none':'';   // 多連屏：每屏各自的 Pitch
+  if(mu) asmRender();
+  document.getElementById('as-row-note').style.display=fr?'':'none';
+  document.querySelectorAll('#need-area .as-curve-row').forEach(function(r){ r.style.display=cv?'':'none'; });
+  const pre=fr?'外接 ':'面板 ';
+  document.getElementById('as-lbl-x').textContent = cv&&asBend==='x' ? (fr?'外接 X 展開':'X-AA 展開長') : pre+'X-AA';
+  document.getElementById('as-lbl-y').textContent = cv&&asBend==='y' ? (fr?'外接 Y 展開':'Y-AA 展開長') : pre+'Y-AA';
+}
+// 報告／卡片用的型態文字
+function asShapeText(p){
+  const sh=p.shape||'rect';
+  let t=AS_SHAPES[sh]||'矩形';
+  if(asIsFree(sh) && p.shapeNote) t+='：'+p.shapeNote;
+  if(asIsCurve(sh) && p.curveR>0) t+=' · R '+fmtN(p.curveR)+' mm（沿 '+(p.bend==='y'?'Y':'X')+' 彎）';
+  return t;
+}
+
+// ═══════════════════════════════════════════
+// 多連屏：每屏各自的尺寸／解析度／型態／曲率，相鄰屏用 🔗 決定是否同一組相機一起拍
+// 一組相機涵蓋組內各屏（含屏間距）的合併範圍，解析度依組內最細的那一屏
+// ═══════════════════════════════════════════
+let asMulti=null;   // {dir:'x'|'y', gap, screens:[{shape,X,Y,RX,RY,note,R,bend}], links:[true=與下一屏同組]}
+const ASM_HUES=[211,28,145,280,48,340];
+function asmColor(k, l){ return 'hsl('+ASM_HUES[k%ASM_HUES.length]+',62%,'+(l||46)+'%)'; }
+function asmInit(){
+  const v=id=>+document.getElementById(id).value;
+  const one={shape:'rect', X:v('as-panel-x'), Y:v('as-panel-y'), RX:v('as-panel-rx'), RY:v('as-panel-ry'), pitch:v('as-pitch')||8, note:'', R:1500, bend:'x'};
+  asMulti={dir:'x', gap:0, screens:[Object.assign({},one), Object.assign({},one)], links:[false]};
+}
+function asmNorm(m){
+  m=m&&typeof m==='object'?m:{};
+  const gp=+document.getElementById('as-pitch').value||8;   // 舊資料沒有每屏 Pitch → 用全域 Pitch
+  const scr=(Array.isArray(m.screens)?m.screens:[]).slice(0,6).map(s=>({shape:AS_SCR_SHAPES.includes(s.shape)?s.shape:'rect',
+    X:+s.X||0, Y:+s.Y||0, RX:+s.RX||0, RY:+s.RY||0, pitch:(s.pitch==null||s.pitch==='')?gp:+s.pitch, note:s.note||'', R:+s.R||0, bend:s.bend==='y'?'y':'x'}));
+  while(scr.length<2) scr.push(Object.assign({}, scr[0]||{shape:'rect',X:300,Y:120,RX:1920,RY:720,pitch:gp,note:'',R:1500,bend:'x'}));
+  const links=scr.slice(0,-1).map((_,i)=>!!(m.links&&m.links[i]));
+  return {dir:m.dir==='y'?'y':'x', gap:Math.max(0,+m.gap||0), screens:scr, links};
+}
+function asMultiGroups(m){
+  const G=[]; let cur=null;
+  m.screens.forEach(function(s,i){
+    const g=asGeom(s); g.idx=i;
+    if(!cur){ cur={scr:[], geos:[]}; G.push(cur); }
+    cur.scr.push(i); cur.geos.push(g);
+    if(!m.links[i]) cur=null;
+  });
+  const along=m.dir==='y'?'covY':'covX', cross=m.dir==='y'?'covX':'covY', gap=Math.max(0,+m.gap||0);
+  G.forEach(function(g,k){
+    g.k=k; g.name=String.fromCharCode(65+k);
+    g[along]=g.geos.reduce((a,x)=>a+x[along],0)+gap*(g.geos.length-1);
+    g[cross]=Math.max.apply(null, g.geos.map(x=>x[cross]));
+    // 每屏要求的相機解析度＝面板像素 ÷ 該屏 Pitch；一組相機只能一個解析度（一個 WD），取最細的那屏
+    g.geos.forEach(x=>{ const pt=+m.screens[x.idx].pitch||0; x.pitch=pt; x.need=(x.pix>0&&pt>0)?x.pix/pt:0; });
+    const nd=g.geos.filter(x=>x.need>0);
+    const drv=nd.length?nd.reduce((a,x)=>x.need<a.need?x:a, nd[0]):null;
+    g.drv=drv?drv.idx:-1; g.pix=drv?drv.need:0; g.pitch=1;
+    g.curve=g.geos.some(x=>x.curve); g.arcH=Math.max.apply(null,[0].concat(g.geos.map(x=>x.arcH||0)));
+    const eg=g.geos.find(x=>x.err); g.err=eg?'屏'+(eg.idx+1)+' '+eg.err:'';
+    g.label=g.scr.length>1?'屏'+(g.scr[0]+1)+'–'+(g.scr[g.scr.length-1]+1):'屏'+(g.scr[0]+1);
+  });
+  return G;
+}
+function asGroupSag(g, r){ return Math.max.apply(null,[0].concat(g.geos.map(x=>asCamSag(x,r)))); }
+// 畫檢的「相機組」：單一產品＝1 組；多連屏＝依 🔗 分組
+function asGroupsDom(){
+  if(document.getElementById('as-shape').value!=='multi'){ const g=asGeomDom(); g.scr=null; g.name='A'; g.k=0; g.geos=[g]; return [g]; }
+  if(!asMulti) asmInit();
+  asMulti=asmNorm(asMulti);
+  return asMultiGroups(asMulti);
+}
+// 各組套同一組相機／鏡頭參數算配置
+function asMultiCalc(m, c){
+  const G=asMultiGroups(m);
+  const R=G.map(function(g){ const r=asCore(Object.assign({}, c, {covX:g.covX, covY:g.covY, pix:g.pix, pitch:g.pitch})); r.sag=asGroupSag(g,r); return r; });
+  return {G, R, total:R.reduce((a,r)=>a+r.totalCams,0), totalMin:R.reduce((a,r)=>a+r.totalMin,0)};
+}
+function asMultiText(m){
+  const n=m.screens.length, G=asMultiGroups(m);
+  return '多連屏 '+n+'in1 · '+(m.dir==='y'?'直排（沿 Y）':'橫排（沿 X）')+' · 屏間距 '+fmtN(m.gap)+' mm · '
+    +G.length+' 組相機（'+G.map(g=>g.name+'：'+g.label).join('、')+'）';
+}
+function asmExtent(m){
+  const sc=(m&&m.screens)||[], gap=Math.max(0,+m.gap||0), dx=m.dir!=='y';
+  if(!sc.length) return {w:0, h:0};
+  const a=sc.reduce((t,x)=>t+(+(dx?x.X:x.Y)||0),0)+gap*(sc.length-1), b=Math.max.apply(null, sc.map(x=>+(dx?x.Y:x.X)||0));
+  return dx ? {w:a, h:b} : {w:b, h:a};
+}
+function asmScreenText(s, i){
+  let t='屏'+(i+1)+' '+fmtN(s.X)+' × '+fmtN(s.Y)+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+') · Pitch '+fmtN(s.pitch);
+  if(s.shape!=='rect') t+=' · '+AS_SHAPES[s.shape]+(asIsFree(s.shape)&&s.note?'：'+s.note:'');
+  if(asIsCurve(s.shape)&&s.R>0) t+=' R'+fmtN(s.R)+' 沿'+(s.bend==='y'?'Y':'X');
+  return t;
+}
+
+// ── 左側編輯器 ──
+function asmRender(){
+  const box=document.getElementById('as-multi'); if(!box) return;
+  if(!asMulti) asmInit();
+  asMulti=asmNorm(asMulti);
+  const m=asMulti, G=asMultiGroups(m), gOf={};
+  G.forEach(g=>g.scr.forEach(i=>{ gOf[i]=g; }));
+  const n=m.screens.length;
+  let h='<div class="asm-tip">每一屏各自填尺寸與型態；相鄰兩屏之間按 <b>🔗</b> 切換「同一組相機一起拍」或「分開拍」。</div>'
+    +'<div class="row"><label>排列方向</label><div class="seg" id="asm-dir-seg">'
+    +'<button class="'+(m.dir==='x'?'on':'')+'" onclick="asmDir(\'x\')">橫排（沿 X）</button>'
+    +'<button class="'+(m.dir==='y'?'on':'')+'" onclick="asmDir(\'y\')">直排（沿 Y）</button></div></div>'
+    +'<div class="row"><label>屏間距</label><input type="number" id="asm-gap" value="'+m.gap+'" step="0.5" min="0" oninput="asmGap(this.value)"><span class="unit">mm</span></div>'
+    +'<div class="row"><label>屏數</label><div class="asm-cnt"><button onclick="asmCount(-1)"'+(n<=2?' disabled':'')+' aria-label="減少一屏">−</button><b>'+n+'</b>'
+    +'<button onclick="asmCount(1)"'+(n>=6?' disabled':'')+' aria-label="增加一屏">＋</button></div></div>';
+  m.screens.forEach(function(s,i){
+    const g=gOf[i], col=asmColor(g.k), cv=asIsCurve(s.shape), fr=asIsFree(s.shape);
+    const num=(k,step)=>'<input type="number" value="'+(s[k]==null?'':s[k])+'" step="'+step+'" oninput="asmSet('+i+',\''+k+'\',this.value)">';
+    h+='<div class="asm-scr" style="--g:'+col+'">'
+      +'<div class="asm-hd"><span class="asm-no">屏 '+(i+1)+'</span><span class="asm-grp" title="相機組">'+g.name+' 組</span>'
+      +'<select onchange="asmSet('+i+',\'shape\',this.value,1)" aria-label="屏 '+(i+1)+' 型態">'
+      +AS_SCR_SHAPES.map(k=>'<option value="'+k+'"'+(k===s.shape?' selected':'')+'>'+AS_SHAPES[k]+'</option>').join('')+'</select></div>'
+      +'<div class="asm-r"><label>'+(fr?'外接尺寸':'AA 尺寸')+'</label>'+num('X',1)+'<span class="x">×</span>'+num('Y',1)+'<span class="unit">mm</span></div>'
+      +'<div class="asm-r"><label>解析度</label>'+num('RX',1)+'<span class="x">×</span>'+num('RY',1)+'<span class="unit">px</span></div>'
+      +'<div class="asm-r"><label>Pitch</label>'+num('pitch',0.5)+'<span class="unit">px</span></div>';
+    if(fr) h+='<div class="asm-r"><label>形狀</label><input type="text" value="'+esc(s.note)+'" placeholder="例：圓角＋瀏海" oninput="asmSet('+i+',\'note\',this.value)"><span class="unit"></span></div>';
+    if(cv){
+      h+='<div class="asm-r"><label>彎曲方向</label>'
+        +'<div class="seg"><button class="'+(s.bend!=='y'?'on':'')+'" onclick="asmSet('+i+',\'bend\',\'x\',1)">沿 X</button>'
+        +'<button class="'+(s.bend==='y'?'on':'')+'" onclick="asmSet('+i+',\'bend\',\'y\',1)">沿 Y</button></div><span class="unit"></span></div>'
+        +'<div class="asm-r"><label>曲率半徑 R</label>'+num('R',10)+'<span class="unit">mm</span></div>'
+        +'<div class="asm-ci" id="asm-ci-'+i+'"></div>';
+    }
+    h+='</div>';
+    if(i<n-1){
+      const on=m.links[i];
+      h+='<div class="asm-link"><button class="asm-lk'+(on?' on':'')+'" onclick="asmLink('+i+')" title="'
+        +(on?'屏'+(i+1)+'、屏'+(i+2)+' 用同一組相機一起拍；點一下改成分開拍':'屏'+(i+1)+'、屏'+(i+2)+' 分開拍；點一下改成同一組相機一起拍')+'">'
+        +(on?'🔗 同一組拍':'✂ 分開拍')+'</button></div>';
+    }
+  });
+  box.innerHTML=h;
+  asmCurveInfo();
+}
+// 曲面屏的投影／弧高小字（輸入時更新，不重畫整個編輯器以免失去焦點）
+function asmCurveInfo(){
+  if(!asMulti) return;
+  asMulti.screens.forEach(function(s,i){
+    const el=document.getElementById('asm-ci-'+i); if(!el) return;
+    const g=asGeom(s);
+    el.innerHTML = g.err ? '<span class="bad">⚠ '+esc(g.err)+'</span>'
+      : (s.bend==='y'?'Y':'X')+' 填展開長 · 投影 <b>'+g.proj.toFixed(1)+'</b> mm · 弧高 <b>'+g.arcH.toFixed(1)+'</b> mm · 傾角 <b>'+(g.theta*180/Math.PI).toFixed(1)+'</b>°';
+  });
+}
+function asmSet(i, k, v, rerender){
+  if(!asMulti||!asMulti.screens[i]) return;
+  asMulti.screens[i][k] = (k==='shape'||k==='note'||k==='bend') ? v : (v===''?0:+v);
+  if(rerender) asmRender(); else asmCurveInfo();
+  calcAS();
+}
+function asmLink(i){ asMulti.links[i]=!asMulti.links[i]; asmRender(); calcAS(); }
+function asmDir(d){ asMulti.dir=d==='y'?'y':'x'; asmRender(); calcAS(); }
+function asmGap(v){ asMulti.gap=Math.max(0,+v||0); calcAS(); }
+function asmCount(d){
+  const sc=asMulti.screens;
+  if(d>0 && sc.length<6){ sc.push(Object.assign({}, sc[sc.length-1])); asMulti.links.push(false); }
+  else if(d<0 && sc.length>2){ sc.pop(); asMulti.links.pop(); }
+  asmRender(); calcAS();
+}
+
+// ── 多連屏結果（報告、分組表、示意圖、注意事項）──
+function calcASMulti(){
+  if(!asMulti) asmInit();
+  asMulti=asmNorm(asMulti);
+  const v=id=>+document.getElementById(id).value;
+  const pitch=v('as-pitch'), minWD=v('as-min-wd'), limitRaw=v('as-limit');
+  const pts=asMulti.screens.map(s=>+s.pitch||0), badPt=pts.map((p,i)=>p<3?i:-1).filter(i=>i>=0);
+  const cp={pitch, camRX:v('p-rw'), camRY:v('p-rh'), camPx:v('p-px'), fl:v('p-fl'), minWD, limit:limitRaw};
+  const M=asMultiCalc(asMulti, cp), G=M.G, R=M.R;
+  const f=(x,d=2)=>(!isFinite(x)||x===0)?'—':x.toFixed(d);
+  const rng=function(k,d){ const a=R.map(r=>r[k]).filter(x=>isFinite(x)&&x>0); if(!a.length) return '—';
+    const lo=Math.min.apply(null,a), hi=Math.max.apply(null,a); return (hi-lo)<Math.pow(10,-d)/2 ? lo.toFixed(d) : lo.toFixed(d)+'–'+hi.toFixed(d); };
+  const safeWD=minWD+30, pitchOK=!badPt.length;
+  const badWD=G.filter((g,k)=>!(R[k].wd>safeWD));
+  const ci=document.getElementById('cam-pick').value, li=document.getElementById('lens-pick').value;
+  set('as-rpt-cam', rptCamName(ci)); set('as-rpt-lens', rptLensName(li)); rptLightSet('as-rpt-light');
+  set('as-rpt-shape', asMultiText(asMulti));
+  set('as-rpt-panel-lbl', '各屏尺寸');
+  set('as-rpt-panel', asMulti.screens.map(asmScreenText).join('\n'));
+  const cvs=[]; G.forEach(function(g){ g.geos.forEach(function(x){ if(!x.curve) return;
+    cvs.push('屏'+(x.idx+1)+'：'+(x.err ? x.err : '投影 '+f(x.proj,1)+' mm · 弧高 '+f(x.arcH,1)+' mm · 邊緣傾角 '+f(x.theta*180/Math.PI,1)+'°')); }); });
+  set('as-rpt-curve', cvs.join('\n'));
+  document.getElementById('as-rpt-curve-f').style.display = cvs.length ? '' : 'none';
+  set('as-rpt-pitch', asMulti.screens.map((s,i)=>'屏'+(i+1)+' '+fmtN(s.pitch)).join(' · ')+' px');
+  set('as-rpt-qty', `${M.total} 台`);
+  set('as-rpt-arr', G.length+' 組：'+R.map(r=>r.nX+'×'+r.nY).join(' ＋ '));
+  set('as-rpt-res', rng('resolution',2));
+  set('as-rpt-res-s', G.length>1?'各組依組內最細的屏':'依'+(G[0]&&G[0].drv>=0?'屏'+(G[0].drv+1):'各屏')+' Pitch');
+  set('as-rpt-wd', rng('wd',0));
+  const wdOkEl=document.getElementById('as-rpt-wd-ok');
+  if(wdOkEl){ const ok=!badWD.length; wdOkEl.textContent=ok?'✓ ≥ 安全 '+safeWD+' mm':'✗ '+badWD.map(g=>g.name).join('、')+' 組 < 安全 '+safeWD+' mm'; wdOkEl.style.color=ok?'#34c759':'#ff3b30'; }
+  const datEl=document.getElementById('as-rpt-date');
+  if(datEl) datEl.textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
+  // 各組不同時顯示「最小–最大」範圍，小數位少一點免得卡片放不下
+  set('as-r-res', rng('resolution',2)); set('as-r-xfov', rng('xFOV',1)); set('as-r-yfov', rng('yFOV',1));
+  set('as-r-wd', rng('wd',0)); set('as-r-safe-wd', f(safeWD,0)); set('as-r-xangle', rng('xAngle',1));
+  set('as-r-xratio', rng('xRatio',2)); set('as-r-yratio', rng('yRatio',2));
+  const pitchEl=document.getElementById('as-r-pitch-ok');
+  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ 各屏 ≥ 3':'✗ '+badPt.map(i=>'屏'+(i+1)).join('、')+' < 3'; pitchEl.style.color=pitchOK?'#34c759':'#ff3b30'; }
+  set('as-r-min-cams', M.total>0 ? M.total+' 台（'+G.length+' 組）' : '—');
+  set('as-r-min-cams-ref', M.totalMin>0 ? M.totalMin+' 台' : '—');
+  const limEl=document.getElementById('as-limit'); if(limEl && limitRaw>1) limEl.value='1';
+
+  // 分組表
+  const tb=document.getElementById('as-multi-res');
+  if(tb){
+    tb.style.display='';
+    let h='<div class="rpt-ctitle">🧩 多連屏 · 相機分組</div><div class="asm-wrap"><table class="asm-tbl"><thead><tr>'
+      +'<th>組</th><th>涵蓋</th><th>拍攝範圍 mm</th><th>解析能 µm</th><th>各屏實際 Pitch</th><th>單台 FOV mm</th><th>WD mm</th><th>配置</th><th>台數</th></tr></thead><tbody>';
+    G.forEach(function(g,k){ const r=R[k];
+      // 實際 Pitch＝該屏面板像素 ÷ 這組的解析能；決定解析能的那屏＝填的 Pitch（粗體），其他屏會比要求更細
+      const pe=g.geos.map(x=>{ const a=(r.resolution>0&&x.pix>0)?x.pix*1000/r.resolution:0;
+        const t='屏'+(x.idx+1)+' '+(a>0?(Math.abs(a-x.pitch)<0.05?fmtN(x.pitch):a.toFixed(1)):'—');
+        return x.idx===g.drv&&g.geos.length>1?'<b title="這一屏決定整組的解析能與工作距離">'+t+'</b>':t; }).join(' · ');
+      h+='<tr><td><span class="gtag" style="background:'+asmColor(k)+'">'+g.name+'</span></td><td>'+g.label+'</td>'
+        +'<td>'+f(g.covX,1)+' × '+f(g.covY,1)+'</td><td>'+f(r.resolution,2)+'</td><td>'+pe+'</td><td>'+f(r.xFOV,1)+' × '+f(r.yFOV,1)+'</td>'
+        +'<td'+(r.wd>safeWD?'':' class="bad"')+'>'+f(r.wd,0)+'</td><td>'+r.nX+' × '+r.nY+'</td><td>'+r.totalCams+'</td></tr>'; });
+    h+='</tbody><tfoot><tr><td colspan="8">合計（'+G.length+' 組）</td><td class="tot">'+M.total+' 台</td></tr></tfoot></table></div>';
+    if(G.some(g=>g.geos.length>1)) h+='<div class="asm-note">同一組相機只有一個解析能與工作距離，由組內要求最細的屏（粗體）決定；其他屏的實際 Pitch 會比要求更大（取樣更細）。若想讓每屏用各自的工作距離，在左側把它們改成「✂ 分開拍」。</div>';
+    tb.innerHTML=h;
+  }
+
+  // 示意圖：俯視畫各屏與各組相機；光路側視畫解析度最細那一組
+  if(asDgView==='side'){
+    let kf=0; R.forEach((r,k)=>{ if(r.resolution>0 && (!(R[kf].resolution>0) || r.resolution<R[kf].resolution)) kf=k; });
+    const r=R[kf]||{}, g=G[kf]||{};
+    drawASDiagram(r.nX, r.nY, g.covX, g.covY, r.xFOV, r.yFOV, r.limit, r.wd, (r.xFOV>0?((cp.camRX*cp.camPx/1000)/r.xFOV):0));
+  } else drawASMultiDiagram(asMulti, G, R);
+
+  const W=[];
+  G.forEach(function(g){ if(g.err) W.push({s:'bad', t:'曲面：'+esc(g.err)}); });
+  const cg=G.map((g,k)=>({g, r:R[k]})).filter(o=>o.g.curve && !o.g.err && o.g.arcH>0);
+  if(cg.length){
+    const top=cg.reduce((a,o)=>o.g.arcH>a.g.arcH?o:a, cg[0]);
+    const dh=Math.max.apply(null, cg.map(o=>o.r.sag||0));
+    W.push({s:'warn', t:'曲面弧高最大 '+f(top.g.arcH,1)+' mm（'+top.g.name+' 組）'+(dh>0&&dh<top.g.arcH-1e-6?'，最外側單台視野內高低差 '+f(dh,1)+' mm':'')
+      +'：畫檢不計算景深，請確認鏡頭景深涵蓋這個高低差（必要時縮光圈或分區對焦）'});
+  }
+  if(!pitchOK) W.push({s:'bad', t:badPt.map(i=>'屏'+(i+1)).join('、')+' 的 Pitch 不到 3，分不出單顆面板像素'});
+  if(badWD.length) W.push({s:'bad', t:badWD.map(g=>g.name).join('、')+' 組工作距離小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
+  mountWarnItem(W);
+  sysRender('area', sysCtx2D('area',P(),null,{n:M.total}));
+  concRender('area', W.concat(_sysW.area||[]), true);
+  leftSync();
+}
+function drawASMultiDiagram(m, G, R){
+  const canvas=document.getElementById('as-dg'); if(!canvas) return;
+  const dpr=window.devicePixelRatio||1, W=canvas.offsetWidth, H=canvas.offsetHeight;
+  if(!W||!H) return;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d'); ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H);
+  const cap=document.getElementById('as-dg-caption');
+  const dirX=m.dir!=='y', gap=Math.max(0,+m.gap||0);
+  // 版面座標（mm）：沿排列方向依序擺，另一方向置中（曲面屏用投影尺寸）
+  let cur=0; const SC=[];
+  G.forEach(function(g){ g.geos.forEach(function(x){
+    SC.push(dirX ? {x:cur, y:-x.covY/2, w:x.covX, h:x.covY, i:x.idx, k:g.k} : {x:-x.covX/2, y:cur, w:x.covX, h:x.covY, i:x.idx, k:g.k});
+    cur += (dirX?x.covX:x.covY)+gap; }); });
+  const T=[], B=[];
+  G.forEach(function(g,k){
+    const r=R[k]; if(!(r.xFOV>0)) return;
+    const ss=SC.filter(s=>s.k===k);
+    const x0=Math.min.apply(null,ss.map(s=>s.x)), x1=Math.max.apply(null,ss.map(s=>s.x+s.w));
+    const y0=Math.min.apply(null,ss.map(s=>s.y)), y1=Math.max.apply(null,ss.map(s=>s.y+s.h));
+    const sx=r.xFOV*r.limit, sy=r.yFOV*r.limit, cw=(r.nX-1)*sx+r.xFOV, ch=(r.nY-1)*sy+r.yFOV;
+    const bx=(x0+x1)/2-cw/2, by=(y0+y1)/2-ch/2;
+    // 輸入到一半（例：Pitch 還只打了 1）台數會暴增：只畫外框，不逐格畫
+    if(r.nX*r.nY<=1500) for(let yi=0;yi<r.nY;yi++) for(let xi=0;xi<r.nX;xi++) T.push({x:bx+xi*sx, y:by+yi*sy, w:r.xFOV, h:r.yFOV, k, alt:(xi+yi)%2});
+    B.push({x:bx, y:by, w:cw, h:ch, k, g, r});
+  });
+  const all=SC.concat(B);
+  if(!all.length || !B.length){
+    ctx.fillStyle='#6e6e73'; ctx.font='11px -apple-system,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('請輸入有效參數', W/2, H/2); if(cap) cap.innerHTML=''; return;
+  }
+  let mx0=Infinity, mx1=-Infinity, my0=Infinity, my1=-Infinity;
+  all.forEach(function(a){ mx0=Math.min(mx0,a.x); mx1=Math.max(mx1,a.x+a.w); my0=Math.min(my0,a.y); my1=Math.max(my1,a.y+a.h); });
+  const padL=10, padR=10, padT=18, padB=14, dW=W-padL-padR, dH=H-padT-padB;
+  const sc=Math.min(dW/(mx1-mx0), dH/(my1-my0));
+  const ox=padL+(dW-(mx1-mx0)*sc)/2-mx0*sc, oy=padT+(dH-(my1-my0)*sc)/2-my0*sc;
+  const X=x=>ox+x*sc, Y=y=>oy+y*sc;
+  // 相機 FOV 格：同一組同色、相鄰格深淺交錯
+  T.forEach(function(t){
+    ctx.fillStyle='hsla('+ASM_HUES[t.k%ASM_HUES.length]+',62%,'+(t.alt?52:62)+'%,.42)';
+    ctx.fillRect(X(t.x),Y(t.y),t.w*sc,t.h*sc);
+    ctx.strokeStyle='rgba(0,0,0,.14)'; ctx.lineWidth=0.6; ctx.strokeRect(X(t.x),Y(t.y),t.w*sc,t.h*sc);
+  });
+  // 各組總覆蓋外框
+  B.forEach(function(b){
+    ctx.strokeStyle=asmColor(b.k,40); ctx.lineWidth=1.4; ctx.strokeRect(X(b.x),Y(b.y),b.w*sc,b.h*sc);
+  });
+  // 各屏
+  SC.forEach(function(s){
+    const x=X(s.x), y=Y(s.y), w=s.w*sc, h=s.h*sc;
+    ctx.fillStyle='rgba(255,255,255,.66)'; rrect(ctx,x,y,w,h,3); ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.8)'; ctx.lineWidth=1.4; ctx.setLineDash([5,3]); rrect(ctx,x,y,w,h,3); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='rgba(0,0,0,.65)'; ctx.font=Math.max(8,Math.min(12,h*0.22))+'px -apple-system,sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('屏'+(s.i+1), x+w/2, y+h/2);
+  });
+  // 組標籤（放在各組外框左上，外框上緣）
+  B.forEach(function(b){
+    const t=b.g.name+' 組 · '+b.r.nX+'×'+b.r.nY+'＝'+b.r.totalCams+' 台';
+    ctx.font='700 9px -apple-system,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+    const tw=ctx.measureText(t).width, lx=Math.max(2, Math.min(X(b.x), W-tw-8)), ly=Math.max(13, Y(b.y)-2);
+    ctx.fillStyle='rgba(255,255,255,.85)'; ctx.fillRect(lx-2, ly-11, tw+4, 12);
+    ctx.fillStyle=asmColor(b.k,38); ctx.fillText(t, lx, ly);
+  });
+  if(cap){
+    const tot=R.reduce((a,r)=>a+r.totalCams,0);
+    let h='<span>'+tot+' 台（'+G.length+' 組）</span>';
+    G.forEach(function(g,k){ h+='<span>·</span><span style="color:'+asmColor(k,40)+'">'+g.name+' 組 '+g.label+' '+R[k].nX+'×'+R[k].nY+'</span>'; });
+    h+='<span>·</span><span>'+(dirX?'橫排':'直排')+' · 屏間距 '+fmtN(gap)+' mm</span>';
+    const lim=R[0]?R[0].limit:1; if(lim<1) h+='<span>·</span><span>重疊 '+((1-lim)*100).toFixed(0)+'%</span>';
+    cap.innerHTML=h;
+  }
+}
+
 function calcAS(){
+  if(document.getElementById('as-shape').value==='multi'){ calcASMulti(); return; }
+  const _mr=document.getElementById('as-multi-res'); if(_mr) _mr.style.display='none';
+  const geo = asGeomDom();
   const panelX  = +document.getElementById('as-panel-x').value;
   const panelY  = +document.getElementById('as-panel-y').value;
   const panelRX = +document.getElementById('as-panel-rx').value;
@@ -7591,35 +8469,34 @@ function calcAS(){
   const limitRaw = +document.getElementById('as-limit').value;
   // 佔屏比 = 每台相機有效使用的 FOV 比例，物理上必為 (0,1]。
   // >1 會算出比實際拼接更少、不合理的台數（例：1 台涵蓋不了寬面板），故鉗制上限為 1。
-  const limit = Math.min(1, Math.max(0.05, limitRaw || 0));
-
-  const resolution = (panelRX>0&&pitch>0) ? ((panelX*1e-3/panelRX)/pitch)*1e6 : 0;
-  const xFOV = camRX * resolution / 1000;
-  const yFOV = camRY * resolution / 1000;
-  const wd   = (camRX>0&&camPx>0) ? ((xFOV*1e-3)*(fl*1e-3)/(camRX*camPx*1e-6))*1e3 : 0;
-  const safeWD = minWD + 30;
-  const xAngle = (wd>0) ? Math.atan((panelX/2)/wd)*180/Math.PI : 0;   // X 半角＝整片面板 X 方向顯示區（AA）邊緣對應的半角
-  const xRatio = (xFOV>0) ? panelX/xFOV : 0;
-  const yRatio = (yFOV>0) ? panelY/yFOV : 0;
+  // X 半角＝整片面板 X 方向顯示區（AA，曲面為投影寬）邊緣對應的半角
+  // nXmin/nYmin：物理最少台數（無重疊，limit=1），讓使用者知道下限在哪
+  const R0 = asCore({covX:geo.covX, covY:geo.covY, pix:geo.pix, pitch, camRX, camRY, camPx, fl, minWD, limit:limitRaw});
+  const {limit, resolution, xFOV, yFOV, wd, safeWD, xAngle, xRatio, yRatio, nX, nY, totalCams, nXmin, nYmin, totalMin} = R0;
   const wdOK   = wd > safeWD;
   const pitchOK = pitch >= 3;
-  // 依有效佔屏比計算所需台數（至少 1 台）
-  const nX = (xFOV>0) ? Math.max(1, Math.ceil(xRatio/limit)) : 0;
-  const nY = (yFOV>0) ? Math.max(1, Math.ceil(yRatio/limit)) : 0;
-  const totalCams = nX * nY;
-  // 物理最少台數（無重疊，limit=1）：拿來對照，讓使用者知道下限在哪
-  const nXmin = (xFOV>0) ? Math.max(1, Math.ceil(xRatio)) : 0;
-  const nYmin = (yFOV>0) ? Math.max(1, Math.ceil(yRatio)) : 0;
-  const totalMin = nXmin * nYmin;
+  const camSag = asCamSag(geo, R0);
   const perXRatio = (nX>0) ? xRatio/nX : 0;
   const perYRatio = (nY>0) ? yRatio/nY : 0;
 
   const f = (v,d=2) => (!isFinite(v)||v===0) ? '—' : v.toFixed(d);
   const ci = document.getElementById('cam-pick').value;
   const li = document.getElementById('lens-pick').value;
-  set('as-rpt-cam',  ci!=='' ? allCams()[+ci].n : '手動輸入');
-  set('as-rpt-lens', li!=='' ? allLens()[+li].n : '手動輸入');
+  set('as-rpt-cam',  rptCamName(ci));
+  set('as-rpt-lens', rptLensName(li));
+  rptLightSet('as-rpt-light');
+  const shNote=document.getElementById('as-shape-note').value.trim(), curveR=+document.getElementById('as-curve-r').value;
+  set('as-rpt-shape', asShapeText({shape:geo.shape, shapeNote:shNote, curveR, bend:asBend}));
+  set('as-rpt-panel-lbl', geo.curve ? '面板尺寸（展開）' : asIsFree(geo.shape) ? '面板尺寸（外接矩形）' : '面板尺寸');
   set('as-rpt-panel', `${panelX} × ${panelY} mm (${panelRX}×${panelRY})`);
+  const cvTxt = geo.curve ? (geo.err ? geo.err
+      : `投影 ${f(geo.proj,1)} mm · 弧高 ${f(geo.arcH,1)} mm · 邊緣傾角 ${f(geo.theta*180/Math.PI,1)}°`
+        + (camSag>0 && camSag<geo.arcH-1e-6 ? ` · 單台視野內高低差 ${f(camSag,1)} mm` : '')) : '';
+  set('as-rpt-curve', cvTxt);
+  document.getElementById('as-rpt-curve-f').style.display = geo.curve ? '' : 'none';
+  const cInfo=document.getElementById('as-curve-info');
+  if(cInfo) cInfo.innerHTML = !geo.curve ? '' : geo.err ? '<span class="bad">⚠ '+esc(geo.err)+'</span>'
+    : '投影 <b>'+f(geo.proj,1)+'</b> mm · 弧高 <b>'+f(geo.arcH,1)+'</b> mm<br>邊緣傾角 <b>'+f(geo.theta*180/Math.PI,1)+'</b>°，解析度以邊緣計';
   set('as-rpt-pitch', `${pitch} px`);
   set('as-rpt-qty',  `${totalCams} 台`);
   set('as-rpt-arr',  `${nX} × ${nY}`);
@@ -7662,8 +8539,14 @@ function calcAS(){
   const limEl = document.getElementById('as-limit');
   if(limEl && limitRaw>1){ limEl.value = '1'; }
 
-  drawASDiagram(nX, nY, panelX, panelY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0));
+  drawASDiagram(nX, nY, geo.covX, geo.covY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0));
   const W=[];
+  if(geo.curve && geo.err) W.push({s:'bad', t:'曲面：'+esc(geo.err)});
+  if(geo.curve && !geo.err && geo.arcH>0){
+    const dh = camSag>0 ? camSag : geo.arcH;
+    W.push({s:'warn', t:'曲面弧高 '+f(geo.arcH,1)+' mm'+(nX*nY>1&&dh<geo.arcH-1e-6?'，最外側單台視野內高低差 '+f(dh,1)+' mm':'')
+      +'：畫檢不計算景深，請確認鏡頭景深涵蓋這個高低差（必要時縮光圈或分區對焦）'});
+  }
   if(!pitchOK) W.push({s:'bad', t:'Pitch '+pitch+' 不到 3，分不出單顆面板像素'});
   if(!wdOK) W.push({s:'bad', t:'工作距離 '+f(wd,1)+' mm 小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
   mountWarnItem(W);
@@ -7882,7 +8765,7 @@ function aoiTouch(){ localStorage.setItem('aoi_sync_updated', new Date().toISOSt
 function aoiGatherData(){
   return {
     meta:{ app:'aoi-calculator', version:1, updated: aoiLocalUpdated()||new Date().toISOString() },
-    evals: evals, cams: custCams, lens: custLens,
+    evals: evals, cams: custCams, lens: custLens, mods: custMods,
     hcams: [...hiddenCams], hlens: [...hiddenLens],
     s3d: custS3D, hs3d: [...hiddenS3D],
     bdocs: bDocs,
@@ -7896,6 +8779,7 @@ function aoiApplyData(d){
   if(Array.isArray(d.evals)){ evals=d.evals; localStorage.setItem('aoi_evals', JSON.stringify(evals)); }
   if(Array.isArray(d.cams)){  custCams=d.cams; localStorage.setItem('aoi_cams', JSON.stringify(custCams)); }
   if(Array.isArray(d.lens)){  custLens=d.lens; localStorage.setItem('aoi_lens', JSON.stringify(custLens)); }
+  if(Array.isArray(d.mods)){  custMods=d.mods; localStorage.setItem('aoi_mods', JSON.stringify(custMods)); }
   if(Array.isArray(d.hcams)){ hiddenCams=new Set(d.hcams); localStorage.setItem('aoi_hcams', JSON.stringify([...hiddenCams])); }
   if(Array.isArray(d.hlens)){ hiddenLens=new Set(d.hlens); localStorage.setItem('aoi_hlens', JSON.stringify([...hiddenLens])); }
   if(Array.isArray(d.s3d)){   custS3D=d.s3d;  localStorage.setItem('aoi_s3d',  JSON.stringify(custS3D)); }
@@ -7944,11 +8828,11 @@ async function cloudPushNow(){
   try{
     // 防呆：本機資料庫全空時不可直接覆蓋雲端。
     // （在另一個瀏覽器／另一個網址開啟時 localStorage 是空的，一動就會把雲端洗掉）
-    if(!(custCams||[]).length && !(custLens||[]).length && !(custS3D||[]).length && !Object.keys(bDocs||{}).length){
+    if(!(custCams||[]).length && !(custLens||[]).length && !(custMods||[]).length && !(custS3D||[]).length && !Object.keys(bDocs||{}).length){
       const chk=await fetch(ghContentUrl()+'?ref='+(GH.branch||'main'),{headers:ghHeaders(),cache:'no-store'});
       if(chk.ok){
         const cj=await chk.json(), rd=JSON.parse(b64decode(cj.content));
-        const rn=(rd.cams||[]).length+(rd.lens||[]).length+(rd.s3d||[]).length+Object.keys(rd.bdocs||{}).length;
+        const rn=(rd.cams||[]).length+(rd.lens||[]).length+(rd.mods||[]).length+(rd.s3d||[]).length+Object.keys(rd.bdocs||{}).length;
         if(rn>0){
           const go=confirm('⚠ 危險：本機的相機／鏡頭／規格書資料庫是空的，但雲端有 '+rn+' 筆資料。\n\n'
             +'現在上傳會把雲端那 '+rn+' 筆資料全部清空。\n\n'
@@ -8140,7 +9024,21 @@ function kbNeedOf(e){
   const m=e.mode||'scan', p=e.p||{}, t=e.tgt||{};
   const pos=function(x){ x=+x; return isFinite(x)&&x>0 ? x : null; };
   if(m==='3d') return {w:pos(p.x), h:pos(p.y), z:pos(p.zres), zmode:p.zmode||'rep', tt:pos(p.tt), surf:p.surf||'', goal:p.goal||''};
-  if(m==='area') return {w:pos(p.panelX), h:pos(p.panelY), pitch:pos(p.pitch)};
+  if(m==='area'){
+    const sh=AS_SHAPES[p.shape] ? p.shape : 'rect', n={w:pos(p.panelX), h:pos(p.panelY), pitch:pos(p.pitch), shape:sh};
+    if(asIsFree(sh) && p.shapeNote) n.shapeNote=p.shapeNote;
+    if(asIsCurve(sh)){ n.bend=p.bend==='y'?'y':'x'; n.curveR=pos(p.curveR); }
+    if(sh==='multi' && p.multi && Array.isArray(p.multi.screens)){
+      const mu=p.multi, ex=asmExtent(mu), gs=(e.r&&Array.isArray(e.r.groups)) ? e.r.groups : [];
+      n.w=pos(ex.w); n.h=pos(ex.h);   // 尺寸＝整片排列的外框
+      n.pitch=pos(Math.max.apply(null, mu.screens.map(x=>+x.pitch||0)));   // 比對相似案例用最嚴的那屏
+      n.multi={dir:mu.dir==='y'?'y':'x', gap:+mu.gap||0,
+        screens:mu.screens.map(x=>{ const o={X:+x.X||0, Y:+x.Y||0, RX:+x.RX||0, RY:+x.RY||0, pitch:+x.pitch||0, shape:x.shape||'rect'};
+          if(asIsFree(o.shape)&&x.note) o.note=x.note; if(asIsCurve(o.shape)){ o.R=+x.R||0; o.bend=x.bend==='y'?'y':'x'; } return o; }),
+        groups:gs.map(g=>({name:g.name, scr:(g.scr||[]).slice(), n:g.totalCams, cfg:g.nX+'×'+g.nY, res:g.resolution, wd:g.wd}))};
+    }
+    return n;
+  }
   if(m==='static') return {w:pos(e.ss&&e.ss.objW), h:pos(e.ss&&e.ss.objH), res:pos(t.res)};
   const tt=pos(t.tt);
   return {w:pos(p.sampleW), h:pos(p.sampleH), res:pos(t.res), tt:tt!=null ? +(tt*60).toFixed(3) : null};   // 掃描的目標 TT 是分鐘，知識庫一律存秒
@@ -8415,7 +9313,7 @@ function kbPendHtml(list, admin){
         ? '<p class="kbr-done">這筆已經'+(done.act==='accept'?'收錄':'退回')+'（'+esc(done.rev||'')+' '+kbDate(done.revAt)+'），GitHub 上的 Issue 還沒關閉。</p>'
           +'<div class="kbr-btns"><button class="btn-sec" onclick="event.stopPropagation();kbrCloseOnly('+p.num+',this)">關閉 Issue</button></div>'
         : (unk.items.length||unk.site ? '<p class="kbr-done">有「其他」'+(unk.items.length?'檢測項目':'廠區')+'，收錄時要決定加進正式清單，或改成既有的。</p>' : '')
-          +'<div class="kbr-btns"><button class="btn-pri" onclick="event.stopPropagation();kbrQuick('+p.num+',this)">✓ 收錄</button>'
+          +'<div class="kbr-btns"><button class="btn-pri" data-acc="'+p.num+'"'+(_kbrBusy[p.num]?' disabled':'')+' onclick="event.stopPropagation();kbrQuick('+p.num+',this)">'+(_kbrBusy[p.num]?kbrBusyLbl(p.num):'✓ 收錄')+'</button>'
           +'<button class="btn-sec" onclick="event.stopPropagation();kbdOpenSub('+p.num+',\'rej\')">↩ 退回</button>'
           +'<button class="btn-sec" onclick="event.stopPropagation();kbdOpenSub('+p.num+')">'+(p.kind==='update'?'看差異':'看內容')+'</button></div>';
     }
@@ -8520,6 +9418,7 @@ function kbSubBody(p, tgt){
   if(c.customer) a.push('- 客戶：'+tx(c.customer));
   if(c.owner) a.push('- 負責人：'+tx(c.owner));
   if(kbSizeTxt(c)) a.push('- 產品尺寸：'+kbSizeTxt(c));
+  if(kbShapeTxt(c)) a.push('- 產品型態：'+tx(kbShapeTxt(c)));
   if(c.lesson) a.push('- 反饋：'+tx(c.lesson));
   if(c.report) a.push('- 報告：'+tx(c.report));
   a.push('', KB_SUB_B, '```json', JSON.stringify(p).replace(/</g,'\\u003c'), '```', KB_SUB_E);   // < 轉成 <，資料裡就不會出現標記字樣
@@ -8596,7 +9495,7 @@ function kbsOpen(i){
   }
   const s=kbEvState(e), c=s&&s.c, nd=kbNeedOf(e);
   _kbs={i:i, evId:e.id, kind:c?'update':'new', target:c?c.id:'', title:e.name||'', items:[], other:false, otherTxt:'',
-        site:'', siteOther:'', lineSt:'', w:nd.w||'', h:nd.h||'', customer:'', owner:KB.who||'', status:'eval', lesson:'', report:'', from:'', fromNote:'', fromAuto:false, itemsAuto:false, who:KB.who||''};
+        site:'', siteOther:'', lineSt:'', w:nd.w||'', h:nd.h||'', customer:e.customer||'', owner:KB.who||'', status:'eval', lesson:'', report:'', from:'', fromNote:'', fromAuto:false, itemsAuto:false, who:KB.who||''};
   if(c) kbsFill(c);
   else{   // 標籤剛好是檢測項目名稱的，先幫忙勾起來
     const all=kbItemsOf(e.mode==='3d'?'3d':'2d');
@@ -8696,8 +9595,12 @@ function kbsRender(){
   if(d.site==='其他') h+='<input class="kbs-in" style="margin-top:6px" id="kbs-site-other" value="'+esc(d.siteOther)+'" oninput="kbsSet(\'siteOther\',this.value)" placeholder="廠區名稱，例：L6B 台中">';
   else if(d.site){ const st=kbSite(d.site); if(st&&st.line) h+='<div class="kbs-auto">產品線：<b>'+esc((st.biz?st.biz+'／':'')+st.line)+'</b></div>'; }
   h+=sec('線別',true,'含站點')+'<input class="kbs-in" id="kbs-line" value="'+esc(d.lineSt)+'" oninput="kbsSet(\'lineSt\',this.value)" placeholder="例：Module 3 線／點燈畫檢站（還沒定線可以寫「新線規劃中」）">';
-  h+=sec('產品尺寸',false,'先帶入這筆評估的尺寸，可以改')+'<div class="kbs-size"><input class="kbs-in" type="number" min="0" step="any" inputmode="decimal" aria-label="產品寬" value="'+esc(d.w)+'" oninput="kbsSet(\'w\',this.value)" placeholder="寬"><span>×</span>'
+  h+=sec('產品尺寸',false,e.mode==='area'&&e.p&&e.p.shape==='multi'?'多連屏帶入整片排列的外框，可以改':'先帶入這筆評估的尺寸，可以改')+'<div class="kbs-size"><input class="kbs-in" type="number" min="0" step="any" inputmode="decimal" aria-label="產品寬" value="'+esc(d.w)+'" oninput="kbsSet(\'w\',this.value)" placeholder="寬"><span>×</span>'
     +'<input class="kbs-in" type="number" min="0" step="any" inputmode="decimal" aria-label="產品高" value="'+esc(d.h)+'" oninput="kbsSet(\'h\',this.value)" placeholder="高"><span>mm</span></div>';
+  if(e.mode==='area'){   // 產品型態、曲率、多連屏設定直接沿用評估，不用再填
+    const ce={mode:'area', need:kbNeedOf(e)}, sl=kbScrLines(ce);
+    h+=sec('產品型態',false,'沿用這筆評估，不用填')+'<div class="kbs-res"><b>'+esc(kbShapeTxt(ce)||'矩形')+'</b>'+(sl.length?'<br>'+sl.map(esc).join('<br>'):'')+'</div>';
+  }
   const grp=function(k){ return '<span class="kbs-gl">'+k.toUpperCase()+'</span><div class="kbs-cw">'+L[k].map(chip).join('')+'</div>'; };
   const ed=e.mode==='3d'?'3d':'2d', od=ed==='3d'?'2d':'3d', xs=kbsCross(d, ed);   // 只列這筆評估維度的項目；舊資料選了另一個維度的，列出來讓人點掉
   h+=sec('檢測項目',true,'可複選；用來搜尋，不影響族譜分類')+'<div class="kbs-chips">'
@@ -8812,11 +9715,31 @@ async function kbCommit(mut, msg){
 function kbNum(v){ v=+v; return isFinite(v) ? String(+v.toFixed(3)) : ''; }
 const KB_SURF={diffuse:'擴散面', semi:'半鏡面', specular:'鏡面／高反光', clear:'透明', translucent:'半透明'};
 const KB_GOAL={warp:'翹曲／平面度', step:'段差／高度', copl:'共面度', thick:'膜厚／透明多層', form:'曲面形狀'};
-function kbSizeTxt(c){ const n=c.need||{}; return n.w&&n.h ? kbNum(n.w)+' × '+kbNum(n.h)+' mm' : n.w ? '寬 '+kbNum(n.w)+' mm' : n.h ? '高 '+kbNum(n.h)+' mm' : ''; }
+function kbSizeTxt(c){ const n=c.need||{}, t=n.w&&n.h ? kbNum(n.w)+' × '+kbNum(n.h)+' mm' : n.w ? '寬 '+kbNum(n.w)+' mm' : n.h ? '高 '+kbNum(n.h)+' mm' : ''; return t&&n.shape==='multi' ? t+'（整片排列外框）' : t; }
+function kbScrLb(a){ a=(a||[]).slice().sort((x,y)=>x-y); return a.length>1 ? '屏'+a[0]+'–'+a[a.length-1] : '屏'+(a[0]||''); }
+// 短的：卡片用（矩形不顯示）；長的：案例內容、看差異、搜尋用
+function kbShapeShort(c){
+  const n=c&&c.need||{}; if(c.mode!=='area' || !n.shape || n.shape==='rect') return '';
+  if(n.shape==='multi') return '多連屏 '+((n.multi&&n.multi.screens||[]).length||'')+'in1'+(n.multi&&n.multi.groups&&n.multi.groups.length?' · '+n.multi.groups.length+' 組相機':'');
+  return (AS_SHAPES[n.shape]||'')+(n.curveR?' R'+kbNum(n.curveR):'');
+}
+function kbShapeTxt(c){
+  const n=c&&c.need||{}; if(c.mode!=='area' || !n.shape) return '';
+  if(n.shape!=='multi') return asShapeText(n);
+  const mu=n.multi||{}, sc=mu.screens||[], gs=mu.groups||[];
+  return '多連屏 '+sc.length+'in1 · '+(mu.dir==='y'?'直排':'橫排')+' · 屏間距 '+kbNum(mu.gap)+' mm'
+    +(gs.length?' · '+gs.length+' 組相機（'+gs.map(g=>g.name+' '+kbScrLb(g.scr)+' '+(g.cfg?g.cfg+'＝':'')+g.n+' 台').join('、')+'）':'');
+}
+function kbScrLines(c){
+  const n=c&&c.need||{}; if(c.mode!=='area' || n.shape!=='multi' || !n.multi) return [];
+  return (n.multi.screens||[]).map(function(x,i){ return asmScreenText(Object.assign({note:x.note||'', R:x.R||0, bend:x.bend||'x'}, x), i); });
+}
 function kbSpecTxt(c){
   const n=c.need||{}, a=[];
   if(n.res) a.push('目標精度 '+kbNum(n.res)+' µm');
-  if(n.pitch) a.push('Pitch '+kbNum(n.pitch));
+  const mp=n.shape==='multi'&&n.multi&&n.multi.screens ? n.multi.screens.map(x=>+x.pitch||0).filter(x=>x>0) : [];
+  if(mp.length) a.push('Pitch '+(Math.min.apply(null,mp)===Math.max.apply(null,mp) ? kbNum(mp[0]) : kbNum(Math.min.apply(null,mp))+'–'+kbNum(Math.max.apply(null,mp)))+'（各屏）');
+  else if(n.pitch) a.push('Pitch '+kbNum(n.pitch));
   if(n.z) a.push('Z '+(n.zmode==='acc'?'精度':'重複性')+' '+kbNum(n.z)+' µm');
   if(n.tt) a.push('TT '+kbNum(n.tt)+' 秒');
   if(n.goal) a.push(KB_GOAL[n.goal]||n.goal);
@@ -8863,6 +9786,7 @@ const KB_DIFF=[
   ['負責人', function(c){ return c.owner; }],
   ['狀態', function(c){ return KB_STATUS[c.status]||''; }],
   ['產品尺寸', kbSizeTxt],
+  ['產品型態', function(c){ return [kbShapeTxt(c)].concat(kbScrLines(c)).filter(Boolean).join('；'); }],
   ['檢測規格', kbSpecTxt],
   ['方案', kbPlanTxt],
   ['計算結果', function(c){ return c.plan&&c.plan.desc; }],
@@ -8897,6 +9821,7 @@ function kbCaseHtml(c, isSub){
     +row('廠區', esc(kbSiteTxt(c))+(ln?'<span class="kbd-s">（'+esc(ln)+'）</span>':'')+(unk.site?' <span class="ec-tag kt-oth">不在廠區清單</span>':''))
     +row('線別', c.lineSt?esc(c.lineSt):'<span class="kbd-s">沒有填</span>')
     +row('產品尺寸', esc(kbSizeTxt(c)))
+    +row('產品型態', esc(kbShapeTxt(c))+kbScrLines(c).map(function(t){ return '<div class="kbd-s">'+esc(t)+'</div>'; }).join(''))
     +row('檢測項目', '<div class="ec-tags" style="margin:0">'+(items||'<span class="kbd-s">沒有填</span>')+'</div>')
     +row('客戶', esc(c.customer||''))+row('負責人', esc(c.owner||''))
     +row('狀態', esc(KB_STATUS[c.status]||''))
@@ -8946,7 +9871,7 @@ function kbSiteHit(c, v){
 }
 function kbHay(c){
   return [c.title, (c.items||[]).join(' '), kbSiteTxt(c), kbLineOf(c), c.lineSt, c.customer, c.owner, KB_DIM_T[c.dim], kbSub(c), kbPlanTxt(c), c.plan&&c.plan.desc,
-    kbSizeTxt(c), kbResTxt(c), kbCmpTxt(c), c.result&&fbMsaTxt(c.result.msa), c.result&&fbProdTxt(c.result.prod), c.fromNote, c.lesson, c.report, c.by, KB_STATUS[c.status]].join(' ').toLowerCase();
+    kbSizeTxt(c), kbShapeTxt(c), kbScrLines(c).join(' '), kbResTxt(c), kbCmpTxt(c), c.result&&fbMsaTxt(c.result.msa), c.result&&fbProdTxt(c.result.prod), c.fromNote, c.lesson, c.report, c.by, KB_STATUS[c.status]].join(' ').toLowerCase();
 }
 function kbToolsHtml(){
   const cs=kbData.cases, cnt=function(f){ return cs.filter(f).length; };
@@ -9026,14 +9951,31 @@ function kbSubCases(cs, pre, filt){
     .sort(function(a,b){ return rank(a.cs[0])-rank(b.cs[0]) || kbSiteTxt(a.cs[0]).localeCompare(kbSiteTxt(b.cs[0]),'zh-Hant'); })
     .map(function(s){
       const c0=s.cs[0], ln=kbLineOf(c0), k=pre+'/'+s.k, cl=!filt && _kbClosed.indexOf(k)>=0;
-      return '<div class="kt-row kt-sb'+(cl?' closed':'')+'" style="--n:'+s.cs.length+'">'
+      const nc=s.cs.some(kbCustKey) ? kbGroup(s.cs, kbCustKey).length : 1;   // 依客戶分的小區塊之間多 10px 間距，寬度要補上
+      return '<div class="kt-row kt-sb'+(cl?' closed':'')+'" style="--n:'+(s.cs.length+(nc-1)*10/268).toFixed(3)+'">'
         +'<button type="button" class="kt-sh" data-k="'+esc(k)+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!cl)+'"'+(filt?' style="cursor:default"':'')+'>'
         +'<span class="car">▼</span><span class="t">'+esc(kbSiteTxt(c0)||'廠區未填')+'</span>'+(ln?'<span class="l">'+esc(ln)+'</span>':'')
         +'<span class="n">'+s.cs.length+'</span>'+(cl ? kbSumHtml(s.cs) : '<i class="ln"></i>')+'</button>'
-        +(cl ? '' : '<div class="kt-sg">'+s.cs.map(kbTreeCase).join('')+'</div>')+'</div>';
+        +(cl ? '' : '<div class="kt-sg'+(s.cs.some(kbCustKey)?' by-c':'')+'">'+kbCustCases(s.cs, k, filt)+'</div>')+'</div>';
     }).join('')+'</div>';
 }
-function kbPathTxt(){ return '2D／3D → 取像方式 → '+(_kbArr==='site'?'廠區 → ':'')+'案例；顏色是實測結果'; }
+// 廠區底下依客戶分（10/12 Johnny）：客戶名稱不分大小寫；沒填客戶的放最後；整個廠區都沒填客戶就不分
+function kbCustKey(c){ return String(c.customer||'').trim().toLowerCase(); }
+function kbCustName(cs){   // 最常見的寫法；一樣多就用有大寫的（Ford／FORD／ford → 依多數）
+  const c={}; cs.forEach(function(x){ const t=String(x.customer||'').trim(); c[t]=(c[t]||0)+1; });
+  return Object.keys(c).sort(function(a,b){ return c[b]-c[a] || (b!==b.toLowerCase())-(a!==a.toLowerCase()); })[0];
+}
+function kbCustCases(cs, pre, filt){
+  if(!cs.some(kbCustKey)) return cs.map(kbTreeCase).join('');
+  return kbGroup(cs, kbCustKey).sort(function(a,b){ return (a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true}); })   // 英文客戶名在前、中文在後
+    .map(function(g){
+      const k=pre+'/c:'+g.k, cl=!filt && _kbClosed.indexOf(k)>=0;
+      return '<div class="kt-cg'+(cl?' closed':'')+'" style="--n:'+g.cs.length+'"><div class="kt-cu'+(cl?' closed':'')+'"><button type="button" class="kt-ch" data-k="'+esc(k)+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!cl)+'"'+(filt?' style="cursor:default"':'')+'>'
+        +'<span class="car">▼</span><span class="t">'+esc(g.k ? kbCustName(g.cs) : '客戶未填')+'</span><span class="n">'+g.cs.length+'</span>'+(cl ? kbSumHtml(g.cs) : '')+'</button></div>'
+        +(cl ? '' : g.cs.map(kbTreeCase).join(''))+'</div>';
+    }).join('');
+}
+function kbPathTxt(){ return '2D／3D → 取像方式 → '+(_kbArr==='site'?'廠區 → 客戶 → ':'')+'案例；顏色是實測結果'; }
 function kbSetArr(v){
   _kbArr=v==='time'?'time':'site';
   try{ localStorage.setItem('aoi_kb_arr', _kbArr); }catch(e){}
@@ -9045,7 +9987,7 @@ function kbSetArr(v){
 function kbTreeCase(c){
   const r=c.result&&FB_CONC[c.result.concl], pt=(c.plan&&c.plan.type)||'';
   const how=c.dim!=='3d' && (pt==='2D 線掃描'||pt==='2D 面陣飛拍') ? pt.slice(3) : '';   // 掃描再註明線掃描／面陣飛拍
-  const st=[KB_STATUS[c.status], r?r.s||r.t:'', how, fbProdShort(c.result&&c.result.prod)].filter(Boolean).map(esc).join(' · ');
+  const st=[KB_STATUS[c.status], r?r.s||r.t:'', how, kbShapeShort(c), fbProdShort(c.result&&c.result.prod)].filter(Boolean).map(esc).join(' · ');
   const der=kbData.cases.filter(function(x){ return x.from===c.id; }), src=c.from ? kbCaseById(c.from) : null;
   const tags=(c.items||[]).filter(Boolean).map(function(t){ return '<em>'+esc(t)+'</em>'; }).join('');
   return '<div class="kt-row"><div class="kt-c '+kbResCls(c)+(c.status==='dropped'?' drop':'')+'" role="button" tabindex="0" data-cid="'+esc(c.id)+'" onclick="kbdOpenCase(this.dataset.cid)">'
@@ -9203,12 +10145,29 @@ function kbrApply(c, data, r){
   if(!data.lists.sites.some(function(x){ return x.code===code; })) data.lists.sites.push({code:code, place:place, line:L?L.k:'', biz:L?L.biz:''});
 }
 function kbrPend(num){ return KB_PEND.filter(function(x){ return x.num===num; })[0]||null; }
-const _kbrBusy={};   // 正在收錄／退回的 Issue：連按、或同時按另一顆，都不會再做一次
+const _kbrBusy={};   // 正在收錄／退回的 Issue（'q'＝排隊中、'run'＝處理中）：連按同一顆不會再做一次
+// 10/12 Johnny：可以一次連按好幾筆「收錄」，排隊依序寫入（同時寫會互相衝突、報錯）
+let _kbQ=Promise.resolve(), _kbQn=0, _kbQok=0, _kbQfail=[];
+function kbSerial(fn){
+  _kbQn++;
+  const run=_kbQ.then(fn).finally(function(){
+    _kbQn--;
+    if(!_kbQn){   // 全部做完：有失敗的列出來（中間的訊息會被後面的蓋掉）
+      if(_kbQfail.length) showToast((_kbQok?'已處理 '+_kbQok+' 筆；':'')+_kbQfail.length+' 筆收錄失敗：'+_kbQfail.join('、')+'，可以再按一次');
+      else if(_kbQok>1) showToast('已依序處理 '+_kbQok+' 筆');
+      _kbQok=0; _kbQfail=[];
+    }
+  });
+  _kbQ=run.catch(function(){});
+  return run;
+}
+function kbrBusyLbl(num){ return _kbrBusy[num]==='q' ? '排隊中…' : '收錄中…'; }
+function kbdCloseIf(num){ if(_kbd && _kbd.kind==='sub' && _kbd.num===num) kbdClose(); }   // 排隊時可能開著別筆的視窗，只關這一筆的
 // 寫入前發現這筆已經處理過（別台電腦、或剛剛才做完）：不碰 Issue，只更新畫面
-function kbrStale(){ kbdClose(); kbRender(); renderEvals(); showToast('這筆已經處理過了，畫面已更新'); }
+function kbrStale(num){ kbdCloseIf(num); kbRender(); renderEvals(); showToast('這筆已經處理過了，畫面已更新'); }
 function kbrDone(num, title, msg, warn){
   KB_PEND=KB_PEND.filter(function(x){ return x.num!==num; }); kbCacheSave();
-  kbdClose(); kbRender(); renderEvals();
+  kbdCloseIf(num); kbRender(); renderEvals(); _kbQok++;
   showToast(warn ? msg+'「'+title+'」；但 '+warn : msg+'「'+title+'」');
 }
 async function kbrAccept(btn){
@@ -9223,12 +10182,16 @@ function kbrQuick(num, btn){
   if(u.items.length || u.site || dup || (p.kind==='update' && !kbCaseById(p.target))){ kbdOpenSub(num); return; }
   kbrDoAccept(p, kbResInit(p.case), btn, null);
 }
-async function kbrDoAccept(p, r, btn, err){
+function kbrDoAccept(p, r, btn, err){
   if(_kbrBusy[p.num]) return;
-  const rev=KB.who||'Johnny', now=new Date().toISOString(), lbl=btn?btn.textContent:'';
+  _kbrBusy[p.num]='q';
+  if(btn){ btn.disabled=true; btn.textContent=kbrBusyLbl(p.num); }
+  return kbSerial(function(){ return kbrDoAccept1(p, r, err); });
+}
+async function kbrDoAccept1(p, r, err){
+  const rev=KB.who||'Johnny', now=new Date().toISOString();
   let title=p.case.title||'未命名', ok;
-  if(btn){ btn.disabled=true; btn.textContent='收錄中…'; }
-  _kbrBusy[p.num]=1;
+  _kbrBusy[p.num]='run'; kbrBtnSync();
   try{
     ok=await kbCommit(function(data){
       if(data.log.some(function(l){ return l.issue===p.num && (l.act==='accept'||l.act==='reject'); })) return false;   // 別台電腦已經處理過
@@ -9250,12 +10213,11 @@ async function kbrDoAccept(p, r, btn, err){
       data.log=data.log.slice(0, KB_LOG_MAX);
     }, '收錄 #'+p.num+'：'+title);
   }catch(e){
-    delete _kbrBusy[p.num];
-    if(btn){ btn.disabled=false; btn.textContent=lbl; }
-    if(err) err.textContent='收錄失敗：'+e.message; else alert('收錄失敗：'+e.message);
+    delete _kbrBusy[p.num]; kbRender(); _kbQfail.push('「'+title+'」（'+e.message+'）');
+    if(err && _kbd && _kbd.num===p.num) err.textContent='收錄失敗：'+e.message; else showToast('「'+title+'」收錄失敗：'+e.message);
     return;
   }
-  if(ok===false){ delete _kbrBusy[p.num]; kbrStale(); return; }
+  if(ok===false){ delete _kbrBusy[p.num]; kbrStale(p.num); return; }
   const warn=await kbrCloseIssue(p.num, '✅ 已收錄到 AOI 知識庫（'+rev+'，'+new Date(now).toLocaleDateString('zh-TW')+'）', 'completed');
   delete _kbrBusy[p.num];
   kbrDone(p.num, title, '已收錄', warn);
@@ -9268,7 +10230,8 @@ async function kbrReject(btn){
   const rev=KB.who||'Johnny', now=new Date().toISOString(), title=p.case.title||'未命名';
   let ok;
   btn.disabled=true; btn.textContent='退回中…';
-  _kbrBusy[p.num]=1;
+  _kbrBusy[p.num]='run';
+  return kbSerial(async function(){
   try{
     ok=await kbCommit(function(data){
       if(data.log.some(function(l){ return l.issue===p.num && (l.act==='accept'||l.act==='reject'); })) return false;
@@ -9276,10 +10239,16 @@ async function kbrReject(btn){
       data.log=data.log.slice(0, KB_LOG_MAX);
     }, '退回 #'+p.num+'：'+title);
   }catch(e){ delete _kbrBusy[p.num]; btn.disabled=false; btn.textContent='確定退回'; err.textContent='退回失敗：'+e.message; return; }
-  if(ok===false){ delete _kbrBusy[p.num]; kbrStale(); return; }
+  if(ok===false){ delete _kbrBusy[p.num]; kbrStale(p.num); return; }
   const warn=await kbrCloseIssue(p.num, '↩ 退回：'+why+'（'+rev+'，'+new Date(now).toLocaleDateString('zh-TW')+'）', 'not_planned');
   delete _kbrBusy[p.num];
   kbrDone(p.num, title, '已退回', warn);
+  });
+}
+// 待審核卡片上的收錄鍵：照排隊狀態顯示（畫面重畫後也不會變回可以按）
+function kbrBtnSync(){
+  document.querySelectorAll('button[data-acc]').forEach(function(b){ const n=+b.dataset.acc;
+    if(_kbrBusy[n]){ b.disabled=true; b.textContent=kbrBusyLbl(n); } });
 }
 // Issue 留言＋關閉；失敗不影響收錄／退回（正式資料已經寫好），回傳要提醒的話
 async function kbrCloseIssue(num, msg, reason){
@@ -9321,7 +10290,8 @@ async function kbdDelete(btn){
 // 相似度（10/10 決定）：檢測項目權重最高；產品尺寸、精度、節拍用對數距離（差 3 倍就不算相近）；同取像方式、同廠區小加分
 //   只比同維度（10/11 Johnny 改）：2D 的需求只列 2D 舊案、3D 只列 3D；檢測項目也只列同維度的
 //   沒選檢測項目時這一項先給一半分數，最高約 70%；選了而且相同才會到 90% 以上
-const SIM_W={items:50, num:30, how:10, site:10}, SIM_MIN=50, SIM_MAX=12;
+const SIM_W={items:50, num:30, how:10, site:10, shape:10}, SIM_MIN=50, SIM_MAX=12;
+const SIM_SHAPES=[['','不限'],['rect','矩形'],['free','異形'],['curve','矩形曲面'],['freecurve','異形曲面'],['multi','多連屏']];
 const SIM_PK={scan:'res', static:'res', area:'pitch', '3d':'z'};
 const SIM_MODES=[['scan','2D 掃描'],['static','2D 靜態'],['area','2D 畫檢'],['3d','3D 量測']];
 var _sim=null, _simKeep=null, _kbStart=null;   // 用 var：showTab、loadEval 在程式還沒跑到這裡時就可能被呼叫。視窗裡的需求；這個專案上次在視窗選的檢測項目、廠區；「用這筆當起點」的來源案例
@@ -9329,7 +10299,11 @@ function simFromCalc(){
   const v=function(id){ const el=document.getElementById(id), x=el ? +el.value : NaN; return isFinite(x)&&x>0 ? x : null; };
   const m=dim==='3d' ? '3d' : S.mode, q={mode:m, cm:m, w:null, h:null, prec:null, tt:null, items:[], site:''};
   if(m==='3d'){ q.w=v('t3-x'); q.h=v('t3-y'); q.prec=v('t3-zres'); q.tt=v('t3-tt'); }
-  else if(m==='area'){ q.w=v('as-panel-x'); q.h=v('as-panel-y'); q.prec=v('as-pitch'); }
+  else if(m==='area'){
+    q.shape=document.getElementById('as-shape').value||'rect';
+    if(q.shape==='multi' && asMulti){ const ex=asmExtent(asMulti); q.w=ex.w>0?ex.w:null; q.h=ex.h>0?ex.h:null; const pm=Math.max.apply(null, asMulti.screens.map(x=>+x.pitch||0)); q.prec=pm>0?pm:null; q.nScr=asMulti.screens.length; }
+    else{ q.w=v('as-panel-x'); q.h=v('as-panel-y'); q.prec=v('as-pitch'); }
+  }
   else if(m==='static'){ q.w=v('st-objw'); q.h=v('st-objh'); q.prec=v('st-target-res'); }
   else{ q.w=v('p-sw'); q.h=v('p-sh'); q.prec=v('rpt-target-res'); const t=v('rpt-target-tt'); q.tt=t!=null ? +(t*60).toFixed(3) : null; }   // 掃描的目標 TT 是分鐘
   // 檢測項目、廠區：這個專案剛在視窗選過就沿用；目前載入的評估提交過就用提交的；不然看標籤
@@ -9369,6 +10343,12 @@ function simScore(q, c){
   W+=SIM_W.how;
   if(cm===q.mode){ S+=SIM_W.how; why.push({t:'同為 '+(q.mode==='3d'?'3D 量測':'2D '+KB_MODE2[q.mode])}); }
   else S+=SIM_W.how/2;   // 同維度、不同取像方式（例如 2D 掃描 vs 2D 靜態）
+  if(q.mode==='area' && q.shape){   // 舊案沒有型態＝矩形；同型態滿分，同為曲面或同為平面單屏給一半
+    W+=SIM_W.shape;
+    const a=q.shape, b=(c.need&&c.need.shape)||'rect', cv=function(x){ return x==='curve'||x==='freecurve' ? 'c' : x==='multi' ? 'm' : 'f'; };
+    if(a===b){ S+=SIM_W.shape; why.push({t:a==='multi' ? '同為多連屏'+(q.nScr&&c.need.multi&&c.need.multi.screens&&c.need.multi.screens.length===q.nScr?' '+q.nScr+'in1':'') : '同為'+AS_SHAPES[a]}); }
+    else if(cv(a)===cv(b) && a!=='multi') S+=SIM_W.shape/2;
+  }
   if(q.site){
     W+=SIM_W.site;
     const a=kbSite(q.site), b=kbSite(c.site);
@@ -9420,6 +10400,7 @@ function simRender(){
     +'<label>產品尺寸</label><div class="kbs-size">'+num('w','產品寬','寬')+'<span>×</span>'+num('h','產品高','高')+'<span>mm</span></div>'
     +'<label>'+{res:'目標精度', pitch:'Pitch', z:'Z 需求'}[pk]+'</label><div class="kbs-size">'+num('prec',{res:'目標精度', pitch:'Pitch', z:'Z 需求'}[pk],'未填')+'<span class="sim-u">'+(pk==='pitch'?'px':'µm')+'</span>'
       +'<span class="sim-lb">節拍</span>'+num('tt','節拍','不限')+'<span>秒</span></div>'
+    +(q.mode==='area' ? '<label>產品型態</label><div class="kbs-cw">'+SIM_SHAPES.map(function(x){ return '<button type="button" class="kbs-chip'+((q.shape||'')===x[0]?' on':'')+'" onclick="_sim.shape=\''+x[0]+'\';simRender()">'+x[1]+'</button>'; }).join('')+'</div>' : '')
     +'<label class="top">檢測項目</label><div><div class="kbs-chips">'+grp(qd)
       +(L['x'+qd].length?'<span class="kbs-gl">新增</span><div class="kbs-cw">'+L['x'+qd].map(chip).join('')+'</div>':'')+'</div>'
       +'<div class="kbs-auto">'+(q.items.length?'選了 '+q.items.length+' 項；舊案有一樣的項目，相似度最高':'選了檢測項目比對最準（權重最高）')+'</div></div>'
@@ -9432,6 +10413,7 @@ function simKeep(){ const q=_sim; _simKeep={name:q.name, cm:q.cm, items:q.items.
 function simSet(k, v){ _sim[k]=(+v>0) ? +v : null; simRenderRes(); }
 function simSetMode(m){
   if(SIM_PK[m]!==SIM_PK[_sim.mode]) _sim.prec=null;   // 精度、Pitch、Z 需求意思不同，換了就清掉
+  if(m!=='area') _sim.shape='';
   if(simDim(m)!==simDim(_sim.mode)){ const all=kbItemsOf(simDim(m)); _sim.items=_sim.items.filter(function(t){ return all.indexOf(t)>=0; }); }
   _sim.mode=m; simRender();
 }
@@ -9449,7 +10431,7 @@ function simRenderRes(){
 }
 function simCard(x){
   const c=x.c, r=c.result, f=r&&FB_CONC[r.concl], src=c.from ? kbCaseById(c.from) : null;
-  const loc=[kbSiteTxt(c), c.lineSt, kbSizeTxt(c)].filter(Boolean).join(' · ');
+  const loc=[kbSiteTxt(c), c.lineSt, kbSizeTxt(c), kbShapeShort(c)].filter(Boolean).join(' · ');
   const when=c.at ? new Date(c.at) : null;
   const res=[esc(KB_STATUS[c.status]||''), f ? '<b style="color:'+f.c+'">'+esc(f.s||f.t)+'</b>' : '還沒有實測結果',
     esc(fbMsaShort(r&&r.msa)), esc(fbProdShort(r&&r.prod)), esc(c.owner||''), when&&!isNaN(when) ? when.getFullYear()+'/'+(when.getMonth()+1) : ''].filter(Boolean).join(' · ');
@@ -9497,7 +10479,7 @@ function simStart(id){
   simClose(); kbdClose();
   if(document.body.classList.contains('kb-on')) document.getElementById('tab-kb').classList.remove('on');
   loadEval(-1, e);
-  _kbStart={id:c.id, title:c.title, mode:e.mode||'scan', tags:e.tags||null, pur:e.purpose||null};
+  _kbStart={id:c.id, title:c.title, mode:e.mode||'scan', tags:e.tags||null, pur:e.purpose||null, cust:c.customer||e.customer||null};
   showToast('已載入「'+c.title+'」當起點；改好存成新評估，提交時「衍生自」會自動選這一筆');
 }
 
@@ -9535,6 +10517,10 @@ const GL={
   bs:['返回速度','單向掃描時，平台空跑回起點的速度。'],
   ep:['Encoder 解析度','平台位置編碼器每個脈衝代表的移動距離，用來精準觸發相機拍照。'],
   stArea:['待測範圍','要拍的區域大小（mm）。'],
+  shape:['產品型態','矩形／異形／曲面。<b>異形</b>：尺寸填外接矩形，形狀另外文字說明。<b>曲面</b>：彎曲方向填<b>展開長度</b>，工具換算成相機看到的投影寬，並算出弧高（景深要涵蓋）。'],
+  multi:['多連屏','一片產品上有 2～6 塊屏（2in1、3in1…）。每屏各自填尺寸、型態、曲率；相鄰屏之間的 🔗 決定是否用<b>同一組相機一起拍</b>。一組相機涵蓋組內各屏加屏間距的合併範圍；每屏 Pitch 各自填，一組相機只有一個解析能與工作距離，取組內要求最細的那一屏。'],
+  bend:['彎曲方向','面板沿哪個方向彎。沿 X＝X 方向是弧線（如車用曲面中控），Y 方向仍是直的。'],
+  curveR:['曲率半徑 R','曲面的半徑，例：1500R＝1500 mm。R 越小彎得越厲害，弧高越大、邊緣越斜，解析度以邊緣（像素投影縮成 cosθ）計。'],
   aa:['面板 AA 區','Active Area，面板<b>實際會發光顯示的區域</b>尺寸（不含邊框）。'],
   panelRes:['面板解析度','面板的像素數，例如 4K＝3840 × 2160。'],
   pitch:['Pitch（取樣倍數）','每 1 顆面板像素，用幾個相機像素去拍。<b>建議 ≥ 3</b>，才分得出單顆的亮點、暗點。'],
@@ -9600,6 +10586,7 @@ const GL_IN={'cam-type-seg':'camType','color-seg':'color','bin-seg':'bin','p-px'
   'lens-type-seg':'lensType','p-mag':'mag','p-ic':'ic','p-wd':'wd','p-na':'na','p-fn':'fn','p-fn-sel':'fn','p-fl':'fl','p-wl':'wl',
   'p-sw':'sample','p-sh':'sample','rpt-target-res':'targetRes','rpt-target-tt':'targetTT','st-target-res':'targetRes','scan-dir-seg':'scanDir','scan-mode-seg':'scanMode','p-nc':'nc','p-nr':'nr','p-ov':'ov','p-vmax':'vmax','p-ac':'acc','p-ct':'ct','p-bs':'bs','p-ep':'ep',
   'st-objw':'stArea','st-objh':'stArea','st-ov':'ov',
+  'as-shape':'shape','as-shape-note':'shape','as-bend-seg':'bend','as-curve-r':'curveR',
   'as-panel-x':'aa','as-panel-y':'aa','as-panel-rx':'panelRes','as-panel-ry':'panelRes','as-pitch':'pitch','as-min-wd':'minWd','as-limit':'limit',
   't3-goal':'goal','t3-zmode-seg':'zmode','t3-zres':'zres','t3-zrange':'zrange','t3-surf':'surf','t3-x':'stArea','t3-y':'stArea','t3-feat':'feat','t3-ar':'ar',
   't3-motion':'motion','t3-tt':'tt','t3-wd':'t3wd','t3-own-seg':'own'};
@@ -9926,7 +10913,7 @@ showTab=function(t){ _gdShowTab(t); guideHintSoon(); };
 // INIT
 // ═══════════════════════════════════════════
 // 把新增/編輯 modal 與遮罩移到 body，避免被玻璃卡片(backdrop-filter)困住定位
-['af-overlay','af-cam','af-lens','af-s3d','pick-overlay','pick-modal','pdf-overlay','pdf-modal'].forEach(id=>{ const e=document.getElementById(id); if(e) document.body.appendChild(e); });
+['af-overlay','af-cam','af-lens','af-s3d','af-mod','pick-overlay','pick-modal','pdf-overlay','pdf-modal'].forEach(id=>{ const e=document.getElementById(id); if(e) document.body.appendChild(e); });
 initPickers();
 loadRptMeta();
 initCardCfg();
@@ -9934,8 +10921,18 @@ calc();
 glInject();
 setTimeout(guideHint, 1200);
 if(FX.src!=='manual' && Date.now()-(FX.ts||0)>6*3600e3) setTimeout(function(){ fxFetch(false); }, 600);
-if(ghReady()){ cloudPull({force:false}); } else { setSyncStatus('off'); }
+let _bootPull=null;
+if(ghReady()){ document.getElementById('boot-t').textContent='同步雲端…'; _bootPull=cloudPull({force:false}); } else { setSyncStatus('off'); }
 kbRender(); if(kbReady()) kbPull();
+// 收掉載入畫面：程式跑完＋PDF 元件載入（DOMContentLoaded）＋雲端讀完；雲端最多等 5 秒，網路慢也不會一直擋著
+(function(){
+  const dom=new Promise(function(r){ if(document.readyState!=='loading') r(); else document.addEventListener('DOMContentLoaded', r, {once:true}); });
+  const pull=_bootPull ? Promise.race([_bootPull.catch(function(){}), new Promise(function(r){ setTimeout(r, 5000); })]) : null;
+  Promise.all([dom, pull]).then(function(){
+    const b=document.getElementById('boot'); if(!b) return;
+    b.classList.add('out'); setTimeout(function(){ b.remove(); }, 400);
+  });
+})();
 window.addEventListener('resize', ()=>{
   if(dim==='3d'){ calc3D(); return; }
   drawDiagram(); if(S.mode==='static') calcStatic(); if(S.mode==='area') calcAS();
