@@ -1642,7 +1642,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div><label for="save-cust" style="font-size:11px;color:var(--sub);">客戶<span style="opacity:.75">（選填）</span></label>
     <input id="save-cust" type="text" list="cust-dl" placeholder="例：BMW、Ford" autocomplete="off"></div>
   </div>
-  <div class="save-pur-h" style="margin-top:-8px">歷史紀錄依「廠區 → 客戶」分組，跟知識庫一樣</div>
+  <div class="save-pur-h" id="save-sc-h" style="margin-top:-8px"></div>
   <datalist id="cust-dl"></datalist><datalist id="site-dl"></datalist>
   <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，搜尋與篩選用）</span></label>
   <input id="save-tags" type="text" placeholder="用逗號或空白分開，例：Cell, 貼合, 異物" oninput="saveTagSug()">
@@ -6035,8 +6035,9 @@ function commitEval(rec, tab){
     done(choice==='over'?idx:-1);
   }, idx>=0 ? evals[idx].tags : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.tags : null,
      idx>=0 ? evals[idx].purpose : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.pur : null,
-     idx>=0 ? evals[idx].customer : _kbStart ? _kbStart.cust : null,
+     idx>=0 ? evCust(evals[idx]) : _kbStart ? _kbStart.cust : null,
      idx>=0 ? evSiteOf(evals[idx]) : _kbStart ? _kbStart.site : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途、客戶、廠區先帶入
+  if(canOver && evKbRef(evals[idx])) document.getElementById('save-sc-h').textContent='這筆已提交到知識庫：覆蓋後客戶、廠區仍以知識庫為準，要改請按「📚 提交」更新';
 }
 function concSt(mode){
   const b=document.getElementById('conc-'+mode+'-badge');
@@ -6058,7 +6059,7 @@ function savePurPick(p){
 // 客戶名稱：歷史紀錄＋知識庫用過的（不分大小寫去重，給輸入框當建議）
 function custList(){
   const seen={}, out=[];
-  evals.map(function(e){ return e.customer; }).concat((typeof kbData!=='undefined'&&kbData&&kbData.cases||[]).map(function(c){ return c.customer; }))
+  evals.map(evCust).concat((typeof kbData!=='undefined'&&kbData&&kbData.cases||[]).map(function(c){ return c.customer; }))
     .forEach(function(t){ t=String(t||'').trim(); const k=t.toLowerCase(); if(t && !seen[k]){ seen[k]=1; out.push(t); } });
   return out.sort(function(a,b){ return a.localeCompare(b,'zh-Hant'); });
 }
@@ -6069,8 +6070,29 @@ function evSiteNorm(t){
   const w=t.split(/\s+/)[0].toUpperCase(), s=kbSites().filter(function(x){ return x.code.toUpperCase()===w; })[0];
   return s ? s.code : t;
 }
+// 客戶／廠區跟知識庫同一個來源（10/12 Johnny）：這筆評估已提交到知識庫 → 以知識庫案例為準（已收錄的優先，其次審核中的）；沒提交過才用評估自己存的
+function evKbRef(e){
+  try{
+    if(!e || e.id==null || !kbData) return null;
+    const c=kbData.cases.filter(function(x){ return x.evId===e.id; })[0]; if(c) return c;
+    const p=KB_PEND.filter(function(p){ return p.case && p.case.evId===e.id && !kbLogOf(p.num); })[0];
+    return p ? p.case : null;
+  }catch(_){ return null; }
+}
+function evCust(e){ const r=evKbRef(e); return String((r?r.customer:e.customer)||'').trim(); }
+// 客戶名稱的寫法：歷史紀錄＋知識庫合起來看，同一客戶（不分大小寫）用最常見的寫法，一樣多就用有大寫的；兩邊的分組標題都用這個
+function custCanon(t){
+  t=String(t||'').trim(); if(!t) return '';
+  const k=t.toLowerCase(), c={};
+  const add=function(x){ x=String(x||'').trim(); if(x && x.toLowerCase()===k) c[x]=(c[x]||0)+1; };
+  try{ kbData.cases.forEach(function(x){ add(x.customer); }); }catch(_){}
+  evals.forEach(function(e){ if(!evKbRef(e)) add(e.customer); });
+  const ks=Object.keys(c); if(!ks.length) return t;
+  return ks.sort(function(a,b){ return c[b]-c[a] || (b!==b.toLowerCase())-(a!==a.toLowerCase()); })[0];
+}
 // 舊紀錄沒有廠區：標籤剛好是廠區代碼的（例 #S19）就當廠區
 function evSiteOf(e){
+  const r=evKbRef(e); if(r) return String((r.site==='其他'?r.siteOther:r.site)||'').trim();
   if(e.site) return String(e.site).trim();
   const codes=kbSites().map(function(x){ return x.code.toUpperCase(); });
   const t=(e.tags||[]).filter(function(t){ return codes.indexOf(String(t).toUpperCase())>=0; })[0];
@@ -6095,6 +6117,7 @@ function openSaveModal(orig, name, desc, cb, tags, pur, cust, site){
   document.getElementById('save-tags').value=(tags||[]).join(', ');
   document.getElementById('save-cust').value=cust||''; custDlFill();
   document.getElementById('save-site').value=site?evSiteTxt(site):''; siteDlFill();
+  document.getElementById('save-sc-h').textContent='歷史紀錄依「廠區 → 客戶」分組，跟知識庫一樣';
   document.getElementById('save-desc').value=desc||'';
   saveTagSug();
   document.getElementById('save-modal').style.display='flex';
@@ -6189,7 +6212,7 @@ function evXY(e){
 function evMatch(o, toks){
   if(!toks.length) return true;
   if(o.hay==null){ const e=o.e, fb=e.fb||{};
-    o.hay=[e.name,e.customer,evSiteTxt(evSiteOf(e)),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
+    o.hay=[e.name,evCust(e),evSiteTxt(evSiteOf(e)),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
   const tl=(o.e.tags||[]).map(function(t){ return t.toLowerCase(); });
   return toks.every(function(t){ return t==='#' ? true : t[0]==='#' ? tl.indexOf(t.slice(1))>=0 : o.hay.indexOf(t)>=0; });
 }
@@ -6248,7 +6271,7 @@ function renderEvals(){
   list.sort(sv==='name' ? (a,b)=>String(a.e.name).localeCompare(String(b.e.name),'zh-Hant',{numeric:true})
           : sv==='old' ? (a,b)=>(a.e.id||0)-(b.e.id||0) : (a,b)=>ts(b.e)-ts(a.e));
   // 分組（10/12 Johnny）：廠區 → 客戶，跟知識庫一樣；廠區、客戶都沒填才照舊依第一個標籤
-  const hasS=all.some(o=>evSiteOf(o.e)), hasC=all.some(o=>String(o.e.customer||'').trim()), hasT=all.some(o=>o.e.tags&&o.e.tags.length);
+  const hasS=all.some(o=>evSiteOf(o.e)), hasC=all.some(o=>evCust(o.e)), hasT=all.some(o=>o.e.tags&&o.e.tags.length);
   _evTop=[];
   if(!hasS && !hasC && !hasT){ el.innerHTML=list.map(evCard).join(''); evFoldBtn(filtering); return; }
   const grp=(arr, kf)=>{ const out=[], gm={};
@@ -6266,12 +6289,11 @@ function renderEvals(){
       const h=hdr(pre+g.k, sub, g.k?(sub?'#':'')+esc(g.t):(sub?'沒有標籤':'未分類'), g.items.length);
       return h[1]+(h[0]?'':g.items.map(evCard).join(''));
     }).join(''); };
-  // 同一客戶大小寫不同（BMW／bmw）算同一組；組名用最常見的寫法，一樣多就用有大寫的；英文在前、中文在後、沒填的最後（跟知識庫一樣）
-  const cn=g=>{ const c={}; g.items.forEach(o=>{ const t=String(o.e.customer||'').trim(); c[t]=(c[t]||0)+1; });
-    return Object.keys(c).sort((a,b)=>c[b]-c[a] || (b!==b.toLowerCase())-(a!==a.toLowerCase()))[0]; };
+  // 同一客戶大小寫不同（BMW／bmw）算同一組；組名跟知識庫用同一個寫法（custCanon）；英文在前、中文在後、沒填的最後（跟知識庫一樣）
+  const cn=g=>custCanon(g.t);
   const byCust=(arr, pre, sub)=>{
-    if(!arr.some(o=>String(o.e.customer||'').trim())) return arr.map(evCard).join('');
-    return grp(arr, o=>String(o.e.customer||'').trim()).sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true})).map(g=>{ g.t=cn(g);
+    if(!arr.some(o=>evCust(o.e))) return arr.map(evCard).join('');
+    return grp(arr, o=>evCust(o.e)).sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true})).map(g=>{ g.t=cn(g);
       const h=hdr(pre+'c:'+g.k, sub, '🏢 '+(g.k?esc(g.t):'客戶未填'), g.items.length);
       return h[1]+(h[0]?'':g.items.map(evCard).join(''));
     }).join(''); };
@@ -6327,16 +6349,18 @@ function evPurPill(e,i){
   const p=EV_PUR[e.purpose];
   return '<button type="button" class="ec-pur'+(p?' '+e.purpose:'')+'" onclick="evPurEdit('+i+',this)" title="'+(p?'改用途':'標記用途：客戶需求要提交到知識庫，內部試算不用')+'">'+(p||'＋ 用途')+'</button>';
 }
+const EV_KB_LOCK='已提交到知識庫：客戶、廠區跟知識庫案例同步，要改請按「📚 提交」更新知識庫';
 function evCustPill(e,i){
-  const c=String(e.customer||'').trim();
-  return '<button type="button" class="ec-pur ec-cust'+(c?' on-c':'')+'" onclick="evCustEdit('+i+',this)" title="'+(c?'改客戶':'填客戶：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'🏢 '+esc(c):'＋ 客戶')+'</button>';
+  const c=evCust(e), kb=!!evKbRef(e);
+  return '<button type="button" class="ec-pur ec-cust'+(c?' on-c':'')+'" onclick="evCustEdit('+i+',this)" title="'+(kb?EV_KB_LOCK:c?'改客戶':'填客戶：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'🏢 '+esc(c):'＋ 客戶')+'</button>';
 }
 function evSitePill(e,i){
-  const c=evSiteOf(e), auto=c&&!e.site;
-  return '<button type="button" class="ec-pur ec-site'+(c?' on-s':'')+'" onclick="evSiteEdit('+i+',this)" title="'+(c?esc(evSiteTxt(c))+(auto?'（從標籤帶出）':'')+'，點一下改廠區':'填廠區：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'📍 '+esc(c):'＋ 廠區')+'</button>';
+  const c=evSiteOf(e), kb=!!evKbRef(e), auto=c&&!kb&&!e.site;
+  return '<button type="button" class="ec-pur ec-site'+(c?' on-s':'')+'" onclick="evSiteEdit('+i+',this)" title="'+(kb?EV_KB_LOCK:c?esc(evSiteTxt(c))+(auto?'（從標籤帶出）':'')+'，點一下改廠區':'填廠區：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'📍 '+esc(c):'＋ 廠區')+'</button>';
 }
 function evSiteEdit(i, btn){
   const e=evals[i]; if(!e) return;
+  if(evKbRef(e)){ showToast(EV_KB_LOCK); return; }
   siteDlFill();
   const inp=document.createElement('input'); inp.className='ec-cust-in'; inp.setAttribute('list','site-dl'); inp.placeholder='廠區，Enter 儲存'; inp.value=evSiteTxt(evSiteOf(e));
   btn.replaceWith(inp); inp.focus(); inp.select();
@@ -6353,6 +6377,7 @@ function evSiteEdit(i, btn){
 }
 function evCustEdit(i, btn){
   const e=evals[i]; if(!e) return;
+  if(evKbRef(e)){ showToast(EV_KB_LOCK); return; }
   custDlFill();
   const inp=document.createElement('input'); inp.className='ec-cust-in'; inp.setAttribute('list','cust-dl'); inp.placeholder='客戶，Enter 儲存'; inp.value=e.customer||'';
   btn.replaceWith(inp); inp.focus(); inp.select();
@@ -6471,7 +6496,7 @@ function evJump(i){
   const q=()=>document.querySelector('#ev-list .ec[data-i="'+i+'"]');
   let c=q();
   if(!c){ const e=evals[i]; if(!e) return;
-    const sk='s:'+evSiteOf(e).toLowerCase(), ck='c:'+String(e.customer||'').trim().toLowerCase();
+    const sk='s:'+evSiteOf(e).toLowerCase(), ck='c:'+evCust(e).toLowerCase();
     const ks=[sk, sk+'/'+ck, ck, ((e.tags&&e.tags[0])||'').toLowerCase()], n0=_evClosed.length;
     _evClosed=_evClosed.filter(k=>ks.indexOf(k)<0);
     if(_evClosed.length!==n0){ try{ localStorage.setItem('aoi_hist_closed', JSON.stringify(_evClosed)); }catch(_){} renderEvals(); c=q(); } }
@@ -9577,7 +9602,7 @@ function kbsOpen(i){
   }
   const s=kbEvState(e), c=s&&s.c, nd=kbNeedOf(e);
   _kbs={i:i, evId:e.id, kind:c?'update':'new', target:c?c.id:'', title:e.name||'', items:[], other:false, otherTxt:'',
-        site:'', siteOther:'', lineSt:'', w:nd.w||'', h:nd.h||'', customer:e.customer||'', owner:KB.who||'', status:'eval', lesson:'', report:'', from:'', fromNote:'', fromAuto:false, itemsAuto:false, who:KB.who||''};
+        site:'', siteOther:'', lineSt:'', w:nd.w||'', h:nd.h||'', customer:evCust(e), owner:KB.who||'', status:'eval', lesson:'', report:'', from:'', fromNote:'', fromAuto:false, itemsAuto:false, who:KB.who||''};
   if(c) kbsFill(c);
   else{   // 歷史紀錄填了廠區就帶入（清單外的放「其他」）
     const es=evSiteOf(e); if(es){ if(kbSite(es)) _kbs.site=es; else { _kbs.site='其他'; _kbs.siteOther=es; } }
@@ -9697,7 +9722,7 @@ function kbsRender(){
   if(d.itemsAuto && kbCaseById(d.from)) h+='<div class="kbs-auto">先沿用原案「'+esc(kbCaseById(d.from).title)+'」的檢測項目，可以改</div>';
   const pri=d.items[0]||(d.other&&d.otherTxt.split(/[,，、;；]/)[0].trim());
   if(pri && (d.items.length+(d.other?1:0))>1) h+='<div class="kbs-auto">主要項目：<b>'+esc(pri)+'</b></div>';
-  h+='<div class="kbs-row"><div>'+sec('客戶')+'<input class="kbs-in" value="'+esc(d.customer)+'" oninput="kbsSet(\'customer\',this.value)" placeholder="選填"></div>'
+  h+='<div class="kbs-row"><div>'+sec('客戶')+'<input class="kbs-in" list="cust-dl" autocomplete="off" value="'+esc(d.customer)+'" onfocus="custDlFill()" oninput="kbsSet(\'customer\',this.value)" placeholder="選填"></div>'
     +'<div>'+sec('負責人')+'<input class="kbs-in" value="'+esc(d.owner)+'" oninput="kbsSet(\'owner\',this.value)" placeholder="選填"></div></div>';
   const fb=e.fb, fc=fb&&FB_CONC[fb.concl];
   h+=sec('狀態',false,'前期評估完成選「評估中」；實測或依經驗導入後改成「已導入」或「放棄」')+'<div class="kbs-cw">'+Object.keys(KB_STATUS).map(function(k){
@@ -10045,10 +10070,7 @@ function kbSubCases(cs, pre, filt){
 }
 // 廠區底下依客戶分（10/12 Johnny）：客戶名稱不分大小寫；沒填客戶的放最後；整個廠區都沒填客戶就不分
 function kbCustKey(c){ return String(c.customer||'').trim().toLowerCase(); }
-function kbCustName(cs){   // 最常見的寫法；一樣多就用有大寫的（Ford／FORD／ford → 依多數）
-  const c={}; cs.forEach(function(x){ const t=String(x.customer||'').trim(); c[t]=(c[t]||0)+1; });
-  return Object.keys(c).sort(function(a,b){ return c[b]-c[a] || (b!==b.toLowerCase())-(a!==a.toLowerCase()); })[0];
-}
+function kbCustName(cs){ return custCanon(cs[0]&&cs[0].customer); }   // 跟歷史紀錄同一個寫法（知識庫＋歷史紀錄合起來最常見的）
 function kbCustCases(cs, pre, filt){
   if(!cs.some(kbCustKey)) return cs.map(kbTreeCase).join('');
   return kbGroup(cs, kbCustKey).sort(function(a,b){ return (a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true}); })   // 英文客戶名在前、中文在後
