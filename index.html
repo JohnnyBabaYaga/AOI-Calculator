@@ -484,6 +484,12 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ec.flash{animation:ecFlash 1.4s ease;}
 @keyframes ecFlash{0%,45%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 45%,transparent);border-color:var(--accent);}100%{box-shadow:none;}}
 .ev-grp{display:flex;align-items:center;gap:6px;margin:12px 10px 7px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;user-select:none;-webkit-user-select:none;}
+/* 歷史紀錄卡片排成多欄（10/12 Johnny：右邊不要整塊留空，跟知識庫一樣）：寬螢幕 3 欄、筆電 2 欄、手機 1 欄；同一排等高，按鈕切齊卡片底部；分組標題橫跨整排 */
+#ev-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:8px;padding:0 10px 10px;align-items:stretch;}
+#ev-list>.ec{margin:0;display:flex;flex-direction:column;min-width:0;}
+#ev-list>.ec>.ec-btns{margin-top:auto!important;padding-top:6px;}
+#ev-list>.ev-grp,#ev-list>.empty{grid-column:1/-1;}
+#ev-list>.ev-grp{margin:10px 0 -1px;}
 .ev-grp .n{font-weight:500;color:var(--sub);font-size:11px;}
 .ev-grp .car{display:inline-block;width:10px;color:var(--sub);font-size:9px;transition:transform .15s;}
 .ev-grp.closed .car{transform:rotate(-90deg);}
