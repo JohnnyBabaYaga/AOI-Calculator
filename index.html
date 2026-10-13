@@ -10214,14 +10214,16 @@ function kbMapPlace(pins, W, H, pf){
 function kbMapDraw(){
   const cv=document.getElementById('km-cv'); if(!cv) return;
   const W=Math.floor(cv.clientWidth); if(!W) return;   // 知識庫頁沒顯示時寬度是 0，等顯示時 ResizeObserver 再畫
-  // 框跟主頁一樣（viewBox 20 2 380 158）；大螢幕高度封頂（約 430px），多出來的寬度往左右多露一點世界（陸地資料寬 16～444），再寬就置中、兩端淡出
-  const s=Math.min(W/380, 2.7), vw=W/s, H=Math.round(158*s), pf=Math.max(.62, Math.min(1, W/900));   // 手機針縮小一點
+  // 寬跟主頁一樣（380）；多出來的寬度往左右多露一點世界（陸地資料寬 16～444），再寬就置中、兩端淡出
+  // 10/13 Johnny：地圖太高佔版面 → 上下只留北緯 70°～南緯 8°（廠區都在北緯 18°～52°），1280 寬約 265px（原本 427px）
+  const Y0=20+(85-70)/143*180, Y1=20+(85+8)/143*180;
+  const s=Math.min(W/380, 2.7), vw=W/s, H=Math.round((Y1-Y0)*s), pf=Math.max(.62, Math.min(1, W/900));   // 手機針縮小一點
   const x0=vw<=428 ? Math.max(16, Math.min(444-vw, 210-vw/2)) : 230-vw/2;
-  const P=function(C){ const l=((C.lon+30)%360+360)%360; return [(16+l/360*428-x0)*s, (20+(85-C.lat)/143*180-2)*s]; };   // 主頁的投影
+  const P=function(C){ const l=((C.lon+30)%360+360)%360; return [(16+l/360*428-x0)*s, (20+(85-C.lat)/143*180-Y0)*s]; };   // 主頁的投影
   const pins=Object.keys(_kbMapG).filter(function(k){ return KB_CITY[k]; }).map(function(k){ const C=KB_CITY[k], q=P(C); return {k:k, C:C, x:q[0], y:q[1], n:_kbMapG[k].length}; });
   kbMapPlace(pins, W, H, pf);
   const f=function(v){ return (+v).toFixed(1); };
-  let h='<svg class="km-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="廠區世界地圖"><path class="km-land" transform="scale('+s.toFixed(5)+') translate('+(-x0).toFixed(2)+' -2)" d="'+KB_MAP_LAND+'"/>';
+  let h='<svg class="km-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="廠區世界地圖"><path class="km-land" transform="scale('+s.toFixed(5)+') translate('+(-x0).toFixed(2)+' '+(-Y0).toFixed(2)+')" d="'+KB_MAP_LAND+'"/>';
   if(vw>428){ const e0=(16-x0)*s, e1=(444-x0)*s, fw=14*s;   // 陸地資料在經度 -30° 切開（格陵蘭），兩端淡出
     h+='<defs><linearGradient id="km-fade"><stop offset="0" stop-color="#f0f5fa"/><stop offset="1" stop-color="#f0f5fa" stop-opacity="0"/></linearGradient></defs>'
       +'<rect x="'+(e0-1).toFixed(1)+'" y="0" width="'+fw.toFixed(1)+'" height="'+H+'" fill="url(#km-fade)"/>'
