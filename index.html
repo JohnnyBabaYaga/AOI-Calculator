@@ -1616,7 +1616,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -4067,7 +4067,7 @@ function setDim(d){
  // 2D 左側（需求、相機鏡頭、掃描設定、進階）在 3D 模式整塊隱藏
  document.getElementById('left-2d').style.display = d==='3d' ? 'none' : '';
  if(d==='2d') setMode(S.mode); else calc3D();
- renderEvals();   // 歷史紀錄依 2D / 3D 分類顯示
+ renderEvals();   // 歷史紀錄依目前分頁顯示（掃描／靜態／畫檢／3D 各自一份）
  showTab('res');
 }
 function setOwnOnly(v){ ownOnly3=v; segSet('t3-own-seg',v?1:0); calc3D(); }
@@ -4817,6 +4817,7 @@ function setMode(m){
                : document.getElementById('tab-db').classList.contains('on')   ? 'db'
                : document.getElementById('tab-kb').classList.contains('on')   ? 'kb'
                : 'res';
+  renderEvals();   // 10/13 Johnny：歷史紀錄跟著模式分頁（掃描／靜態／畫檢各自一份）
   showTab(curTab);
 }
 
@@ -6206,6 +6207,10 @@ document.addEventListener('keydown',function(e){
   else if(e.key==='Enter' && (e.target.id==='save-name'||e.target.id==='save-tags') && !e.isComposing){ e.preventDefault(); saveModalPick(document.getElementById('save-btns-over').style.display==='none'?'new':'over'); }
 });
 function evalIs3D(e){ return e.mode==='3d'; }
+// 10/13 Johnny：歷史紀錄依上方模式分頁分開（掃描／靜態／畫檢／3D），切分頁只看那一頁的紀錄
+function evSheet(){ return dim==='3d' ? '3d' : (S.mode||'scan'); }
+function evSheetOf(e){ return e.mode==='3d' ? '3d' : (e.mode||'scan'); }
+const EV_SHEET_LB={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D 量測'};
 // 10/13 Johnny：歷史紀錄的「清除全部」拿掉（怕誤按）；要刪就一筆一筆刪，每次都會先確認
 // ── 歷史紀錄：搜尋／篩選／標籤分組 ──（10/12 Johnny 拿掉檢索地圖散點圖：「呈現的方式不是很直觀」，改成知識庫的世界地圖）
 const EV_ML={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D'};
@@ -6247,30 +6252,25 @@ function evChip(on, t, n, fn){ return `<span class="pick-chip${on?' on':''}" onc
 function renderEvals(){
   fbRenderBlk();
   const el=document.getElementById('ev-list'), tools=document.getElementById('ev-tools');
-  const want3=(dim==='3d'), lbl=want3?'3D 量測':'2D 取像';
-  const all=evals.map((e,i)=>({e,i,sum:evSummary(e)})).filter(o=>evalIs3D(o.e)===want3);
+  const sh=evSheet(), lbl=EV_SHEET_LB[sh];
+  const all=evals.map((e,i)=>({e,i,sum:evSummary(e)})).filter(o=>evSheetOf(o.e)===sh);
   tools.style.display=all.length?'':'none';
   if(!all.length){
+    const oth={}; evals.forEach(e=>{ const k=evSheetOf(e); oth[k]=(oth[k]||0)+1; });
+    const ot=Object.keys(EV_SHEET_LB).filter(k=>oth[k]).map(k=>EV_SHEET_LB[k]+' '+oth[k]+' 筆').join('、');
     document.getElementById('ev-cnt').textContent=`${lbl} 0 筆評估`+(evals.length?`（全部 ${evals.length} 筆）`:'');
-    el.innerHTML=`<div class="empty">📄<br>尚無${lbl}的評估<br><small>在計算器完成後按「儲存評估」</small></div>`;
+    el.innerHTML=`<div class="empty">📄<br>尚無${lbl}的評估<br><small>在計算器完成後按「儲存評估」</small>`+(ot?`<br><small>其他分頁：${ot}，切換上方模式就看得到</small>`:'')+`</div>`;
     return;
   }
   // 篩選
   const q=document.getElementById('ev-q').value.trim().toLowerCase(), toks=q?q.split(/\s+/):[];
-  const modeOn=!want3 && _evF.mode!=='all';
-  all.forEach(o=>{ o.todo=kbEvTodo(o.e); o.hit=(!modeOn||(o.e.mode||'scan')===_evF.mode) && (!_evF.fb||!!o.e.fb) && (!_evF.bad||evSt(o.e)==='bad') && (!_evF.kb||o.todo) && evMatch(o,toks); });
-  const list=all.filter(o=>o.hit), filtering=_evFilt=!!(toks.length||modeOn||_evF.fb||_evF.bad||_evF.kb);
+  all.forEach(o=>{ o.todo=kbEvTodo(o.e); o.hit=(!_evF.fb||!!o.e.fb) && (!_evF.bad||evSt(o.e)==='bad') && (!_evF.kb||o.todo) && evMatch(o,toks); });
+  const list=all.filter(o=>o.hit), filtering=_evFilt=!!(toks.length||_evF.fb||_evF.bad||_evF.kb);
   document.getElementById('ev-cnt').textContent = filtering ? `${lbl}：符合 ${list.length} / ${all.length} 筆`
     : `${lbl} ${all.length} 筆評估`+(all.length!==evals.length?`（全部 ${evals.length} 筆）`:'');
-  // 篩選按鈕：只有一種模式就不顯示模式按鈕；數量是 0 的也不顯示
-  const cnt={}; all.forEach(o=>{ const m=o.e.mode||'scan'; cnt[m]=(cnt[m]||0)+1; });
+  // 篩選按鈕：數量是 0 的不顯示
   const nFb=all.filter(o=>o.e.fb).length, nBad=all.filter(o=>evSt(o.e)==='bad').length, nKb=all.filter(o=>o.todo).length;
-  const modes=['scan','static','area'].filter(m=>cnt[m]||_evF.mode===m);
   let ch='';
-  if(!want3 && (modes.length>1||modeOn)){
-    ch+=evChip(_evF.mode==='all','全部',null,"evSetF('mode','all')");
-    modes.forEach(m=>{ ch+=evChip(_evF.mode===m,EV_ML[m],cnt[m]||0,"evSetF('mode','"+m+"')"); });
-  }
   const ex=[];
   if(nFb||_evF.fb) ex.push(evChip(_evF.fb,'📝 有實測回饋',nFb,"evSetF('fb')"));
   if(nBad||_evF.bad) ex.push(evChip(_evF.bad,'需調整',nBad,"evSetF('bad')"));
@@ -11049,9 +11049,9 @@ const GUIDES={
   ],
   hist:[
     {el:function(){ return document.querySelector('#pane-hist > div'); }, t:'歷史紀錄',
-     d:'所有存過的評估都在這裡，<b>2D 與 3D 分開顯示</b>（看你目前在哪個維度）。<br><b>📤 匯出</b>備份成 JSON 給同事，<b>📥 匯入</b>讀回來。<b>清除全部</b>會刪掉所有紀錄，請小心。'},
+     d:'所有存過的評估都在這裡，<b>掃描／靜態／畫檢／3D 各自分開</b>（跟著上方的模式分頁，切過去就看那一種的紀錄）。<br><b>📤 匯出</b>備份成 JSON 給同事，<b>📥 匯入</b>讀回來。刪除要一筆一筆刪，每次都會先確認。'},
     {el:function(){ return $gd('ev-tools'); }, t:'搜尋與篩選',
-     d:'輸入名稱、廠區、客戶、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看某一種模式、<b>有實測回饋</b>、<b>需調整</b>或<b>📚 待提交</b>（客戶需求還沒交到知識庫）的紀錄。'},
+     d:'輸入名稱、廠區、客戶、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看<b>有實測回饋</b>、<b>需調整</b>或<b>📚 待提交</b>（客戶需求還沒交到知識庫）的紀錄。'},
     {el:function(){ return $gd('ev-list'); }, t:'每一筆評估',
      d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄，按 ✎ 修改。<br>清單依<b>📍 廠區 → 🏢 客戶</b>分組（跟知識庫一樣），名稱旁點一下就能改；右上<b>全部收合／展開</b>一次收起或打開。<br><b>📂 載入</b>回到當時的設定繼續改；<b>📄 PDF</b> 匯出那一筆的報告；<b>📝 實測回饋</b>填上實測或導入的結果（不實測的選「依經驗導入」）；<b>📚 提交</b>送到部門知識庫，Johnny 審核後收錄。<br>名稱後面的 <b>👥 客戶需求／🧪 內部試算</b>是存檔時選的用途，點一下可以改；客戶需求的評估都要提交。'},
     {el:function(){ return $gd('syncStatus'); }, t:'雲端同步', d:'設定 GitHub 同步後，歷史紀錄與資料庫可以在不同電腦之間共用（需要管理者提供權杖）。'},
