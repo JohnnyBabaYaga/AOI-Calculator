@@ -1035,7 +1035,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#fab-wrap,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-mod,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#sel-modal,#sel-overlay,#sel-entry,#fb-modal,#fb-overlay,#pane-kb,#kb-modal,#kb-overlay,#kbs-modal,#kbs-overlay,#kbd-modal,#kbd-overlay,#sim-modal,#sim-overlay,#cf-modal,#cf-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#fab-wrap,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-mod,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#sel-modal,#sel-overlay,#sel-entry,#fb-modal,#fb-overlay,#pane-kb,#kb-modal,#kb-overlay,#kbs-modal,#kbs-overlay,#kbd-modal,#kbd-overlay,#sim-modal,#sim-overlay,#cf-modal,#cf-overlay,#bg-notes{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -1463,6 +1463,22 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .btn-pri.kbd-danger{background:linear-gradient(120deg,#B3261E,#D93025);box-shadow:0 2px 8px rgba(179,38,30,.25);}
 .btn-pri:disabled,.btn-sec:disabled{opacity:.55;cursor:default;filter:none;}
 /* 載入畫面（D 簡約＋液態玻璃）：透明玻璃蓋住整頁，小卡片在正中間 */
+/* 背景定期更新的小提示（10/13 Johnny）：左下角玻璃小卡；新版本、新提交 */
+#bg-notes{position:fixed;left:16px;bottom:22px;z-index:1500;display:flex;flex-direction:column;gap:8px;max-width:min(340px,calc(100vw - 32px));pointer-events:none;}
+@media(max-width:768px){ #bg-notes{bottom:70px;left:12px;max-width:calc(100vw - 80px);} }
+.bg-note{pointer-events:auto;display:flex;align-items:flex-start;gap:10px;padding:10px 10px 10px 13px;border-radius:14px;font-size:12px;line-height:1.5;color:var(--text);
+  background:linear-gradient(160deg,rgba(255,255,255,.86) 0%,rgba(240,246,255,.78) 100%);-webkit-backdrop-filter:blur(10px) saturate(1.8);backdrop-filter:blur(10px) saturate(1.8);
+  border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 1px rgba(255,255,255,.9),0 8px 24px rgba(30,60,120,.18),0 1px 4px rgba(30,60,120,.10);
+  animation:bgn-in .25s ease-out;}
+.bg-note.out{opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+@keyframes bgn-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bg-note .bgn-ic{font-size:16px;line-height:1.2;}
+.bg-note .bgn-tx{flex:1;min-width:0;}
+.bg-note .bgn-tx b{font-weight:700;}
+.bg-note .bgn-tx small{display:block;color:var(--sub);font-size:11px;margin-top:1px;}
+.bg-note .bgn-go{flex-shrink:0;align-self:center;font-family:inherit;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap;}
+.bg-note .bgn-go:hover{filter:brightness(1.08);}
+.bg-note .bgn-x{flex-shrink:0;align-self:center;background:none;border:none;color:var(--sub);font-size:15px;line-height:1;padding:2px 3px;cursor:pointer;}
 #boot{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;background:rgba(236,241,248,.22);
   -webkit-backdrop-filter:blur(2.5px);backdrop-filter:blur(2.5px);transition:opacity .35s ease;}
 #boot.out{opacity:0;pointer-events:none;}
@@ -1616,7 +1632,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -9509,10 +9525,13 @@ function kbDate(s){ const d=new Date(s); return isNaN(d) ? '' : (d.getMonth()+1)
 async function kbLoadPend(){
   const r=await kbFetch('/issues?state=open&per_page=100');
   if(!r.ok) throw new Error('HTTP '+r.status);
-  const list=(await r.json()).filter(function(i){ return !i.pull_request && String(i.title||'').indexOf(KB_SUB_PFX)===0; })
+  const list=kbPendFrom(await r.json());
+  KB_PEND_SUP=[]; return kbPendDedupe(list);
+}
+function kbPendFrom(arr){
+  return (Array.isArray(arr)?arr:[]).filter(function(i){ return !i.pull_request && String(i.title||'').indexOf(KB_SUB_PFX)===0; })
     .map(function(i){ const p=kbParseSub(i.body); return p ? Object.assign(p, {num:i.number, url:i.html_url, created:i.created_at}) : null; })
     .filter(Boolean);
-  KB_PEND_SUP=[]; return kbPendDedupe(list);
 }
 function kbParseSub(body){
   body=String(body||''); const a=body.indexOf(KB_SUB_B), b=body.indexOf(KB_SUB_E, a+1);
@@ -11236,6 +11255,130 @@ kbRender(); if(kbReady()) kbPull();
     b.classList.add('out'); setTimeout(function(){ b.remove(); }, 400);
   });
 })();
+
+// ═══════════════════════════════════════════
+// 背景定期更新（10/13 Johnny）：知識庫 5 分鐘、雲端同步 10 分鐘、網站版本 30 分鐘
+// ═══════════════════════════════════════════
+// 不打擾使用者：
+// ・分頁在背景（看不到）時不跑；切回來超過間隔就補一次
+// ・先問 GitHub「有沒有變」（ETag）：沒變回 304，畫面完全不動、也不吃 API 額度
+// ・有變才讀；正在打字、開著視窗、正在收錄時先存著，等做完再換上（每 20 秒看一次）
+// ・雲端資料：本機比較新（還沒上傳的修改）就不蓋；新版本：只提示，按「重新整理」才換
+const BG_IV={kb:5*60e3, cloud:10*60e3, ver:30*60e3};
+const _bgAt={kb:Date.now(), cloud:Date.now(), ver:Date.now()}, _bgRun={}, _bgTag={};
+let _bgKbNew=null, _bgCloudNew=null, _bgVer0=null, _bgVerNew=false;
+const BG_MODALS=['save-modal','kbs-modal','kbd-modal','sim-modal','kb-modal','cf-modal','fb-modal','pick-modal','pdf-modal','sel-modal','cloud-modal','imp-modal','about-modal','af-cam','af-lens','af-mod'];
+function bgUserBusy(strict){
+  if(BG_MODALS.some(function(id){ const e=document.getElementById(id); return e && getComputedStyle(e).display!=='none'; })) return true;
+  if(_kbQn || Object.keys(_kbrBusy).length || _kbs) return true;   // 收錄排隊中、提交視窗草稿
+  if(document.querySelector('.ec-tag-in')) return true;           // 歷史紀錄正在改標籤
+  const ae=document.activeElement;
+  if(ae && ae!==document.body && (/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) || ae.isContentEditable)){
+    if(strict) return true;                                          // 雲端資料會重算計算器：任何欄位在輸入都等
+    if(ae.closest('#pane-kb,#pane-hist')) return true;               // 知識庫：只等知識庫／歷史紀錄裡的輸入
+  }
+  return false;
+}
+// 帶 ETag 問有沒有變：沒變回 null
+async function bgGet(url, headers){
+  const h=Object.assign({}, headers); if(_bgTag[url]) h['If-None-Match']=_bgTag[url];
+  const r=await fetch(url, {headers:h, cache:'no-store'});
+  if(r.status===304) return null;
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const t=r.headers.get('ETag'); if(t) _bgTag[url]=t;
+  return r;
+}
+// ── 知識庫 ──
+async function bgKb(){
+  if(!kbReady() || KB_ST.st==='sync' || KB_ST.st==='off') return;
+  const H={'Accept':'application/vnd.github+json', 'Authorization':'Bearer '+KB.token}, sha0=KB_SHA;
+  let data=null, sha=null, pend=null;
+  const fr=await bgGet(kbUrl(kbFileUrl()), H);
+  if(fr){
+    const j=await fr.json();
+    if(j.sha && j.sha!==KB_SHA){
+      let txt=j.content ? b64decode(j.content) : '';
+      if(!txt && j.size>0){ const b=await kbFetch('/git/blobs/'+j.sha); if(!b.ok) throw new Error('HTTP '+b.status); txt=b64decode((await b.json()).content); }
+      data=kbNorm(JSON.parse(txt||'{}')); sha=j.sha;
+    }
+  }
+  const pr=await bgGet(kbUrl('/issues?state=open&per_page=100'), H);
+  if(pr){
+    const list=kbPendFrom(await pr.json()), key=function(a){ return a.map(function(p){ return p.num; }).sort().join(','); };
+    if(key(list)!==key(KB_PEND.concat(KB_PEND_SUP))) pend=list;
+  }
+  if(data || pend){
+    const q=_bgKbNew||{};
+    _bgKbNew={data:data||q.data||null, sha:data?sha:(q.sha||null), sha0:data?sha0:q.sha0, pend:pend||q.pend||null};
+    bgApplyKb();
+  }else if(!_bgKbNew){ KB_PULLED=Date.now(); kbCtlRender(); }
+}
+function bgApplyKb(){
+  const n=_bgKbNew; if(!n || bgUserBusy(false)) return;
+  _bgKbNew=null;
+  const before=KB_PEND.concat(KB_PEND_SUP).map(function(p){ return p.num; });
+  if(n.data && KB_SHA===n.sha0){ kbData=n.data; KB_SHA=n.sha; }   // 讀的時候自己剛好寫入過：那份已經舊了，不套
+  if(n.pend){ KB_PEND_SUP=[]; KB_PEND=kbPendDedupe(n.pend); }
+  kbCacheSave(); KB_PULLED=Date.now(); kbSetSt('ok');
+  if(!document.querySelector('.ec-tag-in')) renderEvals();
+  if(kbIsAdmin()){
+    const fresh=KB_PEND.filter(function(p){ return before.indexOf(p.num)<0 && !KB_MINE[p.num] && !kbLogOf(p.num); });
+    if(fresh.length) bgNote('kb', '📥', '知識庫有 <b>'+fresh.length+'</b> 筆新提交待審核', esc(fresh.slice(0,2).map(function(p){ return (p.by?p.by+'：':'')+(p.case.title||''); }).join('、'))+(fresh.length>2?' 等':''), '去看', function(){ if(!document.getElementById('tab-kb').classList.contains('on')) setNav('kb'); }, 20000);
+  }
+}
+// ── 雲端同步（歷史紀錄、資料庫）──
+async function bgCloud(){
+  if(!ghReady()) return;
+  const r=await bgGet(ghContentUrl()+'?ref='+encodeURIComponent(GH.branch||'main'), ghHeaders());
+  if(!r) return;
+  const j=await r.json(); if(!j.content) return;
+  const remote=JSON.parse(b64decode(j.content)), rT=(remote.meta&&remote.meta.updated)||'';
+  if(rT && rT>aoiLocalUpdated()){ _bgCloudNew={remote:remote, sha:j.sha, rT:rT}; bgApplyCloud(); }
+}
+function bgApplyCloud(){
+  const n=_bgCloudNew; if(!n || bgUserBusy(true)) return;
+  _bgCloudNew=null;
+  if(!(n.rT>aoiLocalUpdated())) return;   // 等的時候本機又改過：本機比較新，不蓋（之後上傳碰到衝突照原本的流程處理）
+  GH_SHA=n.sha; aoiApplyData(n.remote);
+  setSyncStatus('ok','☁ 已同步（雲端更新：'+new Date(n.rT).toLocaleString('zh-TW')+'）');
+}
+// ── 網站版本：比對網頁的發佈時間（GitHub Pages 的 Last-Modified／ETag）──
+async function bgVer(){
+  if(!/^https?:$/.test(location.protocol) || _bgVerNew) return;
+  const r=await fetch(location.pathname+'?_v='+Date.now(), {method:'HEAD', cache:'no-store'});
+  if(!r.ok) return;
+  const sig=(r.headers.get('Last-Modified')||'')+'|'+(r.headers.get('ETag')||'');
+  if(sig==='|') return;
+  if(_bgVer0===null){ _bgVer0=sig; return; }
+  if(sig!==_bgVer0){ _bgVerNew=true; bgNote('ver', '🆕', '<b>AOI Calculator 有新版本</b>', '重新整理就會換成新版；計算器上還沒儲存的輸入會清掉', '重新整理', function(){ location.reload(); }, 0); }
+}
+// ── 小提示（左下角）：ms＝0 一直留著，按 ✕ 才關 ──
+function bgNote(kind, ic, html, sub, act, fn, ms){
+  let box=document.getElementById('bg-notes');
+  if(!box){ box=document.createElement('div'); box.id='bg-notes'; box.setAttribute('role','status'); box.setAttribute('aria-live','polite'); document.body.appendChild(box); }
+  const old=box.querySelector('.bg-note[data-k="'+kind+'"]'); if(old) old.remove();
+  const el=document.createElement('div'); el.className='bg-note'; el.dataset.k=kind;
+  el.innerHTML='<span class="bgn-ic">'+ic+'</span><span class="bgn-tx">'+html+(sub?'<small>'+sub+'</small>':'')+'</span>'
+    +(act?'<button type="button" class="bgn-go">'+act+'</button>':'')+'<button type="button" class="bgn-x" aria-label="關閉">✕</button>';
+  const close=function(){ el.classList.add('out'); setTimeout(function(){ el.remove(); }, 220); };
+  el.querySelector('.bgn-x').onclick=close;
+  if(act) el.querySelector('.bgn-go').onclick=function(){ close(); fn(); };
+  box.appendChild(el);
+  if(ms) setTimeout(close, ms);
+}
+function bgTick(){
+  if(document.hidden) return;
+  bgApplyKb(); bgApplyCloud();
+  const now=Date.now(), job={kb:bgKb, cloud:bgCloud, ver:bgVer};
+  Object.keys(job).forEach(function(k){
+    if(_bgRun[k] || now-_bgAt[k]<BG_IV[k]) return;
+    _bgRun[k]=true; _bgAt[k]=now;
+    job[k]().catch(function(){}).finally(function(){ _bgRun[k]=false; });   // 背景讀失敗不吵使用者，下一輪再試
+  });
+}
+setInterval(bgTick, 20000);
+document.addEventListener('visibilitychange', function(){ if(!document.hidden) bgTick(); });
+setTimeout(function(){ bgVer().catch(function(){}); }, 4000);   // 開頁先記下目前版本
 window.addEventListener('resize', ()=>{
   if(dim==='3d'){ calc3D(); return; }
   drawDiagram(); if(S.mode==='static') calcStatic(); if(S.mode==='area') calcAS();
