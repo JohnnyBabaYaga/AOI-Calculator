@@ -1199,6 +1199,10 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 .ec-tag.kt-oth,.ec-tag.kt-oth:hover{background:#FEF3D9;color:#8A5300;cursor:default;}
 .kbr-done{font-size:11px!important;color:#8A5300!important;margin-top:6px;line-height:1.5;}
 .kbr-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+/* 待審核／審核中卡片排成多欄（10/13 Johnny：右邊不要整塊留空，跟歷史紀錄一樣）：同一排等高，按鈕切齊卡片底部 */
+.kbp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:8px;padding:0 10px 10px;align-items:stretch;}
+.kbp-grid>.ec{margin:0;display:flex;flex-direction:column;min-width:0;}
+.kbp-grid>.ec>.kbr-btns{margin-top:auto;padding-top:8px;}
 .kbr-btns button{font-size:11.5px;}
 .kb-mine{margin:0 10px 8px;display:flex;flex-direction:column;gap:6px;}
 .kb-mr{padding:8px 11px;border-radius:var(--rad-sm);font-size:12px;line-height:1.55;border:1px solid;}
@@ -9438,7 +9442,7 @@ function kbPendHtml(list, admin){
   const head='<div class="kb-sec-h kb-tog'+(_kbPendClosed?' closed':'')+'" role="button" tabindex="0" onclick="kbPendTog()"><span class="car">▼</span>'
     +(admin?'📥 待審核':'⏳ 審核中')+' <span class="n">'+list.length+'</span><span class="kb-sec-d">'+(admin?'收錄後，大家重新整理就看得到':'Johnny 收錄後才會變成正式案例')+'</span></div>';
   if(_kbPendClosed) return head;
-  return head+'<div style="padding:0 0 4px">'+list.map(function(p){
+  return head+'<div class="kbp-grid">'+list.map(function(p){
     const c=p.case, tgt=p.target ? kbCaseById(p.target) : null, unk=kbUnknown(c), done=admin?kbLogOf(p.num):null;
     const sub=[c.plan&&c.plan.type, kbSiteTxt(c), c.lineSt, KB_STATUS[c.status]].filter(Boolean).map(esc).join(' · ');
     const it=(c.items||[]).map(function(t){ return unk.items.indexOf(t)>=0 ? '<span class="ec-tag kt-oth" title="清單沒有的項目">其他：'+esc(t)+'</span>' : '<span class="ec-tag" style="cursor:default">'+esc(t)+'</span>'; }).join('');
