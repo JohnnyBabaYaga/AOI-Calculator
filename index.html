@@ -1035,7 +1035,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 /* Print */
 @media print{
   #app{display:block!important;height:auto;}
-  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#fab-wrap,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-mod,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#sel-modal,#sel-overlay,#sel-entry,#fb-modal,#fb-overlay,#pane-kb,#kb-modal,#kb-overlay,#kbs-modal,#kbs-overlay,#kbd-modal,#kbd-overlay,#sim-modal,#sim-overlay{display:none!important;}
+  header,#left,#tabbar,#pane-db,#pane-hist,.rpt-actions,#vwarn,#about-modal,#about-overlay,#imp-modal,#imp-overlay,#toast,#st-vwarn,#fab-wrap,#cloud-modal,#cloud-overlay,#af-cam,#af-lens,#af-mod,#af-overlay,#pick-modal,#pick-overlay,#pdf-modal,#pdf-overlay,#save-modal,#save-overlay,#sel-modal,#sel-overlay,#sel-entry,#fb-modal,#fb-overlay,#pane-kb,#kb-modal,#kb-overlay,#kbs-modal,#kbs-overlay,#kbd-modal,#kbd-overlay,#sim-modal,#sim-overlay,#cf-modal,#cf-overlay{display:none!important;}
   #right{padding:0!important;background:transparent!important;}
   .rpt-card{margin:0;border:none;border-radius:0;box-shadow:none;}
   @page{size:29.7cm 16.7cm landscape;margin:8mm;}
@@ -1433,6 +1433,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   .sim-q>label.top{padding-top:0;}
 }
 /* 案例／審核視窗 */
+#cf-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:3000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
+#cf-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3001;width:min(340px,92vw);box-sizing:border-box;flex-direction:column;
+  background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
+#cf-msg{font-size:13px;line-height:1.65;color:var(--text);word-break:break-word;}
+#cf-msg .cf-sub{display:block;margin-top:6px;font-size:11.5px;color:var(--sub);}
+#cf-ok{background:#D93025;border-color:#D93025;}
 #kbd-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
 #kbd-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;box-sizing:border-box;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
@@ -1610,7 +1616,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -1684,6 +1690,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <div class="kbs-err" id="save-err" style="margin:-4px 0 10px"></div>
   <div class="af-btns" id="save-btns-over"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveModalPick('over')">覆蓋原紀錄</button><button class="btn-sec" style="flex:1;font-size:12px" onclick="saveModalPick('new')">另存新檔</button><button class="btn-sec" style="font-size:12px" onclick="closeSaveModal()">取消</button></div>
   <div class="af-btns" id="save-btns-new"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveModalPick('new')">儲存</button><button class="btn-sec" style="font-size:12px" onclick="closeSaveModal()">取消</button></div>
+</div>
+<div id="cf-overlay" onclick="cfClose(false)"></div>
+<div id="cf-modal" role="alertdialog" aria-modal="true" aria-labelledby="cf-t" aria-describedby="cf-msg">
+  <div class="af-hdr"><b id="cf-t">🗑 確認刪除</b><button class="af-x" onclick="cfClose(false)" aria-label="關閉">✕</button></div>
+  <div id="cf-msg"></div>
+  <div class="af-btns" style="margin-top:14px"><button class="btn-sec" id="cf-no" style="flex:1;font-size:12px" onclick="cfClose(false)">取消</button><button class="btn-pri" id="cf-ok" style="flex:1;font-size:12px" onclick="cfClose(true)">刪除</button></div>
 </div>
 <div id="kb-overlay" onclick="kbCloseCfg()"></div>
 <div id="kb-modal" role="dialog" aria-label="知識庫連線設定">
@@ -2449,7 +2461,6 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
       <button class="btn-sec" style="margin-left:auto;font-size:11px" onclick="exportEvals()" title="把所有歷史評估匯出成 JSON 備份檔">📤 匯出</button>
       <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('ev-import-input').click()" title="從 JSON 備份檔匯入評估">📥 匯入</button>
       <input type="file" id="ev-import-input" accept=".json" style="display:none" onchange="handleEvalImport(this)">
-      <button class="btn-sec" onclick="clearEvals()" style="font-size:11px;color:var(--warn);border-color:rgba(224,86,63,.4)">清除全部</button>
     </div>
     <div id="ev-tools" style="display:none">
       <div class="ev-srow">
@@ -6195,12 +6206,7 @@ document.addEventListener('keydown',function(e){
   else if(e.key==='Enter' && (e.target.id==='save-name'||e.target.id==='save-tags') && !e.isComposing){ e.preventDefault(); saveModalPick(document.getElementById('save-btns-over').style.display==='none'?'new':'over'); }
 });
 function evalIs3D(e){ return e.mode==='3d'; }
-// 只清除目前分類（2D 或 3D），另一類看不到，不能一起刪
-function clearEvals(){
-  const want3=(dim==='3d'), lbl=want3?'3D 量測':'2D 取像';
-  if(!confirm('確定清除所有「'+lbl+'」評估記錄？（另一類不受影響）'))return;
-  evals=evals.filter(e=>evalIs3D(e)!==want3); _curEvalId=null; persistEvals(); renderEvals();
-}
+// 10/13 Johnny：歷史紀錄的「清除全部」拿掉（怕誤按）；要刪就一筆一筆刪，每次都會先確認
 // ── 歷史紀錄：搜尋／篩選／標籤分組 ──（10/12 Johnny 拿掉檢索地圖散點圖：「呈現的方式不是很直觀」，改成知識庫的世界地圖）
 const EV_ML={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D'};
 const EV_MC={scan:'var(--accent)',static:'#ff9500',area:'#34c759','3d':'#7F77DD'};
@@ -6527,7 +6533,34 @@ function loadEval3D(e){
   syncDesc(e.notes||'');
   setDim('3d');   // 內含 calc3D() + showTab('res')
 }
-function delEval(i){ if(evals[i]&&evals[i].id===_curEvalId) _curEvalId=null; evals.splice(i,1); persistEvals(); renderEvals(); }
+// 10/13 Johnny：刪除前多一個確認視窗（歷史紀錄、知識庫共用）；預設焦點在「取消」，按 Enter 不會直接刪
+let _cfFn=null;
+function cfAsk(msg, sub, fn, ok){
+  _cfFn=fn;
+  document.getElementById('cf-msg').innerHTML=msg+(sub?'<span class="cf-sub">'+sub+'</span>':'');
+  document.getElementById('cf-ok').textContent=ok||'刪除';
+  document.getElementById('cf-modal').style.display='flex';
+  document.getElementById('cf-overlay').style.display='block';
+  document.getElementById('cf-no').focus();
+}
+function cfClose(yes){
+  const fn=_cfFn; _cfFn=null;
+  document.getElementById('cf-modal').style.display='none';
+  document.getElementById('cf-overlay').style.display='none';
+  if(yes && fn) fn();
+}
+document.addEventListener('keydown', function(ev){ if(ev.key==='Escape' && _cfFn){ ev.stopPropagation(); cfClose(false); } }, true);
+function delEval(i){
+  const e=evals[i]; if(!e) return;
+  const s=kbEvState(e), id=e.id;
+  cfAsk('刪除歷史紀錄「<b>'+esc(e.name||'未命名')+'</b>」？',
+    '刪除後沒辦法復原'+(s&&(s.c||s.pend)?'；知識庫裡的案例／審核中的提交不受影響':'')+'。要保留備份可以先「📤 匯出」。',
+    function(){
+      const j=evals.findIndex(function(x){ return x===e || (id!=null && x.id===id); }); if(j<0) return;
+      if(evals[j].id===_curEvalId) _curEvalId=null; evals.splice(j,1); persistEvals(); renderEvals();
+      showToast('已刪除「'+(e.name||'未命名')+'」');
+    });
+}
 function exportEval(i){ loadEval(i); setTimeout(()=>exportPDFMode(evals[i]?.mode||'scan'),300); }
 function exportPDF(){ openPdfExport(dim==='3d'?'3d':S.mode); }
 
@@ -9026,8 +9059,15 @@ function kbNorm(d){
 }
 let KB=(function(){ try{ return Object.assign({}, KB_DEF, JSON.parse(localStorage.getItem(KB_KEY))||{}); }catch(e){ return Object.assign({}, KB_DEF); } })();
 // 上次讀到的內容（正式資料＋審核中清單），離線或連線失敗也看得到
-let kbData=kbNorm(null), KB_PEND=[];
-(function(){ try{ const raw=JSON.parse(localStorage.getItem(KB_CACHE)); kbData=kbNorm(raw); KB_PEND=(raw&&Array.isArray(raw._pend))?raw._pend:[]; }catch(e){} })();
+let kbData=kbNorm(null), KB_PEND=[], KB_PEND_SUP=[];
+// 10/13 Johnny：還沒審的提交再改一次送審，知識庫出現兩筆重複 → 同一筆評估只留最新的那次提交，舊的算「已被取代」
+function kbPendDedupe(list){
+  const newest={}, keep=[];
+  list.forEach(function(p){ const k=p.case&&p.case.evId; if(k!=null && (!newest[k] || p.num>newest[k].num)) newest[k]=p; });
+  list.forEach(function(p){ const k=p.case&&p.case.evId; if(k==null || newest[k]===p) keep.push(p); else if(!KB_PEND_SUP.some(function(x){ return x.num===p.num; })) KB_PEND_SUP.push(p); });
+  return keep;
+}
+(function(){ try{ const raw=JSON.parse(localStorage.getItem(KB_CACHE)); kbData=kbNorm(raw); KB_PEND=kbPendDedupe((raw&&Array.isArray(raw._pend))?raw._pend:[]); }catch(e){} })();
 function kbCacheSave(){ try{ localStorage.setItem(KB_CACHE, JSON.stringify(Object.assign({}, kbData, {_pend:KB_PEND}))); }catch(e){} }
 function kbCacheClear(){ kbData=kbNorm(null); KB_PEND=[]; try{ localStorage.removeItem(KB_CACHE); }catch(e){} }
 let KB_SHA=null, KB_ST={st:'off', msg:''};
@@ -9469,9 +9509,10 @@ function kbDate(s){ const d=new Date(s); return isNaN(d) ? '' : (d.getMonth()+1)
 async function kbLoadPend(){
   const r=await kbFetch('/issues?state=open&per_page=100');
   if(!r.ok) throw new Error('HTTP '+r.status);
-  return (await r.json()).filter(function(i){ return !i.pull_request && String(i.title||'').indexOf(KB_SUB_PFX)===0; })
+  const list=(await r.json()).filter(function(i){ return !i.pull_request && String(i.title||'').indexOf(KB_SUB_PFX)===0; })
     .map(function(i){ const p=kbParseSub(i.body); return p ? Object.assign(p, {num:i.number, url:i.html_url, created:i.created_at}) : null; })
     .filter(Boolean);
+  KB_PEND_SUP=[]; return kbPendDedupe(list);
 }
 function kbParseSub(body){
   body=String(body||''); const a=body.indexOf(KB_SUB_B), b=body.indexOf(KB_SUB_E, a+1);
@@ -9575,7 +9616,12 @@ function kbsOpen(i){
   const s=kbEvState(e), c=s&&s.c, nd=kbNeedOf(e);
   _kbs={i:i, evId:e.id, kind:c?'update':'new', target:c?c.id:'', title:e.name||'', items:[], other:false, otherTxt:'',
         site:'', siteOther:'', lineSt:'', w:nd.w||'', h:nd.h||'', customer:evCust(e), owner:KB.who||'', status:'eval', lesson:'', report:'', from:'', fromNote:'', fromAuto:false, itemsAuto:false, who:KB.who||''};
-  if(c) kbsFill(c);
+  const pc=s&&s.pend&&s.pend.case;
+  if(pc){   // 審核中再改：從上次送出的內容接著改，送出後取代那一筆
+    _kbs.kind=s.pend.kind==='update'&&kbCaseById(s.pend.target)?'update':'new'; _kbs.target=_kbs.kind==='update'?s.pend.target:'';
+    kbsFill(pc);
+  }
+  else if(c) kbsFill(c);
   else{   // 歷史紀錄填了廠區就帶入（清單外的放「其他」）
     const es=evSiteOf(e); if(es){ if(kbSite(es)) _kbs.site=es; else { _kbs.site='其他'; _kbs.siteOther=es; } }
     // 標籤剛好是檢測項目名稱的，先幫忙勾起來
@@ -9665,7 +9711,7 @@ function kbsRender(){
   const sec=function(t,req,hint){ return '<div class="fb-sec">'+t+(req?'<span class="kbs-req">*</span>':'')+(hint?' <span class="fb-hint">'+hint+'</span>':'')+'</div>'; };
   const chip=function(t){ return '<button type="button" class="kbs-chip'+(d.items.indexOf(t)>=0?' on':'')+'" data-t="'+esc(t)+'" onclick="kbsTog(this.dataset.t)">'+esc(t)+'</button>'; };
   let h='';
-  if(s&&s.pend) h+='<div class="kbs-note">這筆評估已經在審核中（'+esc(s.pend.by||'')+' '+kbDate(s.pend.at)+' 提交）。再送一次會多一筆提交，Johnny 會一起看。</div>';
+  if(s&&s.pend) h+='<div class="kbs-note">這筆評估已經在審核中（'+esc(s.pend.by||'')+' '+kbDate(s.pend.at)+' 提交）。改完再送一次會<b>取代</b>上一次的提交（知識庫只留最新的一筆，不會重複）。</div>';
   else if(s&&s.rej) h+='<div class="kbs-note rej">上次提交被退回'+(s.rej.reason?'：'+esc(s.rej.reason):'')+'。修改後可以再送一次。</div>';
   else if(s&&s.c) h+='<div class="kbs-note in">這筆評估已收錄在知識庫「'+esc(s.c.title)+'」。'+(s.changed?'之後又改過，可以「更新既有案例」把新的內容送審。':'內容跟收錄時一樣。')+'</div>';
   h+=sec('提交方式')+'<div class="kbs-cw">'
@@ -9744,10 +9790,12 @@ async function kbsSubmit(){
     : !who ? '請填提交人（你的名字）' : '';
   if(miss){ err.textContent=miss; return; }
   if(KB.role && KB.role.submit===false){ err.textContent='這顆權杖不能提交（沒有開 Issues 寫入），請向 Johnny 確認權杖。'; return; }
+  const olds=KB_PEND.filter(function(x){ return x.case && x.case.evId===e.id && !kbLogOf(x.num); });   // 這筆評估還在審核中的舊提交：送出後關掉
+  const oldNew=olds.filter(function(x){ return x.kind==='new'; })[0];
   let c;
   try{
     const pz=function(v){ v=+v; return isFinite(v)&&v>0 ? v : null; };
-    c=kbCaseFromEval(e, {id:tgt?tgt.id:kbNewId(), title:d.title.trim()||e.name, items:items, site:d.site, siteOther:d.site==='其他'?d.siteOther.trim():'',
+    c=kbCaseFromEval(e, {id:tgt?tgt.id:(oldNew?oldNew.case.id:kbNewId()), title:d.title.trim()||e.name, items:items, site:d.site, siteOther:d.site==='其他'?d.siteOther.trim():'',
       lineSt:String(d.lineSt||'').trim(), size:{w:pz(d.w), h:pz(d.h)},
       customer:d.customer.trim(), owner:d.owner.trim(), status:d.status, lesson:d.lesson.trim(), report:d.report.trim(), from:(d.from&&!(tgt&&d.from===tgt.id))?d.from:null, fromNote:String(d.fromNote||'').trim()});
   }catch(x){ err.textContent='整理評估資料時出錯：'+x.message; return; }
@@ -9767,9 +9815,13 @@ async function kbsSubmit(){
     KB.who=who; kbSaveCfgLocal();
     KB_MINE[j.number]={evId:e.id, caseId:c.id, kind:p.kind, at:c.at};
     try{ localStorage.setItem(KB_MINE_KEY, JSON.stringify(KB_MINE)); }catch(x){}
+    const on=olds.map(function(x){ return x.num; });
+    KB_PEND=KB_PEND.filter(function(x){ return on.indexOf(x.num)<0; });
+    olds.forEach(function(x){ if(!KB_PEND_SUP.some(function(y){ return y.num===x.num; })) KB_PEND_SUP.push(x); });
     KB_PEND.unshift(Object.assign({}, p, {num:j.number, url:j.html_url, created:j.created_at}));
     kbCacheSave(); kbsClose(); renderEvals(); kbRender();
-    showToast('已送出「'+c.title+'」，等 Johnny 審核');
+    showToast(olds.length ? '已重新送出「'+c.title+'」，取代上一次的提交' : '已送出「'+c.title+'」，等 Johnny 審核');
+    olds.forEach(function(x){ kbSupClose(x.num, j.number); });   // 舊的 Issue 關掉（失敗也沒關係：畫面上已經只留最新的）
   }catch(x){ err.textContent='送出失敗：'+x.message; go.disabled=false; go.textContent='送出審核'; }
 }
 
@@ -10401,7 +10453,13 @@ function kbrBusyLbl(num){ return _kbrBusy[num]==='q' ? '排隊中…' : '收錄�
 function kbdCloseIf(num){ if(_kbd && _kbd.kind==='sub' && _kbd.num===num) kbdClose(); }   // 排隊時可能開著別筆的視窗，只關這一筆的
 // 寫入前發現這筆已經處理過（別台電腦、或剛剛才做完）：不碰 Issue，只更新畫面
 function kbrStale(num){ kbdCloseIf(num); kbRender(); renderEvals(); showToast('這筆已經處理過了，畫面已更新'); }
+// 被較新提交取代的舊 Issue：留言後關閉（not_planned）
+function kbSupClose(num, by){
+  kbrCloseIssue(num, '🔁 已重新送審，這筆由 #'+by+' 取代', 'not_planned').then(function(w){ if(!w) KB_PEND_SUP=KB_PEND_SUP.filter(function(x){ return x.num!==num; }); });
+}
 function kbrDone(num, title, msg, warn){
+  const dp=kbrPend(num), ek=dp&&dp.case&&dp.case.evId;   // 審完最新那筆，順手把同一筆評估被取代的舊 Issue 關掉
+  if(ek!=null) KB_PEND_SUP.filter(function(x){ return x.case && x.case.evId===ek && x.num<num; }).forEach(function(x){ kbSupClose(x.num, num); });
   KB_PEND=KB_PEND.filter(function(x){ return x.num!==num; }); kbCacheSave();
   kbdCloseIf(num); kbRender(); renderEvals(); _kbQok++;
   showToast(warn ? msg+'「'+title+'」；但 '+warn : msg+'「'+title+'」');
@@ -10433,7 +10491,8 @@ async function kbrDoAccept1(p, r, err){
       if(data.log.some(function(l){ return l.issue===p.num && (l.act==='accept'||l.act==='reject'); })) return false;   // 別台電腦已經處理過
       const c=JSON.parse(JSON.stringify(p.case));
       kbrApply(c, data, r);
-      const i=p.kind==='update' ? data.cases.findIndex(function(x){ return x.id===p.target; }) : -1;
+      const i=p.kind==='update' ? data.cases.findIndex(function(x){ return x.id===p.target; })
+        : data.cases.findIndex(function(x){ return x.id===c.id && c.evId!=null && x.evId===c.evId; });   // 重新送審沿用同一個案例 id：舊的那次已收錄就直接改那一筆，不會變兩筆
       if(p.kind==='update' && i<0) throw new Error('要更新的案例已經不在知識庫（可能被刪除了），請改用退回');
       const old=i>=0 ? data.cases[i] : null, ent={at:now, act:old?'update':'new', by:p.by, rev:rev, issue:p.num};
       if(old){
@@ -10505,7 +10564,11 @@ async function kbrCloseOnly(num, btn){
 async function kbdDelete(btn){
   const c=_kbd&&kbCaseById(_kbd.id); if(!c) return;
   const der=kbData.cases.filter(function(x){ return x.from===c.id; }).length;
-  if(!confirm('刪除案例「'+c.title+'」？\n大家重新整理後就看不到了'+(der?'；有 '+der+' 筆案例是從它衍生的，會顯示「原案例已刪除」':'')+'。\n（GitHub 保留每次修改的紀錄，需要時可以找回）')) return;
+  if(!btn.dataset.ok){   // 先跳確認視窗，按「刪除」才真的刪
+    cfAsk('刪除知識庫案例「<b>'+esc(c.title)+'</b>」？', '大家重新整理後就看不到了'+(der?'；有 '+der+' 筆案例是從它衍生的，會顯示「原案例已刪除」':'')+'。（GitHub 保留每次修改的紀錄，需要時可以找回）',
+      function(){ btn.dataset.ok='1'; kbdDelete(btn).finally(function(){ delete btn.dataset.ok; }); });
+    return;
+  }
   btn.disabled=true;
   try{
     await kbCommit(function(data){
