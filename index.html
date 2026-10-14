@@ -454,7 +454,32 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 
 /* ── Eval cards ── */
 .ec{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);
-    padding:10px 12px;margin:0 10px 8px;cursor:pointer;}
+    padding:10px 12px;margin:0 10px 8px;cursor:pointer;position:relative;}
+.ec:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+/* 歷史卡片右上「⋯」（10/14）：名稱不壓到它 */
+.ec-more{position:absolute;top:6px;right:6px;width:28px;height:24px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--sub);
+  font-size:16px;font-weight:700;line-height:20px;letter-spacing:1px;cursor:pointer;font-family:inherit;padding:0;}
+.ec-more:hover{background:var(--surf2);color:var(--accent);}
+.ec h3{padding-right:28px;}
+.card-menu .cm-sep{height:1px;background:var(--border);margin:4px 6px;}
+.card-menu .cm-del{color:#D93025;}
+/* 備份與同步（10/14）：本機備份／雲端同步 兩頁疊在同一格，高度取較高的，切換不跳 */
+.bk-seg{margin:6px 0 14px;}
+.bk-seg button{padding:6px 10px;font-size:12px;}
+.bk-panes{display:grid;}
+.bk-panes>div{grid-area:1/1;min-width:0;}
+.bk-panes>div.off{visibility:hidden;pointer-events:none;}
+.bk-d{font-size:11px;color:var(--sub);line-height:1.55;margin-bottom:10px;}
+.bk-h{font-size:12px;font-weight:700;margin:0 0 8px;}
+.bk-list{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;}
+.bk-it{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12.5px;cursor:pointer;}
+.bk-it+.bk-it{border-top:1px solid var(--border);}
+.bk-it input{width:auto;margin:0;flex-shrink:0;}
+.bk-it>span:not(.bk-n){flex:1;min-width:0;}
+.bk-it .bk-n{font-size:11px;color:var(--sub);white-space:nowrap;}
+.bk-it.dis{opacity:.5;cursor:default;}
+.bk-hint{font-size:10.5px;color:var(--sub);line-height:1.5;margin-bottom:10px;}
+.bk-sep{height:1px;background:var(--border);margin:16px 0 12px;}
 .ec:hover{border-color:var(--accent);}
 .ec h3{font-size:13px;font-weight:600;}
 .ec p{font-size:11px;color:var(--sub);}
@@ -481,16 +506,12 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ec-tag{font-size:10.5px;padding:1px 8px;border-radius:999px;border:none;background:color-mix(in srgb,var(--accent) 11%,transparent);
   color:var(--accent-deep);cursor:pointer;font-family:inherit;line-height:1.6;}
 .ec-tag:hover{background:var(--accent);color:#fff;}
-.ec-tag-ed{font-size:10.5px;padding:0 8px;border-radius:999px;border:1px dashed var(--border);background:none;color:var(--sub);cursor:pointer;font-family:inherit;line-height:1.6;}
-.ec-tag-ed:hover{border-color:var(--accent);color:var(--accent);}
-.ec-tag-in{flex:1;min-width:120px;max-width:380px;font-size:12px;padding:3px 8px;border:1px solid var(--accent);border-radius:7px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
 .ec.flash{animation:ecFlash 1.4s ease;}
 @keyframes ecFlash{0%,45%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 45%,transparent);border-color:var(--accent);}100%{box-shadow:none;}}
 .ev-grp{display:flex;align-items:center;gap:6px;margin:12px 10px 7px;font-size:12px;font-weight:700;color:var(--text);cursor:pointer;user-select:none;-webkit-user-select:none;}
 /* 歷史紀錄卡片排成多欄（10/12 Johnny：右邊不要整塊留空，跟知識庫一樣）：寬螢幕 3 欄、筆電 2 欄、手機 1 欄；同一排等高，按鈕切齊卡片底部；分組標題橫跨整排 */
 #ev-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:8px;padding:0 10px 10px;align-items:stretch;}
 #ev-list>.ec{margin:0;display:flex;flex-direction:column;min-width:0;}
-#ev-list>.ec>.ec-btns{margin-top:auto!important;padding-top:6px;}
 #ev-list>.ev-grp,#ev-list>.empty{grid-column:1/-1;}
 #ev-list>.ev-grp{margin:10px 0 -1px;}
 .ev-grp .n{font-weight:500;color:var(--sub);font-size:11px;}
@@ -1154,14 +1175,11 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ec-pur{font-family:inherit;font-size:10px;font-weight:500;line-height:11.5px;padding:0 6px;margin-left:5px;border-radius:4px;border:1px dashed #B8C2D0;background:none;color:var(--sub);cursor:pointer;}   /* 高度跟模式標籤一樣 */
 .ec-pur.cust{border:1px solid rgba(47,111,208,.4);background:rgba(47,111,208,.07);color:var(--accent-deep);}
 .ec-pur.trial{border:1px solid var(--border);background:var(--surf2);color:var(--sub);}
-.ec-pur:hover{border-color:var(--accent);}
+button.ec-pur:hover{border-color:var(--accent);}
+span.ec-pur{display:inline-block;white-space:nowrap;}   /* 卡片上只顯示的用途／廠區／客戶：整顆一起換行，不要從中間斷開 */
 .ec-pur.on{box-shadow:inset 0 0 0 1px currentColor;font-weight:700;}
 .ec-site.on-s{border:1px solid rgba(110,90,190,.36);background:rgba(110,90,190,.07);color:#5B4AA8;}
 .ec-cust.on-c{border:1px solid rgba(14,124,134,.38);background:rgba(14,124,134,.07);color:#0B6670;}
-.ec-cust-in{font-family:inherit;font-size:11px;width:130px;margin-left:5px;padding:1px 6px;border:1px solid var(--accent);border-radius:4px;background:var(--surf);color:var(--text);outline:none;vertical-align:1px;}
-.ec-pur-ed{display:inline;}
-.ec-pur-x{font-family:inherit;font-size:10px;line-height:11.5px;padding:0 5px;margin-left:3px;border:none;background:none;color:var(--sub);cursor:pointer;}
-@media(max-width:480px){ .ec-btxt{display:none;} .ec-btns .btn-sec{padding-left:10px;padding-right:10px;} }   /* 手機：按鈕排得下一行，刪除只留圖示 */
 /* 提交到知識庫 */
 #kbs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
 #kbs-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;box-sizing:border-box;
@@ -1559,7 +1577,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <button onclick="hdrMenuGo('both')">💾 儲存並匯出 PDF</button>
       </div>
     </div>
-    <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="雲端同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></button>
+    <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="備份與同步（匯出／匯入、雲端同步）" aria-label="備份與同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></button>
   </div>
 </header>
 
@@ -1636,7 +1654,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -1684,7 +1702,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 </div>
 <div id="save-overlay" onclick="closeSaveModal()"></div>
 <div id="save-modal">
-  <div class="af-hdr"><b>💾 儲存評估</b><button class="af-x" onclick="closeSaveModal()" aria-label="關閉">✕</button></div>
+  <div class="af-hdr"><b id="save-ttl">💾 儲存評估</b><button class="af-x" onclick="closeSaveModal()" aria-label="關閉">✕</button></div>
   <div id="save-orig-wrap" style="font-size:12px;color:var(--sub);line-height:1.65;margin-bottom:10px;">目前開啟的是歷史紀錄「<b id="save-orig" style="color:var(--text)"></b>」，<br>要更新這筆紀錄，還是另存成一筆新的？</div>
   <label for="save-name" style="font-size:11px;color:var(--sub);">名稱</label>
   <input id="save-name" type="text" placeholder="專案／設備名稱" oninput="saveTagSug()">
@@ -1797,9 +1815,29 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
      background:var(--surf);border:1px solid var(--border);border-radius:14px;
      padding:22px 24px;z-index:2001;width:min(420px,92vw);max-height:88vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2);">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-    <div style="font-size:15px;font-weight:800;">☁️ 雲端同步設定</div>
-    <button onclick="closeCloudModal()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+    <div style="font-size:15px;font-weight:800;">🗂 備份與同步</div>
+    <button onclick="closeCloudModal()" style="background:none;border:none;cursor:pointer;color:var(--sub);font-size:18px;line-height:1;padding:2px 4px;" aria-label="關閉">✕</button>
   </div>
+  <!-- 10/14 Johnny：匯出／匯入（原本在歷史紀錄、相機鏡頭、3D 資料庫各一組）跟雲端同步合在這裡；兩頁疊在一起取最高的，切換時視窗不跳 -->
+  <div class="seg bk-seg" id="bk-seg" role="tablist"><button type="button" data-t="bk" onclick="bkTab('bk')">💾 本機備份</button><button type="button" data-t="cloud" onclick="bkTab('cloud')">☁️ 雲端同步</button></div>
+  <div class="bk-panes">
+  <div id="bk-pane-bk">
+    <div class="bk-d">存成 JSON 檔：換電腦、留底，或把相機鏡頭資料庫分享給同事。</div>
+    <div class="bk-h">📤 匯出</div>
+    <div class="bk-list">
+      <label class="bk-it"><input type="checkbox" id="bk-ev" onchange="bkExpBtn()"><span>📋 評估紀錄</span><span class="bk-n" id="bk-ev-n"></span></label>
+      <label class="bk-it"><input type="checkbox" id="bk-db" onchange="bkExpBtn()"><span>📷 相機／鏡頭／自研模組</span><span class="bk-n" id="bk-db-n"></span></label>
+      <label class="bk-it"><input type="checkbox" id="bk-db3" onchange="bkExpBtn()"><span>📡 3D 感測器</span><span class="bk-n" id="bk-db3-n"></span></label>
+    </div>
+    <div class="bk-hint">只勾一項會存成單一種資料的檔（例如只分享相機鏡頭資料庫給同事）；勾兩項以上存成一個整包備份檔。</div>
+    <button class="btn-pri" id="bk-exp-btn" style="font-size:12px;width:100%" onclick="bkExport()">📤 匯出</button>
+    <div class="bk-sep"></div>
+    <div class="bk-h">📥 匯入</div>
+    <div class="bk-d">評估紀錄、相機鏡頭、3D 感測器或整包備份檔都可以，會自動判斷內容；重複的跳過，不會蓋掉現有資料。</div>
+    <button class="btn-sec" style="font-size:12px;width:100%" onclick="document.getElementById('bk-import-input').click()">📥 選擇檔案…</button>
+    <input type="file" id="bk-import-input" accept=".json,application/json" style="display:none" onchange="bkImport(this)">
+  </div>
+  <div id="bk-pane-cloud">
   <div style="font-size:11px;color:var(--sub);margin-bottom:14px;line-height:1.5;">
     透過 GitHub 讓不同電腦共同維護「專案評估紀錄」與「相機／鏡頭資料庫」。在每台電腦填入相同設定即可同步。
   </div>
@@ -1824,6 +1862,8 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <button class="btn-sec" style="font-size:11px" onclick="cloudPull({force:true})">⬇ 從雲端讀取</button>
     <button class="btn-sec" style="font-size:11px" onclick="cloudPushNow()">⬆ 上傳到雲端</button>
     <button class="btn-pri" style="font-size:11px;margin-left:auto" onclick="saveCloudSettings()">儲存設定</button>
+  </div>
+  </div>
   </div>
 </div>
 
@@ -2478,9 +2518,6 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <div id="pane-hist" style="display:none;overflow-y:auto;flex:1">
     <div class="ev-bar" style="padding:7px 10px 4px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);">
       <span style="font-size:12px;color:var(--sub)" id="ev-cnt">0 筆評估</span>
-      <button class="btn-sec" style="margin-left:auto;font-size:11px" onclick="exportEvals()" title="把所有歷史評估匯出成 JSON 備份檔">📤 匯出</button>
-      <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('ev-import-input').click()" title="從 JSON 備份檔匯入評估">📥 匯入</button>
-      <input type="file" id="ev-import-input" accept=".json" style="display:none" onchange="handleEvalImport(this)">
     </div>
     <div id="ev-tools" style="display:none">
       <div class="ev-srow">
@@ -2508,17 +2545,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <!-- Database pane -->
   <div id="pane-db" style="display:none">
 
-    <!-- ── Import / Export toolbar ── -->
-    <div style="padding:8px 10px 0">
-      <div class="card" style="margin-bottom:0">
-        <div style="padding:7px 12px;display:flex;align-items:center;gap:6px;">
-          <span style="font-size:11px;color:var(--sub);flex:1;">資料庫共用</span>
-          <button class="btn-sec" style="font-size:11px" onclick="exportDb()" title="匯出為 JSON 檔案">📤 匯出</button>
-          <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('db-import-input').click()" title="從 JSON 檔案匯入">📥 匯入</button>
-          <input type="file" id="db-import-input" accept=".json" style="display:none" onchange="handleDbImport(this)">
-        </div>
-      </div>
-    </div>
+    <!-- 匯出／匯入搬到標題列「備份與同步」（10/14 Johnny：同一件事只放一個地方） -->
     <div style="height:8px"></div>
 
     <!-- ── 部門自研模組（相機＋鏡頭＋選配光源，規格全部自填）── -->
@@ -2699,16 +2726,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 
   <!-- ══ 3D 感測器資料庫（與 2D 相機/鏡頭庫完全分離）══ -->
   <div id="pane-db3" style="display:none">
-    <div style="padding:8px 10px 0">
-      <div class="card" style="margin-bottom:0">
-        <div style="padding:7px 12px;display:flex;align-items:center;gap:6px;">
-          <span style="font-size:11px;color:var(--sub);flex:1;">3D 資料庫共用</span>
-          <button class="btn-sec" style="font-size:11px" onclick="exportDb3()" title="匯出為 JSON 檔案">📤 匯出</button>
-          <button class="btn-sec" style="font-size:11px" onclick="document.getElementById('db3-import-input').click()" title="從 JSON 檔案匯入">📥 匯入</button>
-          <input type="file" id="db3-import-input" accept=".json" style="display:none" onchange="handleDb3Import(this)">
-        </div>
-      </div>
-    </div>
+    <!-- 匯出／匯入搬到標題列「備份與同步」（10/14） -->
     <div style="height:8px"></div>
 
     <div class="shdr">📡 3D 感測器資料庫</div>
@@ -6186,6 +6204,8 @@ function openSaveModal(orig, name, desc, cb, tags, pur, cust, site){
 }
 function closeSaveModal(){
   _saveCb=null; _afterSave=null; _savePur=null;
+  document.getElementById('save-ttl').textContent='💾 儲存評估';   // ✎ 編輯資訊 也用這個視窗，關掉時還原
+  ['save-site','save-cust'].forEach(function(x){ document.getElementById(x).disabled=false; });
   document.getElementById('save-modal').style.display='none';
   document.getElementById('save-overlay').style.display='none';
 }
@@ -6234,7 +6254,6 @@ const EV_SHEET_LB={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D 量測'}
 // 10/13 Johnny：歷史紀錄的「清除全部」拿掉（怕誤按）；要刪就一筆一筆刪，每次都會先確認
 // ── 歷史紀錄：搜尋／篩選／標籤分組 ──（10/12 Johnny 拿掉檢索地圖散點圖：「呈現的方式不是很直觀」，改成知識庫的世界地圖）
 const EV_ML={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D'};
-const EV_MC={scan:'var(--accent)',static:'#ff9500',area:'#34c759','3d':'#7F77DD'};
 const EV_ST={ok:['✓','符合需求'],warn:['!','需注意'],bad:['✕','需調整'],na:['–','未填目標']};
 let _evF={mode:'all',fb:false,bad:false,kb:false}, _evFilt=false;
 try{ localStorage.removeItem('aoi_hist_map'); }catch(e){}   // 檢索地圖拿掉了，收合設定一併清掉
@@ -6357,89 +6376,82 @@ function evFoldAll(){
   renderEvals();
 }
 function evCard(o){
-  const e=o.e, i=o.i, m=e.mode||'scan', cur=(e.id===_curEvalId), st=evSt(e), tags=e.tags||[];
+  const e=o.e, i=o.i, cur=(e.id===_curEvalId), st=evSt(e), tags=e.tags||[];
   const lamp=st ? `<span class="ec-lamp ${st}" title="${EV_ST[st][1]}">${EV_ST[st][0]}</span>`
                 : '<span class="ec-lamp unk" title="舊紀錄沒有存結論，載入一次就會補上"></span>';
   return `
-    <div class="ec" data-i="${i}"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
-      <h3>${lamp}${esc(e.name)}<span style="font-size:10px;background:${EV_MC[m]};color:#fff;padding:1px 6px;border-radius:4px;margin-left:5px;">${EV_ML[m]}</span>${evPurPill(e,i)}${evSitePill(e,i)}${evCustPill(e,i)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
+    <div class="ec" data-i="${i}" tabindex="0" onclick="evCardGo(event,${i})" onkeydown="if(event.key==='Enter'&&event.target===this)evCardGo(event,${i})" title="點一下載入這筆評估"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
+      <button type="button" class="ec-more" onclick="evMenu(event,${e.id})" aria-label="更多動作" title="編輯資訊、PDF、實測回饋、提交、刪除">⋯</button>
+      <h3>${lamp}${esc(e.name)}${evInfoPills(e)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${esc(e.date)} · ${esc(e.camera)}</p>
       <p>${o.sum}</p>
-      <div class="ec-tags">${tags.map(t=>`<button type="button" class="ec-tag" data-t="${esc(t)}" onclick="evTagQ(this.dataset.t)" title="只看這個標籤">#${esc(t)}</button>`).join('')}<button type="button" class="ec-tag-ed" onclick="evTagEdit(${i},this)" title="編輯標籤">${tags.length?'✎':'＋ 標籤'}</button></div>
+      ${tags.length?'<div class="ec-tags">'+tags.map(t=>`<button type="button" class="ec-tag" data-t="${esc(t)}" onclick="evTagQ(this.dataset.t)" title="只看這個標籤">#${esc(t)}</button>`).join('')+'</div>':''}
       ${e.notes?'<p class="ec-notes">'+esc(e.notes)+'</p>':''}
       ${fbSummary(e)}
       ${e.cmp&&e.cmp.cands&&e.cmp.cands.length?'<p class="ec-cmp">⚖ 比較 '+(e.cmp.cands.length+1)+' 個方案 · 選 <b>'+esc((e.cmp.cur&&e.cmp.cur.name)||'未命名')+'</b></p>':''}
       ${kbEvLine(e)}
-      <div class="ec-btns" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">
-        <button class="btn-sec" style="font-size:11px" onclick="loadEval(${i})">📂 載入</button>
-        <button class="btn-sec" style="font-size:11px" onclick="exportEval(${i})">📄 PDF</button>
-        <button class="btn-sec" style="font-size:11px" onclick="openFb(${i})">📝 ${e.fb?'編輯回饋':'實測回饋'}</button>
-        <button class="btn-sec" style="font-size:11px" onclick="kbsOpen(${i})" title="提交到部門知識庫（新案例或更新既有案例）">📚 提交</button>
-        <button class="btn-sec" style="font-size:11px;color:#ff3b30" onclick="delEval(${i})" title="刪除" aria-label="刪除">🗑<span class="ec-btxt"> 刪除</span></button>
-      </div>
     </div>`;
 }
-// 用途：存檔時選；卡片上點一下可以改（舊紀錄沒有用途，顯示「＋ 用途」）
+// 10/14 Johnny（iOS 化）：卡片點一下＝載入；其他動作收進右上「⋯」；用途／廠區／客戶／標籤／說明 合成一個「✎ 編輯資訊」
+// 卡片上的用途、廠區、客戶只顯示（沒填就不顯示），要改從「⋯ → ✎ 編輯資訊」
 const EV_PUR={cust:'👥 客戶需求', trial:'🧪 內部試算'};
-function evPurPill(e,i){
-  const p=EV_PUR[e.purpose];
-  return '<button type="button" class="ec-pur'+(p?' '+e.purpose:'')+'" onclick="evPurEdit('+i+',this)" title="'+(p?'改用途':'標記用途：客戶需求要提交到知識庫，內部試算不用')+'">'+(p||'＋ 用途')+'</button>';
+const EV_KB_LOCK='已提交到知識庫：客戶、廠區跟知識庫案例同步，要改請按「📚 提交到知識庫」更新';
+function evInfoPills(e){
+  const p=EV_PUR[e.purpose], s=evSiteOf(e), c=evCust(e);
+  return (p?'<span class="ec-pur '+e.purpose+'">'+p+'</span>':'')
+    +(s?'<span class="ec-pur ec-site on-s" title="'+esc(evSiteTxt(s))+'">📍 '+esc(s)+'</span>':'')
+    +(c?'<span class="ec-pur ec-cust on-c">🏢 '+esc(c)+'</span>':'');
 }
-const EV_KB_LOCK='已提交到知識庫：客戶、廠區跟知識庫案例同步，要改請按「📚 提交」更新知識庫';
-function evCustPill(e,i){
-  const c=evCust(e), kb=!!evKbRef(e);
-  return '<button type="button" class="ec-pur ec-cust'+(c?' on-c':'')+'" onclick="evCustEdit('+i+',this)" title="'+(kb?EV_KB_LOCK:c?'改客戶':'填客戶：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'🏢 '+esc(c):'＋ 客戶')+'</button>';
+function evCardGo(ev, i){
+  if(ev.target.closest('button,a,input,select,textarea,label')) return;   // 卡片裡的標籤、⋯ 自己處理
+  const sel=window.getSelection && String(window.getSelection()); if(sel) return;   // 在選文字，不是要開
+  loadEval(i);
 }
-function evSitePill(e,i){
-  const c=evSiteOf(e), kb=!!evKbRef(e), auto=c&&!kb&&!e.site;
-  return '<button type="button" class="ec-pur ec-site'+(c?' on-s':'')+'" onclick="evSiteEdit('+i+',this)" title="'+(kb?EV_KB_LOCK:c?esc(evSiteTxt(c))+(auto?'（從標籤帶出）':'')+'，點一下改廠區':'填廠區：歷史紀錄依 廠區 → 客戶 分組')+'">'+(c?'📍 '+esc(c):'＋ 廠區')+'</button>';
+function evIdx(id){ return evals.findIndex(function(x){ return x.id===id; }); }
+// 「⋯」選單：用 id 找紀錄（背景同步可能讓順序變了）
+function evMenu(ev, id){
+  ev.stopPropagation();
+  const old=document.getElementById('card-menu'); if(old){ old.remove(); if(old.dataset.mode==='ev'+id) return; }
+  const e=evals[evIdx(id)]; if(!e) return;
+  const m=document.createElement('div'); m.id='card-menu'; m.className='card-menu'; m.dataset.mode='ev'+id;
+  const it=function(fn, t){ return '<button type="button" onclick="cardMenuClose();evAct(\''+fn+'\','+id+')">'+t+'</button>'; };
+  m.innerHTML=it('info','✎ 編輯資訊')+it('pdf','📄 匯出 PDF')+it('fb',e.fb?'📝 編輯實測回饋':'📝 實測回饋')+it('kb','📚 提交到知識庫')
+    +'<div class="cm-sep"></div>'+it('del','<span class="cm-del">🗑 刪除</span>');
+  document.body.appendChild(m);
+  const r=ev.currentTarget.getBoundingClientRect(), h=m.offsetHeight;
+  m.style.top=(r.bottom+6+h>innerHeight-8 ? Math.max(8, r.top-6-h) : r.bottom+6)+'px';
+  m.style.left=Math.max(8, r.right-m.offsetWidth)+'px';
 }
-function evSiteEdit(i, btn){
+function evAct(fn, id){
+  const i=evIdx(id); if(i<0) return;
+  if(fn==='info') evInfoEdit(i);
+  else if(fn==='pdf') exportEval(i);
+  else if(fn==='fb') openFb(i);
+  else if(fn==='kb') kbsOpen(i);
+  else if(fn==='del') delEval(i);
+}
+// ✎ 編輯資訊：沿用存檔視窗（欄位一樣），只改名稱／用途／廠區／客戶／標籤／說明，不動計算內容
+function evInfoEdit(i){
   const e=evals[i]; if(!e) return;
-  if(evKbRef(e)){ showToast(EV_KB_LOCK); return; }
-  siteDlFill();
-  const inp=document.createElement('input'); inp.className='ec-cust-in'; inp.setAttribute('list','site-dl'); inp.placeholder='廠區，Enter 儲存'; inp.value=evSiteTxt(evSiteOf(e));
-  btn.replaceWith(inp); inp.focus(); inp.select();
-  let fin=false;
-  const end=function(ok){
-    if(fin) return; fin=true;
-    const v=evSiteNorm(inp.value), old=evSiteOf(e);
-    if(ok && v!==old){ if(v) e.site=v; else delete e.site; persistEvals(); }
-    renderEvals();
-  };
-  inp.addEventListener('keydown',function(ev){ if(ev.isComposing) return;
-    if(ev.key==='Enter'){ ev.preventDefault(); end(true); } else if(ev.key==='Escape'){ ev.preventDefault(); ev.stopPropagation(); end(false); } });
-  inp.addEventListener('blur',function(){ end(true); });
-}
-function evCustEdit(i, btn){
-  const e=evals[i]; if(!e) return;
-  if(evKbRef(e)){ showToast(EV_KB_LOCK); return; }
-  custDlFill();
-  const inp=document.createElement('input'); inp.className='ec-cust-in'; inp.setAttribute('list','cust-dl'); inp.placeholder='客戶，Enter 儲存'; inp.value=e.customer||'';
-  btn.replaceWith(inp); inp.focus(); inp.select();
-  let fin=false;
-  const end=function(ok){
-    if(fin) return; fin=true;
-    const v=inp.value.trim().slice(0,40), old=e.customer||'';
-    if(ok && v!==old){ if(v) e.customer=v; else delete e.customer; persistEvals(); }
-    renderEvals();
-  };
-  inp.addEventListener('keydown',function(ev){ if(ev.isComposing) return;
-    if(ev.key==='Enter'){ ev.preventDefault(); end(true); } else if(ev.key==='Escape'){ ev.preventDefault(); ev.stopPropagation(); end(false); } });
-  inp.addEventListener('blur',function(){ end(true); });
-}
-function evPurEdit(i, btn){
-  const e=evals[i]; if(!e) return;
-  const w=document.createElement('span'); w.className='ec-pur-ed';
-  w.innerHTML=Object.keys(EV_PUR).map(function(k){ return '<button type="button" class="ec-pur '+k+(e.purpose===k?' on':'')+'" onclick="evPurSet('+i+',\''+k+'\')">'+EV_PUR[k]+'</button>'; }).join('')
-    +'<button type="button" class="ec-pur-x" onclick="renderEvals()" title="取消" aria-label="取消">✕</button>';
-  btn.replaceWith(w);
-}
-function evPurSet(i, p){
-  const e=evals[i]; if(!e) return;
-  const old=e.purpose; if(old===p){ renderEvals(); return; }
-  e.purpose=p; persistEvals(); renderEvals();
-  showToast('「'+e.name+'」的用途改成「'+EV_PUR[p].replace(/^\S+\s/,'')+'」', function(){ if(old) e.purpose=old; else delete e.purpose; persistEvals(); renderEvals(); });
+  const id=e.id, kb=!!evKbRef(e), site0=evSiteOf(e);
+  openSaveModal(null, e.name||'', e.notes||'', function(ch, name, desc, tags, pur, cust, site){
+    const r=evals[evIdx(id)]; if(!r) return;
+    r.name=name; r.purpose=pur;
+    if(desc) r.notes=desc; else delete r.notes;
+    if(tags.length) r.tags=tags; else delete r.tags;
+    if(!kb){
+      if(cust) r.customer=cust; else delete r.customer;
+      if(site!==site0){ if(site) r.site=site; else delete r.site; }   // 沒改就不寫（從標籤帶出的廠區維持自動）
+    }
+    persistEvals();
+    if(r.id===_curEvalId){ setProjName(r.mode||'scan', r.name); syncDesc(r.notes||''); }
+    renderEvals(); showToast('已更新「'+r.name+'」的資訊');
+  }, e.tags, e.purpose, e.customer, site0);
+  document.getElementById('save-ttl').textContent='✎ 編輯資訊';
+  if(kb){
+    ['save-site','save-cust'].forEach(function(x){ document.getElementById(x).disabled=true; });
+    document.getElementById('save-sc-h').textContent=EV_KB_LOCK;
+  }
 }
 function evSetF(k,v){ if(k==='mode') _evF.mode=v; else _evF[k]=!_evF[k]; renderEvals(); }
 function evClear(){ _evF={mode:'all',fb:false,bad:false,kb:false}; document.getElementById('ev-q').value=''; renderEvals(); }
@@ -6454,23 +6466,6 @@ function evTagQ(t){
   const q=document.getElementById('ev-q'), v='#'+t;
   q.value = q.value.trim().toLowerCase()===v.toLowerCase() ? '' : v;
   renderEvals(); document.getElementById('pane-hist').scrollTop=0;
-}
-function evTagEdit(i, btn){
-  const e=evals[i]; if(!e) return;
-  const row=btn.parentNode;
-  row.innerHTML='<input class="ec-tag-in" placeholder="用逗號或空白分開，Enter 儲存、Esc 取消">';
-  const inp=row.firstChild; inp.value=(e.tags||[]).join(', ');
-  let fin=false;
-  const end=function(ok){
-    if(fin) return; fin=true;
-    if(ok){ const t=parseTags(inp.value);
-      if(t.join('\u0001')!==(e.tags||[]).join('\u0001')){ if(t.length) e.tags=t; else delete e.tags; persistEvals(); } }
-    renderEvals();
-  };
-  inp.addEventListener('keydown',function(ev){ if(ev.isComposing) return;
-    if(ev.key==='Enter'){ ev.preventDefault(); end(true); } else if(ev.key==='Escape'){ ev.preventDefault(); ev.stopPropagation(); end(false); } });
-  inp.addEventListener('blur',function(){ end(true); });
-  inp.focus(); inp.select();
 }
 // ext：從知識庫「用這筆當起點」載入的評估（不是自己的紀錄 → 存檔一律另存新的）
 function loadEval(i, ext){
@@ -6574,7 +6569,7 @@ function delEval(i){
   const e=evals[i]; if(!e) return;
   const s=kbEvState(e), id=e.id;
   cfAsk('刪除歷史紀錄「<b>'+esc(e.name||'未命名')+'</b>」？',
-    '刪除後沒辦法復原'+(s&&(s.c||s.pend)?'；知識庫裡的案例／審核中的提交不受影響':'')+'。要保留備份可以先「📤 匯出」。',
+    '刪除後沒辦法復原'+(s&&(s.c||s.pend)?'；知識庫裡的案例／審核中的提交不受影響':'')+'。要保留備份可以先到標題列「☁ 備份與同步」匯出。',
     function(){
       const j=evals.findIndex(function(x){ return x===e || (id!=null && x.id===id); }); if(j<0) return;
       if(evals[j].id===_curEvalId) _curEvalId=null; evals.splice(j,1); persistEvals(); renderEvals();
@@ -7765,6 +7760,8 @@ function cardMenu(e, mode){
 }
 function cardMenuClose(){ const m=document.getElementById('card-menu'); if(m) m.remove(); }
 document.addEventListener('click',function(e){ if(!e.target.closest('#card-menu')) cardMenuClose(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape' && document.getElementById('card-menu')) cardMenuClose(); });
+document.addEventListener('scroll',function(e){ if(!(e.target.closest && e.target.closest('#card-menu'))) cardMenuClose(); }, true);   // 捲動時選單不會黏在原地
 document.addEventListener('scroll',cardMenuClose,true);
 function cardEditToggle(mode){ const c=CARD_MODE[mode]; _toggleCardEditFor(c.t, c.b, c.secs, mode); }
 
@@ -7928,240 +7925,176 @@ function toggleAbout(){
 }
 
 // ═══════════════════════════════════════════
-// DATABASE EXPORT / IMPORT
+// DATABASE / HISTORY EXPORT / IMPORT
 // ═══════════════════════════════════════════
 
-function exportDb(){
-  const payload = {
-    version: 1,
-    exported: new Date().toISOString(),
-    cameras: custCams,
-    lenses:  custLens,
-    modules: custMods,
-    hiddenBuiltinCams: [...hiddenCams],
-    hiddenBuiltinLens: [...hiddenLens]
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  const date = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'-');
-  a.download = `AOI_Database_${date}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
+// 10/14 Johnny：匯出／匯入合到標題列「☁ 備份與同步 → 💾 本機備份」，三種資料一次勾選；
+// 只勾一項存成以前的單一檔（跟舊檔、同事的檔互通），勾兩項以上存成整包（type: aoi-backup）；匯入自動判斷是哪一種
+function bkDate(){ return new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'-'); }
+function bkDl(payload, fname){
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
 }
-
-let _pendingImport = null;
-
-function handleDbImport(input){
-  const file = input.files[0];
-  if(!file) return;
-  input.value = ''; // reset so same file can be re-selected
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      if(data.version !== 1 || !Array.isArray(data.cameras) || !Array.isArray(data.lenses))
-        throw new Error('格式錯誤');
-
-      // Calculate what will be added vs skipped
-      const existNames = new Set(custCams.map(c=>c.n));
-      const newCams = data.cameras.filter(c=>!existNames.has(c.n));
-      const skipCams = data.cameras.length - newCams.length;
-
-      const existLensNames = new Set(custLens.map(l=>l.n));
-      const newLens = data.lenses.filter(l=>!existLensNames.has(l.n));
-      const skipLens = data.lenses.length - newLens.length;
-
-      const existModNames = new Set(custMods.map(m=>m.n));
-      const impMods = Array.isArray(data.modules) ? data.modules.filter(m=>m && m.n && m.cam && m.lens) : [];
-      const newMods = impMods.filter(m=>!existModNames.has(m.n));
-      const skipMods = impMods.length - newMods.length;
-
-      const newHiddenCams = (data.hiddenBuiltinCams||[]).filter(i=>!hiddenCams.has(i));
-      const newHiddenLens = (data.hiddenBuiltinLens||[]).filter(i=>!hiddenLens.has(i));
-
-      const exportDate = data.exported ? new Date(data.exported).toLocaleString('zh-TW') : '不明';
-
-      // Build summary
-      let summary = '';
-      summary += `📷 相機：新增 <b>${newCams.length}</b> 台`;
-      if(skipCams) summary += `，跳過 ${skipCams} 筆（重複）`;
-      summary += '<br>';
-      summary += `🔭 鏡頭：新增 <b>${newLens.length}</b> 個`;
-      if(skipLens) summary += `，跳過 ${skipLens} 筆（重複）`;
-      if(impMods.length){
-        summary += `<br>🛠 自研模組：新增 <b>${newMods.length}</b> 組`;
-        if(skipMods) summary += `，跳過 ${skipMods} 筆（重複）`;
-      }
-      if(newHiddenCams.length || newHiddenLens.length){
-        summary += '<br>';
-        summary += `🙈 同步隱藏的內建項目：相機 ${newHiddenCams.length} 個、鏡頭 ${newHiddenLens.length} 個`;
-      }
-
-      _pendingImport = { newCams, newLens, newMods, newHiddenCams, newHiddenLens };
-
-      document.getElementById('imp-source').textContent = `來源：${file.name}　匯出時間：${exportDate}`;
-      document.getElementById('imp-summary').innerHTML = summary;
-      document.getElementById('imp-confirm-btn').onclick = confirmImport;
-      document.getElementById('imp-modal').style.display   = '';
-      document.getElementById('imp-overlay').style.display = '';
-
-    } catch(err) {
-      alert('無法讀取檔案，請確認是否為正確的 AOI 資料庫 JSON 格式。');
-    }
-  };
-  reader.readAsText(file);
+function dbPayload(){
+  return { version:1, exported:new Date().toISOString(), cameras:custCams, lenses:custLens, modules:custMods,
+           hiddenBuiltinCams:[...hiddenCams], hiddenBuiltinLens:[...hiddenLens] };
 }
-
-function confirmImport(){
-  if(!_pendingImport) return;
-  const { newCams, newLens, newMods, newHiddenCams, newHiddenLens } = _pendingImport;
-  newCams.forEach(c => custCams.push(c));
-  newLens.forEach(l => custLens.push(l));
-  (newMods||[]).forEach(m => { if(!m.id) m.id='m'+Date.now().toString(36)+Math.random().toString(36).slice(2,5); custMods.push(m); });
-  newHiddenCams.forEach(i => hiddenCams.add(i));
-  newHiddenLens.forEach(i => hiddenLens.add(i));
-  saveCustCams(); saveCustLens(); if((newMods||[]).length) saveCustMods(); saveHiddenCams(); saveHiddenLens();
-  refreshCamPicker(); refreshLensPicker(); renderDbLists();
-  closeImportModal();
-  showToast(`匯入完成：+${newCams.length} 相機、+${newLens.length} 鏡頭`+((newMods||[]).length?`、+${newMods.length} 自研模組`:''), ()=>{});
-}
-
-function closeImportModal(){
-  document.getElementById('imp-modal').style.display   = 'none';
-  document.getElementById('imp-overlay').style.display = 'none';
-  _pendingImport = null;
-  _pendingEvalImport = null;
-}
-
-// ── 3D 感測器資料庫：獨立的匯出 / 匯入（不混入 2D 相機鏡頭）──
-function exportDb3(){
-  const payload = {
-    version: 1, kind: 'aoi-3d-sensors',
-    exported: new Date().toISOString(),
-    sensors: custS3D,
-    hiddenBuiltin: [...hiddenS3D]
-  };
-  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  const date = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'-');
-  a.download = `AOI_3D_Database_${date}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-function handleDb3Import(input){
-  const file = input.files[0];
-  if(!file) return;
-  input.value = '';
-  const reader = new FileReader();
-  reader.onload = e => {
-    try{
-      const data = JSON.parse(e.target.result);
-      if(data.kind !== 'aoi-3d-sensors' || !Array.isArray(data.sensors))
-        throw new Error('格式錯誤（這不是 3D 感測器資料檔）');
-      const exist = new Set(custS3D.map(s=>s.n));
-      const add   = data.sensors.filter(s=>!exist.has(s.n));
-      const skip  = data.sensors.length - add.length;
-      const newHidden = (data.hiddenBuiltin||[]).filter(i=>!hiddenS3D.has(i));
-      if(!add.length && !newHidden.length){ alert('沒有可匯入的新資料（全部重複）。'); return; }
-      const msg = `匯入 ${add.length} 台 3D 感測器`
-        + (skip ? `（跳過 ${skip} 筆重複）` : '')
-        + (newHidden.length ? `\n並同步隱藏 ${newHidden.length} 個內建機種` : '') + '？';
-      if(!confirm(msg)) return;
-      add.forEach(s=>custS3D.push(s));
-      newHidden.forEach(i=>hiddenS3D.add(i));
-      saveCustS3D(); saveHiddenS3D(); renderDb3List(); if(dim==='3d') calc3D();
-      showToast(`匯入完成：+${add.length} 台 3D 感測器`, ()=>{});
-    }catch(err){ alert('匯入失敗：'+err.message); }
-  };
-  reader.readAsText(file);
-}
-
-// ═══════════════════════════════════════════
-// HISTORY (評估) — 匯出 / 匯入 備份
-// ═══════════════════════════════════════════
-let _pendingEvalImport = null;
-
+function db3Payload(){ return { version:1, kind:'aoi-3d-sensors', exported:new Date().toISOString(), sensors:custS3D, hiddenBuiltin:[...hiddenS3D] }; }
+function evPayload(){ return { version:1, type:'aoi-evals', exported:new Date().toISOString(), count:evals.length, evals:evals }; }
+function exportDb(){ bkDl(dbPayload(), `AOI_Database_${bkDate()}.json`); }
+function exportDb3(){ bkDl(db3Payload(), `AOI_3D_Database_${bkDate()}.json`); }
 function exportEvals(){
   if(!evals.length){ alert('目前沒有可匯出的評估記錄。'); return; }
-  const payload = {
-    version: 1,
-    type: 'aoi-evals',
-    exported: new Date().toISOString(),
-    count: evals.length,
-    evals: evals
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  const date = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\//g,'-');
-  a.download = `AOI_評估紀錄_${date}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
+  bkDl(evPayload(), `AOI_評估紀錄_${bkDate()}.json`);
 }
-
-function handleEvalImport(input){
-  const file = input.files[0];
-  if(!file) return;
-  input.value = '';
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      if(data.type !== 'aoi-evals' || !Array.isArray(data.evals))
-        throw new Error('格式錯誤');
-
-      // 只接受結構完整的評估（需有 mode 與 r 結果物件），避免壞檔案讓整份清單崩潰
-      const valid = ev => ev && typeof ev==='object' && ev.mode && ev.r && typeof ev.r==='object';
-      // 以 id 判斷重複；沒有 id 的舊資料退回用 name+date 當鍵
-      const key = ev => (ev.id!=null ? 'id:'+ev.id : 'nd:'+(ev.name||'')+'|'+(ev.date||''));
-      const existKeys = new Set(evals.map(key));
-      const seen = new Set();
-      const incoming = data.evals.filter(ev => {
-        if(!valid(ev)) return false;
-        const k = key(ev);
-        if(existKeys.has(k) || seen.has(k)) return false;
-        seen.add(k); return true;
-      });
-      const skipped = data.evals.length - incoming.length;
-
-      const modeCount = {scan:0, static:0, area:0};
-      incoming.forEach(ev => { modeCount[ev.mode] = (modeCount[ev.mode]||0)+1; });
-      const exportDate = data.exported ? new Date(data.exported).toLocaleString('zh-TW') : '不明';
-
-      let summary = `📋 將新增 <b>${incoming.length}</b> 筆評估`;
-      if(skipped) summary += `，跳過 ${skipped} 筆（重複）`;
-      summary += '<br>';
-      summary += `　└ 掃描 ${modeCount.scan||0}、靜態 ${modeCount.static||0}、畫檢 ${modeCount.area||0}`;
-
-      _pendingEvalImport = incoming;
-
-      document.getElementById('imp-source').textContent = `來源：${file.name}　匯出時間：${exportDate}`;
-      document.getElementById('imp-summary').innerHTML = summary;
-      document.getElementById('imp-confirm-btn').onclick = confirmEvalImport;
-      document.getElementById('imp-modal').style.display   = '';
-      document.getElementById('imp-overlay').style.display = '';
-
-    } catch(err) {
-      alert('無法讀取檔案，請確認是否為正確的 AOI 評估紀錄 JSON 備份檔。');
+// 各項目前有多少（沒有資料的不能勾）
+function bkStat(){
+  const nDb=custCams.length+custLens.length+custMods.length, hDb=hiddenCams.size+hiddenLens.size, nS3=custS3D.length, hS3=hiddenS3D.size;
+  const hid=function(n){ return n?'、隱藏 '+n:''; };
+  return {
+    ev:  { ok:evals.length>0, t:evals.length?evals.length+' 筆':'沒有資料' },
+    db:  { ok:nDb+hDb>0, t:nDb+hDb ? '自建 '+nDb+' 項'+hid(hDb) : '沒有自建資料' },
+    db3: { ok:nS3+hS3>0, t:nS3+hS3 ? '自建 '+nS3+' 台'+hid(hS3) : '沒有自建資料' }
+  };
+}
+function bkCounts(){
+  const st=bkStat();
+  ['ev','db','db3'].forEach(function(k){
+    const cb=document.getElementById('bk-'+k); if(!cb) return;
+    document.getElementById('bk-'+k+'-n').textContent=st[k].t;
+    // 每次打開預設全勾（有資料的）；打開中匯入後新出現的項目也自動勾上，已經手動取消的不動
+    cb.disabled=!st[k].ok; if(!st[k].ok){ cb.checked=false; delete cb.dataset.init; } else if(cb.dataset.init!=='1'){ cb.checked=true; cb.dataset.init='1'; }
+    cb.closest('.bk-it').classList.toggle('dis', !st[k].ok);
+  });
+  bkExpBtn();
+}
+function bkExpBtn(){
+  const n=['ev','db','db3'].filter(function(k){ const c=document.getElementById('bk-'+k); return c&&c.checked; }).length;
+  const b=document.getElementById('bk-exp-btn'); if(!b) return;
+  b.disabled=!n; b.textContent=n>1?'📤 匯出整包備份（'+n+' 項）':'📤 匯出';
+}
+function bkExport(){
+  const on=['ev','db','db3'].filter(function(k){ const c=document.getElementById('bk-'+k); return c&&c.checked&&!c.disabled; });
+  if(!on.length) return;
+  if(on.length===1){ ({ev:exportEvals, db:exportDb, db3:exportDb3})[on[0]](); return; }
+  const pl={ version:1, type:'aoi-backup', exported:new Date().toISOString() };
+  if(on.indexOf('ev')>=0) pl.evals=evPayload();
+  if(on.indexOf('db')>=0) pl.db=dbPayload();
+  if(on.indexOf('db3')>=0) pl.db3=db3Payload();
+  bkDl(pl, `AOI_備份_${bkDate()}.json`);
+}
+// 每一種資料：先算會新增／跳過多少（給確認視窗看），按確認才 apply
+function dbImpPrep(data){
+  if(!data || data.version!==1 || !Array.isArray(data.cameras) || !Array.isArray(data.lenses)) throw new Error('相機鏡頭資料庫的格式不對');
+  const existNames=new Set(custCams.map(c=>c.n)), newCams=data.cameras.filter(c=>!existNames.has(c.n)), skipCams=data.cameras.length-newCams.length;
+  const existLensNames=new Set(custLens.map(l=>l.n)), newLens=data.lenses.filter(l=>!existLensNames.has(l.n)), skipLens=data.lenses.length-newLens.length;
+  const existModNames=new Set(custMods.map(m=>m.n));
+  const impMods=Array.isArray(data.modules) ? data.modules.filter(m=>m && m.n && m.cam && m.lens) : [];
+  const newMods=impMods.filter(m=>!existModNames.has(m.n)), skipMods=impMods.length-newMods.length;
+  const newHiddenCams=(data.hiddenBuiltinCams||[]).filter(i=>!hiddenCams.has(i));
+  const newHiddenLens=(data.hiddenBuiltinLens||[]).filter(i=>!hiddenLens.has(i));
+  let sum=`📷 相機：新增 <b>${newCams.length}</b> 台`+(skipCams?`，跳過 ${skipCams} 筆（重複）`:'');
+  sum+=`<br>🔭 鏡頭：新增 <b>${newLens.length}</b> 個`+(skipLens?`，跳過 ${skipLens} 筆（重複）`:'');
+  if(impMods.length) sum+=`<br>🛠 自研模組：新增 <b>${newMods.length}</b> 組`+(skipMods?`，跳過 ${skipMods} 筆（重複）`:'');
+  if(newHiddenCams.length || newHiddenLens.length) sum+=`<br>🙈 同步隱藏的內建項目：相機 ${newHiddenCams.length} 個、鏡頭 ${newHiddenLens.length} 個`;
+  return {
+    n:newCams.length+newLens.length+newMods.length+newHiddenCams.length+newHiddenLens.length, sum:sum,
+    done:`+${newCams.length} 相機、+${newLens.length} 鏡頭`+(newMods.length?`、+${newMods.length} 自研模組`:''),
+    apply:function(){
+      newCams.forEach(c => custCams.push(c));
+      newLens.forEach(l => custLens.push(l));
+      newMods.forEach(m => { if(!m.id) m.id='m'+Date.now().toString(36)+Math.random().toString(36).slice(2,5); custMods.push(m); });
+      newHiddenCams.forEach(i => hiddenCams.add(i));
+      newHiddenLens.forEach(i => hiddenLens.add(i));
+      saveCustCams(); saveCustLens(); if(newMods.length) saveCustMods(); saveHiddenCams(); saveHiddenLens();
+      refreshCamPicker(); refreshLensPicker(); renderDbLists();
     }
   };
-  reader.readAsText(file);
 }
-
-function confirmEvalImport(){
-  if(!_pendingEvalImport) return;
-  const incoming = _pendingEvalImport;
-  incoming.forEach(ev => evals.push(ev));
-  // 依 id（時間戳）新到舊排序，沒有 id 的排最後
-  evals.sort((a,b) => (b.id||0) - (a.id||0));
-  persistEvals();
-  renderEvals();
+function db3ImpPrep(data){
+  if(!data || data.kind!=='aoi-3d-sensors' || !Array.isArray(data.sensors)) throw new Error('3D 感測器資料的格式不對');
+  const exist=new Set(custS3D.map(x=>x.n)), add=data.sensors.filter(x=>!exist.has(x.n)), skip=data.sensors.length-add.length;
+  const newHidden=(data.hiddenBuiltin||[]).filter(i=>!hiddenS3D.has(i));
+  return {
+    n:add.length+newHidden.length,
+    sum:`📡 3D 感測器：新增 <b>${add.length}</b> 台`+(skip?`，跳過 ${skip} 筆（重複）`:'')+(newHidden.length?`<br>🙈 同步隱藏的內建機種 ${newHidden.length} 個`:''),
+    done:`+${add.length} 台 3D 感測器`,
+    apply:function(){
+      add.forEach(x=>custS3D.push(x)); newHidden.forEach(i=>hiddenS3D.add(i));
+      saveCustS3D(); saveHiddenS3D(); renderDb3List(); if(dim==='3d') calc3D();
+    }
+  };
+}
+function evImpPrep(data){
+  if(!data || data.type!=='aoi-evals' || !Array.isArray(data.evals)) throw new Error('評估紀錄的格式不對');
+  // 只接受結構完整的評估（需有 mode 與 r 結果物件），避免壞檔案讓整份清單崩潰
+  const valid = ev => ev && typeof ev==='object' && ev.mode && ev.r && typeof ev.r==='object';
+  // 以 id 判斷重複；沒有 id 的舊資料退回用 name+date 當鍵
+  const key = ev => (ev.id!=null ? 'id:'+ev.id : 'nd:'+(ev.name||'')+'|'+(ev.date||''));
+  const existKeys=new Set(evals.map(key)), seen=new Set();
+  const incoming=data.evals.filter(ev => {
+    if(!valid(ev)) return false;
+    const k=key(ev); if(existKeys.has(k) || seen.has(k)) return false;
+    seen.add(k); return true;
+  });
+  const skipped=data.evals.length-incoming.length, mc={};
+  incoming.forEach(ev => { const k=evSheetOf(ev); mc[k]=(mc[k]||0)+1; });
+  const by=Object.keys(EV_SHEET_LB).filter(k=>mc[k]).map(k=>EV_ML[k]+' '+mc[k]).join('、');
+  return {
+    n:incoming.length,
+    sum:`📋 評估紀錄：新增 <b>${incoming.length}</b> 筆`+(skipped?`，跳過 ${skipped} 筆（重複）`:'')+(by?`<br>　└ ${by}`:''),
+    done:`+${incoming.length} 筆評估`,
+    apply:function(){
+      incoming.forEach(ev => evals.push(ev));
+      evals.sort((a,b) => (b.id||0) - (a.id||0));   // 依 id（時間戳）新到舊，沒有 id 的排最後
+      persistEvals(); renderEvals();
+    }
+  };
+}
+let _bkPending=null;
+function bkImport(input){
+  const file=input.files[0]; if(!file) return;
+  input.value='';   // 同一個檔可以再選一次
+  const rd=new FileReader();
+  rd.onload=function(ev){
+    let data; try{ data=JSON.parse(ev.target.result); }catch(e){ alert('無法讀取檔案：這不是 JSON 檔。'); return; }
+    const parts=[];
+    try{
+      if(data && data.type==='aoi-backup'){
+        if(data.evals) parts.push(evImpPrep(data.evals));
+        if(data.db) parts.push(dbImpPrep(data.db));
+        if(data.db3) parts.push(db3ImpPrep(data.db3));
+      }
+      else if(data && data.type==='aoi-evals') parts.push(evImpPrep(data));
+      else if(data && data.kind==='aoi-3d-sensors') parts.push(db3ImpPrep(data));
+      else if(data && Array.isArray(data.cameras)) parts.push(dbImpPrep(data));
+    }catch(e){ alert('檔案內容有誤：'+e.message+'。'); return; }
+    if(!parts.length){ alert('這不是 AOI Calculator 的資料檔（評估紀錄、相機鏡頭、3D 感測器或整包備份）。'); return; }
+    const tot=parts.reduce((a,x)=>a+x.n,0);
+    _bkPending=parts;
+    const exportDate=data.exported ? new Date(data.exported).toLocaleString('zh-TW') : '不明';
+    document.getElementById('imp-source').textContent=`來源：${file.name}　匯出時間：${exportDate}`;
+    document.getElementById('imp-summary').innerHTML=parts.map(x=>x.sum).join('<br>')
+      +(tot?'':'<br><span style="color:var(--sub)">沒有新的資料，全部都已經有了。</span>');
+    const ok=document.getElementById('imp-confirm-btn'); ok.disabled=!tot; ok.onclick=bkImportGo;
+    document.getElementById('imp-modal').style.display='';
+    document.getElementById('imp-overlay').style.display='';
+  };
+  rd.readAsText(file);
+}
+function bkImportGo(){
+  const ps=(_bkPending||[]).filter(x=>x.n);
   closeImportModal();
-  showTab('hist');
-  showToast(`匯入完成：+${incoming.length} 筆評估`, ()=>{});
+  if(!ps.length) return;
+  ps.forEach(x=>x.apply());
+  bkCounts();
+  showToast('匯入完成：'+ps.map(x=>x.done).join('、'));
+}
+function closeImportModal(){
+  document.getElementById('imp-modal').style.display='none';
+  document.getElementById('imp-overlay').style.display='none';
+  _bkPending=null;
 }
 
 // ═══════════════════════════════════════════
@@ -8951,7 +8884,12 @@ async function cloudPushNow(){
   }catch(e){ setSyncStatus('err','⚠ 上傳失敗：'+e.message); }
 }
 
-function showCloudSettings(){
+function bkTab(t){
+  document.querySelectorAll('#bk-seg button').forEach(function(b){ const on=b.dataset.t===t; b.classList.toggle('on',on); b.setAttribute('aria-selected',on); });
+  document.getElementById('bk-pane-bk').classList.toggle('off', t!=='bk');
+  document.getElementById('bk-pane-cloud').classList.toggle('off', t!=='cloud');
+}
+function showCloudSettings(tab){
   const g=GH||{};
   const sv=(id,v)=>{const e=document.getElementById(id); if(e) e.value=v;};
   sv('gh_owner', g.owner||'JohnnyBabaYaga');
@@ -8961,6 +8899,8 @@ function showCloudSettings(){
   sv('gh_token', g.token||'');
   document.getElementById('gh_enabled').checked = !!g.enabled;
   document.getElementById('gh_testmsg').textContent='';
+  document.querySelectorAll('#bk-pane-bk input[type=checkbox]').forEach(function(c){ delete c.dataset.init; });
+  bkCounts(); bkTab(tab || (g.enabled ? 'cloud' : 'bk'));   // 開了雲端同步的人多半是來看同步狀態
   document.getElementById('cloud-modal').style.display='';
   document.getElementById('cloud-overlay').style.display='';
 }
@@ -9284,7 +9224,7 @@ async function kbPull(){
     kbCacheSave();
     KB_PULLED=Date.now();
     kbSetSt('ok');
-    if(!document.querySelector('.ec-tag-in')) renderEvals();   // 歷史紀錄卡片上的「審核中／已收錄」跟著更新（正在改標籤時不重畫）
+    renderEvals();   // 歷史紀錄卡片上的「審核中／已收錄」跟著更新
   }catch(e){ kbSetSt('err', e.message); }
 }
 // 寫入正式資料（只有管理員的權杖會成功）
@@ -11072,12 +11012,12 @@ const GUIDES={
   ],
   hist:[
     {el:function(){ return document.querySelector('#pane-hist > div'); }, t:'歷史紀錄',
-     d:'所有存過的評估都在這裡，<b>掃描／靜態／畫檢／3D 各自分開</b>（跟著上方的模式分頁，切過去就看那一種的紀錄）。<br><b>📤 匯出</b>備份成 JSON 給同事，<b>📥 匯入</b>讀回來。刪除要一筆一筆刪，每次都會先確認。'},
+     d:'所有存過的評估都在這裡，<b>掃描／靜態／畫檢／3D 各自分開</b>（跟著上方的模式分頁，切過去就看那一種的紀錄）。<br>要備份或匯入，按標題列右邊的 ☁ <b>備份與同步</b>。刪除要一筆一筆刪，每次都會先確認。'},
     {el:function(){ return $gd('ev-tools'); }, t:'搜尋與篩選',
      d:'輸入名稱、廠區、客戶、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看<b>有實測回饋</b>、<b>需調整</b>或<b>📚 待提交</b>（客戶需求還沒交到知識庫）的紀錄。'},
     {el:function(){ return $gd('ev-list'); }, t:'每一筆評估',
-     d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄，按 ✎ 修改。<br>清單依<b>📍 廠區 → 🏢 客戶</b>分組（跟知識庫一樣），名稱旁點一下就能改；右上<b>全部收合／展開</b>一次收起或打開。<br><b>📂 載入</b>回到當時的設定繼續改；<b>📄 PDF</b> 匯出那一筆的報告；<b>📝 實測回饋</b>填上實測或導入的結果（不實測的選「依經驗導入」）；<b>📚 提交</b>送到部門知識庫，Johnny 審核後收錄。<br>名稱後面的 <b>👥 客戶需求／🧪 內部試算</b>是存檔時選的用途，點一下可以改；客戶需求的評估都要提交。'},
-    {el:function(){ return $gd('syncStatus'); }, t:'雲端同步', d:'設定 GitHub 同步後，歷史紀錄與資料庫可以在不同電腦之間共用（需要管理者提供權杖）。'},
+     d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>點卡片</b>就載入，回到當時的設定繼續改。<br>右上 <b>⋯</b>：<b>✎ 編輯資訊</b>（名稱、用途、廠區、客戶、標籤、說明）、<b>📄 匯出 PDF</b>、<b>📝 實測回饋</b>（不實測的選「依經驗導入」）、<b>📚 提交到知識庫</b>（Johnny 審核後收錄）、<b>🗑 刪除</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄。清單依<b>📍 廠區 → 🏢 客戶</b>分組（跟知識庫一樣）；右上<b>全部收合／展開</b>一次收起或打開。<br>名稱後面的 <b>👥 客戶需求／🧪 內部試算</b>是存檔時選的用途；客戶需求的評估都要提交。'},
+    {el:function(){ return $gd('syncStatus'); }, t:'備份與同步', d:'<b>💾 本機備份</b>：評估紀錄、相機鏡頭、3D 感測器勾選後匯出成 JSON 檔；換電腦或同事給的檔案在這裡匯入。<br><b>☁️ 雲端同步</b>：設定 GitHub 後，歷史紀錄與資料庫在不同電腦之間自動同步（需要管理者提供權杖）。'},
     GD_ST.end
   ],
   kb:[
@@ -11098,16 +11038,14 @@ const GUIDES={
     GD_ST.end
   ],
   db:[
-    {el:function(){ return document.querySelector('#pane-db > div'); }, t:'資料庫共用', d:'<b>📤 匯出</b>成 JSON 檔分享給同事，<b>📥 匯入</b>同事的檔案，大家就能用同一份資料庫。'},
     {el:function(){ const e=$gd('db-cam-list'); return e&&e.closest('.card'); }, t:'相機資料庫',
-     d:'左邊「② 用什麼拍 → 相機」的選單就是從這裡來。<br>可以新增、編輯型號，填<b>單價</b>（成本估算會用到）、附<b>規格書</b>。<b>規格請照原廠規格書填</b>。'},
+     d:'左邊「② 用什麼拍 → 相機」的選單就是從這裡來。<br>可以新增、編輯型號，填<b>單價</b>（成本估算會用到）、附<b>規格書</b>。<b>規格請照原廠規格書填</b>。<br>要分享給同事：標題列 ☁ <b>備份與同步</b> → 匯出。'},
     {el:function(){ const e=$gd('db-lens-list'); return e&&e.closest('.card'); }, t:'鏡頭資料庫', d:'左邊「② 用什麼拍 → 鏡頭」的選單從這裡來，用法和相機相同。'},
     GD_ST.end
   ],
   db3:[
-    {el:function(){ return document.querySelector('#pane-db3 > div'); }, t:'3D 資料庫共用', d:'<b>📤 匯出</b>成 JSON 檔分享給同事，<b>📥 匯入</b>同事的檔案。'},
     {el:function(){ const e=$gd('db-s3d-list'); return e&&e.closest('.card'); }, t:'3D 感測器資料庫',
-     d:'3D 頁面的「可用機種」都從這裡篩選。<br><b>Z 重複性、量程、視野請照原廠規格書填</b>；標記「實驗室現有」的機種會優先推薦。'},
+     d:'3D 頁面的「可用機種」都從這裡篩選。<br><b>Z 重複性、量程、視野請照原廠規格書填</b>；標記「實驗室現有」的機種會優先推薦。<br>要分享給同事：標題列 ☁ <b>備份與同步</b> → 匯出。'},
     GD_ST.end
   ]
 };
@@ -11275,7 +11213,7 @@ const BG_MODALS=['save-modal','kbs-modal','kbd-modal','sim-modal','kb-modal','cf
 function bgUserBusy(strict){
   if(BG_MODALS.some(function(id){ const e=document.getElementById(id); return e && getComputedStyle(e).display!=='none'; })) return true;
   if(_kbQn || Object.keys(_kbrBusy).length || _kbs) return true;   // 收錄排隊中、提交視窗草稿
-  if(document.querySelector('.ec-tag-in')) return true;           // 歷史紀錄正在改標籤
+  if(document.getElementById('card-menu')) return true;           // 「⋯」選單開著
   const ae=document.activeElement;
   if(ae && ae!==document.body && (/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) || ae.isContentEditable)){
     if(strict) return true;                                          // 雲端資料會重算計算器：任何欄位在輸入都等
@@ -11324,7 +11262,7 @@ function bgApplyKb(){
   if(n.data && KB_SHA===n.sha0){ kbData=n.data; KB_SHA=n.sha; }   // 讀的時候自己剛好寫入過：那份已經舊了，不套
   if(n.pend){ KB_PEND_SUP=[]; KB_PEND=kbPendDedupe(n.pend); }
   kbCacheSave(); KB_PULLED=Date.now(); kbSetSt('ok');
-  if(!document.querySelector('.ec-tag-in')) renderEvals();
+  renderEvals();
   if(kbIsAdmin()){
     const fresh=KB_PEND.filter(function(p){ return before.indexOf(p.num)<0 && !KB_MINE[p.num] && !kbLogOf(p.num); });
     if(fresh.length) bgNote('kb', '📥', '知識庫有 <b>'+fresh.length+'</b> 筆新提交待審核', esc(fresh.slice(0,2).map(function(p){ return (p.by?p.by+'：':'')+(p.case.title||''); }).join('、'))+(fresh.length>2?' 等':''), '去看', function(){ if(!document.getElementById('tab-kb').classList.contains('on')) setNav('kb'); }, 20000);
