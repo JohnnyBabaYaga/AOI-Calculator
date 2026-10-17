@@ -467,6 +467,11 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
   font-size:16px;font-weight:700;line-height:20px;letter-spacing:1px;cursor:pointer;font-family:inherit;padding:0;}
 .ec-more:hover{background:var(--surf2);color:var(--accent);}
 .ec h3{padding-right:28px;}
+/* 10/17 Johnny：評估結論（左邊圓燈）跟實測結果（右上方塊，顏色同知識庫）分開，只用符號 */
+.ec-res{position:absolute;top:12.5px;right:38px;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:4px;
+  font-size:9px;font-weight:800;color:#fff;line-height:1;box-sizing:border-box;}
+.ec-res.pass{background:#1E8E3E;} .ec-res.partial{background:#F29900;} .ec-res.fail{background:#D93025;} .ec-res.exp{background:#0E7C86;} .ec-res.na{background:#8A8F98;}
+.ec.has-res h3{padding-right:50px;}
 .card-menu .cm-sep{height:1px;background:var(--border);margin:4px 6px;}
 .card-menu .cm-del{color:#D93025;}
 /* 備份與同步（10/14）：本機備份／雲端同步 兩頁疊在同一格，高度取較高的，切換不跳 */
@@ -1665,7 +1670,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -6391,11 +6396,12 @@ function evFoldAll(){
 }
 function evCard(o){
   const e=o.e, i=o.i, cur=(e.id===_curEvalId), st=evSt(e), tags=e.tags||[];
-  const lamp=st ? `<span class="ec-lamp ${st}" title="${EV_ST[st][1]}">${EV_ST[st][0]}</span>`
+  const lamp=st ? `<span class="ec-lamp ${st}" title="評估：${EV_ST[st][1]}">${EV_ST[st][0]}</span>`
                 : '<span class="ec-lamp unk" title="舊紀錄沒有存結論，載入一次就會補上"></span>';
+  const rc=e.fb&&FB_CONC[e.fb.concl], res=rc ? `<span class="ec-res ${e.fb.concl}" title="實測：${rc.t.slice(2)}">${rc.t.charAt(0)}</span>` : '';
   return `
-    <div class="ec" data-i="${i}" tabindex="0" onclick="evCardGo(event,${i})" onkeydown="if(event.key==='Enter'&&event.target===this)evCardGo(event,${i})" title="點一下載入這筆評估"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
-      <button type="button" class="ec-more" onclick="evMenu(event,${e.id})" aria-label="更多動作" title="編輯資訊、PDF、實測回饋、提交、刪除">⋯</button>
+    <div class="ec${res?' has-res':''}" data-i="${i}" tabindex="0" onclick="evCardGo(event,${i})" onkeydown="if(event.key==='Enter'&&event.target===this)evCardGo(event,${i})" title="點一下載入這筆評估"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
+      ${res}<button type="button" class="ec-more" onclick="evMenu(event,${e.id})" aria-label="更多動作" title="編輯資訊、PDF、實測回饋、提交、刪除">⋯</button>
       <h3>${lamp}${esc(e.name)}${evInfoPills(e)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${esc(e.date)} · ${esc(e.camera)}</p>
       <p>${o.sum}</p>
@@ -7662,8 +7668,8 @@ function fbSummary(e){
   const pr=fbPred(e), parts=[];
   fbFields(e.mode||'scan').forEach(function(f){ const dv=fbDev(fb[f.k],pr[f.k]); if(dv) parts.push(f.t.replace('實際','')+' <span class="fb-d '+dv.cls+'">'+dv.txt+'</span>'); });
   const c=FB_CONC[fb.concl], on=[fbMsaShort(fb.msa), fbProdShort(fb.prod)].filter(Boolean);
-  return '<p class="ec-fb">📝 '+(fb.concl==='exp'?'':'實測')+(c?' <b style="color:'+c.c+'">'+c.t+'</b>':'')+(parts.length?' · '+parts.join(' · '):'')+(fb.causes&&fb.causes.length?' · 原因：'+esc(fb.causes.map(function(c){ return c.replace(/（.*）/,''); }).join('、')):'')
-    +(on.length?' · '+esc(on.join(' · ')):'')+'</p>';
+  const x=parts.concat(fb.causes&&fb.causes.length?['原因：'+esc(fb.causes.map(function(c){ return c.replace(/（.*）/,''); }).join('、'))]:[], on.map(esc));   // 結論改在卡片右上用方塊符號（10/17），這行只留細節
+  return x.length ? '<p class="ec-fb">📝 '+x.join(' · ')+'</p>' : '';
 }
 // 報告頁的「實測回饋」區塊：只在目前開啟的評估有回饋時顯示（PDF 才列入勾選）
 function fbRenderBlk(){
