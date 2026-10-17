@@ -1588,10 +1588,11 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     </div>
     <!-- 儲存＋匯出：主鍵存檔，▾ 選單放 PDF -->
     <div class="hdr-split hdr-action hdr-mwrap">
-      <button class="btn-pri hdr-save" onclick="saveEval()" title="儲存評估" aria-label="儲存評估">💾</button><button class="btn-pri hdr-caret" onclick="hdrMenuToggle('save-menu',event)" aria-label="更多儲存選項" title="匯出 PDF">▾</button>
+      <button class="btn-pri hdr-save" onclick="saveEval()" title="儲存評估" aria-label="儲存評估">💾</button><button class="btn-pri hdr-caret" onclick="hdrMenuToggle('save-menu',event)" aria-label="更多儲存選項" title="匯出 PDF、另存新的一筆">▾</button>
       <div class="hdr-menu" id="save-menu">
         <button onclick="hdrMenuGo('pdf')">📄 匯出 PDF</button>
         <button onclick="hdrMenuGo('both')">💾 儲存並匯出 PDF</button>
+        <button onclick="hdrMenuGo('saveas')">＋ 另存新的一筆…</button>
       </div>
     </div>
     <button id="syncStatus" class="btn-about" onclick="showCloudSettings()" title="備份與同步（匯出／匯入、雲端同步）" aria-label="備份與同步" style="font-size:16px;line-height:1;color:rgba(255,255,255,.55);"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></button>
@@ -1671,7 +1672,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -3142,6 +3143,13 @@ function modSnap(){
   const o={n:m.n}; if(m.ver) o.ver=m.ver; if(m.owner) o.owner=m.owner; if(m.light) o.light=Object.assign({}, m.light);
   return o;
 }
+// 10/17 Johnny：結論的相機、鏡頭是「手動輸入」時整列不顯示（沒有資訊）；三個模式的報告都在 rptLightSet 前寫好名稱，順便在這裡判斷
+function rptHwRows(pre){
+  ['cam','lens'].forEach(function(k){
+    const el=document.getElementById(pre+'rpt-'+k), row=el&&el.closest('.rpt-kv');
+    if(row) row.style.display = el.textContent.trim()==='手動輸入' ? 'none' : '';
+  });
+}
 // 報告：相機／鏡頭顯示名稱（模組顯示版本、鏡頭標「模組內含」）與光源列
 function rptCamName(ci){
   const c=ci!==''?allCams()[+ci]:null; if(!c) return '手動輸入';
@@ -3153,6 +3161,7 @@ function rptLensName(li){
   return '模組內含 · '+((m.lens&&m.lens.model)||lensBadge(l).t+' '+lensSpec(l));
 }
 function rptLightSet(id){
+  rptHwRows(id.replace('rpt-light',''));
   const el=document.getElementById(id); if(!el) return;
   const m=curMod(), t=m?lightText(m.light):'';
   el.textContent=t||'—';
@@ -3561,7 +3570,7 @@ function editCustLens(i){
 let _toastTimer = null;
 const TOAST_DUR = 5000; // ms before permanent delete
 
-function showToast(msg, undoFn){
+function showToast(msg, undoFn, undoLbl){
   clearTimeout(_toastTimer);
   const el = document.getElementById('toast');
   document.getElementById('toast-msg').textContent = msg;
@@ -3571,6 +3580,7 @@ function showToast(msg, undoFn){
   void el.offsetWidth; // reflow
   el.classList.add('show');
   document.getElementById('toast-undo').style.display = undoFn ? '' : 'none';   // 沒有可復原的動作時只顯示訊息
+  document.getElementById('toast-undo').textContent = undoLbl || '↩ 復原';
   document.getElementById('toast-undo').onclick = ()=>{
     clearTimeout(_toastTimer); if(undoFn) undoFn(); hideToast();
   };
@@ -4105,6 +4115,7 @@ function hdrMenuToggle(id,e){
 function hdrMenuGo(a){
   hdrMenuClose();
   if(a==='pdf') exportPDF();
+  else if(a==='saveas'){ _saveAsk=true; saveEval(); }
   else if(a==='both'){ _afterSave=function(){ showTab('res'); exportPDF(); }; saveEval(); }
   else if(a==='guide') guideStart();
   else if(a==='about') toggleAbout();
@@ -6123,6 +6134,20 @@ function commitEval(rec, tab){
   };
   // 有載入中的同模式紀錄 → 多問「覆蓋原紀錄 / 另存新檔」；沒有就只確認名稱與說明
   const canOver = idx>=0 && (evals[idx].mode||'scan')===(rec.mode||'scan');
+  const ask=_saveAsk; _saveAsk=false;
+  // 10/17 Johnny（iOS 化）：已載入的紀錄再存＝直接覆蓋，不跳視窗；用途、客戶、廠區、標籤沿用原紀錄（要改用「⋯ → ✎ 編輯資訊」）
+  // 第一次存（新的評估）還是跳視窗：要選用途（客戶需求要提交知識庫）；要另存成新的一筆：💾 ▾ 選單或存完提示的「另存新的一筆」
+  if(canOver && !ask){
+    const old=evals[idx];
+    ['tags','purpose','customer','site'].forEach(function(k){ if(old[k]!=null) rec[k]=old[k]; });
+    done(idx);
+    showToast('已儲存「'+rec.name+'」', function(){
+      const j=evals.findIndex(function(e){ return e.id===old.id; }); if(j<0) return;
+      evals[j]=old; persistEvals(); renderEvals();   // 先還原成覆蓋前，再用視窗另存
+      _saveAsk=true; saveEval();
+    }, '＋ 另存新的一筆');
+    return;
+  }
   openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur,cust,site)=>{
     if(name && name!==rec.name){ rec.name=name; setProjName(rec.mode, name); }
     rec.notes=desc; syncDesc(desc);
@@ -6142,6 +6167,7 @@ function concSt(mode){
   return b ? (['bad','warn','ok','na'].filter(function(c){ return b.classList.contains(c); })[0]||null) : null;
 }
 let _afterSave=null;   // 「儲存並匯出 PDF」：存完再做的事
+let _saveAsk=false;    // true＝這次存檔一定跳視窗（另存新的一筆）
 // 用途：客戶需求（cust，要提交到知識庫）／內部試算（trial，不用）；存檔時必選
 let _savePur=null;
 const SAVE_PUR_H={'':'客戶需求的評估都要提交到部門知識庫；內部試算不用。',
