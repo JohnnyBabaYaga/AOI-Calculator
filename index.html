@@ -268,6 +268,17 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .cost-bar{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap;margin:0 0 8px;font-size:10.5px;color:var(--sub);}
 /* 方案比較：第一欄＝計算器目前的方案（✓ 選定），其他欄是候選；左邊標題欄固定，手機橫向捲動 */
 .cmp-blk{border-top:1px solid var(--border);padding:12px 14px;}
+/* 10/18 Johnny（Apple HIG：重點先出來）：資料量、成本、方案比較預設收成一行摘要，點標題展開；PDF／比較表匯出照常完整 */
+.fold>.rpt-ctitle{cursor:pointer;display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap;user-select:none;}
+.fold-sum{font-size:11.5px;font-weight:500;color:var(--sub);letter-spacing:0;}
+.fold-chev{margin-left:auto;width:6px;height:6px;margin-right:4px;border-right:1.6px solid var(--sub);border-bottom:1.6px solid var(--sub);transform:rotate(45deg);transition:transform .15s;flex:none;}
+.fold>.rpt-ctitle .cmp-pdf~.fold-chev{margin-left:0;}
+.fold>.rpt-ctitle:hover .fold-chev{border-color:var(--accent);}
+.fold:not(.closed) .fold-sum{display:none;}
+.rpt-card:not(.pdf-out) .fold.closed:not(.cmp-print)>:not(.rpt-ctitle){display:none !important;}
+.rpt-card:not(.pdf-out) .fold.closed:not(.cmp-print)>.rpt-ctitle{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.rpt-card:not(.pdf-out) .fold.closed:not(.cmp-print)>.rpt-ctitle :is(.cmp-hint,.cmp-phd,.cmp-pdf){display:none;}
+.fold.closed .fold-chev{transform:rotate(-45deg);}
 .cmp-blk .rpt-ctitle{display:flex;align-items:center;gap:6px 8px;flex-wrap:wrap;}
 .cmp-blk .rpt-ctitle .cmp-pdf{margin-left:auto;}
 .cmp-hint{font-weight:400;color:var(--sub);font-size:10px;}
@@ -748,6 +759,14 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .sel-card .btn-pri{font-size:11.5px;padding:5px 12px;flex-shrink:0;}
 .sel-more{width:100%;font-size:11.5px;margin:2px 0 4px;}
 .sel-empty{font-size:12px;color:var(--sub);text-align:center;padding:22px 10px;line-height:1.7;}
+/* 10/18 Johnny（Apple HIG：空白狀態要告訴人下一步）：2D 相機鏡頭資料庫是空的 → 匯入檔／雲端同步 */
+.db-empty{text-align:center;padding:22px 16px;line-height:1.65;}
+.db-empty .ic{font-size:26px;line-height:1;}
+.db-empty b{display:block;font-size:13.5px;color:var(--text);margin:8px 0 4px;}
+.db-empty p{font-size:11.5px;color:var(--sub);margin:0 auto 12px;max-width:420px;text-wrap:pretty;}
+.db-empty .db-empty-b{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.db-empty .db-empty-b button{font-size:12px;}
+#db-empty .db-empty{background:var(--surf);border:1px solid var(--border);border-radius:var(--rad);margin:0 10px 10px;}
 @media(max-width:768px){ .sel-f2{grid-column:1/-1;} .sel-card{flex-wrap:wrap;} .sel-card .btn-pri{width:100%;}
   #sel-modal{overflow-y:auto;padding:14px 14px;} .sel-list{overflow:visible;flex:none;} }
 #save-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
@@ -897,6 +916,9 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .conc .rpt-v .good{color:#34c759;}
 .conc-warn{margin-top:2px;padding-top:8px;border-top:1px solid var(--border);}
 .conc-warn:empty{display:none;}
+.conc-hint{font-size:11.5px;color:var(--sub);line-height:1.6;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;}
+.conc-hint button{font-family:inherit;font-size:11.5px;font-weight:600;padding:3px 12px;border-radius:999px;border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer;}
+.conc-hint button:hover{background:var(--accent);color:#fff;}
 .conc-wt{font-size:10px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .conc-wi{position:relative;font-size:11px;line-height:1.5;padding-left:13px;margin-bottom:3px;color:var(--text);}
 .conc-wi::before{content:'';position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%;}
@@ -1580,11 +1602,11 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <!-- 模式：2D 三種｜3D 合成一組，切換時版面不會跳（📚 知識庫 10/11 Johnny 改放左邊、跟版本號同一個框） -->
     <div class="seg" id="nav-seg" style="flex-shrink:0;font-size:11px;">
       <span class="nav-grp">2D</span>
-      <button class="on" data-nav="scan" onclick="setNav('scan')"><span class="ml">掃描取像</span><span class="ms">掃描</span></button>
-      <button data-nav="static" onclick="setNav('static')"><span class="ml">靜態取像</span><span class="ms">靜態</span></button>
-      <button data-nav="area" onclick="setNav('area')"><span class="ml">畫檢評估</span><span class="ms">畫檢</span></button>
+      <button class="on" data-nav="scan" onclick="setNav('scan')">掃描</button>
+      <button data-nav="static" onclick="setNav('static')">靜態</button>
+      <button data-nav="area" onclick="setNav('area')">畫檢</button>
       <i class="nav-dv" aria-hidden="true"></i>
-      <button data-nav="3d" onclick="setNav('3d')"><span class="ml">3D 量測</span><span class="ms">3D</span></button>
+      <button data-nav="3d" onclick="setNav('3d')">3D</button>
     </div>
     <!-- 儲存＋匯出：主鍵存檔，▾ 選單放 PDF -->
     <div class="hdr-split hdr-action hdr-mwrap">
@@ -1672,7 +1694,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -2623,6 +2645,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
       </div>
     </div>
 
+    <div id="db-empty"></div>
     <!-- 10/16 Johnny：相機、鏡頭改左右並排（自研模組維持整列）；畫面窄時自動變回上下 -->
     <div class="db-2col">
     <div class="db-col">
@@ -3194,7 +3217,18 @@ function collectExpanded(id){
   if(box) box.querySelectorAll('.db-section:not(.collapsed) .db-brand-name').forEach(e=>s.add(e.textContent));
   return s;
 }
+function dbIsEmpty(){ return !allCams().length && !allLens().length; }
+function dbEmptyHtml(inTab){
+  return '<div class="db-empty"><div class="ic">📷</div><b>還沒有相機鏡頭資料</b>'
+    +'<p>跟 Johnny 要部門的相機鏡頭資料庫檔匯入；有自己的雲端同步就設定一下，換電腦也接得上。'+(inTab?'也可以在下面按「＋ 新增」自己建。':'也可以在「📷 相機鏡頭」分頁按「＋ 新增」自己建。')+'</p>'
+    +'<div class="db-empty-b"><button type="button" class="btn-pri" onclick="dbEmptyGo(\'imp\')">📥 匯入資料庫檔</button><button type="button" class="btn-sec" onclick="dbEmptyGo(\'cloud\')">☁️ 設定雲端同步</button></div></div>';
+}
+function dbEmptyGo(a){
+  closePicker(); closeSel();
+  if(a==='imp') document.getElementById('bk-import-input').click(); else showCloudSettings('cloud');
+}
 function renderDbLists(){
+  const de=document.getElementById('db-empty'); if(de) de.innerHTML=dbIsEmpty()?dbEmptyHtml(true):'';
   const expCam=collectExpanded('db-cam-list'), expLens=collectExpanded('db-lens-list');
   renderDbGroup('db-cam-list', CAMS, hiddenCams, custCams, camBadge, camSpec, camMeta, 'cam', expCam);
   renderDbGroup('db-lens-list', LENS, hiddenLens, custLens, lensBadge, lensSpec, lensMeta, 'lens', expLens);
@@ -3398,7 +3432,8 @@ function renderPicker(){
 
   const groups={}; items.forEach(o=>{ const b=brandOf(o.x.n); (groups[b]=groups[b]||[]).push(o); });
   let html=banner+`<div class="pick-manual" onclick="pickModel('')">— 手動輸入（清除選擇）—</div>`;
-  if(!items.length) html+='<div class="empty">找不到符合的型號</div>';
+  if(dbIsEmpty()) html+=dbEmptyHtml();
+  else if(!items.length) html+='<div class="empty">找不到符合的型號</div>';
   Object.keys(groups).sort((a,b)=>(b===MOD_BRAND)-(a===MOD_BRAND) || a.localeCompare(b)).forEach(brand=>{
     html+=`<div class="pick-brand">${brand===MOD_BRAND?'🛠 部門自研模組':esc(brand)}</div>`;
     groups[brand].sort((a,b)=>String(a.x.n).localeCompare(String(b.x.n))).forEach(o=>{
@@ -3416,6 +3451,7 @@ function renderPicker(){
 }
 function pickToggleIncompat(){ _pickShowIncompat=!_pickShowIncompat; renderPicker(); }
 function pickModel(i){
+  markTouched();
   const sel=document.getElementById(_pickKind==='cam'?'cam-pick':'lens-pick');
   sel.value = i===''?'':String(i);
   if(_pickKind==='cam') applyCamera(); else applyLens();
@@ -4049,6 +4085,7 @@ function selRun(){
   if(m!=='area'&&!_sel.cctv&&lens.some(function(l){ return l.type==='cctv'; })) sum+='<br>CCTV 鏡頭沒算進來（倍率隨工作距離變，只能近似），需要的話打開「含 CCTV」';
   document.getElementById('sel-sum').innerHTML=sum;
   const L=document.getElementById('sel-list');
+  if(!n && dbIsEmpty()){ L.innerHTML=dbEmptyHtml(); return; }
   if(!n){ L.innerHTML='<div class="sel-empty">資料庫裡沒有可用的'+(m==='area'?'面陣相機或 CCTV 鏡頭':'相機或鏡頭')+'。<br>先到「📷 相機鏡頭」分頁新增型號，或設定 ☁ 雲端同步讀取共用資料庫。</div>'; return; }
   if(!out.length){ L.innerHTML='<div class="sel-empty">沒有組合符合需求。<br>看上面「被刷掉」最多的原因，放寬那個條件再試試。</div>'; return; }
   const f=function(x,d){ return (+x).toLocaleString('en-US',{maximumFractionDigits:d}); };
@@ -4077,6 +4114,7 @@ function selRestore(sn){
   updatePickLabel('cam'); updatePickLabel('lens'); updateMountWarn(); calc();
 }
 function selApply(i){
+  markTouched();
   const x=_sel.res[i]; if(!x) return;
   const snap=selSnap();
   const keepWD=v('as-min-wd');   // 套鏡頭會把最短工作距離改成鏡頭 WD，畫檢要保留使用者填的
@@ -4873,7 +4911,7 @@ function setMode(m){
     if(l && l.type!=='cctv'){
       document.getElementById('lens-pick').value='';
       updatePickLabel('lens'); updateMountWarn();
-      showToast(`畫檢評估不適用${l.type==='telecentric'?'遠心':'物鏡'}鏡頭，已清除「${l.n}」`, ()=>{});
+      showToast(`畫檢評估不適用${l.type==='telecentric'?'遠心':'物鏡'}鏡頭，已清除「${l.n}」`);   // 沒有可復原的動作，不帶復原鍵
     }
     setLensType('cctv');   // 畫檢只輸入焦距 = 定焦模型
     // setLensType 會打開 F# 等列，畫檢不需要 → 重新套用畫檢的欄位可見性
@@ -5086,7 +5124,7 @@ function calcStatic(){
   const est=val=>isCCTV?'≈ '+val:val;
 
   // Optical results
-  const stSet=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+  const stSet=set;   // 跟其他模式一樣：結果卡片 3 位有效數字
   stSet('st-r-or', est(fmt(r.optRes,3)));
   stSet('st-r-mag', est(fmt(p.mag,4)));
   stSet('st-r-hf', fmt(r.hFOV,3));
@@ -5906,14 +5944,34 @@ function mountWarnItem(W){
   const l=(li!=='' && allLens()[+li]) ? allLens()[+li] : null;
   if(cm && l && l.mount && !mountCompatible(cm, l.mount)) W.push({s:'bad', t:'鏡頭接口 '+esc(l.mount)+' 與相機 '+esc(cm)+' 不相符'});
 }
+// 10/18 Johnny（Apple HIG：好的預設／空白狀態）：一打開還沒動過，左邊只是範例數值 → 結論先不判斷、不亮警告，改成提示從哪裡開始
+let _touched=false;
+function markTouched(){ if(_touched) return; _touched=true; if(dim!=='3d') setTimeout(calc,0); }
+['input','change'].forEach(function(t){ document.addEventListener(t, function(e){ if(e.isTrusted && e.target.closest && e.target.closest('#left, .rpt-card, #sel-modal')) markTouched(); }); });
+document.addEventListener('click', function(e){ if(e.isTrusted && e.target.closest && e.target.closest('#left .seg button, #left .pick-btn')) markTouched(); });
+function concStart(){
+  if(window.innerWidth<=768){ if(!document.getElementById('left').classList.contains('drawer-open')) toggleDrawer(); }
+  const el=document.getElementById(S.mode==='area'?'as-min-wd':'p-sw'); if(el){ el.focus(); el.select&&el.select(); }
+}
 function concRender(mode, W, hasTgt){
   const b=document.getElementById('conc-'+mode+'-badge'), w=document.getElementById('conc-'+mode+'-warn'); if(!b||!w) return;
+  if(!_touched && !(mode!=='area' && hasTgt)){
+    b.className='conc-badge na'; b.textContent='範例數值';
+    w.innerHTML='<div class="conc-hint pdf-hide"><span>左邊是範例數值。填入你的樣品和目標，或選一台相機，這裡就會判斷夠不夠。</span><button type="button" onclick="concStart()">✎ 開始填寫</button></div>';
+    return;
+  }
   const bad=W.some(function(x){ return x.s==='bad'; });
   const st = bad ? ['bad','需調整'] : W.length ? ['warn','需注意'] : hasTgt ? ['ok','✓ 符合需求'] : ['na','未填目標'];
   b.className='conc-badge '+st[0]; b.textContent=st[1];
   w.innerHTML = W.length ? '<div class="conc-wt">需要注意（'+W.length+'）</div>'+W.map(function(x){ return '<div class="conc-wi '+x.s+'">'+x.t+'</div>'; }).join('') : '';
 }
-function set(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
+// 10/18 Johnny（Apple HIG：清楚）：結果卡片上的小數統一到小數點後 2 位（300.261→300.26、3.2768→3.28、2.396→2.40）；整數、文字不動，小於 0.01 的保留原樣
+function sig3(v){
+  if(typeof v!=='string' || !/^-?\d+\.\d+$/.test(v)) return v;
+  const x=+v; if(!isFinite(x) || Math.abs(x)<0.01) return v;
+  return x.toFixed(2);
+}
+function set(id,v){ const el=document.getElementById(id); if(el) el.textContent=el.closest('.metric')?sig3(v):v; }
 
 
 
@@ -6296,7 +6354,7 @@ function evalIs3D(e){ return e.mode==='3d'; }
 // 10/13 Johnny：歷史紀錄依上方模式分頁分開（掃描／靜態／畫檢／3D），切分頁只看那一頁的紀錄
 function evSheet(){ return dim==='3d' ? '3d' : (S.mode||'scan'); }
 function evSheetOf(e){ return e.mode==='3d' ? '3d' : (e.mode||'scan'); }
-const EV_SHEET_LB={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D 量測'};
+const EV_SHEET_LB={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D'};   // 10/18：跟標題列一樣用短名
 // 10/13 Johnny：歷史紀錄的「清除全部」拿掉（怕誤按）；要刪就一筆一筆刪，每次都會先確認
 // ── 歷史紀錄：搜尋／篩選／標籤分組 ──（10/12 Johnny 拿掉檢索地圖散點圖：「呈現的方式不是很直觀」，改成知識庫的世界地圖）
 const EV_ML={scan:'掃描',static:'靜態',area:'畫檢','3d':'3D'};
@@ -6515,6 +6573,7 @@ function evTagQ(t){
 }
 // ext：從知識庫「用這筆當起點」載入的評估（不是自己的紀錄 → 存檔一律另存新的）
 function loadEval(i, ext){
+  markTouched();
   const e=ext||evals[i];
   _curEvalId=ext ? null : e.id; _kbStart=null; renderEvals();
   costLoad(e.mode||'scan', e.cost);
@@ -6613,14 +6672,15 @@ function cfClose(yes){
 document.addEventListener('keydown', function(ev){ if(ev.key==='Escape' && _cfFn){ ev.stopPropagation(); cfClose(false); } }, true);
 function delEval(i){
   const e=evals[i]; if(!e) return;
-  const s=kbEvState(e), id=e.id;
-  cfAsk('刪除歷史紀錄「<b>'+esc(e.name||'未命名')+'</b>」？',
-    '刪除後沒辦法復原'+(s&&(s.c||s.pend)?'；知識庫裡的案例／審核中的提交不受影響':'')+'。要保留備份可以先到標題列「☁ 備份與同步」匯出。',
-    function(){
-      const j=evals.findIndex(function(x){ return x===e || (id!=null && x.id===id); }); if(j<0) return;
-      if(evals[j].id===_curEvalId) _curEvalId=null; evals.splice(j,1); persistEvals(); renderEvals();
-      showToast('已刪除「'+(e.name||'未命名')+'」');
-    });
+  // 10/18 Johnny（Apple HIG：能復原就不要問）：直接刪，下方提示可「↩ 復原」；知識庫裡的案例不受影響
+  const id=e.id, j=evals.findIndex(function(x){ return x===e || (id!=null && x.id===id); }); if(j<0) return;
+  const wasCur=evals[j].id===_curEvalId;
+  if(wasCur) _curEvalId=null; evals.splice(j,1); persistEvals(); renderEvals();
+  showToast('已刪除「'+(e.name||'未命名')+'」', function(){
+    if(evals.indexOf(e)>=0) return;
+    evals.splice(Math.min(j, evals.length), 0, e); if(wasCur) _curEvalId=e.id;
+    persistEvals(); renderEvals();
+  });
 }
 function exportEval(i){ loadEval(i); setTimeout(()=>exportPDFMode(evals[i]?.mode||'scan'),300); }
 function exportPDF(){ openPdfExport(dim==='3d'?'3d':S.mode); }
@@ -6798,6 +6858,7 @@ async function exportPDFMode(mode){
 // 開關：false＝整個「資料量與電腦規格」區塊不顯示（線上 v4.2 先關閉），成本估算改用簡化項目
 const SYS_ON=false;
 if(!SYS_ON) document.querySelectorAll('.sys-blk').forEach(function(e){ e.remove(); });
+else document.querySelectorAll('.metric[data-cid="r-dfl"]').forEach(function(e){ e.remove(); });   // 10/18：跟「資料量」的單台峰值頻寬重複
 const SYS_IF={
   'GigE':       {bw:115,  perCard:4, card:'四埠 GigE PoE 網卡'},
   '2.5GigE':    {bw:290,  perCard:4, card:'四埠 2.5GigE 網卡'},
@@ -6921,6 +6982,24 @@ function sysCalc(ctx){
   o.capTime=ctx.rate>0 ? ctx.frames/ctx.rate : 0;   // 單台取完一片所需的純取像時間
   return o;
 }
+// 10/18 Johnny：結果頁的資料量、成本、方案比較預設收起來，標題列顯示一行摘要；開／收依區塊種類記在這台電腦
+let _fold=(function(){ try{ return JSON.parse(localStorage.getItem('aoi_fold')||'{}')||{}; }catch(e){ return {}; } })();
+function foldKey(b){ return b.classList.contains('sys-blk')?'sys':b.classList.contains('cost-blk')?'cost':'cmp'; }
+function foldSet(blk, sum){
+  const t=blk&&blk.querySelector(':scope > .rpt-ctitle'); if(!t) return;
+  blk.classList.add('fold'); blk.classList.toggle('closed', !_fold[foldKey(blk)]);
+  let s=t.querySelector(':scope > .fold-sum'); if(!s){ s=document.createElement('span'); s.className='fold-sum pdf-hide'; t.appendChild(s); }
+  let c=t.querySelector(':scope > .fold-chev'); if(!c){ c=document.createElement('span'); c.className='fold-chev pdf-hide'; t.appendChild(c); }
+  t.appendChild(s); t.appendChild(c);   // 順序：標題、ⓘ、摘要、箭頭（最右）
+  s.textContent=sum||'';
+}
+document.addEventListener('click', function(e){
+  const t=e.target.closest('.fold > .rpt-ctitle'); if(!t || e.target.closest('button,a,input,textarea,select')) return;
+  const k=foldKey(t.parentNode); _fold[k]=!_fold[k];
+  try{ localStorage.setItem('aoi_fold', JSON.stringify(_fold)); }catch(_){}
+  document.querySelectorAll('.fold').forEach(function(b){ if(foldKey(b)===k) b.classList.toggle('closed', !_fold[k]); });
+  if(k==='cmp' && _fold[k]) cmpRenderNow(cmpMode());   // 收著時量不到列高，打開後重排一次
+});
 const _sysW={};   // 資料量的警告（短句），給結論卡的「需要注意」
 function sysRender(mode, ctx){
   _sysW[mode]=[];
@@ -6930,7 +7009,7 @@ function sysRender(mode, ctx){
   if(!box._built || box._camIf!==sysCamIface()) sysBuildInputs(box, mode);
   sysAsmSync(blk, mode);
   const out=blk.querySelector('.sys-out');
-  if(!(ctx.n>0 && ctx.w>0 && ctx.rate>0)){ out.innerHTML='<div class="sys-note">相機台數或相機規格未定，暫無法估算。</div>'; costRender(mode, costRows2D(mode,{n:ctx.n||0, lite:true})); return; }
+  if(!(ctx.n>0 && ctx.w>0 && ctx.rate>0)){ out.innerHTML='<div class="sys-note">相機台數或相機規格未定，暫無法估算。</div>'; foldSet(blk,'相機規格未定'); costRender(mode, costRows2D(mode,{n:ctx.n||0, lite:true})); return; }
   const o=sysCalc(ctx);
   const f=(x,d)=>!isFinite(x)?'—':x>=1000&&d===0?Math.round(x).toLocaleString():x.toFixed(d);
   const mb=x=>x>=1000?[f(x/1000,2),'GB/s']:[f(x,0),'MB/s'];
@@ -6965,6 +7044,7 @@ function sysRender(mode, ctx){
   if(noPiece) w.push('掃描道數或取像張數為 0（可能有暗角、FOV 未定），單片與每日資料量暫無法估算。');
   h+=w.length ? w.map(x=>'<div class="sys-warn">⚠ '+x+'</div>').join('') : '';
   out.innerHTML=h;
+  foldSet(blk, '單台 '+pc.join(' ')+' · 電腦 '+o.nPC+' 台'+(noDay?'':' · 存 '+SYS.days+' 天 '+f(o.keepTB,1)+' TB')+(over||o.peakPC>SYS.pcBw?' · ⚠ 頻寬超過上限':''));
   costRender(mode, costRows2D(mode,o));
 }
 function sysCtx2D(mode, p, r, extra){
@@ -7151,6 +7231,7 @@ function costRender(mode, rows){
       +'<td class="n">'+numIn(pIn(x.price),'costSetExtra('+M+','+i+',\'price\',this.value)')+'</td>'
       +'<td class="n sub">'+(sub?_money(sub):'—')+'</td><td class="pdf-hide act"><button type="button" class="cost-btn" onclick="costDelExtra('+M+','+i+')">✕ 刪除</button></td></tr>';
   });
+  foldSet(blk, total ? _moneyBig(total)+(need?' · '+need+' 項未填單價':'') : need ? need+' 項未填單價' : '尚無成本項目');
   if(!total && !c.extra.length && !_costOpen[mode]){
     blk.querySelector('.cost-out').innerHTML='<div class="spec-sum cost-empty" onclick="_costOpen['+M+']=true;costRecalc()"><span class="spec-txt">'+(need?need+' 項未填單價，暫無法估算總價':'尚無成本項目')+'</span><span class="spec-tg pdf-hide">填單價<span class="chev">›</span></span></div>';
     return;
@@ -7326,6 +7407,7 @@ function cmpRenderNow(mode){
   }
   if(_cmpPick) h+=cmpBoxHtml(mode);
   blk.innerHTML=h;
+  foldSet(blk, has ? (c.cands.length+1)+' 個方案 · 選 '+(c.curName||'目前方案') : '還沒有比較其他方案');
   const g=blk.querySelector('[data-gl]'); if(g) g.appendChild(glIcon('cmpBlk'));
   blk.querySelectorAll('.cmp-tbl tr').forEach(function(tr){ cmpFitRow(tr); }); blk.querySelectorAll('.cmp-why-ta').forEach(function(t){ cmpFitRow(null, t); });
 }
@@ -7853,7 +7935,7 @@ function applyCardCfg(){
     let row=grid.querySelector(':scope > .brief-row');
     if(!row){ row=document.createElement('div'); row.className='brief-row pdf-hide'; row.innerHTML='<button type="button" class="brief-tg" onclick="toggleBrief()"></button>'; grid.appendChild(row); }
     let n=0;
-    c.secs.forEach(function(sec){ (cardCfg[sec]||[]).forEach(function(x){ if(x.visible && !BRIEF_KEY.has(x.cid)) n++; }); });
+    c.secs.forEach(function(sec){ (cardCfg[sec]||[]).forEach(function(x){ if(x.visible && !BRIEF_KEY.has(x.cid) && document.querySelector('.metric[data-cid="'+x.cid+'"]')) n++; }); });
     row.style.display = n ? '' : 'none';
     row.firstChild.textContent = briefOn ? '顯示全部規格（另 '+n+' 項）' : '只看重點';
   });
@@ -10939,7 +11021,7 @@ function glInject(){
   Object.keys(GL_OUT).forEach(function(cid){
     document.querySelectorAll('.metric[data-cid="'+cid+'"] > .mt').forEach(function(mt){ if(!mt.querySelector('.gi')) mt.appendChild(glIcon(GL_OUT[cid])); });
   });
-  document.querySelectorAll('[data-gl]').forEach(function(el){ if(!el.querySelector('.gi')) el.appendChild(glIcon(el.dataset.gl)); });
+  document.querySelectorAll('[data-gl]').forEach(function(el){ if(!el.querySelector('.gi')) el.appendChild(glIcon(el.dataset.gl)); el.querySelectorAll(':scope > .fold-sum, :scope > .fold-chev').forEach(function(x){ el.appendChild(x); }); });
 }
 let _glCur=null;
 function glShow(icon){
