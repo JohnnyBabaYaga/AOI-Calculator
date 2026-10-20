@@ -871,6 +871,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 #dg3-wrap #dg3{position:absolute;inset:0;width:100%;height:100%;min-height:0;flex:none;touch-action:pan-y;cursor:grab;}
 .iso3-ctl{position:absolute;left:8px;right:8px;top:8px;display:flex;justify-content:space-between;align-items:center;gap:6px;pointer-events:none;}
 .iso3-ctl>*{pointer-events:auto;}
+.iso3-ctl{flex-wrap:wrap;row-gap:4px;} .iso3-acts{display:flex;gap:6px;margin-left:auto;}   /* 欄寬不夠時 暫停＋GIF 一起換到下一行靠右，不被裁掉 */
 .iso3-ctl .seg button{padding:2px 8px;font-size:11px;}
 .iso3-play{border:none;background:var(--ios-fill,rgba(0,0,0,.06));border-radius:9px;padding:4px 9px;font-size:11px;color:#000;cursor:pointer;white-space:nowrap;}
 .iso3-hint{position:absolute;left:10px;bottom:7px;font-size:10px;color:var(--sub);pointer-events:none;}
@@ -1707,7 +1708,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 場邊／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li>立體圖拿掉鋼構支架和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 場邊／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
@@ -2314,7 +2315,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <canvas id="dg3"></canvas>
           <div class="iso3-ctl pdf-hide">
             <div class="seg iso3-views"><button type="button" data-v="side" class="on" onclick="iso3SetView('side')">場邊</button><button type="button" data-v="front" onclick="iso3SetView('front')">正面</button><button type="button" data-v="top" onclick="iso3SetView('top')">上方</button><button type="button" data-v="close" onclick="iso3SetView('close')">相機特寫</button></div>
-            <button type="button" id="dg3-play" class="iso3-play" onclick="iso3TogglePlay()">❚❚ 暫停</button>
+            <span class="iso3-acts"><button type="button" id="dg3-play" class="iso3-play" onclick="iso3TogglePlay()">❚❚ 暫停</button><button type="button" id="dg3-gif" class="iso3-play" onclick="iso3SaveGif()" title="把一輪動畫存成 GIF 檔">⤓ GIF</button></span>
           </div>
           <div class="iso3-hint pdf-hide">拖曳旋轉 · 雙擊回場邊</div>
           <div id="dg3-sublab" class="iso3-sublab" style="display:none">相機特寫</div>
@@ -5571,7 +5572,7 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   const coxS=Math.max(2*Rf+10,40), coxZ0=Math.max(wd*.25, wd-coxS);
   const domeR=Math.max(F,40)*.7+20;
   // 橫向半寬（mm）：取最大者
-  let half=Math.max(F/2*1.15, Rf+4, Rm+6, bw/2+4);
+  let half=Math.max(F/2*1.15, Math.max(...lens.prof.map(q=>q[0]))+4, Rm+6, bw/2+4, lens.port?lens.port.out+4:0);
   if(LK.k==='ring') half=Math.max(half, ro+4);
   if(LK.k==='bar') half=Math.max(half, (dLight+barH)*Math.sin(th)+barD*.6);
   if(LK.k==='coax') half=Math.max(half, coxS/2+24);
@@ -5657,7 +5658,7 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
     ctx.strokeStyle='rgba(230,130,0,.9)'; ctx.setLineDash([2,2]); ctx.lineWidth=1; ctx.stroke(); ctx.setLineDash([]); }
 
   // ── 取像光束（三束：物面兩端＋中心），倒像落在感測器 ──
-  const inner=h=>{ let rr=lens.prof[0][0]; for(let i=1;i<lens.prof.length;i++){ const a=lens.prof[i-1], b=lens.prof[i]; if(h>=a[1]&&h<=b[1]){ rr=b[1]>a[1]?a[0]+(b[0]-a[0])*(h-a[1])/(b[1]-a[1]):Math.max(a[0],b[0]); break; } } return Math.max(1.2, rr-Math.max(rr*.13, 2.2, 2.4/k)); };
+  const inner=h=>{ let rr=lens.prof[0][0]; for(let i=1;i<lens.prof.length;i++){ const a=lens.prof[i-1], b=lens.prof[i]; if(h>=a[1]&&h<=b[1]){ rr=b[1]>a[1]?a[0]+(b[0]-a[0])*(h-a[1])/(b[1]-a[1]):Math.max(a[0],b[0]); break; } } return Math.max(1.2, rr-Math.max(Math.min(rr*.13, 5), 1.6, 2.4/k)); };
   const fr=inner(3)*.92;
   const fl=+p.fl||0, fn=+p.fn||0;
   let a=isTele?Math.min(F*.04, 3, fr*.2) : lt==='objective'?Math.min(fr*.85, Math.max(1, (+p.na||.1)*wd)) : Math.min(fr*.85, fl>0&&fn>0?fl/(2*fn):fr*.6);
@@ -5691,6 +5692,10 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
     ctx.fillStyle='rgba(170,210,240,.55)'; ctx.fill(); ctx.strokeStyle='rgba(50,105,160,.8)'; ctx.lineWidth=.8; ctx.stroke(); };
   const els=isTele?[[.03,.07],[.13,.06],[.66,.04],[.76,.04],[.88,.03]] : lt==='objective'?[[.015,.03],[.06,.04],[.14,.05],[.62,.04],[.72,.04]] : [[.06,.1],[.24,.08],[.40,.06],[.54,.06],[.74,.07]];
   els.forEach(([f,t])=>{ const h=Math.max(1.5,L*f), rr=inner(h)*.94; glass(wd+h+L*t/2, Math.max(L*t, 1.6/k), rr); });
+  // 同軸光源側孔（原廠外形圖有才畫）
+  if(lens.port){ const P=lens.port, z0=wd+P.z-P.r, z1=wd+P.z+P.r, r0=inner(P.z)+.5;
+    path([[z0,-r0],[z1,-r0],[z1,-P.out],[z0,-P.out]],true); ctx.fillStyle=metal('#22262c','#454b55'); ctx.fill(); ctx.strokeStyle='rgba(0,0,0,.55)'; ctx.lineWidth=.7; ctx.stroke();
+    path([[z0+P.r*.45,-r0],[z1-P.r*.45,-r0],[z1-P.r*.45,-P.out],[z0+P.r*.45,-P.out]],true); ctx.fillStyle='#e9edf2'; ctx.fill(); }
   // 光圈
   [-1,1].forEach(s=>{ const ri0=inner(zs-wd); path([[zs-.6/k,s*ra],[zs+.6/k,s*ra],[zs+.6/k,s*ri0],[zs-.6/k,s*ri0]],true); ctx.fillStyle='#1b1e23'; ctx.fill(); });
 
@@ -5748,7 +5753,7 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
   { const nice=[1,2,5,10,20,50,100,200,500,1000]; const want=60/k; const len=nice.reduce((a,b)=>Math.abs(b-want)<Math.abs(a-want)?b:a);
     const x1=W-12, x0=x1-len*k, y=FH-6; ctx.strokeStyle=sub; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(x0,y-3); ctx.lineTo(x0,y); ctx.lineTo(x1,y); ctx.lineTo(x1,y-3); ctx.stroke();
     T(len+' mm', (x0+x1)/2, y-4, sub, '600 8px -apple-system,sans-serif', 'center', 'bottom'); }
-  T('同比例剖面；機身、鏡頭外形為示意'+(mag>0?` · m ${mag.toFixed(2)}×`:''), 6, 10, sub, '8px -apple-system,sans-serif', 'left', 'middle');
+  T('同比例剖面；'+iso3LensNote()+(mag>0?` · m ${mag.toFixed(2)}×`:''), 6, 10, sub, '8px -apple-system,sans-serif', 'left', 'middle');
 
   // ===== 底部圖例：相機 / 鏡頭 型號 =====
   const lgTop=H-legendH, padL=16, padR=14;
@@ -5927,23 +5932,107 @@ function iso3LightKind(def){
   return {k, name:t, given:true};
 }
 function iso3SelCam(){ const ce=document.getElementById('cam-pick'), ci=ce?ce.value:''; return (ci!==''&&allCams()[+ci])?allCams()[+ci]:null; }
-// 機身＋鏡頭外形（示意）：依卡口、感測器、鏡頭型式、焦距、WD 推估
+// 鏡頭實際外形（10/20 Johnny：鏡頭要照實際比例）：讀 A/規格書/鏡頭/ 原廠外形圖。
+// o＝外形輪廓 [外徑, 距前端] 由前往後（mm），L＝前端到卡口法蘭面（不含 C 牙）；port＝同軸光源側孔 [距前端, 孔徑, 孔端離光軸]
+// 標 sheet 的是圖上標註，其餘段落位置為依圖比例量測（約 ±0.5～1mm）；沒有外形圖的型號不列，改用推估
+const ISO3_LENS_DIM={
+  // CHIOPT FA 2/3"（C）
+  'FA0810A':{L:36.57,o:[[32,0],[32,4.3],[25.7,7.1],[25.7,10.1],[29,10.1],[29,20.7],[28.4,20.7],[28.4,26.9],[29,26.9],[29,33.1],[28.4,33.1],[28.4,36.57]]},
+  'FA1210A':{L:34.2,o:[[28.5,0],[28.5,7.6],[29,7.6],[29,18.5],[28.3,18.5],[28.3,24.5],[29,24.5],[29,30.4],[28.4,30.4],[28.4,34.2]]},
+  'FA1610A':{L:40.6,o:[[28.4,0],[28.4,3.8],[29,3.8],[29,14.9],[28.4,14.9],[28.4,26.3],[29,26.3],[29,38.4],[28.4,38.4],[28.4,40.6]]},
+  'FA2510A':{L:33.8,o:[[28.4,0],[28.4,2.9],[29,2.9],[29,11.9],[28.4,11.9],[28.4,20.6],[29,20.6],[29,30.1],[28.4,30.1],[28.4,33.8]]},
+  'FA3510A':{L:46.7,o:[[28.4,0],[28.4,4],[29,4],[29,15.1],[28.4,15.1],[28.4,26.2],[29,26.2],[29,42],[28.4,42],[28.4,46.7]]},
+  'FA5010A':{L:56.1,o:[[28.4,0],[28.4,4.5],[29,4.5],[29,19.2],[28.4,19.2],[28.4,29.1],[29,29.1],[29,51],[28.4,51],[28.4,56.1]]},
+  // CHIOPT HC 1"（C）
+  'HC1205A':{L:57.6,o:[[48,0],[48,9.5],[50,9.5],[50,26],[48,26],[48,39.6],[50,39.6],[50,50.9],[48,50.9],[48,57.6]]},
+  'HC1605A':{L:58.2,o:[[48,0],[48,10.2],[50,10.2],[50,26.7],[48,26.7],[48,39.1],[50,39.1],[50,51.1],[48,51.1],[48,58.2]]},
+  'HC2505A':{L:47.74,o:[[43,0],[43,9.2],[44.8,9.2],[44.8,19.6],[43,19.6],[43,31],[44.8,31],[44.8,43.8],[43,43.8],[43,47.74]]},
+  'HC3505A':{L:53,o:[[48,0],[48,6.9],[50.2,10],[50.2,14.3],[52,14.3],[52,26],[50.2,26],[50.2,37.2],[52,37.2],[52,46.8],[50.2,46.8],[50.2,53]]},
+  'HC7505A':{L:90.6,o:[[57,0],[57,9],[58.2,13],[58.2,21.3],[60,21.3],[60,45.1],[58.2,45.1],[58.2,56.8],[60,56.8],[60,80],[58,80],[58,90.6]]},
+  // CHIOPT FA 1.1"（C）
+  'FA0815A':{L:77.8,o:[[60,0],[60,8.6],[46.4,18.9],[46.4,22.1],[51,22.1],[51,43.1],[49,43.1],[49,54.8],[51,54.8],[51,71.3],[48,71.3],[48,77.8]]},
+  'FA1216A':{L:67.8,o:[[48,0],[48,5.8],[40,14.9],[40,22.1],[41.5,22.1],[41.5,35.1],[40,35.1],[40,49.7],[41.5,49.7],[41.5,62.6],[40,62.6],[40,67.8]]},
+  'FA1616A':{L:78,o:[[38,0],[38,9.1],[37,9.1],[37,22.2],[38,22.2],[38,40.9],[36.6,40.9],[36.6,52],[38,52],[38,70.3],[36.5,70.3],[36.5,78]]},
+  'FA2516A':{L:78,o:[[37,0],[37,6.2],[33.7,11.7],[33.7,13.7],[35.8,13.7],[35.8,22.3],[37,22.3],[37,40.9],[35.8,40.9],[35.8,52.1],[37,52.1],[37,70.3],[35.8,70.3],[35.8,78]]},
+  'FA3516A':{L:47.6,o:[[38,0],[38,5.7],[37,7.3],[37,11.4],[38,11.4],[38,25.2],[36.5,25.2],[36.5,32.6],[38,32.6],[38,41.4],[36.5,41.4],[36.5,47.6]]},
+  'FA5016A':{L:53.88,o:[[38,0],[38,5.9],[36.9,7.5],[36.9,12.1],[38,12.1],[38,27.4],[36.4,27.4],[36.4,34.4],[38,34.4],[38,47.8],[36.4,47.8],[36.4,53.88]]},
+  // CHIOPT 大像圈（M72）
+  'MS5515A':{L:157.16,o:[[76.8,0],[76.8,7.9],[79.2,7.9],[79.2,21],[80.2,21],[80.2,50],[79.2,50],[79.2,85],[80.2,85],[80.2,106.5],[79.2,106.5],[79.2,115],[78.2,115],[78.2,157.16]]},
+  // CHIOPT 遠心（C）
+  'MV65021B':{L:120.11,o:[[68,0],[68,37],[40,56],[40,78.72],[24,88.72],[24,113.31],[30,113.31],[30,120.11]]},
+  'MV65101B':{L:90.61,o:[[30,0],[30,19.4],[24,25.3],[24,80.61],[27,80.61],[27,90.61]]},
+  'MV11051B':{L:120.5,o:[[35,0],[35,19.8],[24,36.02],[24,108.5],[30,108.5],[30,120.5]]},
+  'MV11201A':{L:133.02,o:[[30,0],[30,25.3],[24,32.3],[24,120.9],[32,120.9],[32,133.02]],port:[75.5,16,23.2]},
+  // MYUTRON 遠心（C）
+  'FT05C-65R':{L:86.1,o:[[32,0],[32,19.6],[24,23.4],[24,68],[30,68.5],[30,86.1]],port:[51.6,16,34.1]},
+  'FT10C-65R':{L:74.5,o:[[24,0],[24,54],[30,56.2],[30,74.5]],port:[35.9,16,27]},
+  'FT20C-65R':{L:78.8,o:[[22,0],[22,51.5],[29,54],[29,70.6],[30,70.6],[30,78.8]],port:[28,16,29]},
+  'FT40C-65R':{L:109.5,o:[[25,0],[25,68],[17,72.4],[17,82.7],[22.8,85],[22.8,101],[29,101],[29,109.5]],port:[50.3,16,29]},
+  'TL10C-40':{L:43.2,o:[[16,0],[16,37.6],[25.4,37.6],[25.4,39],[34,39],[34,43.2]],port:[20.5,15.9,26.4]},
+  'TL20C-40':{L:39.5,o:[[16,0],[16,34.5],[25.4,34.5],[25.4,35],[34.5,35],[34.5,39.5]],port:[19.1,16,26.5]},
+  'TL40C-40':{L:47.5,o:[[16,0],[16,42.5],[25.4,42.5],[25.4,43],[34.6,43],[34.6,47.5]],port:[19.1,16,26.3]},
+  'TL60C-40':{L:59.5,o:[[16,0],[16,54.5],[25.4,54.5],[25.4,55],[35,55],[35,59.5]],port:[19.1,16,26.4]},
+  'MGTL03VC':{L:161.6,o:[[76,0],[76,12],[74,12],[74,33],[66,37],[66,46],[48,61],[48,115],[46,120],[40,121],[40,136.1],[45,136.1],[45,161.6]],port:[86.9,14,48.5]},
+  'MGTL012V':{L:232.4,o:[[154,0],[154,17.4],[150,17.4],[150,80],[126,80],[126,91.5],[62,148.6],[62,224.4],[40,224.4],[40,232.4]]},
+  'MGTL015V':{L:187.2,o:[[130,0],[130,22],[127,22],[127,80],[106,80],[106,91.5],[62,130],[62,179.2],[40,179.2],[40,187.2]]},
+  'MGTL02V':{L:180.2,o:[[110,0],[110,23],[105,23],[105,65],[85,65],[85,76.5],[62,118],[62,172.2],[40,172.2],[40,180.2]]},
+  // Moritex 遠心
+  'MTL-9011C-012':{L:300.6,o:[[125,0],[125,50],[88,160],[125,160],[125,170],[90,170],[90,237],[80,237],[80,245],[47,257],[45,300.6]]},
+  'MTL-15018C-012':{L:439.7,o:[[180,0],[180,70.5],[124,232],[124,238],[180,238],[180,250],[105,250],[105,260],[88,302],[82,302],[82,333.5],[68,335],[68,353],[58,358],[58,413],[53,413],[53,439.7]]},
+  'MML03-HR110D':{L:142.4,o:[[48,0],[48,68.9],[26,83.9],[26,135.9],[29,135.9],[29,142.4]],port:[92,15.7,28.5]},
+  'MML03-HR110':{L:142.4,o:[[48,0],[48,68.9],[26,79.9],[26,135.9],[29,135.9],[29,142.4]]},
+  'MML1-HR65DVI':{L:85,o:[[30,0],[30,85]],port:[45.1,16,27]},
+  'MML1-HR65VI':{L:85,o:[[30,0],[30,85]]},
+  'MML2-HR110DVI':{L:231.5,o:[[57,0],[57,72.5],[51,76.9],[51,107],[47,107],[47,149.5],[52,149.5],[52,231.5]],port:[120.7,16,85.4]},
+  'MML2-HR110VI':{L:231.5,o:[[57,0],[57,72.5],[51,76.9],[51,107],[47,107],[47,149.5],[52,149.5],[52,231.5]]},
+  // Canrill 遠心
+  'XF-PTL06511':{L:212.5,o:[[90,0],[90,75],[76,87.1],[76,122.5],[70,132],[70,169],[40,179],[40,212.5]]},
+  'XF-PTL13711':{L:367.8,o:[[166,0],[166,65],[119,193],[166,193],[166,205],[108,210],[70,238.6],[70,324.3],[36,334],[36,367.8]]},
+  'XF-PTL08016':{L:270.3,o:[[104,0],[104,60],[80,118.5],[104,118.5],[104,126.5],[80,126.5],[80,151.6],[70,151.6],[70,203.6],[40,216],[40,241.8],[52,241.8],[52,270.3]]},
+  'XF-MT1X65':{L:107.6,o:[[30,0],[30,25],[22,53.8],[22,96.6],[29,96.6],[29,107.6]]},
+  'XF-MT2X65':{L:88.2,o:[[25,0],[25,19.2],[22,20],[22,77.2],[29,77.2],[29,88.2]]},
+  'XF-10MDT0209X200':{L:237.6,o:[[99,0],[99,20],[96,20],[96,50],[99,50],[99,69],[87,72.5],[36,187.6],[36,237.6]]},
+};
+// 目前選的鏡頭有原廠外形就回傳 {L, prof, port, Rf}；比對型號字串（資料庫名稱如「CHIOPT FA0810A (2/3")」）
+function iso3LensNote(){ const r=iso3LensReal(iso3SelLens()); return r ? '鏡頭照原廠外形圖（'+r.key+'）；機身為示意' : '鏡頭依同類原廠尺寸推估、機身為示意'; }
+function iso3SelLens(){ const e=document.getElementById('lens-pick'), i=e?e.value:''; return (i!==''&&allLens()[+i])?allLens()[+i]:null; }
+function iso3LensReal(l){
+  if(!l||!l.n) return null;
+  const n=String(l.n).toUpperCase().replace(/\s+/g,'');
+  const key=Object.keys(ISO3_LENS_DIM).sort((a,b)=>b.length-a.length).find(k=>n.includes(k.toUpperCase().replace(/\s+/g,'')));
+  if(!key) return null;
+  const d=ISO3_LENS_DIM[key];
+  const prof=[[0,0]].concat(d.o.map(([D,z])=>[D/2,z]), [[0,d.L]]);
+  return {L:d.L, Rf:d.o[0][0]/2, prof, port:d.port?{z:d.port[0], r:d.port[1]/2, out:d.port[2]}:null, key};
+}
+// 沒有原廠外形時的推估：照上面實際型號的尺寸趨勢擬合
+// CCTV：依像圈分 2/3"(Ø29)／1"(Ø48)／1.1"(Ø38～60)，長度依焦距內插；遠心：前端口徑≈1.1×視野對角＋12、長度≈1.7×視野對角＋0.25·WD＋40（21 支原廠外形擬合，誤差約 ±30%）
+function iso3LensEst(lt, p, hF, vF, Rm, wd){
+  const ic0=+p.imageCircle||+p.ic||0, ic=(ic0>0&&ic0<900)?ic0:Math.hypot(p.rW*p.pixelSize/1000||0, p.rH*p.pixelSize/1000||0), fl=+p.fl||0, fd=Math.hypot(hF||0, vF||0)||Math.max(hF,vF);
+  const interp=(tab,x)=>{ if(x<=tab[0][0]) return tab[0][1]; for(let i=1;i<tab.length;i++) if(x<=tab[i][0]){ const a=tab[i-1], b=tab[i]; return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0]); } return tab[tab.length-1][1]*x/tab[tab.length-1][0]; };
+  if(lt==='telecentric'){
+    const Df=Math.max(30, fd*1.1+12), L=_cl(1.7*fd+.25*wd+40, 40, 480), Dr=_cl(Df*.45, 24, 70), Dc=Math.max(Rm*2-2, Dr*.8);
+    return {L, Rf:Df/2, prof:[[0,0],[Df/2,0],[Df/2,L*.3],[Dr/2,L*.47],[Dr/2,L*.92],[Dc/2,L*.92],[Dc/2,L],[0,L]]};
+  }
+  // CCTV（含線掃大靶面）：家族外徑＋焦距→長度
+  const fam = ic>40 ? {D:Math.max(2*Rm+8,80), tab:[[35,120],[55,157],[100,220]]}
+            : ic>16.5 ? {D:fl<=10?60:fl<=14?48:38, tab:[[8,77.8],[12,67.8],[16,78],[25,78],[35,47.6],[50,53.9]]}
+            : ic>11.5 ? {D:fl>=60?60:fl>=30?52:48, tab:[[12,57.6],[16,58.2],[25,47.7],[35,53],[75,90.6]]}
+            :           {D:29, tab:[[8,36.6],[12,34.2],[16,40.6],[25,33.8],[35,46.7],[50,56.1]]};
+  const L=_cl(interp(fam.tab, fl>0?fl:25), 30, 260), R=fam.D/2, r0=R*.98;
+  return {L, Rf:r0, prof:[[0,0],[r0,0],[r0,L*.1],[R,L*.1],[R,L*.42],[r0,L*.42],[r0,L*.56],[R,L*.56],[R,L*.88],[r0,L*.88],[r0,L],[0,L]]};
+}
+// 機身外形（示意）＋鏡頭外形：選了資料庫鏡頭且有原廠外形圖就照實際尺寸，否則依同類原廠尺寸推估
 function iso3Optic(p, hF, vF, isLine, mount){
   const senW=(p.rW*p.pixelSize/1000)||10, senH=isLine?0:((p.rH*p.pixelSize/1000)||senW), senD=Math.hypot(senW,senH);
   const mountD=iso3MountD(mount, isLine?senW:senD), Rm=mountD/2, wd=Math.max(1,+p.wd||1);
   const body=isLine ? {x:62, y:Math.max(62,senW+22,mountD+10), z:52}
                     : (()=>{ const s=_cl(Math.max(senD*1.3+12,mountD+6),29,96); return {x:s,y:s,z:_cl(s*1.15,40,110)}; })();
-  const lt=p.lensType; let lens;
-  if(lt==='telecentric'){
-    const Rf=Math.max(Rm+2, Math.max(hF,isLine?0:vF)*.55+6), L=_cl(1.3*wd+.8*Math.max(hF,vF),90,480);
-    lens={L,Rf,prof:[[0,0],[Rf*.9,0],[Rf,2.5],[Rf,L*.30],[Rf*.97,L*.32],[Rm*1.12,L*.52],[Rm*1.12,L*.86],[Rm*1.2,L*.87],[Rm*1.2,L*.93],[Rm,L*.94],[Rm,L],[0,L]]};
-  } else if(lt==='objective'){
+  const lt=p.lensType; let lens=iso3LensReal(iso3SelLens());
+  if(!lens && lt==='objective'){
     const Rt=Math.max(Rm,22), L=45+_cl(wd*2.2+110,140,220);
     lens={L,Rf:9,prof:[[0,0],[5,0],[9,2],[12.5,12],[14.5,28],[16,40],[16,45],[18,46],[18,52],[Rt,54],[Rt,L-12],[Rt*1.08,L-11],[Rt*1.08,L-4],[Rm,L-3],[Rm,L],[0,L]]};
-  } else {
-    const fl=+p.fl||0, L=_cl(fl>0?fl*1.05+18:70,40,180), R=Rm+3;
-    lens={L,Rf:R*.84,prof:[[0,0],[R*.84,0],[R,2],[R,L*.16],[R+1.6,L*.18],[R+1.6,L*.38],[R,L*.40],[R,L*.52],[R+1.2,L*.54],[R+1.2,L*.68],[R,L*.70],[R*.93,L*.78],[R*.93,L],[0,L]]};
-  }
+  } else if(!lens) lens=iso3LensEst(lt, p, hF, vF, Rm, wd);
   const rb=lt==='telecentric'?1:Math.min(1,lens.Rf*.7/Math.max(hF/2,vF/2,1));   // 光束在鏡頭端的口徑比例
   return {body, lens, Rm, mountD, lt, isLine, wd, rb, foot:{x:Math.max(body.x,2*lens.Rf+4), y:Math.max(body.y,2*lens.Rf+4)},
     zSpan:lens.L+5+body.z};                                         // 鏡頭前端到機身頂
@@ -5952,6 +6041,9 @@ function iso3Optic(p, hF, vF, isLine, mount){
 function iso3Camera(root, K, O, c, zLensF, zMount){
   const {body,lens,Rm}=O, zCam0=zLensF+lens.L+5, zCam1=zCam0+body.z;
   iso3Lathe(root, lens.prof, K.lens, c.x, c.y, zLensF);
+  if(lens.port){ const P=lens.port, sd=c.side>0?-1:1;                                       // 同軸光源側孔（原廠外形圖）
+    iso3CylX(root, P.r, P.out, K.lens, c.x+sd*P.out/2, c.y, zLensF+P.z, 24);
+    iso3CylX(root, P.r*.55, 1, K.dark, c.x+sd*(P.out+.3), c.y, zLensF+P.z, 18); }
   iso3Cyl(root, lens.Rf*.72, .6, K.front, c.x, c.y, zLensF-.4, 40, false);            // 前鏡片
   iso3Cyl(root, Rm+2.5, 5, K.ring, c.x, c.y, zCam0-5, 40);                              // 卡口環
   iso3Box(root, body.x, body.y, body.z, K.body, c.x, c.y, zCam0);
@@ -6021,15 +6113,14 @@ function iso3Machine(root, D, o){
   const gx0=o.gx0, gx1=o.gx1, gcx=(gx0+gx1)/2, plateX=gx1-gx0, beamX=_cl(.09*u,60,160), postXs=beamX;
   const postY=SyX/2+m*.6+postW/2;
   const xMin=Math.min(o.sA-Sx/2, gx0)-m, xMax=Math.max(o.sB+Sx/2, gx1)+m;
-  const motorL=_cl(.07*u,60,150), motorS=_cl(.05*u,45,100);
-  const baseX0=xMin-40, baseX1=xMax, Lb=baseX1-baseX0, bcx=(baseX0+baseX1)/2;
+  const baseX0=xMin-10, baseX1=xMax, Lb=baseX1-baseX0, bcx=(baseX0+baseX1)/2;
   const Wb=SyX+2*m, Hb=_cl(.012*u,8,20);
 
   // 底板（薄鋁板，只當載台的基準；不畫花崗岩、腳座，重點在光學配置）＋柔影
   const halo=iso3Plane(root, Lb*1.4, Wb*1.6, K.halo, bcx, 0, -Hb-.5); halo.renderOrder=0; halo.userData.nofit=true;
   iso3Box(root, Lb, Wb, Hb, K.aluD, bcx, 0, -Hb);
 
-  // X 軸：導軌＋止擋、滾珠螺桿＋軸承座、馬達（吊在基座端面）
+  // X 軸：導軌＋止擋、滾珠螺桿＋軸承座（10/20 Johnny：不畫馬達）
   const railY=SyX/2-rw*1.6;
   [-1,1].forEach(sg=>{
     iso3Box(root, Lb-45, rw, rh, K.steel, bcx+7.5, sg*railY, 0);
@@ -6038,11 +6129,6 @@ function iso3Machine(root, D, o){
   const scR=_cl(.008*u,6,16), scZ=zBlk0+bh*.45;
   iso3CylX(root, scR, Lb-70, K.steel, bcx, 0, scZ);
   [baseX0+30, baseX1-30].forEach(ex=>iso3Box(root, 24, scR*4.5, scZ+scR*1.8, K.aluD, ex, 0, 0));
-  const mz=Math.max(scZ, motorS/2-Hb*.3);
-  iso3Box(root, 10, motorS*1.25, mz+motorS*.62+Hb*.55, K.aluD, baseX0-5, 0, -Hb*.55);  // 馬達座板
-  iso3Box(root, motorL, motorS, motorS, K.body, baseX0-10-motorL/2, 0, mz-motorS/2);
-  iso3CylX(root, motorS*.2, 12, K.dark, baseX0-10-motorL-6, 0, mz, 24);                 // 編碼器端蓋
-  iso3CylX(root, scR*1.5, 22, K.dark, baseX0+12, 0, scZ, 24);                           // 聯軸器
 
   // 移動載台（stage、stageY 會動）
   const stage=new THREE.Group(), stageY=new THREE.Group(); root.add(stage); stage.add(stageY);
@@ -6310,7 +6396,7 @@ function iso3BuildArea(p, A){
   // 畫檢常用畫面輪播：白→紅→綠→藍→灰
   const PAT=[[1,1,1],[1,.28,.25],[.3,.92,.4],[.3,.5,1],[.55,.56,.58]];
   return { root, all:B.all, camBox:B.camBox, anim:true,
-    pose:t=>{ const c=PAT[Math.floor(Math.max(0,t)/1.6)%PAT.length]; K.lit.color.setRGB(c[0],c[1],c[2]); },
+    pose:t=>{ const c=PAT[Math.floor(Math.max(0,t)/1.6)%PAT.length]; K.lit.color.setRGB(c[0],c[1],c[2]); }, cyc:PAT.length*1.6,
     info:{ crowded, many, total } };
 }
 
@@ -6539,7 +6625,7 @@ function iso3BuildT3(o){
     M.run={ sA, sB, Lx, Ly, seg:Lx, passes, nC:1, pitchY:Ly, bandC:band, yStage, tiles:snap?tiles:0, tileW:fy,
       stepY:passes>1?(Ly-band)/(passes-1):0 }; }
   if(snap){ const fr=ISO3.tex['fringe'+o.col];
-    M.pose=t=>{ fr.offset.x=-(t*.35)%1; if(M.run) iso3PoseRun(M,t); }; }
+    M.pose=t=>{ fr.offset.x=-(t*.35)%1; if(M.run) iso3PoseRun(M,t); }; M.cyc=1/.35*2; }
   return M;
 }
 
@@ -6669,6 +6755,60 @@ function iso3SyncBtns(){
   document.querySelectorAll('#dg3-wrap .iso3-views button').forEach(b=>{ b.classList.toggle('on', b.dataset.v===ISO3.view); if(b.dataset.v==='close') b.textContent=t3?'感測器特寫':'相機特寫'; });
   const lab=document.getElementById('dg3-sublab'); if(lab) lab.textContent=t3?'感測器特寫':'相機特寫';
   const pb=document.getElementById('dg3-play'); if(pb){ pb.textContent=ISO3.play?'❚❚ 暫停':'▶ 播放'; pb.style.visibility=(ISO3.meta&&ISO3.meta.anim)?'':'hidden'; }
+  const gb=document.getElementById('dg3-gif'); if(gb){ gb.style.display=(ISO3.meta&&ISO3.meta.anim)?'':'none'; if(!ISO3._gif) gb.textContent='⤓ GIF'; }
+}
+// ── 動畫存成 GIF（10/20 Johnny）：照目前視角，把一整輪動畫逐格畫出來，用 gif.js 編碼後下載 ──
+const GIFJS='https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/';
+function iso3GifLib(){
+  const lib=window.GIF ? Promise.resolve() : new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=GIFJS+'gif.js'; s.onload=res; s.onerror=()=>rej(new Error('需要網路載入 GIF 元件')); document.head.appendChild(s); });
+  const wk=ISO3._gifWorker ? Promise.resolve() : fetch(GIFJS+'gif.worker.js').then(r=>{ if(!r.ok) throw new Error('需要網路載入 GIF 元件'); return r.text(); })
+    .then(t=>{ t=t.replace('transp=1;disp=2','transp=1;disp=1');                                       // 透明格保留上一格（只存有變的像素）
+      ISO3._gifWorker=URL.createObjectURL(new Blob([t],{type:'application/javascript'})); });   // worker 不能跨網域直接開，轉成本機 blob
+  return Promise.all([lib, wk]);
+}
+// 一輪動畫多長（秒）：載台掃描＝所有道＋回原點；畫檢＝畫面輪播一圈；條紋投影＝條紋走一個週期
+function iso3Cycle(M){
+  if(M.run){ const R=M.run, passDur=_cl(10/R.passes,.45,3.6)*(R.tiles>1?1.6:1), back=passDur*.35/(R.tiles>1?1.6:1); return R.passes*(passDur+back)+.9; }
+  return M.cyc||4;
+}
+async function iso3SaveGif(){
+  const M=ISO3.meta, btn=document.getElementById('dg3-gif');
+  if(!M||!M.anim||!ISO3.R||ISO3._gif) return;
+  ISO3._gif=true; const wasPlay=ISO3.play; ISO3.play=false; if(ISO3.raf){ cancelAnimationFrame(ISO3.raf); ISO3.raf=0; }
+  const say=t=>{ if(btn) btn.textContent=t; };
+  try{
+    say('載入中…'); await iso3GifLib();
+    const src=ISO3.R.domElement, sc=Math.min(1, 560/src.width), w=Math.round(src.width*sc), h=Math.round(src.height*sc);
+    const cyc=iso3Cycle(M), n=_cl(Math.round(cyc*8),12,120), dt=cyc/n;
+    const gif=new GIF({workers:2, quality:10, width:w, height:h, workerScript:ISO3._gifWorker, background:'#ffffff', transparent:0xff00ff});
+    const tmp=document.createElement('canvas'); tmp.width=w; tmp.height=h; const tc=tmp.getContext('2d');
+    const lab=document.getElementById('dg3-sublab');
+    let shown=null;                                                 // 跟上一格一樣的像素改成透明（檔案小很多）
+    for(let i=0;i<n;i++){
+      iso3Pose(i*dt); iso3Render();
+      tc.fillStyle='#fff'; tc.fillRect(0,0,w,h); tc.drawImage(src,0,0,w,h);
+      if(lab && lab.style.display!=='none'){ const k=h/(src.clientHeight||h); tc.fillStyle='#6e6e73'; tc.font=`600 ${Math.round(11*k)}px -apple-system,sans-serif`; tc.textBaseline='top'; tc.fillText(lab.textContent, 10*k, (parseFloat(lab.style.top)||0)*k); }
+      const im=tc.getImageData(0,0,w,h), px=im.data;
+      let same=null, cnt=0;
+      if(shown){ same=new Uint8Array(w*h); for(let j=0,q=0;j<px.length;j+=4,q++) if(Math.abs(px[j]-shown[j])+Math.abs(px[j+1]-shown[j+1])+Math.abs(px[j+2]-shown[j+2])<10){ same[q]=1; cnt++; } }
+      const useT=cnt>w*h*.05;                                       // 第一格、或幾乎整張都變了：整張照存
+      if(!shown) shown=new Uint8ClampedArray(px);
+      else for(let j=0,q=0;j<px.length;j+=4,q++){
+        if(useT&&same[q]){ px[j]=255; px[j+1]=0; px[j+2]=255; }
+        else { shown[j]=px[j]; shown[j+1]=px[j+1]; shown[j+2]=px[j+2]; }
+      }
+      tc.putImageData(im,0,0);
+      gif.addFrame(tc, {copy:true, delay:Math.round(dt*1000)});
+      gif.frames[gif.frames.length-1].transparent=useT?0xff00ff:null;
+      if(i%5===0){ say(`擷取 ${Math.round(i/n*100)}%`); await new Promise(r=>setTimeout(r,0)); }
+    }
+    const blob=await new Promise(res=>{ gif.on('progress',p=>say(`編碼 ${Math.round(p*100)}%`)); gif.on('finished',res); gif.render(); });
+    const d=new Date(), ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const mode=ISO3.kind==='t3'?'3d':ISO3.kind, nm=(typeof getProjName==='function'&&getProjName(mode))||'AOI示意圖';
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`${nm}_立體動畫_${ds}.gif`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  } catch(e){ alert('GIF 匯出失敗：'+(e&&e.message||e)); }
+  finally{ ISO3._gif=false; ISO3.play=wasPlay; ISO3.t0=performance.now(); ISO3._paused=0; iso3SyncBtns(); if(wasPlay) iso3Kick(); else { iso3Pose(0); iso3Render(); } }
 }
 // 共用進入點：參數沒變就只重畫，不重建場景；build() 回傳 meta，caption() 依 meta 寫說明列
 function iso3Draw(kind, capId, sig, build, caption){
@@ -6715,7 +6855,7 @@ function iso3Caption(p, r){
   if(LK.given) h+=_dc(`光源 ${esc(LK.name)}${LK.k==='bar'&&I.lightDeg?' 偏 '+I.lightDeg+'°':''}`);
   if(I.crowded) h+=_dc('鏡頭外徑大於相機間距，實際排不下','dc-l',_dcWarn);
   else if(I.stagger) h+=_dc('相機前後交錯排列');
-  h+=_dc('機構、機身、鏡頭外形為示意尺寸','dc-r');
+  h+=_dc(iso3LensNote(),'dc-r');
   cap.innerHTML=h;
 }
 
@@ -6735,7 +6875,7 @@ function iso3DrawStatic(p, r, ss){
     if(LK.given) h+=_dc(`光源 ${esc(LK.name)}`);
     if(I.crowded) h+=_dc('鏡頭／機身比相機間距大，實際排不下','dc-l',_dcWarn);
     if(I.many) h+=_dc('台數多，相機畫成簡化方塊');
-    h+=_dc('產品平放；機構、機身、鏡頭外形為示意尺寸','dc-r');
+    h+=_dc('產品平放；'+iso3LensNote(),'dc-r');
     cap.innerHTML=h;
   });
 }
@@ -6759,7 +6899,7 @@ function iso3DrawArea(A){
     h+=_dc('面板點亮（自發光），畫面輪播 白／紅／綠／藍／灰');
     if(I.crowded) h+=_dc('鏡頭／機身比相機間距大，實際排不下','dc-l',_dcWarn);
     if(I.many) h+=_dc('台數多，相機畫成簡化方塊');
-    h+=_dc('機構、機身、鏡頭外形為示意尺寸','dc-r');
+    h+=_dc(iso3LensNote(),'dc-r');
     cap.innerHTML=h;
   });
 }
