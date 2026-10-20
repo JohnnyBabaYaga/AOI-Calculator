@@ -443,7 +443,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ver-pill{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.22);
   border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   border-radius:11px;padding:1px 8px;vertical-align:middle;margin-left:6px;letter-spacing:.3px;}
-/* 版本號＝切換選單：v5.1 Paranal Beta（目前）／v4.5 Gaia（網站 v4.5/ 資料夾）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內）；兩版同網址底下，評估紀錄共用 */
+/* 版本號＝切換選單：v5.2 Paranal Beta（目前）／v4.5 Gaia（網站 v4.5/ 資料夾）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內）；兩版同網址底下，評估紀錄共用 */
 #hdr-title{display:flex;align-items:center;}
 .ver-wrap{margin-left:6px;}
 .ver-btn{background:none;border:none;padding:0;cursor:pointer;font-family:inherit;line-height:1;display:flex;}
@@ -864,6 +864,19 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .rpt-2col-right canvas{display:block;width:100%;height:0;flex:1 1 0;min-height:300px;}
 .rpt-2col-right #dg-caption,.rpt-2col-right #st-dg-caption,.rpt-2col-right #as-dg-caption{display:flex;justify-content:center;gap:10px;padding:7px 4px 2px;font-size:10px;line-height:1;flex-wrap:wrap;}
 @media(max-width:768px){.rpt-2col{grid-template-columns:1fr;}.rpt-2col-left .rpt-body{grid-template-columns:1fr;}.rpt-2col-right{border-left:none;border-top:1px solid var(--border);}.rpt-2col-right canvas{flex:none;height:auto;min-height:200px;}}
+/* v5.2 立體示意圖（掃描模式） */
+.iso3-wrap{position:relative;flex:1 1 0;min-height:340px;border-radius:10px;background:linear-gradient(180deg,#fbfbfd 0%,#eff1f5 100%);overflow:hidden;}
+.t3-blk-dg .iso3-wrap{flex:1 1 auto;height:380px;min-height:320px;max-height:480px;}
+.pdf-1page .t3-blk-dg .iso3-wrap{flex:none;height:300px;min-height:0;}
+#dg3-wrap #dg3{position:absolute;inset:0;width:100%;height:100%;min-height:0;flex:none;touch-action:pan-y;cursor:grab;}
+.iso3-ctl{position:absolute;left:8px;right:8px;top:8px;display:flex;justify-content:space-between;align-items:center;gap:6px;pointer-events:none;}
+.iso3-ctl>*{pointer-events:auto;}
+.iso3-ctl .seg button{padding:2px 8px;font-size:11px;}
+.iso3-play{border:none;background:var(--ios-fill,rgba(0,0,0,.06));border-radius:9px;padding:4px 9px;font-size:11px;color:#000;cursor:pointer;white-space:nowrap;}
+.iso3-hint{position:absolute;left:10px;bottom:7px;font-size:10px;color:var(--sub);pointer-events:none;}
+.iso3-sublab{position:absolute;left:0;right:0;padding:0 10px;font-size:10px;color:var(--sub);pointer-events:none;border-top:1px solid rgba(0,0,0,.06);padding-top:5px;margin-top:-6px;}
+.iso3-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--sub);text-align:center;padding:20px;}
+@media(max-width:768px){.iso3-wrap{flex:none;height:300px;}}
 .rpt-col:last-child{border-right:none;}
 .rpt-ctitle{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.4px;
             padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--border);}
@@ -1589,9 +1602,9 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <!-- 版本號＋📚 知識庫同一個框：左半切換版本、右半進知識庫（知識庫不是計算模式，是另一區）；手機標題和版本號藏起來，只留知識庫 -->
   <div class="hdr-vk">
     <div class="hdr-mwrap ver-wrap">
-      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.1 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
+      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.2 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
       <div class="hdr-menu ver-menu" id="ver-menu">
-        <span class="ver-it on">v5.1 Paranal Beta<small>知識庫、多連屏、曲面、自研模組</small></span>
+        <span class="ver-it on">v5.2 Paranal Beta<small>知識庫、多連屏、曲面、自研模組、立體示意圖</small></span>
         <a class="ver-it" href="v4.5/">v4.5 Gaia<small>評估計算與報告，不含知識庫</small></a>
         <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
       </div>
@@ -1692,8 +1705,10 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 </div>
   <div class="ab-pane" id="ab-p-log">
     <div class="cl-ver cur">
-      <div class="cl-hd"><span class="cl-v">v5.1 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-12</span></div>
+      <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
+      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭、光源照實際外形尺寸畫；可切換 場邊／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li>立體圖拿掉鋼構支架，重點放在光學配置</li></ul>
+      <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
@@ -2289,11 +2304,22 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
           <span>📐 系統示意圖</span>
           <div class="seg dg-view-seg pdf-hide" style="flex:0 0 auto;">
-            <button class="on" type="button" onclick="setDgView('top')">俯視</button>
-            <button type="button" onclick="setDgView('side')">光路側視</button>
+            <button class="on" type="button" data-v="iso" onclick="setDgView('iso')">立體</button>
+            <button type="button" data-v="top" onclick="setDgView('top')">俯視</button>
+            <button type="button" data-v="side" onclick="setDgView('side')">光路側視</button>
           </div>
         </div>
-        <canvas id="dg"></canvas>
+        <canvas id="dg" style="display:none"></canvas>
+        <div id="dg3-wrap" class="iso3-wrap">
+          <canvas id="dg3"></canvas>
+          <div class="iso3-ctl pdf-hide">
+            <div class="seg iso3-views"><button type="button" data-v="side" class="on" onclick="iso3SetView('side')">場邊</button><button type="button" data-v="front" onclick="iso3SetView('front')">正面</button><button type="button" data-v="top" onclick="iso3SetView('top')">上方</button><button type="button" data-v="close" onclick="iso3SetView('close')">相機特寫</button></div>
+            <button type="button" id="dg3-play" class="iso3-play" onclick="iso3TogglePlay()">❚❚ 暫停</button>
+          </div>
+          <div class="iso3-hint pdf-hide">拖曳旋轉 · 雙擊回場邊</div>
+          <div id="dg3-sublab" class="iso3-sublab" style="display:none">相機特寫</div>
+          <div id="dg3-msg" class="iso3-msg">立體圖載入中…</div>
+        </div>
         <div id="dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
@@ -2378,11 +2404,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
           <span>📐 系統示意圖</span>
           <div class="seg st-dg-view-seg pdf-hide" style="flex:0 0 auto;">
-            <button class="on" type="button" onclick="setStDgView('top')">俯視</button>
-            <button type="button" onclick="setStDgView('side')">光路側視</button>
+            <button class="on" type="button" data-v="iso" onclick="setStDgView('iso')">立體</button>
+            <button type="button" data-v="top" onclick="setStDgView('top')">俯視</button>
+            <button type="button" data-v="side" onclick="setStDgView('side')">光路側視</button>
           </div>
         </div>
-        <canvas id="st-dg"></canvas>
+        <canvas id="st-dg" style="display:none"></canvas>
         <div id="st-dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
@@ -2469,11 +2496,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
           <span>📐 配置示意圖</span>
           <div class="seg as-dg-view-seg pdf-hide" style="flex:0 0 auto;">
-            <button class="on" type="button" onclick="setAsDgView('top')">俯視</button>
-            <button type="button" onclick="setAsDgView('side')">光路側視</button>
+            <button class="on" type="button" data-v="iso" onclick="setAsDgView('iso')">立體</button>
+            <button type="button" data-v="top" onclick="setAsDgView('top')">俯視</button>
+            <button type="button" data-v="side" onclick="setAsDgView('side')">光路側視</button>
           </div>
         </div>
-        <canvas id="as-dg"></canvas>
+        <canvas id="as-dg" style="display:none"></canvas>
         <div id="as-dg-caption"></div>
       </div>
       </div><!-- /rpt-2col -->
@@ -2515,12 +2543,13 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
               <span style="font-weight:400;color:var(--sub);font-size:10px;">採用機種</span>
               <select id="t3-pick" onchange="t3PickModel(this.value)"></select>
               <div class="seg t3-dg-view-seg pdf-hide" style="flex:0 0 auto;">
-                <button class="on" type="button" onclick="setT3DgView('side')">側視</button>
-                <button type="button" onclick="setT3DgView('top')">俯視</button>
+                <button class="on" type="button" data-v="iso" onclick="setT3DgView('iso')">立體</button>
+                <button type="button" data-v="side" onclick="setT3DgView('side')">側視</button>
+                <button type="button" data-v="top" onclick="setT3DgView('top')">俯視</button>
               </div>
             </div>
           </div>
-          <canvas id="t3-dg"></canvas>
+          <canvas id="t3-dg" style="display:none"></canvas>
           <div id="t3-dg-caption"></div>
         </div>
         <div class="t3-infocol" data-pdf-block="推導出的需求 / 風險與注意">
@@ -4592,12 +4621,12 @@ function renderT3Brands(){
 // 3D 架構示意圖（可從建議機種中指定要採用的型號）
 // ═══════════════════════════════════════════════════════════
 // t3UserPick：使用者親自指定的採用機種；否則一律跟著系統首選（條件變了會自動換）
-let t3DgView='side', t3SelName=null, t3UserPick=false;
+let t3DgView='iso', t3SelName=null, t3UserPick=false;   // v5.2：預設立體圖
 
 function setT3DgView(v){
  t3DgView=v;
- const seg=document.querySelector('.t3-dg-view-seg');
- if(seg) seg.querySelectorAll('button').forEach(function(b,i){ b.classList.toggle('on', i===(v==='top'?1:0)); });
+ document.querySelectorAll('.t3-dg-view-seg button').forEach(function(b){ b.classList.toggle('on', b.dataset.v===v); });
+ iso3Host('t3-dg', v==='iso');
  drawT3Diagram();
 }
 let _t3Shown=[];
@@ -4656,6 +4685,8 @@ function t3Body(s){
 }
 
 function drawT3Diagram(){
+ if(t3DgView==='iso'){ if(iso3Active('t3')){ iso3Host('t3-dg',true); iso3DrawT3(); } return; }
+ iso3Host('t3-dg',false);
  const cv=document.getElementById('t3-dg'); if(!cv) return;
  const W=cv.offsetWidth, H=cv.offsetHeight; if(!W||!H) return;
  const dpr=window.devicePixelRatio||1;
@@ -5186,6 +5217,8 @@ function calcStatic(){
 function drawStaticDiagram(ss,r){
   const canvas=document.getElementById('st-dg');
   if(!canvas) return;
+  if(stDgView==='iso'){ if(iso3Active('static')){ iso3Host('st-dg',true); iso3DrawStatic(P(), r, ss); } return; }
+  iso3Host('st-dg',false);
   const dpr=window.devicePixelRatio||1;
   const W=canvas.offsetWidth, H=canvas.offsetHeight;
   if(!W||!H) return;
@@ -5343,7 +5376,7 @@ function drawFovOverlay(ctx, box, W, H, dark, labelMm){
 // ══════════════════════════════════════════
 // v3: 光路側視圖（相機 ↔ 鏡頭 ↔ 待測物 相對關係）
 // ══════════════════════════════════════════
-let dgView='top', stDgView='top', asDgView='top';
+let dgView='iso', stDgView='iso', asDgView='iso';   // v5.2：四個模式預設立體圖
 function _applySideToggle(canvasId, segSel, isSide){
   const seg=document.querySelector(segSel);
   if(seg) seg.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on', i===(isSide?1:0)));
@@ -5359,9 +5392,15 @@ function _applySideToggle(canvasId, segSel, isSide){
     else { c.style.flex=''; c.style.height=''; c.style.minHeight=''; c.style.maxHeight=''; }
   }
 }
-function setDgView(v){ dgView=v; _applySideToggle('dg','.dg-view-seg', v==='side'); drawDiagram(); }
-function setStDgView(v){ stDgView=v; _applySideToggle('st-dg','.st-dg-view-seg', v==='side'); calcStatic(); }
-function setAsDgView(v){ asDgView=v; _applySideToggle('as-dg','.as-dg-view-seg', v==='side'); calcAS(); }
+function setDgView(v){
+  dgView=v;
+  document.querySelectorAll('.dg-view-seg button').forEach(b=>b.classList.toggle('on', b.dataset.v===v));
+  iso3Host('dg', v==='iso');
+  _applySideToggle('dg','.dg-view-seg-none', v==='side');
+  drawDiagram();
+}
+function setStDgView(v){ stDgView=v; document.querySelectorAll('.st-dg-view-seg button').forEach(b=>b.classList.toggle('on', b.dataset.v===v)); iso3Host('st-dg', v==='iso'); _applySideToggle('st-dg','.st-dg-view-seg-none', v==='side'); calcStatic(); }
+function setAsDgView(v){ asDgView=v; document.querySelectorAll('.as-dg-view-seg button').forEach(b=>b.classList.toggle('on', b.dataset.v===v)); iso3Host('as-dg', v==='iso'); _applySideToggle('as-dg','.as-dg-view-seg-none', v==='side'); calcAS(); }
 function _truncTxt(ctx,s,maxW){
   s=String(s==null?'':s);
   if(ctx.measureText(s).width<=maxW) return s;
@@ -5494,225 +5533,1273 @@ function _sideLegendRow(ctx, x, y, wRight, marker, accent, kicker, spec, model, 
   ctx.fillText(_truncTxt(ctx, model, Math.max(40, wRight-cx)), cx, y);
   ctx.restore();
 }
+// v5.2：光路側視改成「剖面工程圖」：相機、鏡頭、光源用跟立體圖同一套外形尺寸（iso3Optic），
+// 長寬同一比例尺（mm）；WD 太長時中段省略（斷開符號）。鏡筒、機身畫剖面，鏡片、光圈、感測器看得到，
+// 取像光束：物面中心＋兩端三束，經鏡頭前端、光圈，倒像落在感測器上（示意光線追跡）。
 function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
-  dark=false; // app 為淺色主題(不隨 OS 深色)，否則型號/標註會用近白色畫在白底上而看不清
-  const accent='#007aff';
-  const ink  = dark?'#e9e9ee':'#1c2b45';
-  const sub  = dark?'#9aa0aa':'#6e6e73';
-  const line = dark?'rgba(255,255,255,.30)':'rgba(0,0,0,.28)';
-
-  const wd  = +p.wd || 0;
-  const fov = (+r.hFOV>0 ? +r.hFOV : +r.vFOV) || 0;
-  const sensorMm = (p.rW*p.pixelSize/1000) || 0;
-  const mag = +p.mag || 0;
-  const dof = +r.dof || 0;
-  const lt  = p.lensType;
-  const ltName = lt==='objective'?'物鏡':lt==='telecentric'?'遠心':'CCTV';
-  const isTele = lt==='telecentric';
-  const apLabel = (lt==='objective') ? (p.na>0?('NA '+(+p.na).toFixed(2)):'')
-                                     : (p.fn>0?('F/'+(+p.fn)) : '');
-
-  // 依所選相機/鏡頭決定外形與型號標示
-  const _pv=(id)=>{ const e=document.getElementById(id); return e?e.value:''; };
+  dark=false;
+  const accent='#007aff', ink='#1c2b45', sub='#6e6e73', line='rgba(0,0,0,.28)';
+  const wd=+p.wd||0, fov=(+r.hFOV>0 ? +r.hFOV : +r.vFOV)||0, mag=+p.mag||0, dof=+r.dof||0;
+  const sensorMm=(p.rW*p.pixelSize/1000)||0;
+  const lt=p.lensType, ltName=lt==='objective'?'物鏡':lt==='telecentric'?'遠心':'CCTV', isTele=lt==='telecentric';
+  const apLabel=(lt==='objective') ? (p.na>0?('NA '+(+p.na).toFixed(2)):'') : (p.fn>0?('F/'+(+p.fn)):'');
+  const _pv=id=>{ const e=document.getElementById(id); return e?e.value:''; };
   const _ci=_pv('cam-pick'), _li=_pv('lens-pick');
-  const selCam=(_ci!==''&&allCams()[+_ci])?allCams()[+_ci]:null;
-  const selLens=(_li!==''&&allLens()[+_li])?allLens()[+_li]:null;
-  const isLine = selCam? !!selCam.line : !!p.lineScan;
-  const camMount = selCam? (selCam.mount||'') : '';
-  const camName = selCam? selCam.n : (isLine?'線掃相機':'面陣相機');
-  const lensName = selLens? selLens.n : '手動設定';
-
+  const selCam=(_ci!==''&&allCams()[+_ci])?allCams()[+_ci]:null, selLens=(_li!==''&&allLens()[+_li])?allLens()[+_li]:null;
+  const isLine=selCam? !!selCam.line : !!p.lineScan, camMount=selCam?(selCam.mount||''):'';
+  const camName=selCam? selCam.n : (isLine?'線掃相機':'面陣相機'), lensName=selLens? selLens.n : '手動設定';
   const cap=document.getElementById(capId);
   if(!(fov>0) || !(wd>0)){
-    ctx.fillStyle=sub; ctx.font='11px -apple-system,sans-serif';
-    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle=sub; ctx.font='11px -apple-system,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText((r&&r.vignetting)?'暗角：像圈 < 感測器對角，FOV = 0':'請輸入有效光學參數', W/2, H/2);
-    if(cap) cap.innerHTML='';
-    return;
+    if(cap) cap.innerHTML=''; return;
   }
+  // ── 外形（mm，跟立體圖同一套）──
+  const O=iso3Optic(p, fov, +r.vFOV||fov, isLine, camMount), lens=O.lens, body=O.body;
+  const L=lens.L, Rf=lens.Rf, Rm=O.Rm, bw=isLine?body.y:body.x;
+  const zF=wd, zM=wd+L, zB0=zM+5, zB1=zB0+body.z;
+  const mU=String(camMount).toUpperCase();
+  const flange=/^CS/.test(mU)?12.5 : /^C/.test(mU)?17.53 : /^F/.test(mU)?46.5 : /M\d/.test(mU)?12 : (isLine?12:17.53);
+  const zSen=Math.min(zM+flange, zB0+body.z*.55);
+  const S=sensorMm>0?sensorMm:Math.min(bw*.5, 12), F=fov;
+  // 光源：靜態＝環形光、掃描＝條形光（自研模組有登錄就照它）；畫檢＝面板自發光
+  const mode=capId==='st-dg-caption'?'static':capId==='as-dg-caption'?'area':'scan';
+  const LK=mode==='area'?{k:'self', name:'面板自發光', given:true}:iso3LightKind(mode==='static'?'ring':'bar');
+  const barD=26, barH=36, th=_cl(Math.max(Math.PI/6, Math.atan((Rf+10)/wd)+.07), Math.PI/6, 1.36);
+  const dLight=Math.max((Rf+barD*.8+12)/Math.sin(th), 50), lightZ=dLight*Math.cos(th), sd=1;
+  const ri=Rf+6, ro=ri+18, ringZ=wd-Math.min(wd*.35,30);
+  const coxS=Math.max(2*Rf+10,40), coxZ0=Math.max(wd*.25, wd-coxS);
+  const domeR=Math.max(F,40)*.7+20;
+  // 橫向半寬（mm）：取最大者
+  let half=Math.max(F/2*1.15, Rf+4, Rm+6, bw/2+4);
+  if(LK.k==='ring') half=Math.max(half, ro+4);
+  if(LK.k==='bar') half=Math.max(half, (dLight+barH)*Math.sin(th)+barD*.6);
+  if(LK.k==='coax') half=Math.max(half, coxS/2+24);
+  if(LK.k==='dome') half=Math.max(half, domeR+4);
+  // ── 軸向：WD 太長就中段省略 ──
+  const hw=zB1-wd+30, needLow=LK.k==='bar'?lightZ+barH+20:LK.k==='dome'?domeR+15:30;
+  const needHigh=LK.k==='ring'?wd-ringZ+30:LK.k==='coax'?wd-coxZ0+20:30;
+  const brk=wd > Math.max(1.7*hw, needLow+needHigh+60);
+  const b1=brk?Math.max(needLow, Math.min(wd*.18, hw*.45)):wd, b2=brk?Math.max(needHigh, Math.min(wd*.18, hw*.45)):0, Gpx=brk?20:0;
+  const axMm=(brk?b1+b2:wd)+(zB1-wd)+26;
+  const legendH=46, FH=H-legendH, vertical=FH>W*.8;
+  const padA0=vertical?36:26, padA1=vertical?14:16;                 // 物面下方、相機上方留白
+  const resL=vertical?58:20, resR=vertical?96:20, resC=vertical?0:70;
+  const axisPx=(vertical?FH:W)-padA0-padA1-Gpx-(vertical?0:resL+resR);
+  const crossPx=(vertical?W-resL-resR:FH-resC);
+  const k=Math.max(.02, Math.min(axisPx/axMm, crossPx/(2*half)));
+  const A=z=> brk ? (z<=b1 ? z*k : (b1*k+Gpx+(z-(wd-b2))*k)) : z*k;     // 軸向 mm → px
+  const ox=vertical ? resL+(W-resL-resR)/2 : resL+padA0;
+  const oy=vertical ? FH-padA0 : 36+half*k;
+  const P=(z,q)=> vertical ? [ox+q*k, oy-A(z)] : [ox+A(z), oy+q*k];  // (軸向 mm, 橫向 mm) → 螢幕
+  const path=(pts,close)=>{ ctx.beginPath(); pts.forEach((pt,i)=>{ const s=P(pt[0],pt[1]); i?ctx.lineTo(s[0],s[1]):ctx.moveTo(s[0],s[1]); }); if(close) ctx.closePath(); };
+  const inGap=z=>brk&&z>b1&&z<wd-b2;
+  // 兩條直線（各由 [z,q]→[z,q]）在 z 區間內圍成的帶狀區；遇到省略段就拆兩段
+  const band=(l1, l2, fill)=>{ if(l1[0][0]>l1[1][0]){ l1=[l1[1],l1[0]]; l2=[l2[1],l2[0]]; }
+    const qAt=(l,z)=>l[0][1]+(l[1][1]-l[0][1])*(z-l[0][0])/((l[1][0]-l[0][0])||1e-9);
+    const segs=brk?[[l1[0][0],Math.min(b1,l1[1][0])],[Math.max(wd-b2,l1[0][0]),l1[1][0]]]:[[l1[0][0],l1[1][0]]];
+    segs.forEach(([z0,z1])=>{ if(z1<=z0) return; path([[z0,qAt(l1,z0)],[z1,qAt(l1,z1)],[z1,qAt(l2,z1)],[z0,qAt(l2,z0)]],true); ctx.fillStyle=fill; ctx.fill(); });
+  };
+  const ln=(l, stroke, w)=>{ if(l[0][0]>l[1][0]) l=[l[1],l[0]]; const qAt=(z)=>l[0][1]+(l[1][1]-l[0][1])*(z-l[0][0])/((l[1][0]-l[0][0])||1e-9);
+    const segs=brk?[[l[0][0],Math.min(b1,l[1][0])],[Math.max(wd-b2,l[0][0]),l[1][0]]]:[[l[0][0],l[1][0]]];
+    ctx.strokeStyle=stroke; ctx.lineWidth=w||1;
+    segs.forEach(([z0,z1])=>{ if(z1<=z0) return; path([[z0,qAt(z0)],[z1,qAt(z1)]]); ctx.stroke(); }); };
+  const metal=(c1,c2)=>{ const a=P(0,-half), b=P(0,half), g=ctx.createLinearGradient(a[0],a[1],b[0],b[1]); g.addColorStop(0,c1); g.addColorStop(.5,c2); g.addColorStop(1,c1); return g; };
 
-  const legendH = 46;                 // 底部圖例區高度（相機/鏡頭型號放大顯示）
-  const padL=16, padR=14;
-  const FH = H - legendH;             // 光路示意可用高度（其餘留給底部圖例）
-  // 直式構圖（相機在上、待測物在下，同實際 AOI 架構，順便把上下空白用掉）。
-  // 門檻放寬，確保三個模式一致；只有極寬扁的版位才退回橫式。
-  const vertical = FH > W*0.8;
+  // 光軸
+  ctx.save(); ctx.strokeStyle=line; ctx.setLineDash([6,3,1.5,3]); ctx.lineWidth=.8;
+  path([[-4,0],[zB1+20,0]]); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
 
-  // ── 沿光軸座標系：a = 沿光軸(0=物面 → aSensor=感測器)，p = 垂直光軸 ──
-  const dimGap = 30;
-  let axisLen, crossMax, originX, originY;
-  if(vertical){
-    const topPad=26, botPad=32;
-    axisLen  = Math.max(150, FH - topPad - botPad);
-    crossMax = Math.max(30, Math.min(W*0.30, 150));
-    originX  = Math.round(W*0.55);    // 光軸位置（左側留給尺寸線）
-    originY  = FH - botPad;           // 物面在下
-  } else {
-    axisLen  = Math.max(90, W - padL - padR - 24);
-    crossMax = Math.max(30, Math.min((FH-dimGap)*0.52, 168));
-    originX  = padL+4;
-    originY  = Math.round((FH - dimGap)*0.52);
+  // ── 待測物（剖面）＋背光／面板 ──
+  const pT=Math.max(1.1, 2.2/k), pw=half*1.02, fovL=-F/2, fovR=F/2;
+  if(LK.k==='back'){ const bh=Math.max(8, 6/k); path([[-pT-bh,-pw*.9],[-pT,-pw*.9],[-pT,pw*.9],[-pT-bh,pw*.9]],true); ctx.fillStyle='#3a3f47'; ctx.fill();
+    path([[-pT-.6/k,-pw*.85],[-pT,-pw*.85],[-pT,pw*.85],[-pT-.6/k,pw*.85]],true); ctx.fillStyle='#fff6d8'; ctx.fill(); }
+  path([[-pT,-pw],[0,-pw],[0,pw],[-pT,pw]],true);
+  ctx.fillStyle=mode==='area'?'#2a2f37':'#c5cfda'; ctx.fill(); ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=.8; ctx.stroke();
+  if(mode==='area'){ path([[0,-pw*.96],[1.2/k,-pw*.96],[1.2/k,pw*.96],[0,pw*.96]],true); ctx.fillStyle='#f4f8ff'; ctx.fill();
+    const g0=P(0,0), g1=P(18/k,0), gr=ctx.createLinearGradient(g0[0],g0[1],g1[0],g1[1]); gr.addColorStop(0,'rgba(120,180,255,.35)'); gr.addColorStop(1,'rgba(120,180,255,0)');
+    path([[1.2/k,-pw*.96],[18/k,-pw*.96],[18/k,pw*.96],[1.2/k,pw*.96]],true); ctx.fillStyle=gr; ctx.fill(); }
+  // 視野（產品表面上的藍條）
+  path([[0,fovL],[Math.max(1.4/k,.01),fovL],[Math.max(1.4/k,.01),fovR],[0,fovR]],true); ctx.fillStyle=accent; ctx.fill();
+
+  // ── 光源（剖面）＋照明光 ──
+  const warm='rgba(255,176,32,', ledC='#fff3c4', lampC='#3a3f47';
+  if(LK.k==='ring'){
+    [-1,1].forEach(s=>{
+      path([[ringZ,s*ri],[ringZ,s*ro],[ringZ+16,s*ro],[ringZ+16,s*ri]],true); ctx.fillStyle=lampC; ctx.fill();
+      path([[ringZ-.1,s*(ri+2)],[ringZ+2,s*(ri+2)],[ringZ+2,s*(ro-2)],[ringZ-.1,s*(ro-2)]],true); ctx.fillStyle=ledC; ctx.fill();
+      band([[ringZ,s*(ri+3)],[0,-s*F*.15]],[[ringZ,s*(ro-3)],[0,s*F*.55]], warm+'.13)');
+    });
+  } else if(LK.k==='bar'){
+    const n=[-sd*Math.sin(th), -Math.cos(th)], v=[sd*Math.sin(th), Math.cos(th)], u=[Math.cos(th), -sd*Math.sin(th)];
+    const Fz=lightZ, Fq=sd*dLight*Math.sin(th);                   // 發光面中心（z, q）
+    const cor=(a,b)=>[Fz+u[1]*a+v[1]*b, Fq+u[0]*a+v[0]*b];
+    path([cor(-barD/2,0),cor(barD/2,0),cor(barD/2,barH),cor(-barD/2,barH)],true); ctx.fillStyle=lampC; ctx.fill();
+    path([cor(-barD*.32,-.1),cor(barD*.32,-.1),cor(barD*.32,2.2),cor(-barD*.32,2.2)],true); ctx.fillStyle=ledC; ctx.fill();
+    band([cor(-barD*.3,0),[0,fovL*.6]],[cor(barD*.3,0),[0,fovR*.6]], warm+'.24)');
+    void n;
+  } else if(LK.k==='coax'){
+    const h=wd-coxZ0;
+    path([[coxZ0,-coxS/2],[wd,-coxS/2],[wd,coxS/2],[coxZ0,coxS/2]],true); ctx.fillStyle='rgba(58,63,71,.18)'; ctx.fill(); ctx.strokeStyle=lampC; ctx.lineWidth=1.4; ctx.stroke();
+    path([[coxZ0+h*.1,coxS/2],[coxZ0+h*.9,coxS/2],[coxZ0+h*.9,coxS/2+18],[coxZ0+h*.1,coxS/2+18]],true); ctx.fillStyle=lampC; ctx.fill();
+    path([[coxZ0+h*.15,-coxS*.4],[coxZ0+h*.85,coxS*.4]]); ctx.strokeStyle='rgba(120,170,220,.9)'; ctx.lineWidth=2; ctx.stroke();   // 分光鏡
+    band([[coxZ0+h*.5,coxS/2],[coxZ0+h*.5,0]],[[coxZ0+h*.62,coxS/2],[coxZ0+h*.62,0]], warm+'.25)');
+    band([[coxZ0+h*.55,-F*.45],[0,-F*.45]],[[coxZ0+h*.55,F*.45],[0,F*.45]], warm+'.12)');
+  } else if(LK.k==='dome'){
+    ctx.strokeStyle=lampC; ctx.lineWidth=Math.max(3,3*k);
+    const pts=[]; for(let i=0;i<=40;i++){ const a=i/40*Math.PI; const q=domeR*Math.cos(a), z=domeR*Math.sin(a); if(Math.abs(q)>Rf+4) pts.push([z,q]); else if(pts.length&&pts[pts.length-1]!=='|') pts.push('|'); }
+    let seg=[]; pts.concat(['|']).forEach(pt=>{ if(pt==='|'){ if(seg.length>1){ path(seg); ctx.stroke(); } seg=[]; } else seg.push(pt); });
+    band([[domeR*.7,-domeR*.7],[0,-F*.4]],[[domeR*.7,domeR*.7],[0,F*.4]], warm+'.10)');
   }
-  // 物/感測器高度依倍率比例（senH/objH = m，此方向即真實比例）
-  const minBar = 10;
-  let objH, senH;
-  if(mag>=1){      senH = crossMax; objH = Math.max(minBar, crossMax/mag); }
-  else if(mag>0){  objH = crossMax; senH = Math.max(minBar, crossMax*mag); }
-  else {           objH = crossMax; senH = crossMax; }
-  if(!isFinite(objH)||objH<minBar) objH=crossMax;
-  if(!isFinite(senH)||senH<minBar) senH=minBar;
-  const apH = Math.max(objH, senH)/2;
+  // 景深（物面上下，實際 µm 很小，最少畫 4px）
+  if(dof>0){ const dz=Math.max(dof/1000, 4/k)/2;
+    path([[-dz,fovL],[dz,fovL],[dz,fovR],[-dz,fovR]],true); ctx.fillStyle='rgba(255,149,0,.28)'; ctx.fill();
+    ctx.strokeStyle='rgba(230,130,0,.9)'; ctx.setLineDash([2,2]); ctx.lineWidth=1; ctx.stroke(); ctx.setLineDash([]); }
 
-  // 相機外形：機身尺寸不隨感測器縮小（實際機身大小與感測器無關）
-  const camBH = isLine ? Math.max(30, Math.min(senH*0.5+16, 70))
-                       : Math.max(46, Math.min(senH+16, 110));
-  const camBW = isLine ? Math.max(48, Math.min(camBH*1.9, 150))
-                       : Math.max(30, Math.min(camBH*1.02, 104));
-  const camReserve = 7 + camBW + 5 + 10;
-  const aSensor = Math.max(70, axisLen - camReserve);
+  // ── 取像光束（三束：物面兩端＋中心），倒像落在感測器 ──
+  const inner=h=>{ let rr=lens.prof[0][0]; for(let i=1;i<lens.prof.length;i++){ const a=lens.prof[i-1], b=lens.prof[i]; if(h>=a[1]&&h<=b[1]){ rr=b[1]>a[1]?a[0]+(b[0]-a[0])*(h-a[1])/(b[1]-a[1]):Math.max(a[0],b[0]); break; } } return Math.max(1.2, rr-Math.max(rr*.13, 2.2, 2.4/k)); };
+  const fr=inner(3)*.92;
+  const fl=+p.fl||0, fn=+p.fn||0;
+  let a=isTele?Math.min(F*.04, 3, fr*.2) : lt==='objective'?Math.min(fr*.85, Math.max(1, (+p.na||.1)*wd)) : Math.min(fr*.85, fl>0&&fn>0?fl/(2*fn):fr*.6);
+  a=Math.max(a, .7/k);
+  const zs=wd+L*(isTele?.58:lt==='objective'?.4:.46), ra=Math.min(inner(zs-wd)*.8, isTele?Math.max(1.5,S*.12):Math.max(a*.7, 1));
+  const cols=['rgba(0,122,255,','rgba(0,170,200,','rgba(110,90,255,'];
+  [[0,0],[fovR,1],[fovL,2]].forEach(([q0,ci])=>{
+    const cf=isTele?q0:q0*(zs-wd)/zs, I=-q0*(S/Math.max(F,1e-6));
+    const c=cols[ci];
+    band([[0,q0],[wd,cf+a]],[[0,q0],[wd,cf-a]], c+'.16)');
+    path([[wd,cf+a],[zs,ra],[zSen,I],[zs,-ra],[wd,cf-a]],true); ctx.fillStyle=c+'.16)'; ctx.fill();
+    ln([[0,q0],[wd,cf]], c+'.75)', .9);
+    path([[wd,cf],[zs,0],[zSen,I]]); ctx.strokeStyle=c+'.75)'; ctx.lineWidth=.9; ctx.stroke();
+  });
 
-  // ── 共用比例尺：物距(WD) 與 像距 依實際 mm 分配光軸長度 ──
-  // 像距 ≈ m × WD（薄透鏡近似，與 app 其他 ≈ 估算一致）
-  const imgDistMm = (mag>0 && wd>0) ? mag*wd : 0;
-  let wA = wd, wB = (imgDistMm>0? imgDistMm : wd*0.35);
-  const segRatio = Math.max(wA,wB)/Math.max(1e-6, Math.min(wA,wB));
-  const nonUniform = segRatio > 6;   // 差距過大 → 平方根壓縮，避免一段被壓成一點
-  if(nonUniform){ wA=Math.sqrt(wA); wB=Math.sqrt(wB); }
-  const wTot = Math.max(1e-6, wA+wB);
-  const aLens = aSensor * (wA/wTot);
-  const imgSpan = aSensor - aLens;
-  // 鏡筒半徑必須容納其內部光束，否則光路會畫到鏡筒外面。
-  // 遠心：物側為平行光，前組口徑必須 ≥ 視野(這正是遠心鏡頭外徑大的原因)；
-  // 其他：光束在前端收斂為一點、在接口端擴為感測器大小。
-  const beamHalf = Math.max(isTele ? objH/2 : 0, senH/2);
-  const lensR = Math.max(12, Math.min(beamHalf + (isTele?10:8), crossMax*0.75+14));
-  // 鏡頭鎖在相機上：鏡筒自鏡頭前端(WD 終點)一路延伸到相機接口面，兩者必須相接不留縫
-  const lensLen = Math.max(18, imgSpan);
-  // 光束交會點：遠心的光闌在鏡筒內(後焦面)，一般鏡頭則在鏡頭節點(前端)
-  const aCross = isTele ? (aLens + lensLen*0.5) : aLens;
+  // ── 鏡頭（剖面）：鏡筒壁、對焦／光圈環（滾花）、鏡片、光圈葉片 ──
+  const pr=lens.prof, outer=pr.filter(([rr])=>rr>0).map(([rr,h])=>[wd+h,rr]);
+  [-1,1].forEach(s=>{
+    const o=outer.map(([z,rr])=>[z,s*rr]), iN=outer.slice().reverse().map(([z,rr])=>[z,s*Math.max(.5, inner(z-wd))]);
+    path(o.concat(iN),true); ctx.fillStyle=metal('#22262c','#454b55'); ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.55)'; ctx.lineWidth=.7; ctx.stroke();
+  });
+  // 滾花：prof 外凸的段落
+  for(let i=1;i<pr.length;i++){ const a0=pr[i-1], a1=pr[i]; if(Math.abs(a0[0]-a1[0])<.01 && a0[0]>Rm+.5 && a1[1]-a0[1]>4 && lt!=='objective'){
+    const n=Math.max(3, Math.round((a1[1]-a0[1])*k/3)); ctx.strokeStyle='rgba(255,255,255,.22)'; ctx.lineWidth=.6;
+    [-1,1].forEach(s=>{ for(let j=1;j<n;j++){ const z=wd+a0[1]+(a1[1]-a0[1])*j/n; path([[z,s*a0[0]],[z,s*(a0[0]-Math.max(1,1.4/k))]]); ctx.stroke(); } }); } }
+  // 鏡片（玻璃）
+  const glass=(zc, t, rr)=>{ const te=t*.3;
+    const a=P(zc-te,rr), b=P(zc-te,-rr), c=P(zc+te,-rr), d=P(zc+te,rr), c1=P(zc-t+te,0), c2=P(zc+t-te,0);
+    ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.quadraticCurveTo(c1[0],c1[1],b[0],b[1]); ctx.lineTo(c[0],c[1]); ctx.quadraticCurveTo(c2[0],c2[1],d[0],d[1]); ctx.closePath();
+    ctx.fillStyle='rgba(170,210,240,.55)'; ctx.fill(); ctx.strokeStyle='rgba(50,105,160,.8)'; ctx.lineWidth=.8; ctx.stroke(); };
+  const els=isTele?[[.03,.07],[.13,.06],[.66,.04],[.76,.04],[.88,.03]] : lt==='objective'?[[.015,.03],[.06,.04],[.14,.05],[.62,.04],[.72,.04]] : [[.06,.1],[.24,.08],[.40,.06],[.54,.06],[.74,.07]];
+  els.forEach(([f,t])=>{ const h=Math.max(1.5,L*f), rr=inner(h)*.94; glass(wd+h+L*t/2, Math.max(L*t, 1.6/k), rr); });
+  // 光圈
+  [-1,1].forEach(s=>{ const ri0=inner(zs-wd); path([[zs-.6/k,s*ra],[zs+.6/k,s*ra],[zs+.6/k,s*ri0],[zs-.6/k,s*ri0]],true); ctx.fillStyle='#1b1e23'; ctx.fill(); });
 
-  // 光軸座標 → 螢幕座標
-  const MX = (a,pp)=> vertical ? (originX+pp) : (originX+a);
-  const MY = (a,pp)=> vertical ? (originY-a)  : (originY+pp);
+  // ── 卡口＋機身（剖面）：外殼、散熱鰭片、感測器（PCB、封裝、感光區、保護玻璃）、接頭與線材 ──
+  const wall=Math.max(2, 1.6/k), bh2=bw/2;
+  [-1,1].forEach(s=>{ path([[zM,s*Rm],[zB0,s*Rm],[zB0,s*(Rm+4)],[zM,s*(Rm+4)]],true); ctx.fillStyle='#9ba2ab'; ctx.fill(); });
+  path([[zB0,-bh2],[zB1,-bh2],[zB1,bh2],[zB0,bh2]],true); ctx.fillStyle=metal('#4b525d','#6d7684'); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.55)'; ctx.lineWidth=.8; ctx.stroke();
+  path([[zB0+wall,-bh2+wall],[zB1-wall,-bh2+wall],[zB1-wall,bh2-wall],[zB0+wall,bh2-wall]],true); ctx.fillStyle='#e9edf2'; ctx.fill();
+  path([[zB0-.1,-Rm*.92],[zB0+wall+.1,-Rm*.92],[zB0+wall+.1,Rm*.92],[zB0-.1,Rm*.92]],true); ctx.fillStyle='#e9edf2'; ctx.fill();   // 卡口開孔
+  for(let i=0;i<5;i++){ const z=zB0+body.z*(.18+i*.16); [-1,1].forEach(s=>{ path([[z,s*bh2],[z+Math.max(1.6,1.2/k),s*bh2],[z+Math.max(1.6,1.2/k),s*(bh2+Math.max(2.5,2/k))],[z,s*(bh2+Math.max(2.5,2/k))]],true); ctx.fillStyle='#4b525d'; ctx.fill(); }); }
+  const pcbW=bw*.78, pkW=Math.min(S+6, pcbW*.9);
+  path([[zSen+1.6,-pcbW/2],[zSen+3.2,-pcbW/2],[zSen+3.2,pcbW/2],[zSen+1.6,pcbW/2]],true); ctx.fillStyle='#2f6b4a'; ctx.fill();
+  path([[zSen,-pkW/2],[zSen+1.6,-pkW/2],[zSen+1.6,pkW/2],[zSen,pkW/2]],true); ctx.fillStyle='#2a2d33'; ctx.fill();
+  path([[zSen-.05,-S/2],[zSen+.5,-S/2],[zSen+.5,S/2],[zSen-.05,S/2]],true); ctx.fillStyle=accent; ctx.fill();
+  path([[zSen-1.4,-pkW/2*.9],[zSen-.9,-pkW/2*.9],[zSen-.9,pkW/2*.9],[zSen-1.4,pkW/2*.9]],true); ctx.fillStyle='rgba(150,200,235,.8)'; ctx.fill();
+  path([[zB1,-6],[zB1+8,-6],[zB1+8,6],[zB1,6]],true); ctx.fillStyle='#b2b8c1'; ctx.fill();
+  { const c0=P(zB1+8,0), c1=P(zB1+20,0), c2=P(zB1+24,10); ctx.strokeStyle='#30343b'; ctx.lineWidth=Math.max(2,4.4*k); ctx.beginPath(); ctx.moveTo(c0[0],c0[1]); ctx.quadraticCurveTo(c1[0],c1[1],c2[0],c2[1]); ctx.stroke(); }
 
-  // ===== 圖形：於旋轉後座標系內以「沿光軸座標」繪製 =====
-  ctx.save();
-  ctx.translate(originX, originY);
-  if(vertical) ctx.rotate(-Math.PI/2);
+  // 省略段斷開符號
+  if(brk){ const z0=b1, z1=wd-b2; [z0,z1].forEach(z=>{ const s0=P(z,-half*1.02), s1=P(z,half*1.02); ctx.strokeStyle='rgba(0,0,0,.45)'; ctx.lineWidth=1;
+      ctx.beginPath(); const n=10; for(let i=0;i<=n;i++){ const t=i/n, x=s0[0]+(s1[0]-s0[0])*t, y=s0[1]+(s1[1]-s0[1])*t, o=(i%2?3:-3); vertical?(i?ctx.lineTo(x,y+o):ctx.moveTo(x,y+o)):(i?ctx.lineTo(x+o,y):ctx.moveTo(x+o,y)); } ctx.stroke(); }); }
 
-  ctx.strokeStyle=line; ctx.setLineDash([5,4]); ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(-8,0); ctx.lineTo(axisLen+16,0); ctx.stroke();
-  ctx.setLineDash([]);
+  // ===== 標註（螢幕座標，文字水平）=====
+  const T=(txt,x,y,col,font,al,bl)=>{ ctx.fillStyle=col; ctx.font=font; ctx.textAlign=al||'left'; ctx.textBaseline=bl||'middle'; ctx.fillText(txt,x,y); };
+  const lead=(z,q,txt,col)=>{ const s=P(z,q); const e=vertical?[ox+half*k+10, s[1]]:[s[0], oy+half*k+12];
+    ctx.strokeStyle=col; ctx.globalAlpha=.55; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(s[0],s[1]); ctx.lineTo(e[0],e[1]); ctx.stroke(); ctx.globalAlpha=1;
+    vertical?T(txt,e[0]+3,e[1],col,'700 9px -apple-system,sans-serif'):T(txt,e[0],e[1]+2,col,'700 9px -apple-system,sans-serif','center','top'); return e; };
+  const wdTxt=`WD ${wd.toFixed(0)}mm`+(brk?'（中段省略）':'');
+  if(vertical){ const dx=Math.max(14, ox-half*k-16); _sideDimV(ctx, P(0,0)[1], P(wd,0)[1], dx, wdTxt, sub, ink); }
+  else { const dy=Math.max(24, oy-half*k-12); _sideDimH(ctx, P(0,0)[0], P(wd,0)[0], dy, wdTxt, sub, ink); }
+  const labs=[];
+  labs.push([zSen, S/2, `感測器 ${S.toFixed(1)}mm`, accent]);
+  labs.push([wd+L*.5, inner(L*.5)+3, ltName+(apLabel?(' '+apLabel):''), accent]);
+  labs.push([zB0+body.z*.8, bw/2, (isLine?'線掃描':'面陣')+(camMount?(' · '+camMount):''), ink]);
+  if(LK.k==='ring') labs.push([ringZ+8, ro, LK.name+(LK.given?'':'（預設）'), '#b06f00']);
+  else if(LK.k==='bar') labs.push([lightZ+barH*.5*Math.cos(th), dLight*Math.sin(th)+barH*.5*Math.sin(th)+barD*.3, LK.name+(LK.given?'':'（預設）'), '#b06f00']);
+  else if(LK.k==='coax') labs.push([coxZ0+(wd-coxZ0)*.5, coxS/2+18, LK.name, '#b06f00']);
+  else if(LK.k==='dome') labs.push([domeR*.6, domeR*.8, LK.name, '#b06f00']);
+  else if(LK.k==='back') labs.push([-pT-3/k, pw*.9, LK.name, '#b06f00']);
+  else if(LK.k==='self') labs.push([6/k, pw*.6, '面板點亮（自發光）', '#b06f00']);
+  labs.push([0, fovR, `FOV ${F.toFixed(F<10?2:1)}mm`+(dof>0?` · DoF ${dof.toFixed(dof<10?1:0)}µm`:''), accent]);
+  // 依位置排開避免重疊
+  const pos=labs.map(l=>({l, s:P(l[0],l[1])})).sort((a,b)=>vertical?a.s[1]-b.s[1]:a.s[0]-b.s[0]);
+  ctx.font='700 9px -apple-system,sans-serif'; pos.forEach(o=>o.w=ctx.measureText(o.l[2]).width);
+  const lx=Math.min(ox+half*k+10, W-6-Math.max(...pos.map(o=>o.w)));
+  let last=-1e9, lastW=0; pos.forEach(o=>{ const sv=vertical?o.s[1]:o.s[0]; const gap=vertical?13:(lastW+o.w)/2+10;
+    let v=Math.max(sv, last+gap); if(!vertical) v=Math.max(6+o.w/2, Math.min(v, W-6-o.w/2)); last=v; lastW=o.w;
+    const s=o.s, e=vertical?[lx, v]:[v, oy+half*k+12];
+    ctx.strokeStyle=o.l[3]; ctx.globalAlpha=.5; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(s[0],s[1]); ctx.lineTo(e[0]-(vertical?2:0),e[1]); ctx.stroke(); ctx.globalAlpha=1;
+    vertical?T(o.l[2],e[0]+1,e[1],o.l[3],'700 9px -apple-system,sans-serif'):T(o.l[2],e[0],e[1]+2,o.l[3],'700 9px -apple-system,sans-serif','center','top'); });
+  void lead;
+  T('待測物', ...(vertical?[ox, oy+16]:[ox-6, oy]), ink, '700 10px -apple-system,sans-serif', vertical?'center':'right', vertical?'top':'middle');
+  // 比例尺
+  { const nice=[1,2,5,10,20,50,100,200,500,1000]; const want=60/k; const len=nice.reduce((a,b)=>Math.abs(b-want)<Math.abs(a-want)?b:a);
+    const x1=W-12, x0=x1-len*k, y=FH-6; ctx.strokeStyle=sub; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(x0,y-3); ctx.lineTo(x0,y); ctx.lineTo(x1,y); ctx.lineTo(x1,y-3); ctx.stroke();
+    T(len+' mm', (x0+x1)/2, y-4, sub, '600 8px -apple-system,sans-serif', 'center', 'bottom'); }
+  T('同比例剖面；機身、鏡頭、光源外形為示意'+(mag>0?` · m ${mag.toFixed(2)}×`:''), 6, 10, sub, '8px -apple-system,sans-serif', 'left', 'middle');
 
-  // 物側光束：遠心=平行光(矩形)，其他=錐形收斂到節點
-  ctx.fillStyle='rgba(0,122,255,.10)';
-  if(isTele){
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aLens,objH/2); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
-    // 鏡筒內：平行光收斂至光闌
-    ctx.beginPath(); ctx.moveTo(aLens,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(aLens,objH/2); ctx.closePath(); ctx.fill();
-  } else {
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(0,objH/2); ctx.closePath(); ctx.fill();
-  }
-  // 像側光束：自交會點擴散到感測器
-  ctx.fillStyle='rgba(0,122,255,.07)';
-  ctx.beginPath(); ctx.moveTo(aCross,0); ctx.lineTo(aSensor,-senH/2); ctx.lineTo(aSensor,senH/2); ctx.closePath(); ctx.fill();
-
-  ctx.strokeStyle=accent; ctx.globalAlpha=.9; ctx.lineWidth=1.2;
-  if(isTele){
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aLens,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(aSensor,senH/2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aLens,objH/2);  ctx.lineTo(aCross,0); ctx.lineTo(aSensor,-senH/2); ctx.stroke();
-  } else {
-    ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(aCross,0); ctx.lineTo(aSensor,senH/2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0,objH/2);  ctx.lineTo(aCross,0); ctx.lineTo(aSensor,-senH/2); ctx.stroke();
-  }
-  ctx.globalAlpha=1;
-
-  if(dof>0){
-    const dofW=9;
-    ctx.fillStyle='rgba(255,149,0,.22)';
-    ctx.fillRect(-dofW/2, -objH/2, dofW, objH);
-    ctx.strokeStyle='rgba(230,130,0,.9)'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
-    ctx.strokeRect(-dofW/2, -objH/2, dofW, objH); ctx.setLineDash([]);
-  }
-
-  ctx.strokeStyle='#333'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.moveTo(0,-objH/2); ctx.lineTo(0,objH/2); ctx.stroke();
-  ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(-4,-objH/2); ctx.lineTo(4,-objH/2); ctx.moveTo(-4,objH/2); ctx.lineTo(4,objH/2); ctx.stroke();
-
-  _lensBarrel(ctx, aLens, aLens+lensLen, 0, lt, lensR, accent, dark);
-  const cam=_camGlyph(ctx, aSensor, 0, senH, isLine, camMount, accent, dark, camBW, camBH);
-  ctx.restore();
-
-  // ===== 標註：一律以螢幕座標繪製（文字保持水平易讀）=====
-  const camHalf = Math.max(camBH/2, senH/2);
-  if(vertical){
-    const dimX = Math.max(14, originX - Math.max(apH, lensR, camHalf) - 18);
-    _sideDimV(ctx, MY(0,0), MY(aLens,0), dimX, `WD ${wd.toFixed(0)}mm`, sub, ink);
-    if(imgDistMm>0 && imgSpan>34)
-      _sideDimV(ctx, MY(aLens,0), MY(aSensor,0), dimX, `像距 ≈${imgDistMm.toFixed(0)}mm`, sub, ink);
-    if(nonUniform){
-      ctx.fillStyle=sub; ctx.font='9px -apple-system,sans-serif';
-      ctx.textAlign='left'; ctx.textBaseline='bottom';
-      ctx.fillText('非等比（物距/像距差距大，已壓縮）', 6, FH-3);
-    }
-    ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-    ctx.fillStyle=ink; ctx.font='700 11px -apple-system,sans-serif';
-    ctx.fillText('待測物', MX(0,0), MY(0,0)+22);
-    ctx.fillText(isLine?'線掃描':'面陣', MX(cam.cx,0), Math.max(13, MY(aSensor+camBW+14,0)));
-    ctx.fillStyle=accent; ctx.font='700 10px -apple-system,sans-serif';
-    ctx.textAlign='left'; ctx.textBaseline='middle';
-    ctx.fillText(ltName, originX+Math.max(lensR,apH)+8, MY(aLens+lensLen/2,0));
-    _sideLeaderH(ctx, MX(0,objH/2), MY(0,0), `FOV ${fov.toFixed(fov<10?2:1)}mm`, accent);
-    if(sensorMm>0) _sideLeaderH(ctx, MX(aSensor,camHalf), MY(aSensor,0), `感測器 ${sensorMm.toFixed(1)}mm`, accent);
-    ctx.fillStyle=sub; ctx.font='700 9px -apple-system,sans-serif';
-    ctx.textAlign='left'; ctx.textBaseline='middle';
-    ctx.fillText(`m ${mag.toFixed(2)}×`, originX+6, MY(aLens*0.45,0));
-  } else {
-    const dimY=Math.min(FH-16, originY+Math.max(apH, camHalf)+18);
-    _sideDimH(ctx, MX(0,0), MX(aLens,0), dimY, `WD ${wd.toFixed(0)}mm`, sub, ink);
-    if(imgDistMm>0 && imgSpan>34)
-      _sideDimH(ctx, MX(aLens,0), MX(aSensor,0), dimY, `像距 ≈${imgDistMm.toFixed(0)}mm`, sub, ink);
-    if(nonUniform){
-      ctx.fillStyle=sub; ctx.font='9px -apple-system,sans-serif';
-      ctx.textAlign='right'; ctx.textBaseline='top';
-      ctx.fillText('水平為非等比（物距/像距差距過大，已壓縮）', W-padR, dimY+7);
-    }
-    ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-    ctx.fillStyle=ink; ctx.font='700 10px -apple-system,sans-serif';
-    ctx.fillText('待測物', MX(0,0), Math.max(11, MY(0,-objH/2)-16));
-    _sideLeaderV(ctx, MX(0,0), MY(0,-objH/2), `FOV ${fov.toFixed(fov<10?2:1)}mm`, accent, 'left');
-    ctx.fillStyle=accent; ctx.font='700 10px -apple-system,sans-serif';
-    ctx.fillText(ltName, MX(aLens+lensLen/2,0), Math.max(12, originY-Math.max(apH,lensR)-8));
-    ctx.fillStyle=ink;
-    ctx.fillText(isLine?'線掃描':'面陣', MX(cam.cx,0), Math.max(12, originY-camHalf-20));
-    if(sensorMm>0) _sideLeaderV(ctx, MX(aSensor,0), originY-camHalf+2, `感測器 ${sensorMm.toFixed(1)}mm`, accent, 'right');
-    ctx.fillStyle=sub; ctx.font='700 9px -apple-system,sans-serif';
-    ctx.textAlign='center'; ctx.textBaseline='bottom';
-    ctx.fillText(`m ${mag.toFixed(2)}×`, MX(aLens*0.5,0), originY-3);
-  }
-  // ===== 底部圖例：相機 / 鏡頭 型號（放大、粗體，一目了然）=====
-  const lgTop = H - legendH;
-  ctx.strokeStyle=line; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(padL, lgTop); ctx.lineTo(W-padR, lgTop); ctx.stroke();
-  const camModel = selCam ? camName : '手動設定';
-  const lensModel = selLens ? lensName : '手動設定';
-  const camSpec = (isLine?'線掃描':'面陣') + (camMount?(' · '+camMount+'-mount'):'');
-  const lensSpec = ltName + (apLabel?(' '+apLabel):'');
-  const rowY1 = lgTop + legendH*0.34, rowY2 = lgTop + legendH*0.74;
-  _sideLegendRow(ctx, padL+2, rowY1, W-padR, 'cam',  accent, '相機', camSpec,  camModel,  dark);
-  _sideLegendRow(ctx, padL+2, rowY2, W-padR, 'lens', accent, '鏡頭', lensSpec, lensModel, dark);
-
+  // ===== 底部圖例：相機 / 鏡頭 型號 =====
+  const lgTop=H-legendH, padL=16, padR=14;
+  ctx.strokeStyle=line; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(padL, lgTop); ctx.lineTo(W-padR, lgTop); ctx.stroke();
+  const camSpec=(isLine?'線掃描':'面陣')+(camMount?(' · '+camMount+'-mount'):''), lensSpec=ltName+(apLabel?(' '+apLabel):'');
+  _sideLegendRow(ctx, padL+2, lgTop+legendH*.34, W-padR, 'cam', accent, '相機', camSpec, selCam?camName:'手動設定', dark);
+  _sideLegendRow(ctx, padL+2, lgTop+legendH*.74, W-padR, 'lens', accent, '鏡頭', lensSpec, selLens?lensName:'手動設定', dark);
   if(cap){
     let h=`<span class="dc-l">${isLine?'線掃':'面陣'} ${esc(camName)}</span>`;
     h+=`<span class="dc-sep">·</span><span class="dc-c">${ltName}${apLabel?(' '+apLabel):''} ${esc(lensName)}</span>`;
     h+=`<span class="dc-sep">·</span><span class="dc-l">FOV ${fov.toFixed(1)}mm · WD ${wd.toFixed(0)}mm</span>`;
     h+=`<span class="dc-sep">·</span><span class="dc-r" style="color:${accent}">感測器 ${sensorMm.toFixed(1)}mm · m ${mag.toFixed(2)}×</span>`;
     if(dof>0) h+=`<span class="dc-sep">·</span><span class="dc-r">DoF ${dof.toFixed(dof<10?1:0)}µm</span>`;
+    h+=`<span class="dc-sep">·</span><span class="dc-r">光源 ${esc(LK.name)}${LK.given?'':'（預設）'}</span>`;
     cap.innerHTML=h;
   }
 }
+// ══════════════════════════════════════════
+// v5.2：立體示意圖（three.js）— 掃描、靜態、畫檢、3D 量測四個模式共用
+// 世界座標 mm，Z 朝上。掃描／3D：X＝載台移動方向、Y＝跨排方向；靜態／畫檢：X、Y 同俯視圖（產品平放，不畫載台、治具）。
+// 鏡頭前端（3D＝感測器底面）離產品上表面＝實際 WD；機構、機身、鏡頭外形為示意尺寸。
+// 畫法參考 Anatomy skill：實心零件＋面向明暗、細邊線、單一強調色（藍＝取像；3D 用量測方法的顏色），零件都有支撐。
+// 立體圖只有一組畫布（#dg3-wrap），切到哪個模式就搬到那個模式的示意圖區塊。
+// ══════════════════════════════════════════
+const ISO3={ R:null, scene:null, cam:null, root:null, sig:'', meta:null, lineMat:null, mats:{}, tex:{}, kind:'', cap:'dg-caption',
+  az:-62, el:24, zoom:1, view:'side', play:true, t0:0, raf:0, onScreen:true, loading:false, failed:false, _paused:1.6 };
+const ISO3_VIEWS={ side:{az:-62,el:24}, front:{az:-12,el:20}, top:{az:-90,el:88}, close:{az:-56,el:14} };
+if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ISO3.play=false;
+const _cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+function iso3Need(cb){
+  if(window.THREE) return cb();
+  ISO3._cb=cb;
+  if(ISO3.failed||ISO3.loading) return;
+  ISO3.loading=true;
+  const s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  s.onload=function(){ ISO3.loading=false; const f=ISO3._cb; ISO3._cb=null; if(f) f(); };
+  s.onerror=function(){ ISO3.loading=false; ISO3.failed=true; iso3Msg('立體圖需要網路載入繪圖元件，請改用其他視角'); };
+  document.head.appendChild(s);
+}
+function iso3Msg(t){ const m=document.getElementById('dg3-msg'); if(m){ m.textContent=t||''; m.style.display=t?'':'none'; } }
+// 把立體圖搬到某個模式的示意圖區塊（放在該模式 2D 畫布前面），on＝顯示立體圖、藏 2D 畫布
+function iso3Host(canvasId, on){
+  const cv=document.getElementById(canvasId), w=document.getElementById('dg3-wrap'); if(!cv||!w) return;
+  if(on){ if(w.nextElementSibling!==cv) cv.parentNode.insertBefore(w, cv); w.style.display=''; cv.style.display='none'; }
+  else { cv.style.display=''; if(w.nextElementSibling===cv) w.style.display='none'; }
+}
+// 立體圖只畫目前所在的模式（視窗縮放等共用呼叫不會把畫布搬走）
+function iso3Active(kind){ const is3=(typeof dim!=='undefined'&&dim==='3d'); return kind==='t3'?is3:(!is3&&S.mode===kind); }
+function iso3Shown(){ const w=document.getElementById('dg3-wrap'); return !!(w && w.offsetParent); }
+
+// ── 材質、貼圖（共用，不隨重建釋放）──
+function iso3Mat(key, color, o){
+  if(ISO3.mats[key]) return ISO3.mats[key];
+  o=o||{};
+  let m;
+  if(o.basic) m=new THREE.MeshBasicMaterial({color, map:o.map||null, transparent:o.op!=null, opacity:o.op!=null?o.op:1,
+    side:o.double?THREE.DoubleSide:THREE.FrontSide, depthWrite:o.op==null});
+  else m=new THREE.MeshLambertMaterial({color, flatShading:!o.smooth, map:o.map||null, polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1});
+  return (ISO3.mats[key]=m);
+}
+function iso3CanvasTex(key, w, h, draw, rep){
+  if(ISO3.tex[key]) return ISO3.tex[key];
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  draw(c.getContext('2d'), w, h);
+  const t=new THREE.CanvasTexture(c); t.anisotropy=4;
+  if(rep){ t.wrapS=t.wrapT=THREE.RepeatWrapping; }
+  return (ISO3.tex[key]=t);
+}
+function iso3Tex(){
+  // 真空吸附孔（載台面）
+  iso3CanvasTex('holes',128,128,(g,w,h)=>{ g.fillStyle='#d6dae0'; g.fillRect(0,0,w,h);
+    g.fillStyle='#a2aab4'; for(let i=0;i<4;i++) for(let j=0;j<4;j++){ g.beginPath(); g.arc(16+i*32,16+j*32,3,0,7); g.fill(); } }, true);
+  // 刻度尺：每 8px 一格，第 5 格長刻度
+  iso3CanvasTex('ruler',512,32,(g,w,h)=>{ g.fillStyle='#eef0f3'; g.fillRect(0,0,w,h); g.fillStyle='#59616c';
+    for(let i=0;i<64;i++){ g.fillRect(i*8,0,1.2, i%5===0?h*.62:h*.34); } }, true);
+  // 地面柔影
+  iso3CanvasTex('halo',128,128,(g,w,h)=>{ const r=g.createRadialGradient(w/2,h/2,4,w/2,h/2,w/2);
+    r.addColorStop(0,'rgba(20,30,50,.20)'); r.addColorStop(.6,'rgba(20,30,50,.09)'); r.addColorStop(1,'rgba(20,30,50,0)'); g.fillStyle=r; g.fillRect(0,0,w,h); });
+  // 面板顯示區（深色玻璃＋一道淡反光）
+  iso3CanvasTex('aa',256,256,(g,w,h)=>{ const r=g.createLinearGradient(0,0,w,h);
+    r.addColorStop(0,'#3d4858'); r.addColorStop(.44,'#2b333f'); r.addColorStop(.5,'#3a4553'); r.addColorStop(.56,'#2b333f'); r.addColorStop(1,'#232a34'); g.fillStyle=r; g.fillRect(0,0,w,h); });
+  // 點亮的畫面（中間稍亮、邊緣略暗）
+  iso3CanvasTex('lit',256,256,(g,w,h)=>{ const r=g.createRadialGradient(w/2,h/2,10,w/2,h/2,w*.75);
+    r.addColorStop(0,'#ffffff'); r.addColorStop(1,'#d9dde3'); g.fillStyle=r; g.fillRect(0,0,w,h); });
+}
+function iso3Line(){ return ISO3.lineMat || (ISO3.lineMat=new THREE.LineBasicMaterial({color:0x232831, transparent:true, opacity:.5})); }
+function iso3Mats(){
+  iso3Tex(); const T=ISO3.tex;
+  return { granite:iso3Mat('granite',0x7c828b), alu:iso3Mat('alu',0xe4e7eb), aluD:iso3Mat('aluD',0xc8cdd4), steel:iso3Mat('steel',0xb2b8c1),
+    dark:iso3Mat('dark',0x3a3f47), body:iso3Mat('body',0x5c6572), lens:iso3Mat('lens',0x2d3138,{smooth:true}), ring:iso3Mat('ring',0x9ba2ab,{smooth:true}),
+    glass:iso3Mat('glass',0xc5cfda), holes:iso3Mat('holes',0xffffff,{map:T.holes}), ruler:iso3Mat('ruler',0xffffff,{map:T.ruler}), aa:iso3Mat('aa',0xffffff,{map:T.aa}),
+    cable:iso3Mat('cable',0x30343b,{smooth:true}), front:iso3Mat('front',0x1d3147,{smooth:true}), led:iso3Mat('led',0xfdfdff,{basic:true}),
+    glow:iso3Mat('glow',0x5aa9ff,{basic:true,op:.26,double:true}), beam:iso3Mat('beam',0x007aff,{basic:true,op:.10,double:true}), fov:iso3Mat('fov',0x007aff,{basic:true}),
+    scan:iso3Mat('scanned',0x007aff,{basic:true,op:.30}), sheet:iso3Mat('sheet',0xffc861,{basic:true,op:.12,double:true}),
+    halo:iso3Mat('halo',0xffffff,{basic:true,op:1,double:true,map:T.halo}),
+    panel:iso3Mat('panel',0x2a2f37), lit:iso3Mat('lit',0xffffff,{basic:true,map:T.lit}),
+    fpc:iso3Mat('fpc',0xc98a2b), pcb:iso3Mat('pcb',0x2f6b4a),
+    part:iso3Mat('part',0x8e98a4), pad:iso3Mat('pad',0xb9c1ca) };
+}
+
+// ── 幾何小工具（z＝底面高度）；邊線只畫折角，曲面不出現格線 ──
+function iso3Add(parent, geo, mat, x, y, z, edge){
+  const m=new THREE.Mesh(geo, mat); m.position.set(x,y,z); parent.add(m);
+  if(edge!==false){ const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo, edge||28), iso3Line()); e.position.copy(m.position); parent.add(e); m.userData.edge=e; }
+  return m;
+}
+function iso3Box(parent, w, d, h, mat, x, y, z, edge){
+  const g=new THREE.BoxGeometry(w,d,h); g.translate(0,0,h/2);
+  return iso3Add(parent, g, mat, x, y, z, edge);
+}
+function iso3Cyl(parent, r, h, mat, x, y, z, seg, edge){        // 沿 Z
+  const g=new THREE.CylinderGeometry(r, r, h, seg||40); g.rotateX(Math.PI/2); g.translate(0,0,h/2);
+  return iso3Add(parent, g, mat, x, y, z, edge);
+}
+function iso3CylX(parent, r, len, mat, x, y, z, seg){            // 沿 X，中心在 (x,y,z)
+  const g=new THREE.CylinderGeometry(r, r, len, seg||32); g.rotateZ(Math.PI/2);
+  return iso3Add(parent, g, mat, x, y, z);
+}
+function iso3Lathe(parent, prof, mat, x, y, z, seg){            // prof: [[半徑, 高度]…] 由前端(0)往後
+  const g=new THREE.LatheGeometry(prof.map(p=>new THREE.Vector2(Math.max(0,p[0]), p[1])), seg||48); g.rotateX(Math.PI/2);
+  return iso3Add(parent, g, mat, x, y, z, 30);
+}
+function iso3Tube(parent, pts, r, mat){
+  const c=new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(p[0],p[1],p[2])));
+  return iso3Add(parent, new THREE.TubeGeometry(c, 36, r, 10, false), mat, 0, 0, 0, false);
+}
+function iso3Quad(parent, a, b, c, d, mat){                      // 半透明光束面
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute([...a,...b,...c, ...a,...c,...d],3));
+  const m=new THREE.Mesh(g, mat); m.renderOrder=5; parent.add(m); return m;
+}
+function iso3Plane(parent, w, h, mat, x, y, z, flip){
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h), mat); m.position.set(x,y,z); if(flip) m.rotation.x=Math.PI; m.renderOrder=4; parent.add(m); return m;
+}
+// 貼著表面的矩形（曲面時逐格抬高）；zAt 可以是數字或 (x,y)=>z
+function iso3Patch(parent, mat, x0, x1, y0, y1, zAt, n){
+  n=n||1; const g=new THREE.PlaneGeometry(x1-x0, y1-y0, n, n), p=g.attributes.position, cx=(x0+x1)/2, cy=(y0+y1)/2;
+  for(let i=0;i<p.count;i++){ const x=p.getX(i)+cx, y=p.getY(i)+cy; p.setXYZ(i, x, y, typeof zAt==='function'?zAt(x,y):zAt); }
+  const m=new THREE.Mesh(g, mat); m.renderOrder=4; parent.add(m); return m;
+}
+// 視野金字塔：鏡頭前端（cx,cy,zA，口徑縮 rb 倍）→ 產品上 fx（沿 X）× fy（沿 Y）的取像範圍
+function iso3Pyr(parent, mat, cx, cy, zA, rb, fx, fy, zAt){
+  const a=fx/2, b=fy/2, zf=(x,y)=>typeof zAt==='function'?zAt(x,y):zAt;
+  const P=(sx,sy,top)=>{ const x=cx+sx*a*(top?rb:1), y=cy+sy*b*(top?rb:1); return [x, y, top?zA:zf(x,y)]; };
+  [[-1,-1,1,-1],[1,-1,1,1],[1,1,-1,1],[-1,1,-1,-1]].forEach(([x1,y1,x2,y2])=>iso3Quad(parent,P(x1,y1,1),P(x2,y2,1),P(x2,y2,0),P(x1,y1,0),mat));
+}
+// 曲面：沿 axis（'x'|'y'）彎，展開座標 u → 投影 R·sin(u/R)，邊緣往上翹 R(1−cos(u/R))（凹面朝相機）；厚度沿法線
+function iso3Bend(g, R, axis){
+  if(!(R>0)) return g;
+  const p=g.attributes.position;
+  for(let i=0;i<p.count;i++){
+    const u=axis==='y'?p.getY(i):p.getX(i), t=p.getZ(i), a=u/R;
+    const s=R*Math.sin(a)-t*Math.sin(a), z=R*(1-Math.cos(a))+t*Math.cos(a);
+    if(axis==='y') p.setY(i,s); else p.setX(i,s); p.setZ(i,z);
+  }
+  g.computeVertexNormals(); return g;
+}
+
+// 卡口外徑（含法蘭）mm：依相機 mount；沒有就依感測器尺寸推典型卡口
+function iso3MountD(mount, sensorMm){
+  const m=String(mount||'').toUpperCase().replace(/\s/g,'');
+  const k=m.match(/M(\d{2,3})/); if(k) return +k[1]+8;
+  if(/^F/.test(m)) return 56;
+  if(/^C/.test(m)) return 32;
+  return sensorMm<=17?32 : sensorMm<=36?56 : sensorMm<=45?50 : sensorMm<=66?80 : 103;
+}
+// 光源型式：自研模組有登錄就照它，否則用該模式的預設（掃描＝條形光、靜態＝環形光）
+function iso3LightKind(def){
+  const m=(typeof curMod==='function')?curMod():null, t=(m&&m.light&&m.light.type)||'';
+  def=def||'bar';
+  const k=/環形/.test(t)?'ring' : /同軸/.test(t)?'coax' : /背光/.test(t)?'back' : /穹頂/.test(t)?'dome' : /條形|線光|線形/.test(t)?'bar' : t?def:def;
+  return {k, name:t||(def==='ring'?'環形光':'條形光'), given:!!t};
+}
+function iso3SelCam(){ const ce=document.getElementById('cam-pick'), ci=ce?ce.value:''; return (ci!==''&&allCams()[+ci])?allCams()[+ci]:null; }
+// 機身＋鏡頭外形（示意）：依卡口、感測器、鏡頭型式、焦距、WD 推估
+function iso3Optic(p, hF, vF, isLine, mount){
+  const senW=(p.rW*p.pixelSize/1000)||10, senH=isLine?0:((p.rH*p.pixelSize/1000)||senW), senD=Math.hypot(senW,senH);
+  const mountD=iso3MountD(mount, isLine?senW:senD), Rm=mountD/2, wd=Math.max(1,+p.wd||1);
+  const body=isLine ? {x:62, y:Math.max(62,senW+22,mountD+10), z:52}
+                    : (()=>{ const s=_cl(Math.max(senD*1.3+12,mountD+6),29,96); return {x:s,y:s,z:_cl(s*1.15,40,110)}; })();
+  const lt=p.lensType; let lens;
+  if(lt==='telecentric'){
+    const Rf=Math.max(Rm+2, Math.max(hF,isLine?0:vF)*.55+6), L=_cl(1.3*wd+.8*Math.max(hF,vF),90,480);
+    lens={L,Rf,prof:[[0,0],[Rf*.9,0],[Rf,2.5],[Rf,L*.30],[Rf*.97,L*.32],[Rm*1.12,L*.52],[Rm*1.12,L*.86],[Rm*1.2,L*.87],[Rm*1.2,L*.93],[Rm,L*.94],[Rm,L],[0,L]]};
+  } else if(lt==='objective'){
+    const Rt=Math.max(Rm,22), L=45+_cl(wd*2.2+110,140,220);
+    lens={L,Rf:9,prof:[[0,0],[5,0],[9,2],[12.5,12],[14.5,28],[16,40],[16,45],[18,46],[18,52],[Rt,54],[Rt,L-12],[Rt*1.08,L-11],[Rt*1.08,L-4],[Rm,L-3],[Rm,L],[0,L]]};
+  } else {
+    const fl=+p.fl||0, L=_cl(fl>0?fl*1.05+18:70,40,180), R=Rm+3;
+    lens={L,Rf:R*.84,prof:[[0,0],[R*.84,0],[R,2],[R,L*.16],[R+1.6,L*.18],[R+1.6,L*.38],[R,L*.40],[R,L*.52],[R+1.2,L*.54],[R+1.2,L*.68],[R,L*.70],[R*.93,L*.78],[R*.93,L],[0,L]]};
+  }
+  const rb=lt==='telecentric'?1:Math.min(1,lens.Rf*.7/Math.max(hF/2,vF/2,1));   // 光束在鏡頭端的口徑比例
+  return {body, lens, Rm, mountD, lt, isLine, wd, rb, foot:{x:Math.max(body.x,2*lens.Rf+4), y:Math.max(body.y,2*lens.Rf+4)},
+    zSpan:lens.L+5+body.z};                                         // 鏡頭前端到機身頂
+}
+// 一台相機：鏡頭（前端在 zLensF）＋卡口環＋機身＋鰭片＋支架（上到 zMount）＋線材；c.side＝光源那側（支架鎖另一側）
+function iso3Camera(root, K, O, c, zLensF, zMount){
+  const {body,lens,Rm}=O, zCam0=zLensF+lens.L+5, zCam1=zCam0+body.z;
+  iso3Lathe(root, lens.prof, K.lens, c.x, c.y, zLensF);
+  iso3Cyl(root, lens.Rf*.72, .6, K.front, c.x, c.y, zLensF-.4, 40, false);            // 前鏡片
+  iso3Cyl(root, Rm+2.5, 5, K.ring, c.x, c.y, zCam0-5, 40);                              // 卡口環
+  iso3Box(root, body.x, body.y, body.z, K.body, c.x, c.y, zCam0);
+  for(let i=0;i<4;i++) [-1,1].forEach(sx=>iso3Box(root, 2.5, body.y*.86, 2.2, K.dark, c.x+sx*(body.x/2+1.2), c.y, zCam0+body.z*(.2+i*.18), false));
+  // 不畫支架（重點在光學配置）；機身頂部兩個接頭＋一小段往上的線材
+  const bs=-(c.side||-1), lc=_cl(body.z*.55,18,60);
+  [-1,1].forEach(sy=>{
+    const cx=c.x-bs*body.x*.18, cy=c.y+sy*body.y*.34;
+    iso3Cyl(root, 4.5, 7, K.steel, cx, cy, zCam1, 18);
+    iso3Tube(root, [[cx,cy,zCam1+6],[cx,cy,zCam1+lc*.6],[cx+bs*lc*.25,cy,zCam1+lc]], 2.4, K.cable);
+  });
+  return zCam1;
+}
+// 每台相機自己的光源（環形／同軸／穹頂），zS＝產品表面
+function iso3CamLight(root, K, LK, O, c, zLensF, zS, fx, fy){
+  const lens=O.lens, wd=zLensF-zS;
+  if(LK.k==='ring'){
+    const ri=lens.Rf+6, ro=ri+18, z=zLensF-Math.min(wd*.35,30);
+    iso3Lathe(root, [[ri,0],[ro,0],[ro,16],[ri,16],[ri,0]], K.dark, c.x, c.y, z);
+    const ann=new THREE.Mesh(new THREE.RingGeometry(ri+2, ro-2, 48), K.led); ann.position.set(c.x,c.y,z-.3); ann.rotation.x=Math.PI; root.add(ann);
+  } else if(LK.k==='coax'){
+    const s=Math.max(2*lens.Rf+10,40), z=Math.max(zS+wd*.25, zLensF-s), h=zLensF-z;
+    iso3Box(root, s, s, h, K.dark, c.x, c.y, z);
+    iso3Box(root, 18, s*.8, h*.8, K.body, c.x+(c.side||-1)*(s/2+9), c.y, z+h*.1);
+    iso3Plane(root, s*.6, s*.6, K.led, c.x, c.y, z-.3, true);
+  } else if(LK.k==='dome'){
+    const R=Math.max(fx,fy,40)*.7+20, pr=[];
+    for(let i=0;i<=24;i++){ const a=i/24*Math.PI/2; pr.push([Math.max(R*Math.cos(a),lens.Rf+4), R*Math.sin(a)]); }
+    iso3Lathe(root, pr, K.alu, c.x, c.y, zS+2);
+  }
+}
+// 地面柔影（不算進取景）
+function iso3Halo(root, w, h){ const m=iso3Plane(root, w*1.3, h*1.3, iso3Mats().halo, 0, 0, -.5); m.renderOrder=0; m.userData.nofit=true; return m; }
+// 相機架（目前不畫；保留函式）（靜態／畫檢／3D 單次取像）：四柱＋外框，每排相機一支橫梁；排太密就整片安裝板。zMount＝橫梁底面
+function iso3Frame(root, K, o){
+  const pw=_cl(.03*o.u,30,70), zB=o.zMount, x0=o.x0-pw/2, x1=o.x1+pw/2, y0=o.y0-pw/2, y1=o.y1+pw/2;
+  const L=x1-x0, W=y1-y0, cx=(x0+x1)/2, cy=(y0+y1)/2;
+  [[x0,y0],[x0,y1],[x1,y0],[x1,y1]].forEach(([x,y])=>{
+    iso3Box(root, pw+26, pw+26, 6, K.aluD, x, y, 0);                                     // 腳座板
+    [[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>iso3Cyl(root, 3, 1, K.dark, x+a*(pw/2+7), y+b*(pw/2+7), 6, 14, false));
+    iso3Box(root, pw, pw, zB+pw-6, K.alu, x, y, 6);                                       // 立柱
+  });
+  const th=m=>{ m.userData.topHide=true; return m; };                                      // 上方視角時藏起頂部結構，看得到下面
+  [x0,x1].forEach(x=>th(iso3Box(root, pw, W-pw, pw, K.alu, x, cy, zB)));                   // 外框（沿 Y）
+  [y0,y1].forEach(y=>th(iso3Box(root, L-pw, pw, pw, K.alu, cx, y, zB)));                   // 外框（沿 X）
+  const rows=[...new Set((o.rows||[]).map(v=>Math.round(v*10)/10))].sort((a,b)=>a-b);
+  let gap=1e9; for(let i=1;i<rows.length;i++) gap=Math.min(gap, rows[i]-rows[i-1]);
+  if(rows.length>8 || gap<pw*1.5) th(iso3Box(root, L-pw, W-pw, 10, K.aluD, cx, cy, zB));   // 整片安裝板
+  else rows.forEach(y=>{ if(Math.abs(y-y0)>pw && Math.abs(y-y1)>pw) th(iso3Box(root, L-pw, pw*.8, pw*.8, K.alu, cx, y, zB)); });
+  const halo=iso3Plane(root, L*1.25, W*1.25, K.halo, cx, cy, -.5); halo.renderOrder=0; halo.userData.nofit=true;   // 地面柔影
+  return {pw, x0, x1, y0, y1};
+}
+
+// ── 機台（掃描、3D 掃描共用）：花崗岩基座＋X 軸（導軌、螺桿、馬達）＋載台（要換道就多一層 Y 軸）＋龍門＋安裝板 ──
+function iso3StageDims(Lx, Ly, yStage, yTravel){
+  const u=Math.max(Lx,Ly);
+  const m=_cl(.06*u,25,120), Sx=Lx+2*m, Sy=Ly+2*m, Sth=_cl(.025*u,12,40);
+  const rw=_cl(.02*u,12,30), rh=rw*.8, bx=rw*2.6, bh=rw*.95, zBlk0=rh*.3, zPlate=zBlk0+bh;
+  const SyX=Sy+yTravel, zPlate2=yStage?zPlate+Sth+zBlk0+bh:zPlate;
+  return {Lx,Ly,u,m,Sx,Sy,Sth,rw,rh,bx,bh,zBlk0,zPlate,SyX,zPlate2,yStage,zt:zPlate2+Sth};
+}
+// o:{gx0,gx1 龍門要罩住的 X 範圍, beamBot 安裝板底面, sA,sB 載台行程}；回傳會動的 stage／stageY 與放產品的 top
+function iso3Machine(root, D, o){
+  const K=iso3Mats(), T=ISO3.tex;
+  const {Lx,Ly,u,m,Sx,Sy,Sth,rw,rh,bx,bh,zBlk0,zPlate,SyX,zPlate2,yStage,zt}=D;
+  const beamH=_cl(.06*u,50,140), postW=_cl(.05*u,40,110), plateT=12, beamBot=o.beamBot;
+  const gx0=o.gx0, gx1=o.gx1, gcx=(gx0+gx1)/2, plateX=gx1-gx0, beamX=_cl(.09*u,60,160), postXs=beamX;
+  const postY=SyX/2+m*.6+postW/2;
+  const xMin=Math.min(o.sA-Sx/2, gx0)-m, xMax=Math.max(o.sB+Sx/2, gx1)+m;
+  const motorL=_cl(.07*u,60,150), motorS=_cl(.05*u,45,100);
+  const baseX0=xMin-40, baseX1=xMax, Lb=baseX1-baseX0, bcx=(baseX0+baseX1)/2;
+  const Wb=SyX+2*m, Hb=_cl(.012*u,8,20);
+
+  // 底板（薄鋁板，只當載台的基準；不畫花崗岩、腳座，重點在光學配置）＋柔影
+  const halo=iso3Plane(root, Lb*1.4, Wb*1.6, K.halo, bcx, 0, -Hb-.5); halo.renderOrder=0; halo.userData.nofit=true;
+  iso3Box(root, Lb, Wb, Hb, K.aluD, bcx, 0, -Hb);
+
+  // X 軸：導軌＋止擋、滾珠螺桿＋軸承座、馬達（吊在基座端面）
+  const railY=SyX/2-rw*1.6;
+  [-1,1].forEach(sg=>{
+    iso3Box(root, Lb-45, rw, rh, K.steel, bcx+7.5, sg*railY, 0);
+    [baseX0+24, baseX1-10].forEach(ex=>iso3Box(root, 10, rw*1.8, rh*1.9, K.dark, ex, sg*railY, 0));
+  });
+  const scR=_cl(.008*u,6,16), scZ=zBlk0+bh*.45;
+  iso3CylX(root, scR, Lb-70, K.steel, bcx, 0, scZ);
+  [baseX0+30, baseX1-30].forEach(ex=>iso3Box(root, 24, scR*4.5, scZ+scR*1.8, K.aluD, ex, 0, 0));
+  const mz=Math.max(scZ, motorS/2-Hb*.3);
+  iso3Box(root, 10, motorS*1.25, mz+motorS*.62+Hb*.55, K.aluD, baseX0-5, 0, -Hb*.55);  // 馬達座板
+  iso3Box(root, motorL, motorS, motorS, K.body, baseX0-10-motorL/2, 0, mz-motorS/2);
+  iso3CylX(root, motorS*.2, 12, K.dark, baseX0-10-motorL-6, 0, mz, 24);                 // 編碼器端蓋
+  iso3CylX(root, scR*1.5, 22, K.dark, baseX0+12, 0, scZ, 24);                           // 聯軸器
+
+  // 移動載台（stage、stageY 會動）
+  const stage=new THREE.Group(), stageY=new THREE.Group(); root.add(stage); stage.add(stageY);
+  [-1,1].forEach(sg=>[-1,1].forEach(sx=>iso3Box(stage, bx, rw*1.7, bh, K.aluD, sx*(Sx/2-bx), sg*railY, zBlk0)));
+  iso3Box(stage, 40, scR*5, zPlate-zBlk0, K.aluD, 0, 0, zBlk0);                        // 螺帽座
+  let top=stage;
+  if(yStage){
+    iso3Box(stage, Sx, SyX, Sth, K.alu, 0, 0, zPlate);
+    const ry=Sx/2-rw*1.6;
+    [-1,1].forEach(sg=>iso3Box(stage, rw, SyX-20, rh, K.steel, sg*ry, 0, zPlate+Sth));
+    [-1,1].forEach(sg=>[-1,1].forEach(sy=>iso3Box(stageY, rw*1.7, bx, bh, K.aluD, sg*ry, sy*(Sy/2-bx), zPlate+Sth+zBlk0)));
+    iso3Box(stageY, Sx, Sy, Sth, K.holes, 0, 0, zPlate2);
+    top=stageY;
+  } else iso3Box(stage, Sx, Sy, Sth, K.holes, 0, 0, zPlate);
+  T.holes.repeat.set(Sx/60, Sy/60);
+  // 定位銷（兩邊靠）＋角落螺絲
+  [[-Lx/2-5,-Ly*.25],[-Lx/2-5,Ly*.25],[Lx*.25,-Ly/2-5]].forEach(([x,y])=>iso3Cyl(top, 4, 8, K.steel, x, y, zt, 20));
+  [[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>iso3Cyl(top, 3.2, .8, K.dark, a*(Sx/2-12), b*(Sy/2-12), zt, 16, false));
+
+  // 不畫龍門／安裝板（重點在光學配置，相機直接示意在工作距離上）
+  return {stage, stageY, top, postY};
+}
+// 已掃區域（藍）：每段兩片，part 0＝已完成的道、part 1＝目前這道
+function iso3ScanPlanes(top, K, nR, nC, z){
+  const out=[];
+  for(let ri=0;ri<nR;ri++) for(let k=0;k<nC;k++) for(let part=0;part<2;part++){
+    const q=iso3Plane(top, 1, 1, K.scan, 0, 0, z); q.visible=false; out.push({q,ri,c:k,part});
+  }
+  return out;
+}
+function iso3Bounds(root, camPts){
+  root.updateMatrixWorld(true);
+  const all=new THREE.Box3(), camBox=new THREE.Box3();
+  root.traverse(n=>{ if(!n.isMesh||n.userData.nofit) return;                     // 地面柔影不算進取景
+    if(!n.geometry.boundingBox) n.geometry.computeBoundingBox(); all.union(n.geometry.boundingBox.clone().applyMatrix4(n.matrixWorld)); });
+  camPts.forEach(p=>camBox.expandByPoint(new THREE.Vector3(p[0],p[1],p[2])));
+  return {all, camBox};
+}
+
+// ══ 掃描模式：花崗岩基座＋移動載台＋龍門＋相機陣列＋光源 ══
+function iso3BuildScan(p, r){
+  const K=iso3Mats(), root=new THREE.Group();
+  // 產品方向：X＝掃描方向
+  const sW=Math.max(1,+p.sampleW||1), sH=Math.max(1,+p.sampleH||1);
+  const Lx=p.scanAlongWidth?sW:sH, Ly=p.scanAlongWidth?sH:sW;
+  const nC=Math.max(1,Math.round(p.nCams||1)), nR=Math.max(1,Math.round(p.nRows||1));
+  const hF=+r.hFOV||0, vF=+r.vFOV||0;
+  const passesReal=Math.max(1,Math.round(r.passes||1)), passes=Math.min(12,passesReal);   // 道數多時動畫只演 12 道，每道代表幾道
+  const wd=Math.max(1,+p.wd||1), u=Math.max(Lx,Ly);
+  const selCam=iso3SelCam(), isLine=selCam?!!selCam.line:!!p.lineScan;
+  const O=iso3Optic(p, hF, vF, isLine, selCam&&selCam.mount), body=O.body, lens=O.lens, lt=O.lt;
+
+  const yStage=passes>1;                                           // 要換道：多一層 Y 軸
+  // 相機沿跨排方向平均分布，各管一段（寬 Ly/nC）；要換道時載台每道沿 Y 移約 hFOV
+  const pitchY=Ly/nC, bandW=Ly, bandC=yStage?Math.min(pitchY, passesReal>passes ? pitchY/passes : hF):pitchY;
+  const D=iso3StageDims(Lx, Ly, yStage, yStage?Math.max(0,pitchY-bandC):0);
+  const glassT=Math.max(1.5,.006*u), zt=D.zt, zTop=zt+glassT;
+
+  // 相機排列；機身塞不下就前後交錯（實務常見），交錯那排光源打另一側
+  const footY=O.foot.y, footX=O.foot.x;
+  const seg=Lx/nR, stagger=nC>1 && footY>pitchY*.96, sOff=footX/2+14;
+  const crowded=nC>2 && footY>2*pitchY*.98;                         // 交錯也排不下
+  const cams=[];
+  for(let ri=0;ri<nR;ri++) for(let k=0;k<nC;k++){
+    const s=stagger?(k%2?1:-1):-1;
+    cams.push({x:(ri-(nR-1)/2)*seg+(stagger?s*sOff:0), y:(k-(nC-1)/2)*pitchY, side:s});
+  }
+  // 條形光：預設偏 30°；鏡頭前端太大擋光時自動加大角度，從鏡頭下緣外側打進來
+  const LK=iso3LightKind('bar'), barD=26, barH=36;
+  const th=_cl(Math.max(Math.PI/6, Math.atan((lens.Rf+10)/wd)+.07), Math.PI/6, 1.36);
+  const dLight=Math.max((lens.Rf+barD*.8+12)/Math.sin(th), 50);
+  const lightZ=zTop+dLight*Math.cos(th);
+  const lines=[];                                                  // 每條取像線一支條形光
+  cams.forEach(c=>{ if(!lines.some(l=>Math.abs(l.x-c.x)<.01)) lines.push({x:c.x, side:c.side}); });
+  const lightX=LK.k==='bar' ? lines.map(l=>l.x+l.side*dLight*Math.sin(th)) : [];
+
+  const zLensF=zTop+wd, zCam1=zLensF+O.zSpan, bracket=_cl(.02*u,18,40);
+  const beamBot=Math.max(zCam1+bracket, LK.k==='bar'?lightZ+barH+bracket:0);     // 安裝板底面
+  const xsAll=cams.map(c=>c.x-body.x/2-16).concat(cams.map(c=>c.x+body.x/2+16), lightX.map(x=>x-barD), lightX.map(x=>x+barD));
+  const gx0=Math.min(...xsAll)-10, gx1=Math.max(...xsAll)+10;
+  // 載台行程（stage 中心 X）：第 1 道從產品前緣掃到該段尾端
+  const sA=-(nR-1)/2*seg+Lx/2-seg, sB=sA+seg;
+  const MC=iso3Machine(root, D, {gx0, gx1, beamBot, sA, sB}), top=MC.top;
+
+  // 產品：玻璃基板＋顯示區
+  iso3Box(top, Lx, Ly, glassT, K.glass, 0, 0, zt);
+  const aaIn=Math.min(Lx,Ly)*.04;
+  iso3Box(top, Lx-2*aaIn, Ly-2*aaIn, .3, K.aa, 0, 0, zTop, false);
+  const scanned=iso3ScanPlanes(top, K, nR, nC, zTop+.4);
+
+  // 相機＋鏡頭＋支架＋線材＋光束
+  cams.forEach(c=>{
+    iso3Camera(root, K, O, c, zLensF, beamBot);
+    const ra=lt==='telecentric'?hF/2:lens.Rf*.7;
+    if(isLine){
+      iso3Quad(root,[c.x,c.y-ra,zLensF],[c.x,c.y+ra,zLensF],[c.x,c.y+hF/2,zTop+.6],[c.x,c.y-hF/2,zTop+.6], K.beam);
+      iso3Box(root, Math.max(1.2,u*.003), hF, .5, K.fov, c.x, c.y, zTop+.6, false);
+    } else {
+      iso3Pyr(root, K.beam, c.x, c.y, zLensF, O.rb, vF, hF, zTop+.6);
+      iso3Plane(root, vF, hF, K.glow, c.x, c.y, zTop+.7);
+    }
+  });
+
+  // 光源
+  if(LK.k==='bar'){
+    const barL=bandW+60;
+    lines.forEach((l,i)=>{
+      const g=new THREE.Group(); g.position.set(lightX[i],0,lightZ); g.rotation.y=l.side*th; root.add(g);   // 發光面朝取像線
+      iso3Box(g, barD, barL, barH, K.dark, 0, 0, 0);
+      for(let j=0;j<5;j++) iso3Box(g, 1.6, barL-10, 7, K.body, -barD/2+3+j*(barD-6)/4, 0, barH, false);       // 背面散熱鰭片
+      [-1,1].forEach(sy=>iso3Box(g, barD+2, 4, barH+2, K.aluD, 0, sy*(barL/2+2), -1));                       // 端蓋
+      iso3Plane(g, barD*.62, barL-10, K.led, 0, 0, -.3, true);
+      iso3Plane(g, barD*1.5, barL, K.glow, 0, 0, -1.2, true);
+      // 光打到取像線的淡光幕
+      const f=g.position;
+      iso3Quad(root,[f.x,-barL/2+8,f.z],[f.x,barL/2-8,f.z],[l.x,bandW/2,zTop+.5],[l.x,-bandW/2,zTop+.5], K.sheet);
+    });
+  } else if(LK.k==='back'){
+    lines.forEach(l=>{ iso3Box(root, 30, bandW+40, D.zPlate-6, K.dark, l.x, 0, 0);
+      iso3Plane(root, 14, bandW+30, K.led, l.x, 0, D.zPlate-5.7); });
+  } else cams.forEach(c=>iso3CamLight(root, K, LK, O, c, zLensF, zTop, vF, hF));
+
+  // 取景範圍：全景／相機特寫
+  const pts=[];
+  cams.forEach(c=>{ pts.push([c.x-body.x, c.y-body.y*.8, zTop],[c.x+body.x, c.y+body.y*.8, zCam1+10]); });
+  lightX.forEach(x=>pts.push([x-barD, 0, lightZ]));
+  const B=iso3Bounds(root, pts);
+  return { root, stage:MC.stage, stageY:MC.stageY, scanned, all:B.all, camBox:B.camBox, zScan:zTop+.4, anim:true,
+    run:{ sA, sB, Lx, Ly, seg, passes, nC, pitchY, bandC, yStage, stepY:passes>1?(pitchY-bandC)/(passes-1):0 },
+    info:{ isLine, lightName:LK.name, lightGiven:LK.given, stagger, crowded, lightDeg:Math.round(th*180/Math.PI) } };
+}
+
+// ══ 靜態模式：產品平放（不畫載台、治具）＋相機架＋相機陣列＋光源 ══
+function iso3BuildStatic(p, r, ss){
+  const K=iso3Mats(), root=new THREE.Group();
+  const hF=+r.hFOV||0, vF=+r.vFOV||0, nX=Math.max(1,r.nX|0), nY=Math.max(1,r.nY|0);
+  const oW=Math.max(1,+ss.objW||1), oH=Math.max(1,+ss.objH||1), ov=_cl((+ss.overlap||0)/100,0,.9);
+  const sx=hF*(1-ov), sy=vF*(1-ov), covX=(nX-1)*sx+hF, covY=(nY-1)*sy+vF;
+  const selCam=iso3SelCam(), O=iso3Optic(p, hF, vF, false, selCam&&selCam.mount), body=O.body;
+  const u=Math.max(oW,oH,covX,covY), LK=iso3LightKind('ring');
+  // 產品：玻璃＋顯示區；背光時放在背光板上
+  const zB=LK.k==='back'?_cl(.02*u,10,30):0, glassT=Math.max(1.2,.006*u), zTop=zB+glassT;
+  if(LK.k==='back'){
+    iso3Box(root, covX+40, covY+40, zB, K.dark, 0, 0, 0);
+    iso3Plane(root, covX+24, covY+24, K.led, 0, 0, zB+.05);
+  }
+  iso3Box(root, oW, oH, glassT, K.glass, 0, 0, zB);
+  const aaIn=Math.min(oW,oH)*.04;
+  iso3Box(root, oW-2*aaIn, oH-2*aaIn, .3, K.aa, 0, 0, zTop, false);
+  // 相機：視野總覆蓋置中，第一排在 +Y（同俯視圖由上往下）
+  const cams=[];
+  for(let yi=0;yi<nY;yi++) for(let xi=0;xi<nX;xi++) cams.push({x:-covX/2+hF/2+xi*sx, y:covY/2-vF/2-yi*sy, side:-1});
+  const zLensF=zTop+O.wd, zCam1=zLensF+O.zSpan, bracket=_cl(.03*u,30,70)*1.5+20;   // 吊長一點，相機露在橫梁下方
+  // 條形光（有登錄才畫）：兩支沿 Y，從 ±X 兩側斜打
+  const barD=26, barH=36, th=Math.PI/6, barL=covY+60;
+  const dB=Math.max((covX/2+O.lens.Rf+barD+12)/Math.sin(th), 60), lzB=zTop+dB*Math.cos(th);
+  const zMount=Math.max(zCam1+bracket, LK.k==='bar'?lzB+barH+bracket:0);
+  const many=cams.length>120;                                       // 台數太多：只畫視野
+  const fx=Math.max(covX/2, oW/2)+(many?0:O.foot.x/2)+(LK.k==='bar'?dB*Math.sin(th)+barD:0)+20;
+  const fy=Math.max(covY/2, oH/2)+(many?0:O.foot.y/2)+20;
+  iso3Halo(root, 2*fx, 2*fy);
+  // 台數多：相機改畫成簡化方塊（吊在安裝板下），再多就整片陣列方塊；光束太多改畫一個總視野
+  const hBlk=O.zSpan;
+  if(many && cams.length>2500) iso3Box(root, covX, covY, hBlk, K.dark, 0, 0, zLensF);
+  cams.forEach(c=>{
+    if(!many){ iso3Camera(root, K, O, c, zLensF, zMount); iso3CamLight(root, K, LK, O, c, zLensF, zTop, hF, vF); }
+    else if(cams.length<=2500) iso3Box(root, Math.min(O.foot.x, sx*.9), Math.min(O.foot.y, sy*.9), hBlk, K.dark, c.x, c.y, zLensF, false);
+    if(cams.length<=600){ iso3Pyr(root, K.beam, c.x, c.y, zLensF, O.rb, hF, vF, zTop+.6); iso3Plane(root, hF, vF, K.glow, c.x, c.y, zTop+.7); }
+  });
+  if(cams.length>600){ iso3Pyr(root, K.beam, 0, 0, zLensF, 1, covX, covY, zTop+.6); iso3Plane(root, covX, covY, K.glow, 0, 0, zTop+.7); }
+  if(LK.k==='bar') [-1,1].forEach(sd=>{
+    const g=new THREE.Group(); g.position.set(sd*dB*Math.sin(th),0,lzB); g.rotation.y=sd*th; root.add(g);
+    iso3Box(g, barD, barL, barH, K.dark, 0, 0, 0);
+    iso3Plane(g, barD*.62, barL-10, K.led, 0, 0, -.3, true);
+  });
+  // 相機特寫：離場邊最近的那台（+X、−Y 角）
+  const c0=cams.reduce((a,c)=>(c.x-c.y)>(a.x-a.y)?c:a, cams[0]), e=Math.max(O.foot.x, O.foot.y, LK.k==='ring'?2*O.lens.Rf+60:0)*.75;
+  const B=iso3Bounds(root, many?[]:[[c0.x-e, c0.y-e, zLensF-Math.min(O.wd*.35,30)-25],[c0.x+e, c0.y+e, zCam1+20]]);
+  const crowded=cams.length>1 && ((nX>1 && O.foot.x>sx*1.02) || (nY>1 && O.foot.y>sy*1.02));
+  return { root, all:B.all, camBox:B.camBox, anim:false,
+    info:{ lightName:LK.name, lightGiven:LK.given, crowded, many } };
+}
+
+// ══ 畫檢：面板平放、點亮（自發光，不畫光源）＋相機架＋各組相機；曲面依 R 彎、多連屏依排列方向擺 ══
+// A:{G 相機組（含 geos 各屏）, R 各組計算結果, dir, gap, lensType}
+function iso3BuildArea(p, A){
+  const K=iso3Mats(), root=new THREE.Group();
+  const G=A.G, Rs=A.R, dirX=A.dir!=='y', gap=Math.max(0,+A.gap||0);
+  // 版面（mm，同俯視圖：沿排列方向依序擺、另一方向置中；曲面用投影尺寸），再換成世界座標（Y 朝上）
+  let cur=0; const SC=[];
+  G.forEach(g=>g.geos.forEach(x=>{
+    SC.push(dirX ? {x:cur, y:-x.covY/2, w:x.covX, h:x.covY, geo:x, k:g.k} : {x:-x.covX/2, y:cur, w:x.covX, h:x.covY, geo:x, k:g.k});
+    cur+=(dirX?x.covX:x.covY)+gap; }));
+  let mx0=1e9,mx1=-1e9,my0=1e9,my1=-1e9;
+  SC.forEach(s=>{ mx0=Math.min(mx0,s.x); mx1=Math.max(mx1,s.x+s.w); my0=Math.min(my0,s.y); my1=Math.max(my1,s.y+s.h); });
+  const ox=(mx0+mx1)/2, oy=(my0+my1)/2;
+  SC.forEach(s=>{ s.cx=s.x+s.w/2-ox; s.cy=-(s.y+s.h/2-oy); });
+  const u=Math.max(mx1-mx0, my1-my0, 50), pt=_cl(.008*u,1.5,6);
+  // 表面高度：曲面屏沿彎曲方向越往外越高；屏外（屏間距）當平面
+  const surf=s=>(x,y)=>{ const g=s.geo; if(!g.curve||g.err||!(g.R>0)) return pt;
+    const d=Math.min(Math.abs(g.bend==='y'?y-s.cy:x-s.cx), g.proj/2, g.R); return pt+g.R-Math.sqrt(g.R*g.R-d*d); };
+  const zAt=(x,y)=>{ const s=SC.find(s=>Math.abs(x-s.cx)<=s.w/2+.01 && Math.abs(y-s.cy)<=s.h/2+.01); return s?surf(s)(x,y):pt; };
+
+  // 面板：黑色本體（含邊框）＋點亮的顯示區＋FPC／驅動板＋訊號線
+  SC.forEach(s=>{
+    const g=s.geo, curve=g.curve&&!g.err&&g.R>0, ax=g.bend==='y'?'y':'x';
+    const W=curve&&ax==='x'?g.X:s.w, H=curve&&ax==='y'?g.Y:s.h, bz=_cl(.012*Math.min(W,H),1.5,8), N=curve?32:1;
+    const gb=new THREE.BoxGeometry(W+2*bz, H+2*bz, pt, ax==='x'?N:1, ax==='y'?N:1, 1); gb.translate(0,0,pt/2);
+    if(curve) iso3Bend(gb, g.R, ax);
+    iso3Add(root, gb, K.panel, s.cx, s.cy, 0);
+    const ga=new THREE.PlaneGeometry(W, H, ax==='x'?N:1, ax==='y'?N:1); ga.translate(0,0,pt+.15);
+    if(curve) iso3Bend(ga, g.R, ax);
+    const aa=new THREE.Mesh(ga, K.lit); aa.position.set(s.cx, s.cy, 0); aa.renderOrder=3; root.add(aa);
+    // FPC 從平的那一邊中間出來（沿 X 彎＝−Y 邊；沿 Y 彎或直排＝−X 邊）
+    const onX=(curve&&ax==='y')||(!dirX&&!curve);
+    const span=onX?H:W, fw=_cl(span*.28,10,70), fl=_cl(.06*Math.max(W,H),12,40);
+    const ex=onX?s.cx-W/2-bz:s.cx, ey=onX?s.cy:s.cy-H/2-bz;
+    const dx=onX?-1:0, dy=onX?0:-1, bw=onX?fl:fw, bd=onX?fw:fl;
+    iso3Box(root, bw, bd, .3, K.fpc, ex+dx*fl/2, ey+dy*fl/2, 0, false);
+    const px=ex+dx*(fl+9), py=ey+dy*(fl+9), pw=onX?18:fw*1.1, pd=onX?fw*1.1:18;
+    iso3Box(root, pw, pd, 1.6, K.pcb, px, py, 0);
+    iso3Box(root, onX?6:fw*.4, onX?fw*.4:6, 4, K.dark, px+dx*4, py+dy*4, 1.6);
+    const cx0=px+dx*8, cy0=py+dy*8, L=_cl(.12*u,40,140);
+    iso3Tube(root, [[cx0,cy0,3.6],[cx0+dx*L*.4,cy0+dy*L*.4,8],[cx0+dx*L,cy0+dy*L,2.4]], 2.4, K.cable);
+  });
+
+  // 各組相機：步距＝FOV×佔屏比，置中在該組的屏上
+  const lsel=document.getElementById('lens-pick').value, lt=(lsel!==''&&allLens()[+lsel])?(allLens()[+lsel].type||'cctv'):'cctv';
+  const selCam=iso3SelCam(), cams=[], tiles=[];
+  let crowded=false, zMax=0, O0=null, total=0;
+  G.forEach((g,k)=>{
+    const r=Rs[k]; if(!(r&&r.xFOV>0&&r.yFOV>0)) return;
+    const ss=SC.filter(s=>s.k===g.k);
+    const x0=Math.min(...ss.map(s=>s.cx-s.w/2)), x1=Math.max(...ss.map(s=>s.cx+s.w/2));
+    const y0=Math.min(...ss.map(s=>s.cy-s.h/2)), y1=Math.max(...ss.map(s=>s.cy+s.h/2));
+    const sx=r.xFOV*r.limit, sy=r.yFOV*r.limit, cw=(r.nX-1)*sx+r.xFOV, ch=(r.nY-1)*sy+r.yFOV;
+    const O=iso3Optic(Object.assign({}, p, {wd:r.wd, lensType:lt}), r.xFOV, r.yFOV, false, selCam&&selCam.mount);
+    if(!O0) O0=O;
+    if((r.nX>1&&O.foot.x>sx*1.02)||(r.nY>1&&O.foot.y>sy*1.02)) crowded=true;
+    const zL=pt+.15+Math.max(1,+r.wd||1); zMax=Math.max(zMax, zL+O.zSpan);
+    total+=r.nX*r.nY;
+    if(r.nX*r.nY>1500) return;
+    for(let yi=0;yi<r.nY;yi++) for(let xi=0;xi<r.nX;xi++){
+      const c={x:(x0+x1)/2-cw/2+r.xFOV/2+xi*sx, y:(y0+y1)/2+ch/2-r.yFOV/2-yi*sy, side:-1, O, zL, fx:r.xFOV, fy:r.yFOV, px:r.nX>1?sx:1e9, py:r.nY>1?sy:1e9};
+      cams.push(c);
+    }
+  });
+  const many=total>150, bracket=_cl(.03*u,30,70)*1.5+20, zMount=zMax+bracket;
+  if(cams.length){
+    let fx=0, fy=0;
+    cams.forEach(c=>{ fx=Math.max(fx, Math.abs(c.x)+(many?c.fx/2:Math.max(c.O.foot.x,c.fx)/2)); fy=Math.max(fy, Math.abs(c.y)+(many?c.fy/2:Math.max(c.O.foot.y,c.fy)/2)); });
+    fx=Math.max(fx,(mx1-mx0)/2+70)+20; fy=Math.max(fy,(my1-my0)/2+70)+20;
+    iso3Halo(root, 2*fx, 2*fy);
+  } else { const h=iso3Plane(root, (mx1-mx0)*1.3, (my1-my0)*1.3, K.halo, 0, 0, -.5); h.renderOrder=0; h.userData.nofit=true; }
+  cams.forEach(c=>{
+    if(!many) iso3Camera(root, K, c.O, c, c.zL, zMount);
+    else iso3Box(root, Math.min(c.O.foot.x, c.px*.9), Math.min(c.O.foot.y, c.py*.9), c.O.zSpan, K.dark, c.x, c.y, c.zL, false);   // 台數多：簡化方塊
+    const zs=(x,y)=>zAt(x,y)+.6;
+    iso3Pyr(root, K.beam, c.x, c.y, c.zL, c.O.rb, c.fx, c.fy, zs);
+    iso3Patch(root, K.glow, c.x-c.fx/2, c.x+c.fx/2, c.y-c.fy/2, c.y+c.fy/2, (x,y)=>zAt(x,y)+.7, 12);
+  });
+  const c0=cams.length?cams.reduce((a,c)=>(c.x-c.y)>(a.x-a.y)?c:a, cams[0]):null;
+  const e0=c0?Math.max(c0.O.foot.x,c0.O.foot.y)*.75:0;
+  const B=iso3Bounds(root, c0&&!many?[[c0.x-e0, c0.y-e0, c0.zL-Math.min(60,c0.zL*.3)],[c0.x+e0, c0.y+e0, c0.zL+c0.O.zSpan+20]]:[]);
+  // 畫檢常用畫面輪播：白→紅→綠→藍→灰
+  const PAT=[[1,1,1],[1,.28,.25],[.3,.92,.4],[.3,.5,1],[.55,.56,.58]];
+  return { root, all:B.all, camBox:B.camBox, anim:true,
+    pose:t=>{ const c=PAT[Math.floor(Math.max(0,t)/1.6)%PAT.length]; K.lit.color.setRGB(c[0],c[1],c[2]); },
+    info:{ crowded, many, total } };
+}
+
+// ══ 3D 量測：感測器＋待測物；要移動（線掃、多次取像、點量測）就用移動載台，單次取像就平放 ══
+// o:{s, mk, b 機體, wd, fov, fovY, partX, partY, col}
+// ── 3D 感測器外形：依品牌系列畫接近實物的機殼（外形依原廠照片／規格書外形圖）──
+// LMI 外形尺寸 深×寬×高（mm）：規格書/3D感測器/LMI_Gocator_*_Specs.png「MECHANICALS」圖
+const ISO3_LMI_DIM={'2320':[120,35,149.5],'2330':[75,49,142],'2340':[75,49,197],'2350':[75,49,272],
+  '2410':[90,44,145],'2420':[90,44,145],'2430':[90,44,155],'2440':[90,44,190],'2450':[90,44,240],'2490':[85,49,272],
+  '2510':[80,46,110],'2512':[80,46,110],'2520':[80,46,110],'2522':[110,46,110],'2530':[80,46,110],'2540':[105,55,195],'2550':[105,55,195],
+  '2610':[116,50,125],'2618':[80,46,110],'2629':[105,55,165],'2630':[105,55,165],'2640':[105,55,195],'2650':[105,55,280],'2670':[105,55,280],'2690':[105,55,280],
+  '3210':[190,49,146]};
+// 回傳 {fam, L（沿 X）, W（沿 Y）, H, src:'db'|'sheet'|'est'}
+function iso3T3Geo(s){
+  const m=String(s.model||''), B=String(s.brand||'').toUpperCase(), mk=methodOf(s), b=t3Body(s), f=+s.fovX||40;
+  let fam;
+  if(mk==='cf') fam='chr';
+  else if(B==='KEYENCE'&&/LJ-S/i.test(m)) fam='ljs';
+  else if(B==='KEYENCE') fam='ljx';
+  else if(B==='LMI'&&/Gocator\s*3/i.test(m)) fam='g3';
+  else if(B==='LMI') fam='g2';
+  else if(B==='BENANO'&&/C2100/i.test(m)) fam='bpill';
+  else if(B==='BENANO'&&/^T\d/i.test(m)) fam='btele';
+  else if(B==='BENANO') fam='bstereo';
+  else fam=(s.principle==='sl-snap'||s.principle==='tri-snap')?'bstereo':'ljx';
+  if(s.dimL!=null&&s.dimH!=null) return {fam, L:b.L, W:b.W, H:b.H, src:'db'};
+  const n=(m.match(/(\d{4})/)||[])[1];
+  if(B==='LMI'&&ISO3_LMI_DIM[n]){ const d=ISO3_LMI_DIM[n]; return {fam, L:d[0], W:d[1], H:d[2], src:'sheet'}; }
+  let L, W, H;
+  if(fam==='ljx'){ L=b.L; H=Math.max(48,b.L*.72); W=_cl(L*.38,24,70); }
+  else if(fam==='ljs'){ if(f<100){ L=72; W=48; H=98; } else { L=Math.min(320,140+f*.35); W=92; H=78; } }
+  else if(fam==='g2'){ L=85; W=49; H=_cl(110+f*.4,110,280); }
+  else if(fam==='g3'){ L=_cl(120+f*.25,120,220); W=49; H=_cl(L*.75,100,160); }
+  else if(fam==='bpill'){ L=_cl(170+f*.25,180,320); W=L*.36; H=L*.3; }
+  else if(fam==='btele'){ L=_cl(110+f*.6,120,220); W=L*.78; H=L*1.15; }
+  else if(fam==='bstereo'){ L=_cl(160+f*.55,180,380); W=L*.52; H=L*.34; }
+  else { L=62; W=62; H=96; }                                          // chr 控制盒
+  return {fam, L, W, H, src:'est'};
+}
+// 在 x–z 平面畫多邊形、沿 Y 擠出寬 w（置中）
+function iso3Prism(parent, pts, w, mat, x, y, z){
+  const sh=new THREE.Shape(pts.map(p=>new THREE.Vector2(p[0],p[1])));
+  const g=new THREE.ExtrudeGeometry(sh, {depth:w, bevelEnabled:false}); g.rotateX(Math.PI/2); g.translate(0,w/2,0);
+  return iso3Add(parent, g, mat, x, y, z);
+}
+// 窗（橢圓或矩形）：貼在法向 n=[nx,nz]（x–z 平面）的面上，中心 (x,y,z)，a＝沿面長、b＝沿 Y 寬
+function iso3Win(parent, mat, x, y, z, n, a, b, round){
+  const g=round?new THREE.CircleGeometry(.5,36):new THREE.PlaneGeometry(1,1);
+  const m=new THREE.Mesh(g, mat); m.scale.set(a,b,1);
+  const v=new THREE.Vector3(n[0],0,n[1]).normalize();
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), v);
+  m.position.set(x+v.x*.35, y, z+v.z*.35); m.renderOrder=3; parent.add(m); return m;
+}
+// 窗朝 Y 面（側面銘牌、通風孔等）：sd=−1 朝 −Y
+function iso3SideBox(parent, mat, x, sd, W, z, a, h){ return iso3Box(parent, a, 1, h, mat, x, sd*(W/2+.5), z, false); }
+
+// 畫機殼；bx＝機體中心 X，z0＝機殼最低點。回傳世界座標：E 雷射／投影出光點、R 接收窗、C 相機窗們
+function iso3T3Housing(root, K, s, g, bx, z0, mC){
+  const L=g.L, W=g.W, H=g.H, fam=g.fam;
+  const M={ blk:iso3Mat('t3blk',0x25282d), gry:iso3Mat('t3gry',0x5a616b), sil:iso3Mat('t3sil',0xcfd4da), blu:iso3Mat('t3blu',0x2c62b8,{smooth:true}),
+    win:iso3Mat('t3win',0x0d1420,{basic:true, double:true}), lbl:iso3Mat('t3lbl',0xe8ebef,{basic:true}), red:iso3Mat('t3red',0xd8343a,{basic:true}) };
+  const out={E:null, R:null, C:[]};
+  const cable=(x,y,z,dx)=>{ iso3Cyl(root, 4.5, 9, K.steel, x, y, z, 18);
+    iso3Tube(root, [[x,y,z+8],[x,y,z+26],[x+dx*14,y,z+44],[x+dx*30,y,z+52]], 2.6, K.cable); };
+  if(fam==='ljx'||fam==='g2'){
+    // 側面輪廓：−X 端是接收鏡頭的「腳」（最低），斜面上開接收窗朝右下；+X 端底面較高，雷射從這裡往下打
+    const keyence=fam==='ljx', zr=(keyence?.42:.16)*H, xr=-L/2+(keyence?.40:.42)*L, x2=xr+(keyence?.30:.17)*L;
+    const mat=keyence?M.blk:M.gry;
+    iso3Prism(root, [[-L/2,0],[xr,0],[x2,zr],[L/2,zr],[L/2,H],[-L/2,H]], W, mat, bx, 0, z0);
+    const ex=(x2+L/2)/2, rx=(xr+x2)/2, rz=zr/2, nn=Math.hypot(zr,x2-xr), n=[zr/nn, -(x2-xr)/nn];   // 斜面法向朝右下（指向雷射線）
+    iso3Win(root, M.win, bx+rx, 0, z0+rz, n, Math.hypot(x2-xr,zr)*.62, W*.55, true);
+    iso3Win(root, mC, bx+ex, 0, z0+zr, [0,-1], Math.max(4,(L/2-x2)*.55), W*.22, false);    // 雷射窗
+    if(keyence){
+      iso3SideBox(root, M.lbl, bx-L*.1, -1, W, z0+H*.72, L*.3, H*.07);                     // 側面銘牌（KEYENCE）
+      iso3SideBox(root, mC, bx+L*.36, -1, W, z0+H*.86, L*.05, H*.04);                      // 狀態燈
+      // 線材從 +X 端上方水平出
+      iso3CylX(root, 5, 12, K.steel, bx+L/2+6, 0, z0+H*.78, 18);
+      iso3Tube(root, [[bx+L/2+12,0,z0+H*.78],[bx+L/2+40,0,z0+H*.8],[bx+L/2+62,0,z0+H*1.05]], 2.8, K.cable);
+    } else {
+      // LMI：頂部兩個圓形接頭、側面兩道鎖附長孔、前面標籤
+      [-1,1].forEach(k=>cable(bx+k*L*.2, 0, z0+H, k));
+      [.35,.7].forEach(f=>iso3SideBox(root, M.blk, bx-L*.1, -1, W, z0+H*f, L*.45, Math.max(5,H*.04)));
+      iso3Win(root, M.lbl, bx+L/2, 0, z0+H*.62, [1,0], H*.16, W*.55, false);
+    }
+    out.E=[bx+ex, z0+zr]; out.R=[bx+rx, z0+rz];
+  } else if(fam==='chr'){
+    // 一體式控制盒（銀）＋藍色光學探頭（可換）
+    const wd=Math.max(1,+s.wd||10), pr=_cl(8+wd*.13,9,22), pl=_cl(32+wd*.7,40,100);
+    iso3Lathe(root, [[1.5,0],[pr*.45,pl*.08],[pr*.8,pl*.22],[pr,pl*.3],[pr,pl*.92],[pr*1.12,pl*.92],[pr*1.12,pl],[0,pl]], M.blu, bx, 0, z0);
+    iso3Box(root, L, W, H, M.sil, bx, 0, z0+pl);
+    iso3SideBox(root, M.blu, bx, -1, W, z0+pl+H*.45, L*.82, H*.45);                       // 藍色面板
+    iso3SideBox(root, M.lbl, bx-L*.05, -1.02, W, z0+pl+H*.62, L*.5, H*.1);
+    cable(bx-L*.2, 0, z0+pl+H, -1);
+    out.E=[bx, z0];
+  } else if(fam==='bstereo'){
+    // 雙目結構光：中段凸出（投影），兩端相機窗略朝內；頂面散熱孔、後端散熱鰭片
+    const h0=H*.24, pw=L*.34;
+    iso3Box(root, L, W, H-h0, M.blk, bx, 0, z0+h0);
+    iso3Prism(root, [[-pw/2-h0*.5,h0],[-pw/2,0],[pw/2,0],[pw/2+h0*.5,h0]], W*.9, M.blk, bx, 0, z0);
+    iso3Win(root, mC, bx, 0, z0, [0,-1], pw*.42, W*.42, true);
+    [-1,1].forEach(k=>{ const cx=bx+k*L*.36; iso3Win(root, M.win, cx, 0, z0+h0, [-k*.26,-1], L*.15, W*.5, true); out.C.push([cx, z0+h0]); });
+    for(let i=0;i<5;i++) iso3Box(root, L*.22, W*.05, 1.2, K.dark, bx+L*.08, -W*.3+i*W*.15, z0+H, false);   // 頂面散熱孔
+    for(let i=0;i<6;i++) iso3Box(root, 2, W*.8, (H-h0)*.7, K.dark, bx+L/2+1, 0, z0+h0+(H-h0)*.15, false);  // 端面鰭片
+    iso3SideBox(root, M.lbl, bx-L*.12, -1, W, z0+H*.7, L*.16, H*.06);
+    cable(bx-L*.3, 0, z0+H, -1);
+    out.E=[bx, z0];
+  } else if(fam==='bpill'){
+    // C2100：圓角長條（銀色外殼）、底面黑色面板＋三個窗
+    const r=W*.48, sh=new THREE.Shape(), x0=-L/2, y0=-W/2;
+    sh.moveTo(x0+r,y0); sh.lineTo(-x0-r,y0); sh.absarc(-x0-r,y0+r,r,-Math.PI/2,0); sh.lineTo(-x0,-y0-r); sh.absarc(-x0-r,-y0-r,r,0,Math.PI/2);
+    sh.lineTo(x0+r,-y0); sh.absarc(x0+r,-y0-r,r,Math.PI/2,Math.PI); sh.lineTo(x0,y0+r); sh.absarc(x0+r,y0+r,r,Math.PI,Math.PI*1.5);
+    const geo=new THREE.ExtrudeGeometry(sh, {depth:H, bevelEnabled:false, curveSegments:18});
+    iso3Add(root, geo, M.sil, bx, 0, z0, 40);
+    const face=new THREE.ExtrudeGeometry(sh, {depth:2, bevelEnabled:false, curveSegments:18}); face.scale(.94,.86,1);
+    iso3Add(root, face, M.blk, bx, 0, z0-1.5, false);
+    iso3Win(root, mC, bx, 0, z0-1.6, [0,-1], L*.1, W*.36, true);
+    [-1,1].forEach(k=>{ const cx=bx+k*L*.3; iso3Win(root, M.win, cx, 0, z0-1.6, [0,-1], L*.13, W*.42, true); out.C.push([cx, z0]); });
+    cable(bx+L*.25, 0, z0+H, 1);
+    out.E=[bx, z0-1.5];
+  } else if(fam==='btele'){
+    // T 系列：直立黑色機箱＋底部遠心鏡頭（大型 T69／T72 外加保護環架）
+    const lr=Math.min(L,W)*.26, ll=L*.28, cage=/^T(69|72)/i.test(String(s.model||''));
+    const zL=z0+(cage?ll*.25:0);
+    iso3Cyl(root, lr, ll, M.blk, bx, 0, zL, 40);
+    iso3Cyl(root, lr*.78, .5, M.win, bx, 0, zL-.4, 36, false);
+    if(cage){ iso3Lathe(root, [[lr*1.55,0],[lr*1.75,0],[lr*1.75,ll*.12],[lr*1.55,ll*.12],[lr*1.55,0]], M.blk, bx, 0, z0);
+      for(let i=0;i<4;i++){ const a=i*Math.PI/2+Math.PI/4; iso3Cyl(root, 3, ll*1.25, M.blk, bx+Math.cos(a)*lr*1.65, Math.sin(a)*lr*1.65, z0, 12); } }
+    const zb=z0+(cage?ll*1.25:ll);
+    iso3Box(root, L, W, H, M.blk, bx, 0, zb);
+    [-1,1].forEach(k=>iso3Win(root, mC, bx+k*L*.3, 0, zb, [0,-1], L*.12, W*.3, true));     // 多投影器
+    iso3SideBox(root, M.lbl, bx-L*.18, -1, W, zb+H*.85, L*.3, H*.05);
+    iso3SideBox(root, M.win, bx+L*.15, -1, W, zb+H*.78, L*.3, H*.1);
+    cable(bx+L*.25, 0, zb+H, 1);
+    out.E=[bx, zb]; out.C.push([bx, z0]);
+  } else if(fam==='g3'){
+    // LMI 3D 快照：寬機箱，底部兩側斜切（左右相機窗），中間投影窗
+    const ch=H*.28, cw=L*.2;
+    iso3Prism(root, [[-L/2+cw,0],[L/2-cw,0],[L/2,ch],[L/2,H],[-L/2,H],[-L/2,ch]], W, M.gry, bx, 0, z0);
+    iso3Win(root, mC, bx, 0, z0, [0,-1], L*.18, W*.5, false);
+    const nn=Math.hypot(ch,cw);
+    [-1,1].forEach(k=>{ const cx=bx+k*(L/2-cw/2); iso3Win(root, M.win, cx, 0, z0+ch/2, [k*ch/nn,-cw/nn], nn*.6, W*.55, true); out.C.push([cx, z0+ch/2]); });
+    iso3SideBox(root, M.lbl, bx-L*.25, -1, W, z0+H*.7, L*.14, H*.07);                    // 標籤
+    [-1,1].forEach(k=>cable(bx+k*L*.08, 0, z0+H, k));
+    out.E=[bx, z0];
+  } else {
+    // ljs：LJ-S 快照式（機內轉軸掃描）：小型直立、大型扁寬；底部一側斜切
+    const tall=H>L, ch=(tall?.3:.4)*H, cw=(tall?.32:.22)*L;
+    iso3Prism(root, [[-L/2,ch],[-L/2+cw,0],[L/2,0],[L/2,H],[-L/2,H]], W, M.blk, bx, 0, z0);
+    iso3Win(root, mC, bx+L*.2, 0, z0, [0,-1], L*.3, W*.45, false);
+    const nn=Math.hypot(ch,cw); iso3Win(root, M.win, bx-L/2+cw/2, 0, z0+ch/2, [-ch/nn,-cw/nn], nn*.55, W*.5, true);
+    out.C.push([bx-L/2+cw/2, z0+ch/2]);
+    iso3SideBox(root, M.lbl, bx, -1, W, z0+H*.68, L*.34, H*.06);
+    [-1,1].forEach(k=>{ const x=bx+k*L*.12; iso3Cyl(root, 3.5, 12, K.steel, x, 0, z0+H, 16);
+      iso3Cyl(root, 4.2, 4, iso3Mat('t3teal',0x2bb3a6), x, 0, z0+H+12, 16);
+      iso3Tube(root, [[x,0,z0+H+15],[x,0,z0+H+40],[x+k*12,0,z0+H+60]], 2.4, K.cable); });
+    out.E=[bx+L*.2, z0];
+  }
+  return out;
+}
+
+function iso3BuildT3(o){
+  const K=iso3Mats(), root=new THREE.Group();
+  const s=o.s, mk=o.mk, b=o.b, wd=Math.max(1,+o.wd||1), col=parseInt(String(o.col).slice(1),16);
+  const mC=iso3Mat('t3c'+o.col, col, {basic:true}), mF=iso3Mat('t3f'+o.col, col, {basic:true, op:.14, double:true}),
+        mF2=iso3Mat('t3g'+o.col, col, {basic:true, op:.06, double:true}), mS=iso3Mat('t3s'+o.col, col, {basic:true, op:.28});
+  const snap=(s.principle==='sl-snap'||s.principle==='tri-snap'), point=!(o.fov>0);
+  // 世界 X＝載台移動方向（待測物 Y），世界 Y＝跨排（待測物 X，視野方向）
+  const Lx=Math.max(1,o.partY), Ly=Math.max(1,o.partX), fov=o.fov>0?o.fov:0, fy=snap?(o.fovY||fov):0;
+  const nx=fov>0?Math.max(1,Math.ceil(Ly/fov)):1, ny=snap?Math.max(1,Math.ceil(Lx/fy)):1;
+  const still=snap && nx*ny===1;
+  const passesReal=point?10:nx, passes=Math.min(12,passesReal), tilesReal=snap?ny:0, tiles=Math.min(12,tilesReal);
+  const u=Math.max(Lx,Ly,b.L,60), ph=_cl(.03*u,3,20);
+  const band=point?Ly/passes:(passesReal>passes?Ly/passes:Math.min(Ly,fov)), yStage=!still&&passes>1;
+  const D=iso3StageDims(Lx, Ly, yStage, yStage?Math.max(0,Ly-band):0);
+  const zt=still?0:D.zt, zTop=zt+ph, zS0=zTop+wd;
+  // 感測器機殼（依品牌系列）；出光點（雷射／投影）對齊世界 X＝0
+  const hg=new THREE.Group(); root.add(hg);
+  const HO=iso3T3Housing(hg, K, s, b, 0, zS0, mC), sh=-HO.E[0];
+  hg.position.x=sh; hg.updateMatrixWorld(true);
+  const hb=new THREE.Box3().setFromObject(hg), zS1=hb.max.z;
+  const E=[0, HO.E[1]], R=HO.R?[HO.R[0]+sh, HO.R[1]]:null, C=HO.C.map(c=>[c[0]+sh, c[1]]);
+  const gx0=hb.min.x-30, gx1=hb.max.x+30;
+  let top=root, MC=null, sA=0, sB=0;
+  if(still) iso3Halo(root, Math.max(Lx, gx1-gx0)+60, Ly+60);
+  else {
+    if(snap){ sA=-Lx/2+fy/2; sB=sA+(tiles>1?Math.min(Lx,tilesReal*fy)-fy:0); }
+    else { sA=-Lx/2; sB=Lx/2; }
+    MC=iso3Machine(root, D, {gx0, gx1, beamBot:0, sA, sB}); top=MC.top;
+  }
+  // 待測物：機加件（凸台、圓柱、孔，示意）
+  iso3Box(top, Lx, Ly, ph, K.part, 0, 0, zt);
+  const sm=Math.min(Lx,Ly), fh=Math.min(ph*.6, Math.max(1.5, wd*.05));
+  iso3Box(top, Lx*.22, Ly*.2, fh, K.pad, -Lx*.2, Ly*.2, zTop);
+  iso3Box(top, Lx*.16, Ly*.3, fh*.6, K.pad, Lx*.24, -Ly*.14, zTop);
+  [[.1,-.3],[-.3,-.26],[.3,.3]].forEach(([a,c])=>iso3Cyl(top, sm*.05, fh*.8, K.pad, a*Lx, c*Ly, zTop, 28));
+  [[-.38,.38],[.38,-.38],[.38,.38],[-.38,-.38]].forEach(([a,c])=>iso3Cyl(top, sm*.025, .3, K.dark, a*Lx, c*Ly, zTop, 20, false));
+  const scanned=still?[]:iso3ScanPlanes(top, {scan:mS}, 1, 1, zTop+.4);
+
+  // 光路
+  const zP=zTop+.6;
+  if(mk==='cf'){
+    if(point) iso3Pyr(root, mF, 0, 0, E[1], .5, 6, 6, zP);
+    else { iso3Quad(root,[0,-3,E[1]],[0,3,E[1]],[0,fov/2,zP],[0,-fov/2,zP], mF); iso3Box(root, 1.2, fov, .4, mC, 0, 0, zP, false); }
+    if(point) iso3Cyl(root, 2.2, .4, mC, 0, 0, zP, 20, false);
+  } else if(!snap){
+    // 雷射：正下方打一條線；接收窗斜看同一條線
+    iso3Quad(root,[0,-2,E[1]],[0,2,E[1]],[0,fov/2,zP],[0,-fov/2,zP], mF);
+    if(R) iso3Quad(root,[R[0],-b.W*.15,R[1]],[R[0],b.W*.15,R[1]],[0,fov/2,zP],[0,-fov/2,zP], mF2);
+    iso3Box(root, Math.max(1.5,u*.004), fov, .4, mC, 0, 0, zP, false);
+    iso3Plane(root, Math.max(8,u*.02), fov+4, iso3Mat('t3l'+o.col, col, {basic:true, op:.3, double:true}), 0, 0, zP+.5);
+    if(s.zRange>0){ const zr=Math.min(+s.zRange, wd*.9)/2;                          // Z 量程（雷射平面上的量測窗）
+      iso3Quad(root,[0,-fov/2,zTop-zr],[0,fov/2,zTop-zr],[0,fov/2,zTop+zr],[0,-fov/2,zTop+zr], mF2); }
+  } else {
+    // 快照式：投影 fy（沿 X）× fov（沿 Y）＋條紋；相機窗斜看同一塊
+    iso3Pyr(root, mF, 0, 0, E[1], Math.min(1,b.L*.09/Math.max(fy/2,1)), fy, fov, zP);
+    C.forEach(c=>[-1,1].forEach(k=>iso3Quad(root,[c[0],-b.W*.12,c[1]],[c[0],b.W*.12,c[1]],[k*fy/2,fov/2,zP],[k*fy/2,-fov/2,zP], mF2)));
+    const fr=iso3CanvasTex('fringe'+o.col, 256, 8, (g,w,h)=>{ for(let x=0;x<w;x++){ const v=.5+.5*Math.sin(x/w*Math.PI*2*8); g.fillStyle='rgba('+(col>>16)+','+((col>>8)&255)+','+(col&255)+','+(v*.7).toFixed(3)+')'; g.fillRect(x,0,1,h); } }, true);
+    const mFr=iso3Mat('t3fr'+o.col, 0xffffff, {basic:true, op:1, double:true, map:fr});
+    iso3Plane(root, fy, fov, mFr, 0, 0, zP+.1);
+    if(s.zRange>0){ const zr=Math.min(+s.zRange, wd*.9); iso3Box(root, fy, fov, zr, mF2, 0, 0, zTop-zr/2, false); }
+  }
+  const B=iso3Bounds(root, [[hb.min.x-10, -Math.max(b.W,fov)/2-10, zTop],[hb.max.x+10, Math.max(b.W,fov)/2+10, zS1+20]]);
+  const M={ root, all:B.all, camBox:B.camBox, anim:!still||snap, zScan:zTop+.4, scanned,
+    info:{ snap, still, point, nx, ny, passesReal, tilesReal } };
+  if(MC){ M.stage=MC.stage; M.stageY=MC.stageY;
+    M.run={ sA, sB, Lx, Ly, seg:Lx, passes, nC:1, pitchY:Ly, bandC:band, yStage, tiles:snap?tiles:0, tileW:fy,
+      stepY:passes>1?(Ly-band)/(passes-1):0 }; }
+  if(snap){ const fr=ISO3.tex['fringe'+o.col];
+    M.pose=t=>{ fr.offset.x=-(t*.35)%1; if(M.run) iso3PoseRun(M,t); }; }
+  return M;
+}
+
+// ── 動畫：載台沿 X 掃過一道，退回時沿 Y 換道；已掃區域變藍（快照式一格一格停下來拍）──
+function iso3Pose(t){
+  const M=ISO3.meta; if(!M) return;
+  if(M.pose) return M.pose(t);
+  if(M.run) iso3PoseRun(M,t);
+}
+function iso3PoseRun(M, t){
+  const R=M.run, passDur=_cl(10/R.passes,.45,3.6)*(R.tiles>1?1.6:1), back=passDur*.35/(R.tiles>1?1.6:1), hold=.9, run=R.passes*(passDur+back), cyc=run+hold;
+  const ease=x=>x*x*(3-2*x), tt=((t%cyc)+cyc)%cyc;
+  let k, f, ret=-1;
+  if(tt>=run){ k=R.passes-1; f=1; ret=1; }
+  else { k=Math.floor(tt/(passDur+back)); const w=tt-k*(passDur+back); if(w<passDur) f=w/passDur; else { f=1; ret=(w-passDur)/back; } }
+  const last=k===R.passes-1;
+  // 快照式：每格先停下來拍（亮起），再移到下一格
+  let fs=f, fl=f;
+  if(R.tiles>1 && ret<0 && tt<run){ const n=R.tiles, q=f*n, i=Math.min(n-1,Math.floor(q)), w=q-i;
+    fl=Math.min(1,(i+(w>=.2?1:0))/n); fs=Math.min(1,(i+(i<n-1&&w>=.6?ease((w-.6)/.4):0))/(n-1)); }
+  else if(R.tiles===1) fl=f>=.2||ret>=0?1:0;
+  let sx=R.sA+(R.sB-R.sA)*fs, ky=k;
+  if(ret>=0 && tt<run){ sx=R.sB-(R.sB-R.sA)*ease(ret); if(!last) ky=k+ease(ret); }
+  if(tt>=run) sx=R.sB-(R.sB-R.sA)*ease(Math.min(1,(tt-run)/hold));
+  if(tt>=run && R.passes>1) ky=(R.passes-1)*(1-ease(Math.min(1,(tt-run)/hold)));
+  M.stage.position.x=sx;
+  M.stageY.position.y=R.yStage?(R.pitchY/2-R.bandC/2)-ky*R.stepY:0;
+  const fade=tt>=run ? 1-ease(Math.min(1,(tt-run)/hold)) : 1;
+  M.scanned.forEach(s=>{
+    // part 0＝已完成的道（合成一塊）；part 1＝目前這道（沿 X 長出來）
+    const done = tt>=run ? R.passes : k + (ret>=0?1:0);
+    const yb=-R.Ly/2+s.c*R.pitchY;
+    let x1=-R.Lx/2+(s.ri+1)*R.seg, len, y0, w;
+    if(s.part===0){ if(done<=0){ s.q.visible=false; return; } len=R.seg*fade; y0=yb; w=Math.min(R.pitchY,(done-1)*R.stepY+R.bandC); }
+    else { if(tt>=run||ret>=0){ s.q.visible=false; return; } len=R.seg*fl; y0=yb+k*R.stepY; w=R.bandC; }
+    if(len<=.01||w<=.01){ s.q.visible=false; return; }
+    s.q.visible=true; s.q.scale.set(len,w,1); s.q.position.set(x1-len/2, y0+w/2, M.zScan+(s.part?.05:0));
+  });
+}
+
+// ── 取景：依視角把場景（或相機特寫範圍）塞進畫面 ──
+function iso3Fit(box, W, H){
+  const c=ISO3.cam;
+  const az=ISO3.az*Math.PI/180, el=ISO3.el*Math.PI/180;
+  const ctr=box.getCenter(new THREE.Vector3()), size=box.getSize(new THREE.Vector3()).length();
+  const dir=new THREE.Vector3(Math.cos(el)*Math.cos(az), Math.cos(el)*Math.sin(az), Math.sin(el));
+  c.position.copy(ctr).addScaledVector(dir, size*2); c.up.set(0,0,1); c.lookAt(ctr); c.updateMatrixWorld();
+  const inv=c.matrixWorldInverse; let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  for(let i=0;i<8;i++){ const v=new THREE.Vector3(i&1?box.max.x:box.min.x, i&2?box.max.y:box.min.y, i&4?box.max.z:box.min.z).applyMatrix4(inv);
+    x0=Math.min(x0,v.x); x1=Math.max(x1,v.x); y0=Math.min(y0,v.y); y1=Math.max(y1,v.y); }
+  const pad=1.06/ISO3.zoom;
+  let w=(x1-x0)*pad, h=(y1-y0)*pad; const cx=(x0+x1)/2, cy=(y0+y1)/2;
+  if(w/h>W/H) h=w*H/W; else w=h*W/H;
+  c.left=cx-w/2; c.right=cx+w/2; c.top=cy+h/2; c.bottom=cy-h/2; c.near=.1; c.far=size*5;
+  c.updateProjectionMatrix();
+}
+function iso3Render(){
+  if(!ISO3.R) return;
+  const cv=ISO3.R.domElement, W=cv.clientWidth, H=cv.clientHeight; if(!W||!H) return;
+  const d=Math.min(window.devicePixelRatio||1,2);
+  if(cv.width!==Math.round(W*d)||cv.height!==Math.round(H*d)){ ISO3.R.setPixelRatio(d); ISO3.R.setSize(W,H,false); }
+  const M=ISO3.meta, R=ISO3.R, lab=document.getElementById('dg3-sublab');
+  if(!M){ R.setScissorTest(false); R.clear(); if(lab) lab.style.display='none'; return; }
+  if(!M.topHide){ M.topHide=[]; M.root.traverse(o=>{ if(o.userData.topHide) M.topHide.push(o, o.userData.edge); }); }
+  M.topHide.forEach(o=>{ if(o) o.visible=ISO3.view!=='top'; });
+  // 版位很高（右欄跟著左欄拉長）時切上下兩格：上＝整台、下＝相機特寫，不留大片空白
+  const split=ISO3.view!=='close' && H>W*1.15 && !M.camBox.isEmpty();
+  R.setScissorTest(split);
+  if(!split){ R.setViewport(0,0,W,H); iso3Fit(M.all.isEmpty()?M.camBox:(ISO3.view==='close'&&!M.camBox.isEmpty()?M.camBox:M.all), W, H); R.render(ISO3.scene, ISO3.cam); if(lab) lab.style.display='none'; return; }
+  const H1=Math.round(H*.52), H2=H-H1;
+  R.setViewport(0,H2,W,H1); R.setScissor(0,H2,W,H1); iso3Fit(M.all, W, H1); R.render(ISO3.scene, ISO3.cam);
+  R.setViewport(0,0,W,H2); R.setScissor(0,0,W,H2); iso3Fit(M.camBox, W, H2); R.render(ISO3.scene, ISO3.cam);
+  if(lab){ lab.style.display=''; lab.style.top=(H1+6)+'px'; }
+}
+function iso3Live(){ return ISO3.onScreen && !document.hidden && iso3Shown() && ISO3.meta && ISO3.meta.anim; }
+function iso3Loop(now){
+  ISO3.raf=0;
+  if(!ISO3.play||!iso3Live()) return;
+  iso3Pose((now-ISO3.t0)/1000); iso3Render();
+  ISO3.raf=requestAnimationFrame(iso3Loop);
+}
+function iso3Kick(){ if(!ISO3.raf && ISO3.play && ISO3.meta && ISO3.meta.anim) ISO3.raf=requestAnimationFrame(iso3Loop); }
+
+function iso3Init(){
+  if(ISO3.R) return true;
+  const cv=document.getElementById('dg3'); if(!cv) return false;
+  try{ ISO3.R=new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true, preserveDrawingBuffer:true}); }   // PDF 匯出要讀得到畫面
+  catch(e){ ISO3.failed=true; iso3Msg('這台裝置不支援立體圖（WebGL），請改用其他視角'); return false; }
+  ISO3.scene=new THREE.Scene();
+  ISO3.scene.add(new THREE.AmbientLight(0xffffff,.56));
+  const d1=new THREE.DirectionalLight(0xffffff,.5); d1.position.set(-.5,-1,1.1); ISO3.scene.add(d1);
+  const d2=new THREE.DirectionalLight(0xffffff,.2); d2.position.set(1,.7,.4); ISO3.scene.add(d2);
+  ISO3.cam=new THREE.OrthographicCamera(-1,1,1,-1,.1,1e5);
+  // 拖曳旋轉（左右＝繞場，上下＝俯仰）；觸控只吃左右拖曳，上下仍可捲頁
+  let drag=null;
+  cv.addEventListener('pointerdown',e=>{ drag={x:e.clientX,y:e.clientY,az:ISO3.az,el:ISO3.el,id:e.pointerId,moved:false}; });
+  cv.addEventListener('pointermove',e=>{
+    if(!drag||e.pointerId!==drag.id) return;
+    const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+    if(!drag.moved){ if(Math.hypot(dx,dy)<4) return; drag.moved=true; try{ cv.setPointerCapture(e.pointerId); }catch(_){} }
+    ISO3.az=drag.az-dx*.4; if(e.pointerType!=='touch') ISO3.el=_cl(drag.el+dy*.3,4,88);
+    if(ISO3.view!=='close') ISO3.view=''; iso3SyncBtns(); if(!ISO3.raf) iso3Render();
+  });
+  const end=()=>{ drag=null; };
+  cv.addEventListener('pointerup',end); cv.addEventListener('pointercancel',end);
+  cv.addEventListener('dblclick',()=>iso3SetView('side'));
+  // 觸控板捏合（ctrl＋滾輪）縮放；一般滾輪照常捲頁
+  cv.addEventListener('wheel',e=>{ if(!e.ctrlKey) return; e.preventDefault(); ISO3.zoom=_cl(ISO3.zoom*Math.exp(-e.deltaY*.01),.6,6); if(!ISO3.raf) iso3Render(); },{passive:false});
+  if(window.IntersectionObserver) new IntersectionObserver(es=>{ ISO3.onScreen=es[0].isIntersecting; if(ISO3.onScreen) iso3Kick(); }).observe(cv);
+  if(window.ResizeObserver) new ResizeObserver(()=>{ if(iso3Shown()){ iso3Render(); iso3Kick(); } }).observe(cv);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) iso3Kick(); });
+  ISO3.t0=performance.now();
+  return true;
+}
+function iso3SetView(v){
+  const V=ISO3_VIEWS[v]; if(!V) return;
+  ISO3.view=v; ISO3.az=V.az; ISO3.el=V.el; ISO3.zoom=1; iso3SyncBtns(); if(!ISO3.raf) iso3Render();
+}
+function iso3TogglePlay(){
+  ISO3.play=!ISO3.play;
+  if(ISO3.play){ ISO3.t0=performance.now()-ISO3._paused*1000; iso3Kick(); }
+  else ISO3._paused=(performance.now()-ISO3.t0)/1000;
+  iso3SyncBtns();
+}
+function iso3SyncBtns(){
+  const t3=ISO3.kind==='t3';
+  document.querySelectorAll('#dg3-wrap .iso3-views button').forEach(b=>{ b.classList.toggle('on', b.dataset.v===ISO3.view); if(b.dataset.v==='close') b.textContent=t3?'感測器特寫':'相機特寫'; });
+  const lab=document.getElementById('dg3-sublab'); if(lab) lab.textContent=t3?'感測器特寫':'相機特寫';
+  const pb=document.getElementById('dg3-play'); if(pb){ pb.textContent=ISO3.play?'❚❚ 暫停':'▶ 播放'; pb.style.visibility=(ISO3.meta&&ISO3.meta.anim)?'':'hidden'; }
+}
+// 共用進入點：參數沒變就只重畫，不重建場景；build() 回傳 meta，caption() 依 meta 寫說明列
+function iso3Draw(kind, capId, sig, build, caption){
+  ISO3.cap=capId; caption();
+  iso3Need(()=>{
+    if(!iso3Init()) return;   // 模式剛切換時區塊可能還沒顯示：照樣建場景，顯示後由 ResizeObserver 補畫
+    iso3Msg('');
+    sig=kind+'|'+sig;
+    if(sig!==ISO3.sig){
+      if(ISO3.root){ ISO3.scene.remove(ISO3.root); ISO3.root.traverse(n=>{ if(n.geometry) n.geometry.dispose(); }); ISO3.root=null; }
+      ISO3.meta=null; ISO3.sig='';
+      let M=null; try{ M=build(); }catch(e){ console.error(e); }
+      if(!M){ iso3Msg('這組參數畫不出立體圖，請改用其他視角'); iso3Render(); return; }
+      ISO3.scene.add(M.root); ISO3.root=M.root; ISO3.meta=M; ISO3.sig=sig; ISO3.kind=kind;
+    }
+    iso3Pose(ISO3.play?(performance.now()-ISO3.t0)/1000:ISO3._paused);
+    caption(); iso3SyncBtns(); iso3Render(); iso3Kick();
+  });
+}
+function iso3Empty(text, capId){
+  const cap=document.getElementById(capId); if(cap) cap.innerHTML='';
+  iso3Need(()=>{ if(!iso3Init()) return;
+    if(ISO3.root){ ISO3.scene.remove(ISO3.root); ISO3.root=null; } ISO3.meta=null; ISO3.sig='';
+    iso3Msg(text); iso3SyncBtns(); iso3Render(); });
+}
+const _dc=(t,cls,st)=>`<span class="dc-sep">·</span><span class="${cls||'dc-c'}"${st?` style="${st}"`:''}>${t}</span>`;
+const _dcWarn='color:#ff3b30';
+
+// ── 掃描 ──
+function iso3DrawScan(p, r){
+  const LK=iso3LightKind('bar'), ce=document.getElementById('cam-pick');
+  const sig=JSON.stringify([p.sampleW,p.sampleH,p.scanAlongWidth,p.nCams,p.nRows,p.overlap,p.wd,p.lensType,p.fl,p.rW,p.rH,p.pixelSize,p.lineScan,+r.hFOV||0,+r.vFOV||0,r.passes,LK.k,ce&&ce.value]);
+  iso3Draw('scan', 'dg-caption', sig, ()=>iso3BuildScan(p, r), ()=>iso3Caption(p, r));
+}
+function iso3Caption(p, r){
+  const cap=document.getElementById('dg-caption'); if(!cap) return;
+  const nC=Math.max(1,p.nCams), nR=Math.max(1,p.nRows), fh=+r.hFOV||0, fv=+r.vFOV||0, LK=iso3LightKind('bar');
+  const I=(ISO3.kind==='scan'&&ISO3.meta&&ISO3.meta.info)||{};
+  let h=`<span class="dc-l">${nC*nR}台 (${nC}列×${nR}排)</span>`;
+  h+=_dc(`樣品 ${p.sampleW} × ${p.sampleH} mm`);
+  if(fh>0&&I.isLine) h+=_dc(`取像線寬 ${fh.toFixed(1)} mm`,'dc-l','color:#007aff');
+  else if(fh>0&&fv>0) h+=_dc(`FOV ${fh.toFixed(1)} × ${fv.toFixed(1)} mm`,'dc-l','color:#007aff');
+  h+=_dc(`WD ${+p.wd} mm`);
+  h+=_dc(`光源 ${esc(LK.name)}${LK.given?'':'（預設）'}${LK.k==='bar'&&I.lightDeg?' 偏 '+I.lightDeg+'°':''}`);
+  if(I.crowded) h+=_dc('鏡頭外徑大於相機間距，實際排不下','dc-l',_dcWarn);
+  else if(I.stagger) h+=_dc('相機前後交錯排列');
+  h+=_dc('機構、機身、鏡頭外形為示意尺寸','dc-r');
+  cap.innerHTML=h;
+}
+
+// ── 靜態 ──
+function iso3DrawStatic(p, r, ss){
+  if(!(r.nX>0&&r.nY>0&&r.hFOV>0&&r.vFOV>0)){ iso3Empty('請輸入有效參數','st-dg-caption'); return; }
+  const LK=iso3LightKind('ring'), ce=document.getElementById('cam-pick');
+  const sig=JSON.stringify([ss.objW,ss.objH,ss.overlap,r.nX,r.nY,+r.hFOV,+r.vFOV,p.wd,p.lensType,p.fl,p.rW,p.rH,p.pixelSize,LK.k,ce&&ce.value]);
+  iso3Draw('static', 'st-dg-caption', sig, ()=>iso3BuildStatic(p, r, ss), ()=>{
+    const cap=document.getElementById('st-dg-caption'); if(!cap) return;
+    const I=(ISO3.kind==='static'&&ISO3.meta&&ISO3.meta.info)||{};
+    let h=`<span class="dc-l">${r.total}台 (${r.nX}×${r.nY})</span>`;
+    h+=_dc(`樣品 ${ss.objW}×${ss.objH}mm`);
+    h+=_dc(`FOV ${r.hFOV.toFixed(1)}×${r.vFOV.toFixed(1)}mm`,'dc-l','color:#007aff');
+    h+=_dc(`WD ${+p.wd} mm`);
+    if(ss.overlap>0) h+=_dc(`overlap ${ss.overlap}%`,'dc-r');
+    h+=_dc(`光源 ${esc(LK.name)}${LK.given?'':'（預設）'}`);
+    if(I.crowded) h+=_dc('鏡頭／機身比相機間距大，實際排不下','dc-l',_dcWarn);
+    if(I.many) h+=_dc('台數多，相機畫成簡化方塊');
+    h+=_dc('產品平放；機構、機身、鏡頭外形為示意尺寸','dc-r');
+    cap.innerHTML=h;
+  });
+}
+
+// ── 畫檢 ──
+function iso3DrawArea(A){
+  if(!A.R.some(r=>r&&r.xFOV>0&&r.yFOV>0)){ iso3Empty('請輸入有效參數','as-dg-caption'); return; }
+  const p=P(), ce=document.getElementById('cam-pick'), le=document.getElementById('lens-pick');
+  const sig=JSON.stringify([A.dir,A.gap,A.G.map(g=>[g.k,g.geos.map(x=>[x.covX,x.covY,x.X,x.Y,x.curve,x.R,x.bend,x.err])]),
+    A.R.map(r=>r?[r.nX,r.nY,r.xFOV,r.yFOV,r.wd,r.limit]:0),p.fl,p.rW,p.rH,p.pixelSize,ce&&ce.value,le&&le.value]);
+  iso3Draw('area', 'as-dg-caption', sig, ()=>iso3BuildArea(p, A), ()=>{
+    const cap=document.getElementById('as-dg-caption'); if(!cap) return;
+    const I=(ISO3.kind==='area'&&ISO3.meta&&ISO3.meta.info)||{};
+    const tot=A.R.reduce((a,r)=>a+(r?r.nX*r.nY:0),0), r0=A.R[0]||{}, multi=A.G.length>1||A.G[0].geos.length>1;
+    let h=`<span class="dc-l">${tot}台${multi?'（'+A.G.length+' 組）':' ('+r0.nX+'×'+r0.nY+')'}</span>`;
+    if(!multi) h+=_dc(`產品 ${fmtN(A.G[0].geos[0].X)}×${fmtN(A.G[0].geos[0].Y)} mm${A.G[0].geos[0].curve?'（曲面 R'+fmtN(A.G[0].geos[0].R)+'）':''}`);
+    else h+=_dc(`${A.G.reduce((a,g)=>a+g.geos.length,0)} 屏 · ${A.dir==='y'?'直排':'橫排'}`);
+    const fv=A.R.filter(r=>r&&r.xFOV>0), wds=fv.map(r=>r.wd);
+    if(fv.length) h+=_dc(`單相機FOV ${fv[0].xFOV.toFixed(0)}×${fv[0].yFOV.toFixed(0)} mm`,'dc-l','color:#007aff');
+    if(wds.length) h+=_dc('WD '+(Math.max(...wds)-Math.min(...wds)<.5?Math.round(wds[0]):Math.round(Math.min(...wds))+'–'+Math.round(Math.max(...wds)))+' mm');
+    h+=_dc('面板點亮（自發光），畫面輪播 白／紅／綠／藍／灰');
+    if(I.crowded) h+=_dc('鏡頭／機身比相機間距大，實際排不下','dc-l',_dcWarn);
+    if(I.many) h+=_dc('台數多，相機畫成簡化方塊');
+    h+=_dc('機構、機身、鏡頭外形為示意尺寸','dc-r');
+    cap.innerHTML=h;
+  });
+}
+
+// ── 3D 量測 ──
+function iso3DrawT3(){
+  const s=t3Selected();
+  if(!s){ iso3Empty('尚無可選機種 — 請放寬需求，或到 3D 感測器資料庫新增機種','t3-dg-caption'); return; }
+  const mk=methodOf(s), col=M3D[mk].color, b=iso3T3Geo(s);
+  const wdNeed=v3('t3-wd'), partX=v3('t3-x'), partY=v3('t3-y');
+  const wd=(s.wd!=null?s.wd:wdNeed);
+  let fov=(s.fovX!=null?s.fovX:0), fovY=null, rot=false;
+  if(t3IsSnap(s)){
+    const n=function(a,c){ return Math.ceil(partX/a)*Math.ceil(partY/c); };
+    if(n(s.fovY,s.fovX)<n(s.fovX,s.fovY)){ fov=s.fovY; fovY=s.fovX; rot=true; } else fovY=s.fovY;
+  }
+  const sig=JSON.stringify([s.n,s.principle,s.motion,s.zRange,b,wd,fov,fovY,partX,partY]);
+  iso3Draw('t3', 't3-dg-caption', sig, ()=>iso3BuildT3({s, mk, b, wd, fov, fovY, partX, partY, col}), ()=>{
+    const cap=document.getElementById('t3-dg-caption'); if(!cap) return;
+    const I=(ISO3.kind==='t3'&&ISO3.meta&&ISO3.meta.info)||{}, z=zSpec(s), ink='#141a24';
+    const parts=['<span style="color:'+col+';font-size:12px;">●</span>'
+      +'<span style="color:'+ink+';font-weight:600;">'+esc(s.brand+' '+s.model)+'</span>', '<span>'+M3D[mk].name+'</span>'];
+    if(z) parts.push('<span>'+z.k+' '+z.v+'µm</span>');
+    parts.push(s.wd!=null?'<span>WD '+fmtN(s.wd)+'mm</span>':'<span style="color:#854F0B;">WD 未填，暫用需求值 '+fmtN(wdNeed)+'mm</span>');
+    if(I.point) parts.push('<span>點量測：載台 XY 逐點取樣</span>');
+    else if(I.snap) parts.push('<span>單次視野 '+fmtN(fov)+'×'+fmtN(fovY||fov)+'mm'+(rot?'（轉 90°）':'')+(I.still?' → 1 次取像':' → '+(I.nx*I.ny)+' 次取像（載台移動）')+'</span>');
+    else parts.push('<span>掃描寬 '+fmtN(fov)+'mm → '+I.nx+' 道'+(I.nx>12?'（動畫演 12 道）':'')+'</span>');
+    parts.push(b.src==='est'?'<span style="color:#854F0B;">外形依原廠照片，尺寸為推估（可在資料庫填入 長/寬/高）</span>'
+                    :'<span>機體 '+fmtN(b.L)+'×'+fmtN(b.W)+'×'+fmtN(b.H)+'mm'+(b.src==='sheet'?'（原廠外形圖）':'')+'</span>');
+    if(!I.still) parts.push('<span>載台為示意</span>');
+    cap.innerHTML=parts.join('<span style="opacity:.45">·</span>');
+  });
+}
+
 function drawDiagram(canvasId='dg'){
+  if(canvasId==='dg' && dgView==='iso'){
+    if(!iso3Active('scan')) return;
+    iso3Host('dg',true);
+    const p0=P(), r0=(typeof lastR!=='undefined'&&lastR)?lastR:{};
+    iso3DrawScan(p0, r0); return;
+  }
+  if(canvasId==='dg') iso3Host('dg',false);
   const canvas=document.getElementById(canvasId);
   if(!canvas) return;
   const p=P();
@@ -6648,7 +7735,7 @@ function loadEval3D(e){
   sv('t3-motion',p.motion); sv('t3-tt',p.tt); sv('t3-wd',p.wd);
   ownOnly3=!!p.ownOnly; segSet('t3-own-seg',ownOnly3?1:0);
   t3SelName=p.pick||null; t3UserPick=!!p.pick;
-  setT3DgView(p.dgView||'side');
+  setT3DgView(p.dgView||'iso');
   setProjName('3d', e.name||'新評估');
   syncDesc(e.notes||'');
   setDim('3d');   // 內含 calc3D() + showTab('res')
@@ -8514,8 +9601,9 @@ function calcASMulti(){
     tb.innerHTML=h;
   }
 
-  // 示意圖：俯視畫各屏與各組相機；光路側視畫解析度最細那一組
-  if(asDgView==='side'){
+  // 示意圖：立體／俯視畫各屏與各組相機；光路側視畫解析度最細那一組
+  if(asDgView==='iso'){ if(iso3Active('area')){ iso3Host('as-dg',true); iso3DrawArea({G, R, dir:asMulti.dir, gap:asMulti.gap}); } }
+  else if(asDgView==='side'){
     let kf=0; R.forEach((r,k)=>{ if(r.resolution>0 && (!(R[kf].resolution>0) || r.resolution<R[kf].resolution)) kf=k; });
     const r=R[kf]||{}, g=G[kf]||{};
     drawASDiagram(r.nX, r.nY, g.covX, g.covY, r.xFOV, r.yFOV, r.limit, r.wd, (r.xFOV>0?((cp.camRX*cp.camPx/1000)/r.xFOV):0));
@@ -8539,6 +9627,7 @@ function calcASMulti(){
 }
 function drawASMultiDiagram(m, G, R){
   const canvas=document.getElementById('as-dg'); if(!canvas) return;
+  iso3Host('as-dg',false);
   const dpr=window.devicePixelRatio||1, W=canvas.offsetWidth, H=canvas.offsetHeight;
   if(!W||!H) return;
   canvas.width=W*dpr; canvas.height=H*dpr;
@@ -8696,7 +9785,8 @@ function calcAS(){
   const limEl = document.getElementById('as-limit');
   if(limEl && limitRaw>1){ limEl.value = '1'; }
 
-  drawASDiagram(nX, nY, geo.covX, geo.covY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0));
+  if(asDgView==='iso'){ if(iso3Active('area')){ iso3Host('as-dg',true); const g1=Object.assign({}, geo, {k:0, name:'A'}); g1.geos=[geo]; iso3DrawArea({G:[g1], R:[R0], dir:'x', gap:0}); } }
+  else drawASDiagram(nX, nY, geo.covX, geo.covY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0));
   const W=[];
   if(geo.curve && geo.err) W.push({s:'bad', t:'曲面：'+esc(geo.err)});
   if(geo.curve && !geo.err && geo.arcH>0){
@@ -8721,6 +9811,7 @@ function calcAS(){
 function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit, wd, mag){
   const canvas = document.getElementById('as-dg');
   if(!canvas) return;
+  iso3Host('as-dg',false);
   const dpr = window.devicePixelRatio||1;
   const W = canvas.offsetWidth, H = canvas.offsetHeight;
   if(!W||!H) return;
