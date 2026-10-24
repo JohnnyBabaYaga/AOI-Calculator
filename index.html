@@ -635,6 +635,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .asm-r input[type=number]{width:58px;padding:2px 5px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);font-size:12px;font-family:'SF Mono',ui-monospace,monospace;text-align:right;outline:none;flex-shrink:0;}
 .asm-r input[type=text]{flex:3;min-width:0;padding:2px 6px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);font-size:11.5px;outline:none;}
 .asm-r input:focus{border-color:var(--accent);}
+.asm-r input[type=number]{-moz-appearance:textfield;}
+.asm-r input[type=number]::-webkit-inner-spin-button,.asm-r input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}   /* 欄位窄，拿掉上下箭頭免得擋到小數 */
 .asm-r .x{color:var(--sub);font-size:10px;}
 .asm-r .unit{min-width:22px;}
 .asm-r .seg button{padding:2px 7px;font-size:10.5px;}
@@ -1708,7 +1710,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 場邊／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 場邊／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
@@ -6356,7 +6358,7 @@ function iso3BuildArea(p, A){
   // 版面（mm，同俯視圖：沿排列方向依序擺、另一方向置中；曲面用投影尺寸），再換成世界座標（Y 朝上）
   let cur=0; const SC=[];
   G.forEach(g=>g.geos.forEach(x=>{
-    SC.push(dirX ? {x:cur, y:-x.covY/2, w:x.covX, h:x.covY, geo:x, k:g.k} : {x:-x.covX/2, y:cur, w:x.covX, h:x.covY, geo:x, k:g.k});
+    SC.push(dirX ? {x:cur, y:asmAlignOff(A,x.covY), w:x.covX, h:x.covY, geo:x, k:g.k} : {x:asmAlignOff(A,x.covX), y:cur, w:x.covX, h:x.covY, geo:x, k:g.k});
     cur+=(dirX?x.covX:x.covY)+gap; }));
   let mx0=1e9,mx1=-1e9,my0=1e9,my1=-1e9;
   SC.forEach(s=>{ mx0=Math.min(mx0,s.x); mx1=Math.max(mx1,s.x+s.w); my0=Math.min(my0,s.y); my1=Math.max(my1,s.y+s.h); });
@@ -6368,6 +6370,15 @@ function iso3BuildArea(p, A){
     const d=Math.min(Math.abs(g.bend==='y'?y-s.cy:x-s.cx), g.proj/2, g.R); return pt+g.R-Math.sqrt(g.R*g.R-d*d); };
   const zAt=(x,y)=>{ const s=SC.find(s=>Math.abs(x-s.cx)<=s.w/2+.01 && Math.abs(y-s.cy)<=s.h/2+.01); return s?surf(s)(x,y):pt; };
 
+  // 多連屏（平面）：一片共用蓋板，各屏只畫點亮的顯示區
+  let CV=null;
+  if(A.shared && SC.length>1){
+    const x0=Math.min(...SC.map(s=>s.cx-s.w/2)), x1=Math.max(...SC.map(s=>s.cx+s.w/2)), y0=Math.min(...SC.map(s=>s.cy-s.h/2)), y1=Math.max(...SC.map(s=>s.cy+s.h/2));
+    const bz=_cl(.012*Math.min(...SC.map(s=>Math.min(s.w,s.h))),1.5,8);
+    CV={x0:x0-bz, x1:x1+bz, y0:y0-bz, y1:y1+bz};
+    const gb=new THREE.BoxGeometry(CV.x1-CV.x0, CV.y1-CV.y0, pt); gb.translate(0,0,pt/2);
+    iso3Add(root, gb, K.panel, (CV.x0+CV.x1)/2, (CV.y0+CV.y1)/2, 0);
+  }
   // 面板：黑色本體（含邊框）＋點亮的顯示區＋FPC／驅動板＋訊號線
   SC.forEach(s=>{
     const g=s.geo, curve=g.curve&&!g.err&&g.R>0, ax=g.bend==='y'?'y':'x';
@@ -6378,9 +6389,11 @@ function iso3BuildArea(p, A){
       iso3Add(root, iso3ShapeGeo(cg, pt, 0, curve?g.R:0, ax), K.panel, s.cx, s.cy, 0);
       ga=iso3ShapeGeo(shp, 0, pt+.15, curve?g.R:0, ax);
     } else {
-      const gb=new THREE.BoxGeometry(W+2*bz, H+2*bz, pt, ax==='x'?N:1, ax==='y'?N:1, 1); gb.translate(0,0,pt/2);
-      if(curve) iso3Bend(gb, g.R, ax);
-      iso3Add(root, gb, K.panel, s.cx, s.cy, 0);
+      if(!CV){
+        const gb=new THREE.BoxGeometry(W+2*bz, H+2*bz, pt, ax==='x'?N:1, ax==='y'?N:1, 1); gb.translate(0,0,pt/2);
+        if(curve) iso3Bend(gb, g.R, ax);
+        iso3Add(root, gb, K.panel, s.cx, s.cy, 0);
+      }
       ga=new THREE.PlaneGeometry(W, H, ax==='x'?N:1, ax==='y'?N:1); ga.translate(0,0,pt+.15);
       if(curve) iso3Bend(ga, g.R, ax);
     }
@@ -6389,7 +6402,7 @@ function iso3BuildArea(p, A){
     const onX=(curve&&ax==='y')||(!dirX&&!curve);
     const span=onX?H:W, fw=_cl(span*.28,10,70), fl=_cl(.06*Math.max(W,H),12,40);
     const e0=cg?(onX?asXMinAt(cg,0):asYMinAt(cg,0)):null;   // 異形：FPC 貼著外形的下緣／左緣
-    const ex=onX?s.cx+(e0!=null?e0:-W/2-bz):s.cx, ey=onX?s.cy:s.cy+(e0!=null?e0:-H/2-bz);
+    const ex=onX?(CV?CV.x0:s.cx+(e0!=null?e0:-W/2-bz)):s.cx, ey=onX?s.cy:(CV?CV.y0:s.cy+(e0!=null?e0:-H/2-bz));   // 共用蓋板：FPC 從蓋板邊出來
     const dx=onX?-1:0, dy=onX?0:-1, bw=onX?fl:fw, bd=onX?fw:fl;
     iso3Box(root, bw, bd, .3, K.fpc, ex+dx*fl/2, ey+dy*fl/2, 0, false);
     const px=ex+dx*(fl+9), py=ey+dy*(fl+9), pw=onX?18:fw*1.1, pd=onX?fw*1.1:18;
@@ -6928,7 +6941,7 @@ function iso3DrawStatic(p, r, ss){
 function iso3DrawArea(A){
   if(!A.R.some(r=>r&&r.xFOV>0&&r.yFOV>0)){ iso3Empty('請輸入有效參數','as-dg-caption'); return; }
   const p=P(), ce=document.getElementById('cam-pick'), le=document.getElementById('lens-pick');
-  const sig=JSON.stringify([A.dir,A.gap,A.G.map(g=>[g.k,g.geos.map(x=>[x.covX,x.covY,x.X,x.Y,x.curve,x.R,x.bend,x.err,x.tpl,x.tp])]),
+  const sig=JSON.stringify([A.dir,A.gap,A.align,A.shared,A.G.map(g=>[g.k,g.geos.map(x=>[x.covX,x.covY,x.X,x.Y,x.curve,x.R,x.bend,x.err,x.tpl,x.tp])]),
     A.R.map(r=>r?[r.nX,r.nY,r.xFOV,r.yFOV,r.wd,r.limit]:0),p.fl,p.rW,p.rH,p.pixelSize,ce&&ce.value,le&&le.value]);
   iso3Draw('area', 'as-dg-caption', sig, ()=>iso3BuildArea(p, A), ()=>{
     const cap=document.getElementById('as-dg-caption'); if(!cap) return;
@@ -6938,7 +6951,7 @@ function iso3DrawArea(A){
     const g0=A.G[0].geos[0], tn=AS_TPL[g0.tpl]?AS_TPL[g0.tpl].n+' ':'';
     if(!multi) h+=_dc(g0.tpl==='circle'?`產品 圓形 Ø${fmtN(g0.X)} mm${g0.curve?'（曲面 R'+fmtN(g0.R)+'）':''}`
       : `產品 ${tn}${fmtN(g0.X)}×${fmtN(g0.Y)} mm${g0.curve?'（曲面 R'+fmtN(g0.R)+'）':''}`);
-    else h+=_dc(`${A.G.reduce((a,g)=>a+g.geos.length,0)} 屏 · ${A.dir==='y'?'直排':'橫排'}`);
+    else h+=_dc(`${A.G.reduce((a,g)=>a+g.geos.length,0)} 屏${A.names&&A.names.some(n=>!/^屏\d+$/.test(n))?'（'+A.names.join('／')+'）':''} · ${A.dir==='y'?'直排':'橫排'}${A.shared?' · 共用蓋板':''}`);
     const fv=A.R.filter(r=>r&&r.xFOV>0), wds=fv.map(r=>r.wd);
     if(fv.length) h+=_dc(`單相機FOV ${fv[0].xFOV.toFixed(0)}×${fv[0].yFOV.toFixed(0)} mm`,'dc-l','color:#007aff');
     if(wds.length) h+=_dc('WD '+(Math.max(...wds)-Math.min(...wds)<.5?Math.round(wds[0]):Math.round(Math.min(...wds))+'–'+Math.round(Math.max(...wds)))+' mm');
@@ -9705,20 +9718,27 @@ function asShapeText(p){
 // ═══════════════════════════════════════════
 let asMulti=null;   // {dir:'x'|'y', gap, screens:[{shape,X,Y,RX,RY,note,R,bend}], links:[true=與下一屏同組]}
 const ASM_HUES=[211,28,145,280,48,340];
+const ASM_AL={x:['靠上','置中','靠下'], y:['靠左','置中','靠右']};
 function asmColor(k, l){ return 'hsl('+ASM_HUES[k%ASM_HUES.length]+',62%,'+(l||46)+'%)'; }
 function asmInit(){
   const v=id=>+document.getElementById(id).value;
-  const one={shape:'rect', X:v('as-panel-x'), Y:v('as-panel-y'), RX:v('as-panel-rx'), RY:v('as-panel-ry'), pitch:v('as-pitch')||8, note:'', R:1500, bend:'x'};
-  asMulti={dir:'x', gap:0, screens:[Object.assign({},one), Object.assign({},one)], links:[false]};
+  // 預設＝車用三連屏（由左至右 DIC 數位儀表 10.25"／CID 中控 14.6"／CPD 副駕娛樂 14.6"），上緣對齊；解析度先都帶 8:3（1920×720）
+  const sc=(n,X,Y)=>({name:n, shape:'rect', X, Y, RX:1920, RY:720, pitch:v('as-pitch')||8, note:'', R:1500, bend:'x'});
+  asMulti={dir:'x', gap:20, align:'start', screens:[sc('DIC',243.8,91.4), sc('CID',347.2,130.2), sc('CPD',347.2,130.2)], links:[false,false]};
 }
+// 另一方向的對齊：橫排 start／center／end＝靠上／置中／靠下，直排＝靠左／置中／靠右（版面座標往下、往右為正）
+function asmAlignOff(m, len){ const a=m&&m.align; return a==='start'?0:a==='end'?-len:-len/2; }
+function asmNm(m, i){ const s=m&&m.screens&&m.screens[i]; return s&&s.name?s.name:'屏'+(i+1); }
+// 平面屏共用一片蓋板（有曲面屏時各屏各自蓋板）
+function asmShared(m){ return !!(m&&m.screens&&m.screens.length>1&&m.screens.every(s=>!asIsCurve(s.shape))); }
 function asmNorm(m){
   m=m&&typeof m==='object'?m:{};
   const gp=+document.getElementById('as-pitch').value||8;   // 舊資料沒有每屏 Pitch → 用全域 Pitch
-  const scr=(Array.isArray(m.screens)?m.screens:[]).slice(0,6).map(s=>({shape:AS_SCR_SHAPES.includes(s.shape)?s.shape:'rect',
+  const scr=(Array.isArray(m.screens)?m.screens:[]).slice(0,6).map(s=>({name:String(s.name||'').slice(0,20), shape:AS_SCR_SHAPES.includes(s.shape)?s.shape:'rect',
     X:+s.X||0, Y:+s.Y||0, RX:+s.RX||0, RY:+s.RY||0, pitch:(s.pitch==null||s.pitch==='')?gp:+s.pitch, note:s.note||'', R:+s.R||0, bend:s.bend==='y'?'y':'x'}));
   while(scr.length<2) scr.push(Object.assign({}, scr[0]||{shape:'rect',X:300,Y:120,RX:1920,RY:720,pitch:gp,note:'',R:1500,bend:'x'}));
   const links=scr.slice(0,-1).map((_,i)=>!!(m.links&&m.links[i]));
-  return {dir:m.dir==='y'?'y':'x', gap:Math.max(0,+m.gap||0), screens:scr, links};
+  return {dir:m.dir==='y'?'y':'x', gap:Math.max(0,+m.gap||0), align:['start','center','end'].includes(m.align)?m.align:'center', screens:scr, links};   // 舊紀錄沒有對齊＝置中
 }
 function asMultiGroups(m){
   const G=[]; let cur=null;
@@ -9739,8 +9759,8 @@ function asMultiGroups(m){
     const drv=nd.length?nd.reduce((a,x)=>x.need<a.need?x:a, nd[0]):null;
     g.drv=drv?drv.idx:-1; g.pix=drv?drv.need:0; g.pitch=1;
     g.curve=g.geos.some(x=>x.curve); g.arcH=Math.max.apply(null,[0].concat(g.geos.map(x=>x.arcH||0)));
-    const eg=g.geos.find(x=>x.err); g.err=eg?'屏'+(eg.idx+1)+' '+eg.err:'';
-    g.label=g.scr.length>1?'屏'+(g.scr[0]+1)+'–'+(g.scr[g.scr.length-1]+1):'屏'+(g.scr[0]+1);
+    const eg=g.geos.find(x=>x.err); g.err=eg?asmNm(m,eg.idx)+' '+eg.err:'';
+    g.label=g.scr.length>1?asmNm(m,g.scr[0])+'–'+asmNm(m,g.scr[g.scr.length-1]):asmNm(m,g.scr[0]);
   });
   return G;
 }
@@ -9760,7 +9780,7 @@ function asMultiCalc(m, c){
 }
 function asMultiText(m){
   const n=m.screens.length, G=asMultiGroups(m);
-  return '多連屏 '+n+'in1 · '+(m.dir==='y'?'直排（沿 Y）':'橫排（沿 X）')+' · 屏間距 '+fmtN(m.gap)+' mm · '
+  return '多連屏 '+n+'in1 · '+(m.dir==='y'?'直排（沿 Y）':'橫排（沿 X）')+' · '+ASM_AL[m.dir][['start','center','end'].indexOf(m.align)]+'對齊'+(asmShared(m)?' · 共用蓋板':'')+' · 屏間距 '+fmtN(m.gap)+' mm · '
     +G.length+' 組相機（'+G.map(g=>g.name+'：'+g.label).join('、')+'）';
 }
 function asmExtent(m){
@@ -9770,7 +9790,7 @@ function asmExtent(m){
   return dx ? {w:a, h:b} : {w:b, h:a};
 }
 function asmScreenText(s, i){
-  let t='屏'+(i+1)+' '+fmtN(s.X)+' × '+fmtN(s.Y)+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+') · Pitch '+fmtN(s.pitch);
+  let t=asmNm(asMulti,i)+' '+fmtN(s.X)+' × '+fmtN(s.Y)+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+') · Pitch '+fmtN(s.pitch);
   if(s.shape!=='rect') t+=' · '+AS_SHAPES[s.shape]+(asIsFree(s.shape)&&s.note?'：'+s.note:'');
   if(asIsCurve(s.shape)&&s.R>0) t+=' R'+fmtN(s.R)+' 沿'+(s.bend==='y'?'Y':'X');
   return t;
@@ -9784,10 +9804,11 @@ function asmRender(){
   const m=asMulti, G=asMultiGroups(m), gOf={};
   G.forEach(g=>g.scr.forEach(i=>{ gOf[i]=g; }));
   const n=m.screens.length;
-  let h='<div class="asm-tip">每一屏各自填尺寸與型態；相鄰兩屏之間按 <b>🔗</b> 切換「同一組相機一起拍」或「分開拍」。</div>'
+  let h='<div class="asm-tip">每一屏各自填名稱、尺寸與型態；平面屏做在同一片蓋板上，屏間距＝相鄰兩個顯示區之間的距離。相鄰兩屏之間按 <b>🔗</b> 切換「同一組相機一起拍」或「分開拍」。</div>'
     +'<div class="row"><label>排列方向</label><div class="seg" id="asm-dir-seg">'
     +'<button class="'+(m.dir==='x'?'on':'')+'" onclick="asmDir(\'x\')">橫排（沿 X）</button>'
     +'<button class="'+(m.dir==='y'?'on':'')+'" onclick="asmDir(\'y\')">直排（沿 Y）</button></div></div>'
+    +'<div class="row"><label>對齊</label><div class="seg" id="asm-al-seg">'+['start','center','end'].map((a,j)=>'<button class="'+(m.align===a?'on':'')+'" onclick="asmAlign(\''+a+'\')">'+ASM_AL[m.dir][j]+'</button>').join('')+'</div></div>'
     +'<div class="row"><label>屏間距</label><input type="number" id="asm-gap" value="'+m.gap+'" step="0.5" min="0" oninput="asmGap(this.value)"><span class="unit">mm</span></div>'
     +'<div class="row"><label>屏數</label><div class="asm-cnt"><button onclick="asmCount(-1)"'+(n<=2?' disabled':'')+' aria-label="減少一屏">−</button><b>'+n+'</b>'
     +'<button onclick="asmCount(1)"'+(n>=6?' disabled':'')+' aria-label="增加一屏">＋</button></div></div>';
@@ -9798,6 +9819,7 @@ function asmRender(){
       +'<div class="asm-hd"><span class="asm-no">屏 '+(i+1)+'</span><span class="asm-grp" title="相機組">'+g.name+' 組</span>'
       +'<select onchange="asmSet('+i+',\'shape\',this.value,1)" aria-label="屏 '+(i+1)+' 型態">'
       +AS_SCR_SHAPES.map(k=>'<option value="'+k+'"'+(k===s.shape?' selected':'')+'>'+AS_SHAPES[k]+'</option>').join('')+'</select></div>'
+      +'<div class="asm-r"><label>名稱</label><input type="text" value="'+esc(s.name||'')+'" placeholder="例：DIC" oninput="asmSet('+i+',\'name\',this.value)"><span class="unit"></span></div>'
       +'<div class="asm-r"><label>'+(fr?'外接尺寸':'AA 尺寸')+'</label>'+num('X',1)+'<span class="x">×</span>'+num('Y',1)+'<span class="unit">mm</span></div>'
       +'<div class="asm-r"><label>解析度</label>'+num('RX',1)+'<span class="x">×</span>'+num('RY',1)+'<span class="unit">px</span></div>'
       +'<div class="asm-r"><label>Pitch</label>'+num('pitch',0.5)+'<span class="unit">px</span></div>';
@@ -9832,16 +9854,17 @@ function asmCurveInfo(){
 }
 function asmSet(i, k, v, rerender){
   if(!asMulti||!asMulti.screens[i]) return;
-  asMulti.screens[i][k] = (k==='shape'||k==='note'||k==='bend') ? v : (v===''?0:+v);
+  asMulti.screens[i][k] = (k==='shape'||k==='note'||k==='bend'||k==='name') ? v : (v===''?0:+v);
   if(rerender) asmRender(); else asmCurveInfo();
   calcAS();
 }
 function asmLink(i){ asMulti.links[i]=!asMulti.links[i]; asmRender(); calcAS(); }
+function asmAlign(a){ asMulti.align=a; asmRender(); calcAS(); }
 function asmDir(d){ asMulti.dir=d==='y'?'y':'x'; asmRender(); calcAS(); }
 function asmGap(v){ asMulti.gap=Math.max(0,+v||0); calcAS(); }
 function asmCount(d){
   const sc=asMulti.screens;
-  if(d>0 && sc.length<6){ sc.push(Object.assign({}, sc[sc.length-1])); asMulti.links.push(false); }
+  if(d>0 && sc.length<6){ sc.push(Object.assign({}, sc[sc.length-1], {name:''})); asMulti.links.push(false); }
   else if(d<0 && sc.length>2){ sc.pop(); asMulti.links.pop(); }
   asmRender(); calcAS();
 }
@@ -9866,14 +9889,14 @@ function calcASMulti(){
   set('as-rpt-panel-lbl', '各屏尺寸');
   set('as-rpt-panel', asMulti.screens.map(asmScreenText).join('\n'));
   const cvs=[]; G.forEach(function(g){ g.geos.forEach(function(x){ if(!x.curve) return;
-    cvs.push('屏'+(x.idx+1)+'：'+(x.err ? x.err : '投影 '+f(x.proj,1)+' mm · 弧高 '+f(x.arcH,1)+' mm · 邊緣傾角 '+f(x.theta*180/Math.PI,1)+'°')); }); });
+    cvs.push(asmNm(asMulti,x.idx)+'：'+(x.err ? x.err : '投影 '+f(x.proj,1)+' mm · 弧高 '+f(x.arcH,1)+' mm · 邊緣傾角 '+f(x.theta*180/Math.PI,1)+'°')); }); });
   set('as-rpt-curve', cvs.join('\n'));
   document.getElementById('as-rpt-curve-f').style.display = cvs.length ? '' : 'none';
-  set('as-rpt-pitch', asMulti.screens.map((s,i)=>'屏'+(i+1)+' '+fmtN(s.pitch)).join(' · ')+' px');
+  set('as-rpt-pitch', asMulti.screens.map((s,i)=>asmNm(asMulti,i)+' '+fmtN(s.pitch)).join(' · ')+' px');
   set('as-rpt-qty', `${M.total} 台`);
   set('as-rpt-arr', G.length+' 組：'+R.map(r=>r.nX+'×'+r.nY).join(' ＋ '));
   set('as-rpt-res', rng('resolution',2));
-  set('as-rpt-res-s', G.length>1?'各組依組內最細的屏':'依'+(G[0]&&G[0].drv>=0?'屏'+(G[0].drv+1):'各屏')+' Pitch');
+  set('as-rpt-res-s', G.length>1?'各組依組內最細的屏':'依'+(G[0]&&G[0].drv>=0?asmNm(asMulti,G[0].drv):'各屏')+' Pitch');
   set('as-rpt-wd', rng('wd',0));
   const wdOkEl=document.getElementById('as-rpt-wd-ok');
   if(wdOkEl){ const ok=!badWD.length; wdOkEl.textContent=ok?'✓ ≥ 安全 '+safeWD+' mm':'✗ '+badWD.map(g=>g.name).join('、')+' 組 < 安全 '+safeWD+' mm'; wdOkEl.style.color=ok?'#34c759':'#ff3b30'; }
@@ -9884,7 +9907,7 @@ function calcASMulti(){
   set('as-r-wd', rng('wd',0)); set('as-r-safe-wd', f(safeWD,0)); set('as-r-xangle', rng('xAngle',1));
   set('as-r-xratio', rng('xRatio',2)); set('as-r-yratio', rng('yRatio',2));
   const pitchEl=document.getElementById('as-r-pitch-ok');
-  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ 各屏 ≥ 3':'✗ '+badPt.map(i=>'屏'+(i+1)).join('、')+' < 3'; pitchEl.style.color=pitchOK?'#34c759':'#ff3b30'; }
+  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ 各屏 ≥ 3':'✗ '+badPt.map(i=>asmNm(asMulti,i)).join('、')+' < 3'; pitchEl.style.color=pitchOK?'#34c759':'#ff3b30'; }
   set('as-r-min-cams', M.total>0 ? M.total+' 台（'+G.length+' 組）' : '—');
   set('as-r-min-cams-ref', M.totalMin>0 ? M.totalMin+' 台' : '—');
   const limEl=document.getElementById('as-limit'); if(limEl && limitRaw>1) limEl.value='1';
@@ -9898,7 +9921,7 @@ function calcASMulti(){
     G.forEach(function(g,k){ const r=R[k];
       // 實際 Pitch＝該屏面板像素 ÷ 這組的解析能；決定解析能的那屏＝填的 Pitch（粗體），其他屏會比要求更細
       const pe=g.geos.map(x=>{ const a=(r.resolution>0&&x.pix>0)?x.pix*1000/r.resolution:0;
-        const t='屏'+(x.idx+1)+' '+(a>0?(Math.abs(a-x.pitch)<0.05?fmtN(x.pitch):a.toFixed(1)):'—');
+        const t=asmNm(asMulti,x.idx)+' '+(a>0?(Math.abs(a-x.pitch)<0.05?fmtN(x.pitch):a.toFixed(1)):'—');
         return x.idx===g.drv&&g.geos.length>1?'<b title="這一屏決定整組的解析能與工作距離">'+t+'</b>':t; }).join(' · ');
       h+='<tr><td><span class="gtag" style="background:'+asmColor(k)+'">'+g.name+'</span></td><td>'+g.label+'</td>'
         +'<td>'+f(g.covX,1)+' × '+f(g.covY,1)+'</td><td>'+f(r.resolution,2)+'</td><td>'+pe+'</td><td>'+f(r.xFOV,1)+' × '+f(r.yFOV,1)+'</td>'
@@ -9909,7 +9932,7 @@ function calcASMulti(){
   }
 
   // 示意圖：立體／俯視畫各屏與各組相機；光路側視畫解析度最細那一組
-  if(asDgView==='iso'){ if(iso3Active('area')){ iso3Host('as-dg',true); iso3DrawArea({G, R, dir:asMulti.dir, gap:asMulti.gap}); } }
+  if(asDgView==='iso'){ if(iso3Active('area')){ iso3Host('as-dg',true); iso3DrawArea({G, R, dir:asMulti.dir, gap:asMulti.gap, align:asMulti.align, shared:asmShared(asMulti), names:asMulti.screens.map((s,i)=>asmNm(asMulti,i))}); } }
   else if(asDgView==='side'){
     let kf=0; R.forEach((r,k)=>{ if(r.resolution>0 && (!(R[kf].resolution>0) || r.resolution<R[kf].resolution)) kf=k; });
     const r=R[kf]||{}, g=G[kf]||{};
@@ -9925,7 +9948,7 @@ function calcASMulti(){
     W.push({s:'warn', t:'曲面弧高最大 '+f(top.g.arcH,1)+' mm（'+top.g.name+' 組）'+(dh>0&&dh<top.g.arcH-1e-6?'，最外側單台視野內高低差 '+f(dh,1)+' mm':'')
       +'：畫檢不計算景深，請確認鏡頭景深涵蓋這個高低差（必要時縮光圈或分區對焦）'});
   }
-  if(!pitchOK) W.push({s:'bad', t:badPt.map(i=>'屏'+(i+1)).join('、')+' 的 Pitch 不到 3，分不出單顆面板像素'});
+  if(!pitchOK) W.push({s:'bad', t:badPt.map(i=>asmNm(asMulti,i)).join('、')+' 的 Pitch 不到 3，分不出單顆面板像素'});
   if(badWD.length) W.push({s:'bad', t:badWD.map(g=>g.name).join('、')+' 組工作距離小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
   mountWarnItem(W);
   sysRender('area', sysCtx2D('area',P(),null,{n:M.total}));
@@ -9944,7 +9967,7 @@ function drawASMultiDiagram(m, G, R){
   // 版面座標（mm）：沿排列方向依序擺，另一方向置中（曲面屏用投影尺寸）
   let cur=0; const SC=[];
   G.forEach(function(g){ g.geos.forEach(function(x){
-    SC.push(dirX ? {x:cur, y:-x.covY/2, w:x.covX, h:x.covY, i:x.idx, k:g.k} : {x:-x.covX/2, y:cur, w:x.covX, h:x.covY, i:x.idx, k:g.k});
+    SC.push(dirX ? {x:cur, y:asmAlignOff(m,x.covY), w:x.covX, h:x.covY, i:x.idx, k:g.k} : {x:asmAlignOff(m,x.covX), y:cur, w:x.covX, h:x.covY, i:x.idx, k:g.k});
     cur += (dirX?x.covX:x.covY)+gap; }); });
   const T=[], B=[];
   G.forEach(function(g,k){
@@ -9958,7 +9981,11 @@ function drawASMultiDiagram(m, G, R){
     if(r.nX*r.nY<=1500) for(let yi=0;yi<r.nY;yi++) for(let xi=0;xi<r.nX;xi++) T.push({x:bx+xi*sx, y:by+yi*sy, w:r.xFOV, h:r.yFOV, k, alt:(xi+yi)%2});
     B.push({x:bx, y:by, w:cw, h:ch, k, g, r});
   });
-  const all=SC.concat(B);
+  // 共用蓋板外形（各屏外接框往外推一點黑邊）
+  let CV=null;
+  if(asmShared(m) && SC.length){ const x0=Math.min(...SC.map(s=>s.x)), x1=Math.max(...SC.map(s=>s.x+s.w)), y0=Math.min(...SC.map(s=>s.y)), y1=Math.max(...SC.map(s=>s.y+s.h));
+    const bz=_cl(.012*Math.min(...SC.map(s=>Math.min(s.w,s.h))),1.5,8); CV={x:x0-bz, y:y0-bz, w:x1-x0+2*bz, h:y1-y0+2*bz}; }
+  const all=SC.concat(B, CV?[CV]:[]);
   if(!all.length || !B.length){
     ctx.fillStyle='#6e6e73'; ctx.font='11px -apple-system,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText('請輸入有效參數', W/2, H/2); if(cap) cap.innerHTML=''; return;
@@ -9979,19 +10006,25 @@ function drawASMultiDiagram(m, G, R){
   B.forEach(function(b){
     ctx.strokeStyle=asmColor(b.k,40); ctx.lineWidth=1.4; ctx.strokeRect(X(b.x),Y(b.y),b.w*sc,b.h*sc);
   });
+  if(CV){ ctx.strokeStyle='rgba(0,0,0,.45)'; ctx.lineWidth=1; rrect(ctx,X(CV.x),Y(CV.y),CV.w*sc,CV.h*sc,3); ctx.stroke(); }
   // 各屏
   SC.forEach(function(s){
     const x=X(s.x), y=Y(s.y), w=s.w*sc, h=s.h*sc;
     ctx.fillStyle='rgba(255,255,255,.66)'; rrect(ctx,x,y,w,h,3); ctx.fill();
     ctx.strokeStyle='rgba(0,0,0,.8)'; ctx.lineWidth=1.4; ctx.setLineDash([5,3]); rrect(ctx,x,y,w,h,3); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle='rgba(0,0,0,.65)'; ctx.font=Math.max(8,Math.min(12,h*0.22))+'px -apple-system,sans-serif';
-    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('屏'+(s.i+1), x+w/2, y+h/2);
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(asmNm(m,s.i), x+w/2, y+h/2);
   });
   // 組標籤（放在各組外框左上，外框上緣）
+  const used=[];   // 已放的標籤框；跟前一個疊到就改放外框下緣
   B.forEach(function(b){
     const t=b.g.name+' 組 · '+b.r.nX+'×'+b.r.nY+'＝'+b.r.totalCams+' 台';
     ctx.font='700 9px -apple-system,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='bottom';
-    const tw=ctx.measureText(t).width, lx=Math.max(2, Math.min(X(b.x), W-tw-8)), ly=Math.max(13, Y(b.y)-2);
+    const tw=ctx.measureText(t).width, lx=Math.max(2, Math.min(X(b.x), W-tw-8));
+    let ly=Math.max(13, Y(b.y)-2);
+    const hit=y=>used.some(u=>lx<u.x1+4 && lx+tw>u.x0-4 && Math.abs(y-u.y)<12);
+    if(hit(ly)) ly=Math.min(H-2, Y(b.y+b.h)+13);
+    used.push({x0:lx, x1:lx+tw, y:ly});
     ctx.fillStyle='rgba(255,255,255,.85)'; ctx.fillRect(lx-2, ly-11, tw+4, 12);
     ctx.fillStyle=asmColor(b.k,38); ctx.fillText(t, lx, ly);
   });
@@ -9999,7 +10032,7 @@ function drawASMultiDiagram(m, G, R){
     const tot=R.reduce((a,r)=>a+r.totalCams,0);
     let h='<span>'+tot+' 台（'+G.length+' 組）</span>';
     G.forEach(function(g,k){ h+='<span>·</span><span style="color:'+asmColor(k,40)+'">'+g.name+' 組 '+g.label+' '+R[k].nX+'×'+R[k].nY+'</span>'; });
-    h+='<span>·</span><span>'+(dirX?'橫排':'直排')+' · 屏間距 '+fmtN(gap)+' mm</span>';
+    h+='<span>·</span><span>'+(dirX?'橫排':'直排')+(CV?' · 共用蓋板':'')+' · 屏間距 '+fmtN(gap)+' mm</span>';
     const lim=R[0]?R[0].limit:1; if(lim<1) h+='<span>·</span><span>重疊 '+((1-lim)*100).toFixed(0)+'%</span>';
     cap.innerHTML=h;
   }
