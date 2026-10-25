@@ -871,6 +871,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .t3-blk-dg .iso3-wrap{flex:1 1 auto;height:380px;min-height:320px;max-height:480px;}
 .pdf-1page .t3-blk-dg .iso3-wrap{flex:none;height:300px;min-height:0;}
 #dg3-wrap #dg3{position:absolute;inset:0;width:100%;height:100%;min-height:0;flex:none;touch-action:pan-y;cursor:grab;}
+#dg3-wrap #dg3-ov{position:absolute;inset:0;width:100%;height:100%;min-height:0;flex:none;pointer-events:none;}   /* 上方視角的標註（相機編號、視野格、尺寸） */
 .iso3-ctl{position:absolute;left:8px;right:8px;top:8px;display:flex;justify-content:space-between;align-items:center;gap:6px;pointer-events:none;}
 .iso3-ctl>*{pointer-events:auto;}
 .iso3-ctl{flex-wrap:wrap;row-gap:4px;} .iso3-acts{display:flex;gap:6px;margin-left:auto;}   /* 欄寬不夠時 暫停＋GIF 一起換到下一行靠右，不被裁掉 */
@@ -1710,7 +1711,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 場邊／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 等角／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>畫檢俯視併進立體圖</b>：畫檢的示意圖只留「立體／光路側視」，立體圖切到「上方」就是俯視，會標出每台相機視野格、總覆蓋範圍和產品尺寸</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
@@ -2323,11 +2324,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <canvas id="dg" style="display:none"></canvas>
         <div id="dg3-wrap" class="iso3-wrap">
           <canvas id="dg3"></canvas>
+          <canvas id="dg3-ov" aria-hidden="true"></canvas>
           <div class="iso3-ctl pdf-hide">
-            <div class="seg iso3-views"><button type="button" data-v="side" class="on" onclick="iso3SetView('side')">場邊</button><button type="button" data-v="front" onclick="iso3SetView('front')">正面</button><button type="button" data-v="top" onclick="iso3SetView('top')">上方</button><button type="button" data-v="close" onclick="iso3SetView('close')">相機特寫</button></div>
+            <div class="seg iso3-views"><button type="button" data-v="side" class="on" onclick="iso3SetView('side')">等角</button><button type="button" data-v="front" onclick="iso3SetView('front')">正面</button><button type="button" data-v="top" onclick="iso3SetView('top')">上方</button><button type="button" data-v="close" onclick="iso3SetView('close')">相機特寫</button></div>
             <span class="iso3-acts"><button type="button" id="dg3-play" class="iso3-play" onclick="iso3TogglePlay()">❚❚ 暫停</button><button type="button" id="dg3-gif" class="iso3-play" onclick="iso3SaveGif()" title="把一輪動畫存成 GIF 檔">⤓ GIF</button></span>
           </div>
-          <div class="iso3-hint pdf-hide">拖曳旋轉 · 雙擊回場邊</div>
+          <div class="iso3-hint pdf-hide">拖曳旋轉 · 雙擊回等角</div>
           <div id="dg3-sublab" class="iso3-sublab" style="display:none">相機特寫</div>
           <div id="dg3-msg" class="iso3-msg">立體圖載入中…</div>
         </div>
@@ -2508,7 +2510,6 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <span>📐 配置示意圖</span>
           <div class="seg as-dg-view-seg pdf-hide" style="flex:0 0 auto;">
             <button class="on" type="button" data-v="iso" onclick="setAsDgView('iso')">立體</button>
-            <button type="button" data-v="top" onclick="setAsDgView('top')">俯視</button>
             <button type="button" data-v="side" onclick="setAsDgView('side')">光路側視</button>
           </div>
         </div>
@@ -5789,11 +5790,14 @@ function drawOpticalSideInner(ctx, W, H, p, r, dark, capId='dg-caption'){
 // 立體圖只有一組畫布（#dg3-wrap），切到哪個模式就搬到那個模式的示意圖區塊。
 // ══════════════════════════════════════════
 const ISO3={ R:null, scene:null, cam:null, root:null, sig:'', meta:null, lineMat:null, mats:{}, tex:{}, kind:'', cap:'dg-caption',
-  az:-62, el:24, zoom:1, view:'side', play:true, t0:0, raf:0, onScreen:true, loading:false, failed:false, _paused:1.6 };
-const ISO3_VIEWS={ side:{az:-62,el:24}, front:{az:-12,el:20}, top:{az:-90,el:88}, close:{az:-56,el:14} };
+  az:-45, el:35.264, zoom:1, view:'side', play:true, t0:0, raf:0, onScreen:true, loading:false, failed:false, _paused:1.6 };
+// 10/25 Johnny：場邊→等角（標準等角投影 方位 45°、仰角 35.26°）；正面＝正對 X-Z 平面（沿 +Y 看）；上方＝正上方垂直往下（跟俯視一樣，相機不會因斜看偏掉）
+const ISO3_VIEWS={ side:{az:-45,el:35.264}, front:{az:-90,el:0}, top:{az:-90,el:90}, close:{az:-56,el:14} };
 if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ISO3.play=false;
 const _cl=(v,a,b)=>Math.max(a,Math.min(b,v));
 
+// 畫檢沒有俯視分頁了：立體圖畫不出來時改畫平面俯視圖
+function iso3FailBack(){ setTimeout(()=>{ try{ if(S.mode==='area' && !(typeof dim!=='undefined'&&dim==='3d')) calcAS(); }catch(_){} }, 0); }
 function iso3Need(cb){
   if(window.THREE) return cb();
   ISO3._cb=cb;
@@ -5802,7 +5806,7 @@ function iso3Need(cb){
   const s=document.createElement('script');
   s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
   s.onload=function(){ ISO3.loading=false; const f=ISO3._cb; ISO3._cb=null; if(f) f(); };
-  s.onerror=function(){ ISO3.loading=false; ISO3.failed=true; iso3Msg('立體圖需要網路載入繪圖元件，請改用其他視角'); };
+  s.onerror=function(){ ISO3.loading=false; ISO3.failed=true; iso3Msg('立體圖需要網路載入繪圖元件，請改用其他視角'); iso3FailBack(); };
   document.head.appendChild(s);
 }
 function iso3Msg(t){ const m=document.getElementById('dg3-msg'); if(m){ m.textContent=t||''; m.style.display=t?'':'none'; } }
@@ -6415,6 +6419,9 @@ function iso3BuildArea(p, A){
   // 各組相機：步距＝FOV×佔屏比，置中在該組的屏上
   const lsel=document.getElementById('lens-pick').value, lt=(lsel!==''&&allLens()[+lsel])?(allLens()[+lsel].type||'cctv'):'cctv';
   const selCam=iso3SelCam(), cams=[], tiles=[];
+  const multi=SC.length>1||G.length>1, OV={z:pt+1, tiles:[], frames:[], scr:SC.map(s=>({cx:s.cx, cy:s.cy, w:s.w, h:s.h, X:s.geo.X, Y:s.geo.Y,
+    pts:(s.geo.polyP&&s.geo.polyP.length>2?s.geo.polyP:[[-s.w/2,-s.h/2],[s.w/2,-s.h/2],[s.w/2,s.h/2],[-s.w/2,s.h/2]]).map(q=>[s.cx+q[0], s.cy+q[1]]),
+    name:multi&&A.names?A.names[s.geo.idx]||'':''})), multi};   // 上方視角疊加的標註（同原本俯視圖）
   let crowded=false, zMax=0, O0=null, total=0;
   G.forEach((g,k)=>{
     const r=Rs[k]; if(!(r&&r.xFOV>0&&r.yFOV>0)) return;
@@ -6427,10 +6434,13 @@ function iso3BuildArea(p, A){
     if((r.nX>1&&O.foot.x>sx*1.02)||(r.nY>1&&O.foot.y>sy*1.02)) crowded=true;
     const zL=pt+.15+Math.max(1,+r.wd||1); zMax=Math.max(zMax, zL+O.zSpan);
     total+=r.nX*r.nY;
+    OV.frames.push({x0:(x0+x1)/2-cw/2, x1:(x0+x1)/2+cw/2, y0:(y0+y1)/2-ch/2, y1:(y0+y1)/2+ch/2, k:g.k,
+      t:multi?g.name+' 組 · '+r.nX+'×'+r.nY+'＝'+r.nX*r.nY+' 台':'相機FOV總覆蓋'});
     if(r.nX*r.nY>1500) return;
     for(let yi=0;yi<r.nY;yi++) for(let xi=0;xi<r.nX;xi++){
       const c={x:(x0+x1)/2-cw/2+r.xFOV/2+xi*sx, y:(y0+y1)/2+ch/2-r.yFOV/2-yi*sy, side:-1, O, zL, fx:r.xFOV, fy:r.yFOV, px:r.nX>1?sx:1e9, py:r.nY>1?sy:1e9};
       cams.push(c);
+      OV.tiles.push({x:c.x, y:c.y, w:c.fx, h:c.fy, k:g.k, n:yi*r.nX+xi+1});
     }
   });
   const many=total>150, bracket=_cl(.03*u,30,70)*1.5+20, zMount=zMax+bracket;
@@ -6454,7 +6464,7 @@ function iso3BuildArea(p, A){
   const PAT=[[1,1,1],[1,.28,.25],[.3,.92,.4],[.3,.5,1],[.55,.56,.58]];
   return { root, all:B.all, camBox:B.camBox, anim:true,
     pose:t=>{ const c=PAT[Math.floor(Math.max(0,t)/1.6)%PAT.length]; K.lit.color.setRGB(c[0],c[1],c[2]); }, cyc:PAT.length*1.6,
-    info:{ crowded, many, total } };
+    info:{ crowded, many, total }, ov:OV };
 }
 
 // ══ 3D 量測：感測器＋待測物；要移動（線掃、多次取像、點量測）就用移動載台，單次取像就平放 ══
@@ -6729,7 +6739,9 @@ function iso3Fit(box, W, H){
   const az=ISO3.az*Math.PI/180, el=ISO3.el*Math.PI/180;
   const ctr=box.getCenter(new THREE.Vector3()), size=box.getSize(new THREE.Vector3()).length();
   const dir=new THREE.Vector3(Math.cos(el)*Math.cos(az), Math.cos(el)*Math.sin(az), Math.sin(el));
-  c.position.copy(ctr).addScaledVector(dir, size*2); c.up.set(0,0,1); c.lookAt(ctr); c.updateMatrixWorld();
+  c.position.copy(ctr).addScaledVector(dir, size*2);
+  if(ISO3.el>89.9) c.up.set(0,1,0); else c.up.set(0,0,1);   // 正上方往下看：畫面上方＝+Y（同俯視圖）
+  c.lookAt(ctr); c.updateMatrixWorld();
   const inv=c.matrixWorldInverse; let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
   for(let i=0;i<8;i++){ const v=new THREE.Vector3(i&1?box.max.x:box.min.x, i&2?box.max.y:box.min.y, i&4?box.max.z:box.min.z).applyMatrix4(inv);
     x0=Math.min(x0,v.x); x1=Math.max(x1,v.x); y0=Math.min(y0,v.y); y1=Math.max(y1,v.y); }
@@ -6745,17 +6757,53 @@ function iso3Render(){
   const d=Math.min(window.devicePixelRatio||1,2);
   if(cv.width!==Math.round(W*d)||cv.height!==Math.round(H*d)){ ISO3.R.setPixelRatio(d); ISO3.R.setSize(W,H,false); }
   const M=ISO3.meta, R=ISO3.R, lab=document.getElementById('dg3-sublab');
-  if(!M){ R.setScissorTest(false); R.clear(); if(lab) lab.style.display='none'; return; }
+  if(!M){ R.setScissorTest(false); R.clear(); iso3Overlay(W, H, 0); if(lab) lab.style.display='none'; return; }
   if(!M.topHide){ M.topHide=[]; M.root.traverse(o=>{ if(o.userData.topHide) M.topHide.push(o, o.userData.edge); }); }
   M.topHide.forEach(o=>{ if(o) o.visible=ISO3.view!=='top'; });
   // 版位很高（右欄跟著左欄拉長）時切上下兩格：上＝整台、下＝相機特寫，不留大片空白
   const split=ISO3.view!=='close' && H>W*1.15 && !M.camBox.isEmpty();
   R.setScissorTest(split);
-  if(!split){ R.setViewport(0,0,W,H); iso3Fit(M.all.isEmpty()?M.camBox:(ISO3.view==='close'&&!M.camBox.isEmpty()?M.camBox:M.all), W, H); R.render(ISO3.scene, ISO3.cam); if(lab) lab.style.display='none'; return; }
+  if(!split){ R.setViewport(0,0,W,H); iso3Fit(M.all.isEmpty()?M.camBox:(ISO3.view==='close'&&!M.camBox.isEmpty()?M.camBox:M.all), W, H); R.render(ISO3.scene, ISO3.cam); iso3Overlay(W, H, H); if(lab) lab.style.display='none'; return; }
   const H1=Math.round(H*.52), H2=H-H1;
-  R.setViewport(0,H2,W,H1); R.setScissor(0,H2,W,H1); iso3Fit(M.all, W, H1); R.render(ISO3.scene, ISO3.cam);
+  R.setViewport(0,H2,W,H1); R.setScissor(0,H2,W,H1); iso3Fit(M.all, W, H1); R.render(ISO3.scene, ISO3.cam); iso3Overlay(W, H, H1);
   R.setViewport(0,0,W,H2); R.setScissor(0,0,W,H2); iso3Fit(M.camBox, W, H2); R.render(ISO3.scene, ISO3.cam);
   if(lab){ lab.style.display=''; lab.style.top=(H1+6)+'px'; }
+}
+// 上方視角（正上往下）疊加標註：相機編號、各台視野格、總覆蓋外框、產品尺寸——取代原本的俯視圖（10/25 Johnny 同意合併）
+// 要在主畫面 iso3Fit 之後立刻畫（之後切上下兩格會改相機）；Hm＝主畫面高度（上下兩格時只標上格）
+function iso3Overlay(W, H, Hm){
+  const ov=document.getElementById('dg3-ov'); if(!ov) return;
+  const d=Math.min(window.devicePixelRatio||1,2);
+  if(ov.width!==Math.round(W*d)||ov.height!==Math.round(H*d)){ ov.width=Math.round(W*d); ov.height=Math.round(H*d); }
+  const x=ov.getContext('2d'); x.setTransform(d,0,0,d,0,0); x.clearRect(0,0,W,H);
+  const O=ISO3.meta&&ISO3.meta.ov; if(!O||ISO3.view!=='top'||!Hm) return;
+  const P=(a,b)=>{ const v=new THREE.Vector3(a,b,O.z).project(ISO3.cam); return [(v.x+1)/2*W, (1-v.y)/2*Hm]; };
+  const box=(x0,y0,x1,y1)=>{ const a=P(x0,y1), b=P(x1,y0); return {x:a[0], y:a[1], w:b[0]-a[0], h:b[1]-a[1]}; };
+  const pill=(t, cx, cy, al, col, f)=>{ x.font=f||'9px -apple-system,sans-serif'; const tw=x.measureText(t).width, lx=al==='left'?cx:cx-tw/2;
+    x.fillStyle='rgba(255,255,255,.82)'; x.fillRect(lx-2, cy-6.5, tw+4, 13); x.fillStyle=col; x.textAlign='left'; x.textBaseline='middle'; x.fillText(t, lx, cy); return {x0:lx-2, x1:lx+tw+2}; };
+  x.save(); x.beginPath(); x.rect(0,0,W,Hm); x.clip();
+  // 各台視野格＋編號（格太小就不標字）
+  O.tiles.forEach(t=>{ const b=box(t.x-t.w/2, t.y-t.h/2, t.x+t.w/2, t.y+t.h/2);
+    x.strokeStyle='rgba(0,0,0,.22)'; x.lineWidth=.7; x.strokeRect(b.x, b.y, b.w, b.h);
+    if(!O.multi && b.w>=26 && b.h>=18) pill('C'+t.n, b.x+4, b.y+9, 'left', 'rgba(0,0,0,.6)'); });
+  // 總覆蓋外框＋標籤（疊到前一個就改放外框下緣）
+  const used=[];
+  O.frames.forEach(f=>{ const b=box(f.x0, f.y0, f.x1, f.y1), col=O.multi?asmColor(f.k,40):'#007aff';
+    x.strokeStyle=col; x.lineWidth=1.4; x.strokeRect(b.x, b.y, b.w, b.h);
+    x.font='700 9px -apple-system,sans-serif'; const tw=x.measureText(f.t).width, lx=Math.max(4, Math.min(b.x, W-tw-6));
+    let ly=Math.max(9, b.y-8);
+    if(used.some(u=>lx<u.x1+4 && lx+tw>u.x0-4 && Math.abs(ly-u.y)<13)) ly=Math.min(Hm-8, b.y+b.h+8);
+    used.push({x0:lx, x1:lx+tw, y:ly}); pill(f.t, lx, ly, 'left', O.multi?asmColor(f.k,38):col, '700 9px -apple-system,sans-serif'); });
+  // 產品外形虛線（疊在相機上面，被機身擋住也看得到）
+  O.scr.forEach(s=>{ x.beginPath(); s.pts.forEach((q,i)=>{ const a=P(q[0],q[1]); i?x.lineTo(a[0],a[1]):x.moveTo(a[0],a[1]); }); x.closePath();
+    x.strokeStyle='rgba(255,255,255,.7)'; x.lineWidth=3; x.setLineDash([]); x.stroke();
+    x.strokeStyle='rgba(0,0,0,.8)'; x.lineWidth=1.4; x.setLineDash([5,3]); x.stroke(); x.setLineDash([]); });
+  // 產品：單一產品標寬、高；多連屏標各屏名稱
+  O.scr.forEach(s=>{ const b=box(s.cx-s.w/2, s.cy-s.h/2, s.cx+s.w/2, s.cy+s.h/2);
+    if(O.multi){ if(s.name) pill(s.name, b.x+b.w/2, b.y+b.h/2, 'center', 'rgba(0,0,0,.75)', '600 11px -apple-system,sans-serif'); return; }
+    pill(fmtN(s.X)+' mm', b.x+b.w/2, b.y+b.h-9, 'center', 'rgba(0,0,0,.65)');   // 寬標在下緣內側（外側有 FPC、上緣有相機編號）
+    x.save(); x.translate(b.x-9, b.y+b.h/2); x.rotate(-Math.PI/2); pill(fmtN(s.Y)+' mm', 0, 0, 'center', 'rgba(0,0,0,.65)'); x.restore(); });
+  x.restore();
 }
 function iso3Live(){ return ISO3.onScreen && !document.hidden && iso3Shown() && ISO3.meta && ISO3.meta.anim; }
 function iso3Loop(now){
@@ -6770,7 +6818,7 @@ function iso3Init(){
   if(ISO3.R) return true;
   const cv=document.getElementById('dg3'); if(!cv) return false;
   try{ ISO3.R=new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true, preserveDrawingBuffer:true}); }   // PDF 匯出要讀得到畫面
-  catch(e){ ISO3.failed=true; iso3Msg('這台裝置不支援立體圖（WebGL），請改用其他視角'); return false; }
+  catch(e){ ISO3.failed=true; iso3Msg('這台裝置不支援立體圖（WebGL），請改用其他視角'); iso3FailBack(); return false; }
   ISO3.scene=new THREE.Scene();
   ISO3.scene.add(new THREE.AmbientLight(0xffffff,.56));
   const d1=new THREE.DirectionalLight(0xffffff,.5); d1.position.set(-.5,-1,1.1); ISO3.scene.add(d1);
@@ -9932,7 +9980,7 @@ function calcASMulti(){
   }
 
   // 示意圖：立體／俯視畫各屏與各組相機；光路側視畫解析度最細那一組
-  if(asDgView==='iso'){ if(iso3Active('area')){ iso3Host('as-dg',true); iso3DrawArea({G, R, dir:asMulti.dir, gap:asMulti.gap, align:asMulti.align, shared:asmShared(asMulti), names:asMulti.screens.map((s,i)=>asmNm(asMulti,i))}); } }
+  if(asDgView==='iso' && !ISO3.failed){ if(iso3Active('area')){ iso3Host('as-dg',true); iso3DrawArea({G, R, dir:asMulti.dir, gap:asMulti.gap, align:asMulti.align, shared:asmShared(asMulti), names:asMulti.screens.map((s,i)=>asmNm(asMulti,i))}); } }
   else if(asDgView==='side'){
     let kf=0; R.forEach((r,k)=>{ if(r.resolution>0 && (!(R[kf].resolution>0) || r.resolution<R[kf].resolution)) kf=k; });
     const r=R[kf]||{}, g=G[kf]||{};
@@ -10125,7 +10173,7 @@ function calcAS(){
   const limEl = document.getElementById('as-limit');
   if(limEl && limitRaw>1){ limEl.value = '1'; }
 
-  if(asDgView==='iso'){ if(iso3Active('area')){ iso3Host('as-dg',true); const g1=Object.assign({}, geo, {k:0, name:'A'}); g1.geos=[geo]; iso3DrawArea({G:[g1], R:[R0], dir:'x', gap:0}); } }
+  if(asDgView==='iso' && !ISO3.failed){ if(iso3Active('area')){ iso3Host('as-dg',true); const g1=Object.assign({}, geo, {k:0, name:'A'}); g1.geos=[geo]; iso3DrawArea({G:[g1], R:[R0], dir:'x', gap:0}); } }
   else drawASDiagram(nX, nY, geo.covX, geo.covY, xFOV, yFOV, limit, wd, (xFOV>0?((camRX*camPx/1000)/xFOV):0), geo);
   const W=[];
   if(geo.curve && geo.err) W.push({s:'bad', t:'曲面：'+esc(geo.err)});
