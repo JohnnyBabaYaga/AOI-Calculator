@@ -640,6 +640,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .asm-r .x{color:var(--sub);font-size:10px;}
 .asm-r .unit{min-width:22px;}
 .asm-r .seg button{padding:2px 7px;font-size:10.5px;}
+.asm-r select{flex:3;min-width:0;height:22px;font-size:11.5px;padding:0 4px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);outline:none;cursor:pointer;}
 .asm-ci{font-size:10.5px;line-height:1.45;color:var(--sub);padding-top:2px;}
 .asm-ci b{color:var(--text);font-weight:600;font-family:'SF Mono',ui-monospace,monospace;}
 .asm-ci .bad{color:#ff3b30;}
@@ -1711,7 +1712,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 等角／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>畫檢俯視併進立體圖</b>：畫檢的示意圖只留「立體／光路側視」，立體圖切到「上方」就是俯視，會標出每台相機視野格、總覆蓋範圍和產品尺寸</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 等角／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>俯視併進立體圖</b>：掃描、靜態、畫檢的示意圖只留「立體／光路側視」，立體圖切到「上方」就是俯視，會標出每台相機的視野格（掃描是各台負責的區塊）、總覆蓋範圍和產品尺寸；掃描另標載台移動方向，標註跟著載台一起動</li><li><b>多連屏每屏可選異形外形</b>：多連屏某一屏選「異形／異形曲面」時，也能選 圓形／六邊形／拱頂形 並調外形尺寸（同單一產品），示意圖照外形畫</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
@@ -2317,7 +2318,6 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <span>📐 系統示意圖</span>
           <div class="seg dg-view-seg pdf-hide" style="flex:0 0 auto;">
             <button class="on" type="button" data-v="iso" onclick="setDgView('iso')">立體</button>
-            <button type="button" data-v="top" onclick="setDgView('top')">俯視</button>
             <button type="button" data-v="side" onclick="setDgView('side')">光路側視</button>
           </div>
         </div>
@@ -2418,7 +2418,6 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
           <span>📐 系統示意圖</span>
           <div class="seg st-dg-view-seg pdf-hide" style="flex:0 0 auto;">
             <button class="on" type="button" data-v="iso" onclick="setStDgView('iso')">立體</button>
-            <button type="button" data-v="top" onclick="setStDgView('top')">俯視</button>
             <button type="button" data-v="side" onclick="setStDgView('side')">光路側視</button>
           </div>
         </div>
@@ -5229,7 +5228,7 @@ function calcStatic(){
 function drawStaticDiagram(ss,r){
   const canvas=document.getElementById('st-dg');
   if(!canvas) return;
-  if(stDgView==='iso'){ if(iso3Active('static')){ iso3Host('st-dg',true); iso3DrawStatic(P(), r, ss); } return; }
+  if(stDgView==='iso' && !ISO3.failed){ if(iso3Active('static')){ iso3Host('st-dg',true); iso3DrawStatic(P(), r, ss); } return; }
   iso3Host('st-dg',false);
   const dpr=window.devicePixelRatio||1;
   const W=canvas.offsetWidth, H=canvas.offsetHeight;
@@ -5796,8 +5795,8 @@ const ISO3_VIEWS={ side:{az:-45,el:35.264}, front:{az:-90,el:0}, top:{az:-90,el:
 if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ISO3.play=false;
 const _cl=(v,a,b)=>Math.max(a,Math.min(b,v));
 
-// 畫檢沒有俯視分頁了：立體圖畫不出來時改畫平面俯視圖
-function iso3FailBack(){ setTimeout(()=>{ try{ if(S.mode==='area' && !(typeof dim!=='undefined'&&dim==='3d')) calcAS(); }catch(_){} }, 0); }
+// 掃描／靜態／畫檢沒有俯視分頁了：立體圖畫不出來時改畫平面俯視圖
+function iso3FailBack(){ setTimeout(()=>{ try{ if(!(typeof dim!=='undefined'&&dim==='3d')) calc(); }catch(_){} }, 0); }
 function iso3Need(cb){
   if(window.THREE) return cb();
   ISO3._cb=cb;
@@ -6298,7 +6297,12 @@ function iso3BuildScan(p, r){
   cams.forEach(c=>{ pts.push([c.x-body.x, c.y-body.y*.8, zTop],[c.x+body.x, c.y+body.y*.8, zCam1+10]); });
   lightX.forEach(x=>pts.push([x-barD, 0, lightZ]));
   const B=iso3Bounds(root, pts);
-  return { root, stage:MC.stage, stageY:MC.stageY, scanned, all:B.all, camBox:B.camBox, zScan:zTop+.4, anim:true,
+  // 上方視角疊加的標註（同原本俯視圖）：各台負責的區塊＋編號、產品尺寸、載台移動方向；跟著載台動
+  const OV={z:zTop+1, ref:top, arrow:'載台移動方向', tiles:[], frames:[], multi:false,
+    scr:[{cx:0, cy:0, w:Lx, h:Ly, X:Lx, Y:Ly, pts:[[-Lx/2,-Ly/2],[Lx/2,-Ly/2],[Lx/2,Ly/2],[-Lx/2,Ly/2]], name:''}]};
+  for(let k=nC-1;k>=0;k--) for(let ri=0;ri<nR;ri++)
+    OV.tiles.push({x:-Lx/2+(ri+.5)*seg, y:-Ly/2+(k+.5)*pitchY, w:seg, h:pitchY, n:OV.tiles.length+1, mv:true});
+  return { root, stage:MC.stage, stageY:MC.stageY, scanned, all:B.all, camBox:B.camBox, zScan:zTop+.4, anim:true, ov:OV,
     run:{ sA, sB, Lx, Ly, seg, passes, nC, pitchY, bandC, yStage, stepY:passes>1?(pitchY-bandC)/(passes-1):0 },
     info:{ isLine, lightName:LK.name, lightGiven:LK.given, stagger, crowded, lightDeg:Math.round(th*180/Math.PI) } };
 }
@@ -6350,7 +6354,11 @@ function iso3BuildStatic(p, r, ss){
   const c0=cams.reduce((a,c)=>(c.x-c.y)>(a.x-a.y)?c:a, cams[0]), e=Math.max(O.foot.x, O.foot.y, LK.k==='ring'?2*O.lens.Rf+60:0)*.75;
   const B=iso3Bounds(root, many?[]:[[c0.x-e, c0.y-e, zLensF-Math.min(O.wd*.35,30)-25],[c0.x+e, c0.y+e, zCam1+20]]);
   const crowded=cams.length>1 && ((nX>1 && O.foot.x>sx*1.02) || (nY>1 && O.foot.y>sy*1.02));
-  return { root, all:B.all, camBox:B.camBox, anim:false,
+  // 上方視角疊加的標註（同原本俯視圖）：各台視野格＋編號、總覆蓋外框、樣品尺寸
+  const OV={z:zTop+1, tiles:cams.length>2500?[]:cams.map((c,i)=>({x:c.x, y:c.y, w:hF, h:vF, n:i+1})), multi:false,
+    frames:[{x0:-covX/2, x1:covX/2, y0:-covY/2, y1:covY/2, t:'相機FOV總覆蓋'}],
+    scr:[{cx:0, cy:0, w:oW, h:oH, X:oW, Y:oH, pts:[[-oW/2,-oH/2],[oW/2,-oH/2],[oW/2,oH/2],[-oW/2,oH/2]], name:''}]};
+  return { root, all:B.all, camBox:B.camBox, anim:false, ov:OV,
     info:{ lightName:LK.name, lightGiven:LK.given, crowded, many } };
 }
 
@@ -6769,7 +6777,7 @@ function iso3Render(){
   R.setViewport(0,0,W,H2); R.setScissor(0,0,W,H2); iso3Fit(M.camBox, W, H2); R.render(ISO3.scene, ISO3.cam);
   if(lab){ lab.style.display=''; lab.style.top=(H1+6)+'px'; }
 }
-// 上方視角（正上往下）疊加標註：相機編號、各台視野格、總覆蓋外框、產品尺寸——取代原本的俯視圖（10/25 Johnny 同意合併）
+// 上方視角（正上往下）疊加標註：相機編號、各台視野格、總覆蓋外框、產品尺寸——取代原本的俯視圖（10/25 Johnny 同意合併；畫檢先、掃描／靜態隨後）
 // 要在主畫面 iso3Fit 之後立刻畫（之後切上下兩格會改相機）；Hm＝主畫面高度（上下兩格時只標上格）
 function iso3Overlay(W, H, Hm){
   const ov=document.getElementById('dg3-ov'); if(!ov) return;
@@ -6777,13 +6785,14 @@ function iso3Overlay(W, H, Hm){
   if(ov.width!==Math.round(W*d)||ov.height!==Math.round(H*d)){ ov.width=Math.round(W*d); ov.height=Math.round(H*d); }
   const x=ov.getContext('2d'); x.setTransform(d,0,0,d,0,0); x.clearRect(0,0,W,H);
   const O=ISO3.meta&&ISO3.meta.ov; if(!O||ISO3.view!=='top'||!Hm) return;
-  const P=(a,b)=>{ const v=new THREE.Vector3(a,b,O.z).project(ISO3.cam); return [(v.x+1)/2*W, (1-v.y)/2*Hm]; };
-  const box=(x0,y0,x1,y1)=>{ const a=P(x0,y1), b=P(x1,y0); return {x:a[0], y:a[1], w:b[0]-a[0], h:b[1]-a[1]}; };
+  let dx=0, dy=0; if(O.ref){ const v=O.ref.getWorldPosition(new THREE.Vector3()); dx=v.x; dy=v.y; }   // 掃描：產品在載台上，跟著動
+  const P=(a,b,m)=>{ const v=new THREE.Vector3(a+(m?dx:0),b+(m?dy:0),O.z).project(ISO3.cam); return [(v.x+1)/2*W, (1-v.y)/2*Hm]; };
+  const box=(x0,y0,x1,y1,m)=>{ const a=P(x0,y1,m), b=P(x1,y0,m); return {x:a[0], y:a[1], w:b[0]-a[0], h:b[1]-a[1]}; };
   const pill=(t, cx, cy, al, col, f)=>{ x.font=f||'9px -apple-system,sans-serif'; const tw=x.measureText(t).width, lx=al==='left'?cx:cx-tw/2;
     x.fillStyle='rgba(255,255,255,.82)'; x.fillRect(lx-2, cy-6.5, tw+4, 13); x.fillStyle=col; x.textAlign='left'; x.textBaseline='middle'; x.fillText(t, lx, cy); return {x0:lx-2, x1:lx+tw+2}; };
   x.save(); x.beginPath(); x.rect(0,0,W,Hm); x.clip();
   // 各台視野格＋編號（格太小就不標字）
-  O.tiles.forEach(t=>{ const b=box(t.x-t.w/2, t.y-t.h/2, t.x+t.w/2, t.y+t.h/2);
+  O.tiles.forEach(t=>{ const b=box(t.x-t.w/2, t.y-t.h/2, t.x+t.w/2, t.y+t.h/2, t.mv);
     x.strokeStyle='rgba(0,0,0,.22)'; x.lineWidth=.7; x.strokeRect(b.x, b.y, b.w, b.h);
     if(!O.multi && b.w>=26 && b.h>=18) pill('C'+t.n, b.x+4, b.y+9, 'left', 'rgba(0,0,0,.6)'); });
   // 總覆蓋外框＋標籤（疊到前一個就改放外框下緣）
@@ -6795,14 +6804,20 @@ function iso3Overlay(W, H, Hm){
     if(used.some(u=>lx<u.x1+4 && lx+tw>u.x0-4 && Math.abs(ly-u.y)<13)) ly=Math.min(Hm-8, b.y+b.h+8);
     used.push({x0:lx, x1:lx+tw, y:ly}); pill(f.t, lx, ly, 'left', O.multi?asmColor(f.k,38):col, '700 9px -apple-system,sans-serif'); });
   // 產品外形虛線（疊在相機上面，被機身擋住也看得到）
-  O.scr.forEach(s=>{ x.beginPath(); s.pts.forEach((q,i)=>{ const a=P(q[0],q[1]); i?x.lineTo(a[0],a[1]):x.moveTo(a[0],a[1]); }); x.closePath();
+  O.scr.forEach(s=>{ x.beginPath(); s.pts.forEach((q,i)=>{ const a=P(q[0],q[1],1); i?x.lineTo(a[0],a[1]):x.moveTo(a[0],a[1]); }); x.closePath();
     x.strokeStyle='rgba(255,255,255,.7)'; x.lineWidth=3; x.setLineDash([]); x.stroke();
     x.strokeStyle='rgba(0,0,0,.8)'; x.lineWidth=1.4; x.setLineDash([5,3]); x.stroke(); x.setLineDash([]); });
   // 產品：單一產品標寬、高；多連屏標各屏名稱
-  O.scr.forEach(s=>{ const b=box(s.cx-s.w/2, s.cy-s.h/2, s.cx+s.w/2, s.cy+s.h/2);
+  O.scr.forEach(s=>{ const b=box(s.cx-s.w/2, s.cy-s.h/2, s.cx+s.w/2, s.cy+s.h/2, 1);
     if(O.multi){ if(s.name) pill(s.name, b.x+b.w/2, b.y+b.h/2, 'center', 'rgba(0,0,0,.75)', '600 11px -apple-system,sans-serif'); return; }
     pill(fmtN(s.X)+' mm', b.x+b.w/2, b.y+b.h-9, 'center', 'rgba(0,0,0,.65)');   // 寬標在下緣內側（外側有 FPC、上緣有相機編號）
-    x.save(); x.translate(b.x-9, b.y+b.h/2); x.rotate(-Math.PI/2); pill(fmtN(s.Y)+' mm', 0, 0, 'center', 'rgba(0,0,0,.65)'); x.restore(); });
+    x.save(); x.translate(b.x-9, b.y+b.h/2); x.rotate(-Math.PI/2); pill(fmtN(s.Y)+' mm', 0, 0, 'center', 'rgba(0,0,0,.65)'); x.restore();
+    if(O.arrow){   // 載台移動方向（+X）：畫在產品上緣外側
+      const ay=b.y-10, ax0=b.x+b.w*.25, ax1=b.x+b.w*.75;
+      x.strokeStyle='#007aff'; x.fillStyle='#007aff'; x.lineWidth=1.4;
+      x.beginPath(); x.moveTo(ax0,ay); x.lineTo(ax1,ay); x.stroke();
+      x.beginPath(); x.moveTo(ax1+1,ay); x.lineTo(ax1-6,ay-3.5); x.lineTo(ax1-6,ay+3.5); x.closePath(); x.fill();
+      pill(O.arrow, (ax0+ax1)/2, ay-10, 'center', '#007aff', '700 9px -apple-system,sans-serif'); } });
   x.restore();
 }
 function iso3Live(){ return ISO3.onScreen && !document.hidden && iso3Shown() && ISO3.meta && ISO3.meta.anim; }
@@ -7042,7 +7057,7 @@ function iso3DrawT3(){
 }
 
 function drawDiagram(canvasId='dg'){
-  if(canvasId==='dg' && dgView==='iso'){
+  if(canvasId==='dg' && dgView==='iso' && !ISO3.failed){
     if(!iso3Active('scan')) return;
     iso3Host('dg',true);
     const p0=P(), r0=(typeof lastR!=='undefined'&&lastR)?lastR:{};
@@ -9783,11 +9798,15 @@ function asmNorm(m){
   m=m&&typeof m==='object'?m:{};
   const gp=+document.getElementById('as-pitch').value||8;   // 舊資料沒有每屏 Pitch → 用全域 Pitch
   const scr=(Array.isArray(m.screens)?m.screens:[]).slice(0,6).map(s=>({name:String(s.name||'').slice(0,20), shape:AS_SCR_SHAPES.includes(s.shape)?s.shape:'rect',
-    X:+s.X||0, Y:+s.Y||0, RX:+s.RX||0, RY:+s.RY||0, pitch:(s.pitch==null||s.pitch==='')?gp:+s.pitch, note:s.note||'', R:+s.R||0, bend:s.bend==='y'?'y':'x'}));
+    X:+s.X||0, Y:+s.Y||0, RX:+s.RX||0, RY:+s.RY||0, pitch:(s.pitch==null||s.pitch==='')?gp:+s.pitch, note:s.note||'', R:+s.R||0, bend:s.bend==='y'?'y':'x',
+    tpl:AS_TPL[s.tpl]?s.tpl:'', tp:asmTpClean(s.tp)}));
+  // 圓形：Y＝直徑 − 平邊切深（同單一產品）
+  scr.forEach(x=>{ if(asIsFree(x.shape) && x.tpl==='circle') x.Y=Math.round((x.X-asCircleCut(x.X, x.tp))*10)/10; });
   while(scr.length<2) scr.push(Object.assign({}, scr[0]||{shape:'rect',X:300,Y:120,RX:1920,RY:720,pitch:gp,note:'',R:1500,bend:'x'}));
   const links=scr.slice(0,-1).map((_,i)=>!!(m.links&&m.links[i]));
   return {dir:m.dir==='y'?'y':'x', gap:Math.max(0,+m.gap||0), align:['start','center','end'].includes(m.align)?m.align:'center', screens:scr, links};   // 舊紀錄沒有對齊＝置中
 }
+function asmTpClean(tp){ const o={}; if(tp&&typeof tp==='object') Object.keys(tp).forEach(k=>{ const v=tp[k]; if(k!=='_ed' && v!=='' && v!=null && isFinite(+v)) o[k]=+v; }); return o; }
 function asMultiGroups(m){
   const G=[]; let cur=null;
   m.screens.forEach(function(s,i){
@@ -9838,8 +9857,9 @@ function asmExtent(m){
   return dx ? {w:a, h:b} : {w:b, h:a};
 }
 function asmScreenText(s, i){
-  let t=asmNm(asMulti,i)+' '+fmtN(s.X)+' × '+fmtN(s.Y)+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+') · Pitch '+fmtN(s.pitch);
-  if(s.shape!=='rect') t+=' · '+AS_SHAPES[s.shape]+(asIsFree(s.shape)&&s.note?'：'+s.note:'');
+  const T=asIsFree(s.shape)?AS_TPL[s.tpl]:null;
+  let t=asmNm(asMulti,i)+' '+(s.tpl==='circle'&&T?'Ø'+fmtN(s.X):fmtN(s.X)+' × '+fmtN(s.Y))+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+') · Pitch '+fmtN(s.pitch);
+  if(s.shape!=='rect') t+=' · '+AS_SHAPES[s.shape]+(T?'：'+T.n:'')+(asIsFree(s.shape)&&s.note?(T?'（'+s.note+'）':'：'+s.note):'');
   if(asIsCurve(s.shape)&&s.R>0) t+=' R'+fmtN(s.R)+' 沿'+(s.bend==='y'?'Y':'X');
   return t;
 }
@@ -9861,17 +9881,21 @@ function asmRender(){
     +'<div class="row"><label>屏數</label><div class="asm-cnt"><button onclick="asmCount(-1)"'+(n<=2?' disabled':'')+' aria-label="減少一屏">−</button><b>'+n+'</b>'
     +'<button onclick="asmCount(1)"'+(n>=6?' disabled':'')+' aria-label="增加一屏">＋</button></div></div>';
   m.screens.forEach(function(s,i){
-    const g=gOf[i], col=asmColor(g.k), cv=asIsCurve(s.shape), fr=asIsFree(s.shape);
+    const g=gOf[i], col=asmColor(g.k), cv=asIsCurve(s.shape), fr=asIsFree(s.shape), T=fr?AS_TPL[s.tpl]:null, ci=T&&s.tpl==='circle';
     const num=(k,step)=>'<input type="number" value="'+(s[k]==null?'':s[k])+'" step="'+step+'" oninput="asmSet('+i+',\''+k+'\',this.value)">';
     h+='<div class="asm-scr" style="--g:'+col+'">'
       +'<div class="asm-hd"><span class="asm-no">屏 '+(i+1)+'</span><span class="asm-grp" title="相機組">'+g.name+' 組</span>'
       +'<select onchange="asmSet('+i+',\'shape\',this.value,1)" aria-label="屏 '+(i+1)+' 型態">'
       +AS_SCR_SHAPES.map(k=>'<option value="'+k+'"'+(k===s.shape?' selected':'')+'>'+AS_SHAPES[k]+'</option>').join('')+'</select></div>'
       +'<div class="asm-r"><label>名稱</label><input type="text" value="'+esc(s.name||'')+'" placeholder="例：DIC" oninput="asmSet('+i+',\'name\',this.value)"><span class="unit"></span></div>'
-      +'<div class="asm-r"><label>'+(fr?'外接尺寸':'AA 尺寸')+'</label>'+num('X',1)+'<span class="x">×</span>'+num('Y',1)+'<span class="unit">mm</span></div>'
+      +(fr?'<div class="asm-r"><label>外形</label><select onchange="asmSet('+i+',\'tpl\',this.value,1)" aria-label="屏 '+(i+1)+' 外形">'
+        +(T?'':'<option value="" selected>外接矩形</option>')+Object.keys(AS_TPL).map(k=>'<option value="'+k+'"'+(k===s.tpl?' selected':'')+'>'+AS_TPL[k].n+'</option>').join('')+'</select><span class="unit"></span></div>':'')
+      +'<div class="asm-r"><label>'+(ci?'AA 直徑':T?'AA '+T.lx+' × '+T.ly:fr?'外接尺寸':'AA 尺寸')+'</label>'+num('X',1)+(ci?'':'<span class="x">×</span>'+num('Y',1))+'<span class="unit">mm</span></div>'
       +'<div class="asm-r"><label>解析度</label>'+num('RX',1)+'<span class="x">×</span>'+num('RY',1)+'<span class="unit">px</span></div>'
       +'<div class="asm-r"><label>Pitch</label>'+num('pitch',0.5)+'<span class="unit">px</span></div>';
-    if(fr) h+='<div class="asm-r"><label>形狀</label><input type="text" value="'+esc(s.note)+'" placeholder="例：圓角＋瀏海" oninput="asmSet('+i+',\'note\',this.value)"><span class="unit"></span></div>';
+    if(T) T.ps.forEach(q=>{ h+='<div class="asm-r"><label>'+q[1]+'</label><input type="number" id="asm-tp-'+i+'-'+q[0]+'" value="'+(q[0] in s.tp?s.tp[q[0]]:'')+'" step="1" min="0" oninput="asmTP('+i+',\''+q[0]+'\',this.value)"><span class="unit">mm</span></div>'; });
+    if(T&&T.tip) h+='<div class="asm-ci">'+T.tip+'</div>';
+    if(fr) h+='<div class="asm-r"><label>形狀說明</label><input type="text" value="'+esc(s.note)+'" placeholder="選填，例：圓角、瀏海…" oninput="asmSet('+i+',\'note\',this.value)"><span class="unit"></span></div>';
     if(cv){
       h+='<div class="asm-r"><label>彎曲方向</label>'
         +'<div class="seg"><button class="'+(s.bend!=='y'?'on':'')+'" onclick="asmSet('+i+',\'bend\',\'x\',1)">沿 X</button>'
@@ -9894,6 +9918,9 @@ function asmRender(){
 function asmCurveInfo(){
   if(!asMulti) return;
   asMulti.screens.forEach(function(s,i){
+    const T=asIsFree(s.shape)?AS_TPL[s.tpl]:null;
+    if(T) T.ps.forEach(q=>{ const e=document.getElementById('asm-tp-'+i+'-'+q[0]); if(!e||e===document.activeElement||(q[0] in s.tp)) return;
+      e.value=Math.round(q[2]({X:+s.X||0, Y:T.ly?(+s.Y||0):(+s.X||0)})*10)/10; });
     const el=document.getElementById('asm-ci-'+i); if(!el) return;
     const g=asGeom(s);
     el.innerHTML = g.err ? '<span class="bad">⚠ '+esc(g.err)+'</span>'
@@ -9902,9 +9929,20 @@ function asmCurveInfo(){
 }
 function asmSet(i, k, v, rerender){
   if(!asMulti||!asMulti.screens[i]) return;
-  asMulti.screens[i][k] = (k==='shape'||k==='note'||k==='bend'||k==='name') ? v : (v===''?0:+v);
+  const s=asMulti.screens[i], was=s.tpl;
+  s[k] = (k==='shape'||k==='note'||k==='bend'||k==='name'||k==='tpl') ? v : (v===''?0:+v);
+  if(k==='shape' && asIsFree(v) && !AS_TPL[s.tpl]) s.tpl='circle';   // 改成異形：預設圓形（同單一產品）
+  if(asIsFree(s.shape) && s.tpl!==was && was==='circle' && s.X>0) s.Y=Math.round(s.X*.42);   // 從圓形換過來：Y 還等於直徑，先帶照片上的長寬比
+  if(asIsFree(s.shape) && s.tpl==='circle') s.Y=Math.round((s.X-asCircleCut(s.X, s.tp))*10)/10;
   if(rerender) asmRender(); else asmCurveInfo();
   calcAS();
+}
+function asmTP(i, k, v){
+  const s=asMulti&&asMulti.screens[i]; if(!s) return;
+  if(!s.tp) s.tp={};
+  if(v==='') delete s.tp[k]; else s.tp[k]=+v;
+  if(asIsFree(s.shape) && s.tpl==='circle') s.Y=Math.round((s.X-asCircleCut(s.X, s.tp))*10)/10;
+  asmCurveInfo(); calcAS();
 }
 function asmLink(i){ asMulti.links[i]=!asMulti.links[i]; asmRender(); calcAS(); }
 function asmAlign(a){ asMulti.align=a; asmRender(); calcAS(); }
@@ -9912,7 +9950,7 @@ function asmDir(d){ asMulti.dir=d==='y'?'y':'x'; asmRender(); calcAS(); }
 function asmGap(v){ asMulti.gap=Math.max(0,+v||0); calcAS(); }
 function asmCount(d){
   const sc=asMulti.screens;
-  if(d>0 && sc.length<6){ sc.push(Object.assign({}, sc[sc.length-1], {name:''})); asMulti.links.push(false); }
+  if(d>0 && sc.length<6){ const l=sc[sc.length-1]; sc.push(Object.assign({}, l, {name:'', tp:Object.assign({}, l.tp)})); asMulti.links.push(false); }
   else if(d<0 && sc.length>2){ sc.pop(); asMulti.links.pop(); }
   asmRender(); calcAS();
 }
@@ -10015,7 +10053,8 @@ function drawASMultiDiagram(m, G, R){
   // 版面座標（mm）：沿排列方向依序擺，另一方向置中（曲面屏用投影尺寸）
   let cur=0; const SC=[];
   G.forEach(function(g){ g.geos.forEach(function(x){
-    SC.push(dirX ? {x:cur, y:asmAlignOff(m,x.covY), w:x.covX, h:x.covY, i:x.idx, k:g.k} : {x:asmAlignOff(m,x.covX), y:cur, w:x.covX, h:x.covY, i:x.idx, k:g.k});
+    const pp=x.polyP&&x.polyP.length>2?x.polyP:null;
+    SC.push(dirX ? {x:cur, y:asmAlignOff(m,x.covY), w:x.covX, h:x.covY, i:x.idx, k:g.k, pp} : {x:asmAlignOff(m,x.covX), y:cur, w:x.covX, h:x.covY, i:x.idx, k:g.k, pp});
     cur += (dirX?x.covX:x.covY)+gap; }); });
   const T=[], B=[];
   G.forEach(function(g,k){
@@ -10058,8 +10097,9 @@ function drawASMultiDiagram(m, G, R){
   // 各屏
   SC.forEach(function(s){
     const x=X(s.x), y=Y(s.y), w=s.w*sc, h=s.h*sc;
-    ctx.fillStyle='rgba(255,255,255,.66)'; rrect(ctx,x,y,w,h,3); ctx.fill();
-    ctx.strokeStyle='rgba(0,0,0,.8)'; ctx.lineWidth=1.4; ctx.setLineDash([5,3]); rrect(ctx,x,y,w,h,3); ctx.stroke(); ctx.setLineDash([]);
+    const shp=()=>{ if(!s.pp) return rrect(ctx,x,y,w,h,3); ctx.beginPath(); s.pp.forEach((q,j)=>{ const px=x+w/2+q[0]*sc, py=y+h/2-q[1]*sc; j?ctx.lineTo(px,py):ctx.moveTo(px,py); }); ctx.closePath(); };   // 異形：照外形
+    ctx.fillStyle='rgba(255,255,255,.66)'; shp(); ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.8)'; ctx.lineWidth=1.4; ctx.setLineDash([5,3]); shp(); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle='rgba(0,0,0,.65)'; ctx.font=Math.max(8,Math.min(12,h*0.22))+'px -apple-system,sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(asmNm(m,s.i), x+w/2, y+h/2);
   });
