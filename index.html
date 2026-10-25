@@ -659,6 +659,11 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .asm-tbl td:first-child,.asm-tbl td:nth-child(2){text-align:left;}
 .asm-tbl .gtag{display:inline-block;font-size:10px;font-weight:700;color:#fff;border-radius:4px;padding:0 6px;line-height:16px;}
 .asm-tbl td.bad{color:#ff3b30;}
+.asm-tbl tr.pv-on td{background:color-mix(in srgb,var(--accent) 9%,transparent);}
+.asm-tbl tr.pv-row{cursor:pointer;}
+.asm-tbl th.r,.asm-tbl td.r{text-align:right;}
+.pv-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.pv-hd .seg button{padding:3px 10px;font-size:11px;}
 .asm-tbl tfoot td{border-bottom:none;font-weight:700;padding-top:7px;}
 .asm-tbl tfoot .tot{font-size:13px;color:var(--accent-deep,var(--accent));}
 .asm-wrap{overflow-x:auto;}
@@ -1712,7 +1717,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 等角／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>俯視併進立體圖</b>：四個模式都拿掉俯視分頁，示意圖都只剩「立體／光路側視」（3D 量測原本的「側視」改名「光路側視」），立體圖切到「上方」就是俯視，會標出每台相機的視野格（掃描是各台負責的區塊；3D 量測是每次取像的視野／每道掃描）、總覆蓋範圍和產品尺寸；有載台的另標載台移動方向，標註跟著載台一起動；立體圖讓出上方按鍵列的位置，不再跟視角、暫停、GIF 按鍵重疊</li><li><b>多連屏每屏可選異形外形</b>：多連屏某一屏選「異形／異形曲面」時，也能選 圓形／六邊形／拱頂形 並調外形尺寸（同單一產品），示意圖照外形畫</li><li><b>示意圖跟左欄等高</b>：光路側視不再自己撐高版面，畫布高度跟著左欄（立體圖也一樣），左右兩個區塊等高；示意圖在這個高度內自動縮放，上下還有空間時 WD 少省略一點（放得下就整段照比例畫），剩下的上下置中；光路側視一律直式（相機在上、待測物在下），不會因為畫布比較扁就變成橫的</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 等角／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>俯視併進立體圖</b>：四個模式都拿掉俯視分頁，示意圖都只剩「立體／光路側視」（3D 量測原本的「側視」改名「光路側視」），立體圖切到「上方」就是俯視，會標出每台相機的視野格（掃描是各台負責的區塊；3D 量測是每次取像的視野／每道掃描）、總覆蓋範圍和產品尺寸；有載台的另標載台移動方向，標註跟著載台一起動；立體圖讓出上方按鍵列的位置，不再跟視角、暫停、GIF 按鍵重疊</li><li><b>多連屏每屏可選異形外形</b>：多連屏某一屏選「異形／異形曲面」時，也能選 圓形／六邊形／拱頂形 並調外形尺寸（同單一產品），示意圖照外形畫</li><li><b>防窺屏</b>：產品型態多一個「防窺屏」（多連屏每一屏也能選）。檢測、量測各填一個工作距離，系統依 WD 反推解析能、實際 Pitch 與台數，兩組結果並列，可切換報告和示意圖顯示哪一組；另填可視角與防窺方向，檢查相機視野內面板邊緣的視角有沒有超過</li><li><b>示意圖跟左欄等高</b>：光路側視不再自己撐高版面，畫布高度跟著左欄（立體圖也一樣），左右兩個區塊等高；示意圖在這個高度內自動縮放，上下還有空間時 WD 少省略一點（放得下就整段照比例畫），剩下的上下置中；光路側視一律直式（相機在上、待測物在下），不會因為畫布比較扁就變成橫的</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
@@ -1967,6 +1972,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <option value="free">異形</option>
         <option value="curve">矩形曲面</option>
         <option value="freecurve">異形曲面</option>
+        <option value="privacy">防窺屏</option>
         <option value="multi">多連屏</option>
       </select>
     </div>
@@ -1989,6 +1995,13 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="as-curve-info as-curve-row" id="as-curve-info" style="display:none"></div>
     <div class="row"><label>面板 X 解析度</label><input type="number" id="as-panel-rx" value="3840" step="1" oninput="calcAS()"><span class="unit">px</span></div>
     <div class="row"><label>面板 Y 解析度</label><input type="number" id="as-panel-ry" value="2160" step="1" oninput="calcAS()"><span class="unit">px</span></div>
+    <div class="row as-pv-row" style="display:none"><label>檢測 WD</label><input type="number" id="as-pv-wdi" value="400" step="1" min="0" oninput="calcAS()"><span class="unit">mm</span></div>
+    <div class="row as-pv-row" style="display:none"><label>量測 WD</label><input type="number" id="as-pv-wdm" value="600" step="1" min="0" oninput="calcAS()"><span class="unit">mm</span></div>
+    <div class="row as-pv-row" style="display:none"><label>可視角（單側）</label><input type="number" id="as-pv-ang" value="30" step="1" min="0" max="89" oninput="calcAS()"><span class="unit">± °</span></div>
+    <div class="row as-pv-row" style="display:none"><label>防窺方向</label>
+      <div class="seg" id="as-pv-dir-seg"><button class="on" onclick="setPvDir('x')">左右</button><button onclick="setPvDir('y')">上下</button><button onclick="setPvDir('xy')">四周</button></div>
+    </div>
+    <div class="as-curve-info as-pv-row" style="display:none">防窺屏的工作距離由你指定：檢測、量測各填一個，系統依 WD 反推解析能、實際 Pitch 與台數，並檢查相機視野內面板邊緣的視角有沒有超過可視角（超過時邊緣變暗、拍不到）。</div>
     </div>
     <div id="as-multi" style="display:none"></div>
     <div class="row" id="as-row-pitch"><label>Pitch</label><input type="number" id="as-pitch" value="8" step="0.5" oninput="calcAS()"><span class="unit">px</span></div>
@@ -2517,6 +2530,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
       </div>
       </div><!-- /rpt-2col -->
       <div class="asm-blk" id="as-multi-res" data-pdf-block="🧩 多連屏相機分組" style="display:none"></div>
+      <div class="asm-blk" id="as-pv-res" data-pdf-block="🔒 防窺屏 檢測／量測" style="display:none"></div>
       <!-- 資料量與電腦規格 -->
       <div class="sys-blk" data-pdf-block="🖥 資料量與電腦規格" data-sys="area"><div class="rpt-ctitle" data-gl="sysBlk">🖥 資料量與電腦規格</div><div class="spec-sum sys-asm" onclick="sysAsmToggle()"><span class="spec-txt"></span><span class="spec-tg pdf-hide"><span class="sys-asm-tg">調整</span><span class="chev">›</span></span></div><div class="sys-in" style="display:none"></div><div class="sys-out"></div></div>
       <div class="cost-blk" data-pdf-block="💰 成本估算" data-cost="area"><div class="rpt-ctitle" data-gl="costBlk">💰 成本估算</div><div class="cost-out"></div></div>
@@ -4014,7 +4028,7 @@ function selRender(){
   let h='';
   if(m==='scan') h=selField('樣品寬度','p-sw','mm')+selField('樣品高度','p-sh','mm')+selField('目標檢測精度','rpt-target-res','µm')+selField('目標 TT','rpt-target-tt','min')+selField('相機排數','p-nr','排')+selField('平台最高速度','p-vmax','mm/s');
   else if(m==='static') h=selField('待測範圍 X','st-objw','mm')+selField('待測範圍 Y','st-objh','mm')+selField('目標檢測精度','st-target-res','µm')+selField('重疊率','st-ov','%');
-  else h=selField('面板 X-AA','as-panel-x','mm')+selField('面板 Y-AA','as-panel-y','mm')+selField('面板 X 解析度','as-panel-rx','px')+selField('面板 Y 解析度','as-panel-ry','px')+selField('Pitch','as-pitch','px')+selField('最短工作距離','as-min-wd','mm')+selField('單台有效佔屏比','as-limit','×');
+  else h=selField('面板 X-AA','as-panel-x','mm')+selField('面板 Y-AA','as-panel-y','mm')+selField('面板 X 解析度','as-panel-rx','px')+selField('面板 Y 解析度','as-panel-ry','px')+(asIsPv(document.getElementById('as-shape').value)?selField('檢測 WD','as-pv-wdi','mm')+selField('量測 WD','as-pv-wdm','mm'):selField('Pitch','as-pitch','px'))+selField('最短工作距離','as-min-wd','mm')+selField('單台有效佔屏比','as-limit','×');
   document.getElementById('sel-need').innerHTML=h;
   const chip=function(on,txt,js){ return '<button type="button" class="pick-chip'+(on?' on':'')+'" onclick="'+js+'">'+txt+'</button>'; };
   const grp=function(lbl,h){ return '<span class="sel-grp"><span class="lbl">'+lbl+'</span>'+h+'</span>'; };
@@ -4060,8 +4074,9 @@ function selRun(){
         if(!(l.fl>0)) return bad('焦距不明');
         let qty=0, res=Infinity, wd=Infinity; const arr=[];
         for(const g of asGs){
-          const r=asCore({covX:g.covX, covY:g.covY, pix:g.pix, pitch:g.pitch!=null?g.pitch:as.pitch, camRX:c.rw, camRY:c.rh, camPx:c.px, fl:l.fl, minWD:as.minWD, limit:as.lim});
+          const r=asCore({covX:g.covX, covY:g.covY, pix:g.pix, pitch:g.pitch!=null?g.pitch:as.pitch, camRX:c.rw, camRY:c.rh, camPx:c.px, fl:l.fl, minWD:as.minWD, limit:as.lim, wdFix:asWdFix(g.pv)});
           if(!(r.xFOV>0)) return bad('無法計算');
+          if(g.pv && !(r.pitchAct>=3)) return bad('Pitch 不到 3');   // 防窺屏 WD 固定：解析不夠的組合排除
           if(!(r.wd>as.minWD+30)) return bad('工作距離不足');
           qty+=r.totalCams; res=Math.min(res,r.resolution); wd=Math.min(wd,r.wd); arr.push(r.nX+' × '+r.nY);
         }
@@ -7499,6 +7514,8 @@ function areaPR(){
   if(asIsFree(p.shape)){ p.shapeNote=document.getElementById('as-shape-note').value.trim(); p.tpl=asTpl; p.tp=JSON.parse(JSON.stringify(asTPs[asTpl]||{}));
     if(asTpl==='circle') p.panelY=Math.round((p.panelX-asCircleCut(p.panelX, p.tp))*10)/10; }
   if(asIsCurve(p.shape)){ p.bend=asBend; p.curveR=+document.getElementById('as-curve-r').value; }
+  if(asIsPv(p.shape)) p.pv=asPvDom();
+  if(asIsPv(p.shape) || (p.shape==='multi' && asMulti && asMulti.screens.some(x=>asIsPv(x.shape)))) p.pvPhase=asPhase;   // 存的結果是哪一個 WD
   if(p.shape==='multi'){
     if(!asMulti) asmInit();
     p.multi=JSON.parse(JSON.stringify(asmNorm(asMulti)));
@@ -7512,8 +7529,11 @@ function areaPR(){
     return {p, r};
   }
   const g=asGeom({shape:p.shape, X:p.panelX, Y:p.panelY, RX:p.panelRX, RY:p.panelRY, bend:p.bend, R:p.curveR, tpl:p.tpl, tp:p.tp});
-  const c=asCore({covX:g.covX, covY:g.covY, pix:g.pix, pitch:p.pitch, camRX:p.camRX, camRY:p.camRY, camPx:p.camPx, fl:p.fl, minWD:p.minWD, limit:p.limit});
+  const cq={covX:g.covX, covY:g.covY, pix:g.pix, pitch:p.pitch, camRX:p.camRX, camRY:p.camRY, camPx:p.camPx, fl:p.fl, minWD:p.minWD, limit:p.limit};
+  const c=asCore(Object.assign({}, cq, {wdFix:asWdFix(p.pv)}));
   const r={resolution:c.resolution, xFOV:c.xFOV, yFOV:c.yFOV, wd:c.wd, nX:c.nX, nY:c.nY, totalCams:c.totalCams};
+  if(p.pv){ r.pv={}; ['i','m'].forEach(ph=>{ const x=asCore(Object.assign({}, cq, {wdFix:asWdFix(p.pv,ph)}));
+    r.pv[ph]={wd:x.wd, resolution:+x.resolution.toFixed(4), pitch:+x.pitchAct.toFixed(2), edge:+asPvEdge(x,p.pv.dir).toFixed(2), nX:x.nX, nY:x.nY, totalCams:x.totalCams}; }); }
   if(g.curve && !g.err){ r.proj=+g.proj.toFixed(3); r.arcH=+g.arcH.toFixed(3); r.theta=+(g.theta*180/Math.PI).toFixed(3); const cs=asCamSag(g,c); if(cs>0) r.camSag=+cs.toFixed(3); }
   return {p, r};
 }
@@ -7995,6 +8015,8 @@ function loadEvalArea(e){
   if(p.curveR>0) sv('as-curve-r', p.curveR);
   asBend = p.bend==='y' ? 'y' : 'x'; segSet('as-bend-seg', asBend==='y'?1:0);
   if(p.shape==='multi' && p.multi) asMulti=asmNorm(JSON.parse(JSON.stringify(p.multi)));
+  if(p.pv){ sv('as-pv-wdi',p.pv.wdI); sv('as-pv-wdm',p.pv.wdM); sv('as-pv-ang',p.pv.ang); asPvDir=AS_PV_DIR[p.pv.dir]?p.pv.dir:'x'; segSet('as-pv-dir-seg',['x','y','xy'].indexOf(asPvDir)); }
+  asPhase=p.pvPhase==='m'?'m':'i';
   asShapeUI();
   setProjName('area', e.name||'新評估');
   syncDesc(e.notes||'');
@@ -9597,9 +9619,20 @@ function closeImportModal(){
 // ═══════════════════════════════════════════
 // 畫檢評估：產品型態 → 等效平面幾何，再算相機配置（多連屏每一組相機也共用這兩支）
 // ═══════════════════════════════════════════
-const AS_SHAPES={rect:'矩形', free:'異形', curve:'矩形曲面', freecurve:'異形曲面', multi:'多連屏'};
-const AS_SCR_SHAPES=['rect','free','curve','freecurve'];   // 多連屏每一屏可選的型態
+const AS_SHAPES={rect:'矩形', free:'異形', curve:'矩形曲面', freecurve:'異形曲面', privacy:'防窺屏', multi:'多連屏'};
+const AS_SCR_SHAPES=['rect','free','curve','freecurve','privacy'];   // 多連屏每一屏可選的型態
 let asBend='x';
+// 防窺屏（10/25）：工作距離由使用者指定（檢測、量測各一個），依 WD 反推解析能／實際 Pitch／台數；檢查視野內面板邊緣視角 ≤ 可視角
+const AS_PH={i:'檢測', m:'量測'}, AS_PV_DIR={x:'左右', y:'上下', xy:'四周'};
+let asPhase='i', asPvDir='x';   // 結果顯示哪一個 WD；單一產品的防窺方向
+function asIsPv(sh){ return sh==='privacy'; }
+function asPvDom(){ const v=id=>+document.getElementById(id).value||0; return {wdI:v('as-pv-wdi'), wdM:v('as-pv-wdm'), ang:v('as-pv-ang'), dir:asPvDir}; }
+function asWdFix(pv, ph){ return pv ? ((ph||asPhase)==='m' ? pv.wdM : pv.wdI) : 0; }
+// 防窺方向上的面板邊緣視角（°）；四周＝兩方向取大
+function asPvEdge(r, dir){ return dir==='y' ? r.eaY : dir==='xy' ? Math.max(r.eaX, r.eaY) : r.eaX; }
+function asPvTxt(pv){ return '檢測 WD '+fmtN(pv.wdI)+'／量測 WD '+fmtN(pv.wdM)+' mm · 可視角 ±'+fmtN(pv.ang)+'°（'+(AS_PV_DIR[pv.dir]||'左右')+'）'; }
+function setPvDir(d){ asPvDir=AS_PV_DIR[d]?d:'x'; segSet('as-pv-dir-seg', ['x','y','xy'].indexOf(asPvDir)); calcAS(); }
+function setAsPhase(ph){ asPhase=ph==='m'?'m':'i'; calcAS(); if(typeof selRun==='function' && document.getElementById('sel-need') && document.getElementById('sel-need').offsetParent) selRun(); }
 function asIsCurve(sh){ return sh==='curve'||sh==='freecurve'; }
 function asIsFree(sh){ return sh==='free'||sh==='freecurve'; }
 // g:{shape, X, Y, RX, RY, bend:'x'|'y', R}
@@ -9706,17 +9739,21 @@ function asPath(ctx, P, X, Y){ ctx.beginPath(); P.forEach((q,i)=>i?ctx.lineTo(X(
 // 曲面上某段的高低差：以弧頂為 0，投影座標 x 處的下垂量
 function asSag(R, x){ x=Math.min(Math.abs(x), R); return R-Math.sqrt(R*R-x*x); }
 // o:{covX, covY, pix(mm/面板像素), pitch, camRX, camRY, camPx, fl, minWD, limit}
+// wdFix>0（防窺屏）：WD 固定，解析能＝像素尺寸 × WD ÷ 焦距（同一條薄透鏡近似反過來算）
 function asCore(o){
-  const limit=Math.min(1, Math.max(0.05, o.limit||0));
-  const resolution=(o.pix>0&&o.pitch>0) ? ((o.pix*1e-3)/o.pitch)*1e6 : 0;
+  const limit=Math.min(1, Math.max(0.05, o.limit||0)), fix=+o.wdFix>0;
+  const resolution=fix ? ((o.fl>0&&o.camPx>0) ? o.camPx*o.wdFix/o.fl : 0) : (o.pix>0&&o.pitch>0) ? ((o.pix*1e-3)/o.pitch)*1e6 : 0;
   const xFOV=o.camRX*resolution/1000, yFOV=o.camRY*resolution/1000;
-  const wd=(o.camRX>0&&o.camPx>0) ? ((xFOV*1e-3)*(o.fl*1e-3)/(o.camRX*o.camPx*1e-6))*1e3 : 0;
+  const wd=fix ? +o.wdFix : (o.camRX>0&&o.camPx>0) ? ((xFOV*1e-3)*(o.fl*1e-3)/(o.camRX*o.camPx*1e-6))*1e3 : 0;
   const safeWD=(+o.minWD||0)+30;
   const xAngle=(wd>0) ? Math.atan((o.covX/2)/wd)*180/Math.PI : 0;
   const xRatio=(xFOV>0) ? o.covX/xFOV : 0, yRatio=(yFOV>0) ? o.covY/yFOV : 0;
   const nX=(xFOV>0) ? Math.max(1, Math.ceil(xRatio/limit)) : 0, nY=(yFOV>0) ? Math.max(1, Math.ceil(yRatio/limit)) : 0;
   const nXmin=(xFOV>0) ? Math.max(1, Math.ceil(xRatio)) : 0, nYmin=(yFOV>0) ? Math.max(1, Math.ceil(yRatio)) : 0;
-  return {resolution, xFOV, yFOV, wd, safeWD, xAngle, xRatio, yRatio, limit, nX, nY, totalCams:nX*nY, nXmin, nYmin, totalMin:nXmin*nYmin};
+  const pitchAct=(o.pix>0&&resolution>0) ? o.pix*1000/resolution : 0;   // 實際 Pitch＝面板一顆像素佔幾個相機像素
+  // 視野內面板邊緣視角：相機正對視野中心，看到的面板最遠到 min(FOV, 面板)/2
+  const ea=(fov,cov)=>wd>0 ? Math.atan(Math.min(fov,cov)/2/wd)*180/Math.PI : 0, eaX=ea(xFOV,o.covX), eaY=ea(yFOV,o.covY);
+  return {resolution, xFOV, yFOV, wd, safeWD, xAngle, xRatio, yRatio, limit, nX, nY, totalCams:nX*nY, nXmin, nYmin, totalMin:nXmin*nYmin, pitchAct, eaX, eaY};
 }
 // 曲面：最外側那台相機視野內的高低差（視野貼齊產品邊緣、往內涵蓋一個 FOV）
 function asCamSag(g, r){
@@ -9737,7 +9774,8 @@ function asShapeUI(){
   const sh=document.getElementById('as-shape').value, cv=asIsCurve(sh), fr=asIsFree(sh), mu=sh==='multi';
   document.getElementById('as-single').style.display=mu?'none':'';
   document.getElementById('as-multi').style.display=mu?'':'none';
-  document.getElementById('as-row-pitch').style.display=mu?'none':'';   // 多連屏：每屏各自的 Pitch
+  document.getElementById('as-row-pitch').style.display=mu||asIsPv(sh)?'none':'';   // 多連屏：每屏各自的 Pitch；防窺屏：Pitch 是結果
+  document.querySelectorAll('#need-area .as-pv-row').forEach(function(r){ r.style.display=asIsPv(sh)?'':'none'; });
   if(mu) asmRender();
   document.getElementById('as-row-note').style.display=fr?'':'none';
   document.querySelectorAll('#need-area .as-curve-row').forEach(function(r){ r.style.display=cv?'':'none'; });
@@ -9785,6 +9823,7 @@ function asShapeText(p){
   let t=AS_SHAPES[sh]||'矩形';
   if(asIsFree(sh)){ const T=AS_TPL[p.tpl]; if(T) t+='：'+T.n; if(p.shapeNote) t+=(T?'（':'：')+p.shapeNote+(T?'）':''); }
   if(asIsCurve(sh) && p.curveR>0) t+=' · R '+fmtN(p.curveR)+' mm（沿 '+(p.bend==='y'?'Y':'X')+' 彎）';
+  if(asIsPv(sh) && p.pv) t+=' · '+asPvTxt(p.pv);
   return t;
 }
 
@@ -9812,7 +9851,8 @@ function asmNorm(m){
   const gp=+document.getElementById('as-pitch').value||8;   // 舊資料沒有每屏 Pitch → 用全域 Pitch
   const scr=(Array.isArray(m.screens)?m.screens:[]).slice(0,6).map(s=>({name:String(s.name||'').slice(0,20), shape:AS_SCR_SHAPES.includes(s.shape)?s.shape:'rect',
     X:+s.X||0, Y:+s.Y||0, RX:+s.RX||0, RY:+s.RY||0, pitch:(s.pitch==null||s.pitch==='')?gp:+s.pitch, note:s.note||'', R:+s.R||0, bend:s.bend==='y'?'y':'x',
-    tpl:AS_TPL[s.tpl]?s.tpl:'', tp:asmTpClean(s.tp)}));
+    tpl:AS_TPL[s.tpl]?s.tpl:'', tp:asmTpClean(s.tp),
+    wdI:+s.wdI>0?+s.wdI:400, wdM:+s.wdM>0?+s.wdM:600, ang:+s.ang>0?+s.ang:30, pvDir:AS_PV_DIR[s.pvDir]?s.pvDir:'x'}));   // 防窺屏：檢測／量測 WD、可視角
   // 圓形：Y＝直徑 − 平邊切深（同單一產品）
   scr.forEach(x=>{ if(asIsFree(x.shape) && x.tpl==='circle') x.Y=Math.round((x.X-asCircleCut(x.X, x.tp))*10)/10; });
   while(scr.length<2) scr.push(Object.assign({}, scr[0]||{shape:'rect',X:300,Y:120,RX:1920,RY:720,pitch:gp,note:'',R:1500,bend:'x'}));
@@ -9838,6 +9878,12 @@ function asMultiGroups(m){
     const nd=g.geos.filter(x=>x.need>0);
     const drv=nd.length?nd.reduce((a,x)=>x.need<a.need?x:a, nd[0]):null;
     g.drv=drv?drv.idx:-1; g.pix=drv?drv.need:0; g.pitch=1;
+    // 組內有防窺屏：WD 由它決定（同組其他屏跟著這個 WD 算實際 Pitch）
+    const pvs=g.geos.filter(x=>asIsPv(m.screens[x.idx].shape));
+    if(pvs.length){ const s0=m.screens[pvs[0].idx], dirs=[...new Set(pvs.map(x=>m.screens[x.idx].pvDir))];
+      g.pv={wdI:s0.wdI, wdM:s0.wdM, ang:Math.min.apply(null, pvs.map(x=>m.screens[x.idx].ang)), dir:dirs.length>1?'xy':dirs[0], idx:pvs[0].idx};
+      g.pvDiff=pvs.some(x=>{ const t=m.screens[x.idx]; return t.wdI!==s0.wdI||t.wdM!==s0.wdM; });
+      g.drv=pvs[0].idx; g.pix=pvs[0].pix; g.pitch=1; }
     g.curve=g.geos.some(x=>x.curve); g.arcH=Math.max.apply(null,[0].concat(g.geos.map(x=>x.arcH||0)));
     const eg=g.geos.find(x=>x.err); g.err=eg?asmNm(m,eg.idx)+' '+eg.err:'';
     g.label=g.scr.length>1?asmNm(m,g.scr[0])+'–'+asmNm(m,g.scr[g.scr.length-1]):asmNm(m,g.scr[0]);
@@ -9847,15 +9893,15 @@ function asMultiGroups(m){
 function asGroupSag(g, r){ return Math.max.apply(null,[0].concat(g.geos.map(x=>asCamSag(x,r)))); }
 // 畫檢的「相機組」：單一產品＝1 組；多連屏＝依 🔗 分組
 function asGroupsDom(){
-  if(document.getElementById('as-shape').value!=='multi'){ const g=asGeomDom(); g.scr=null; g.name='A'; g.k=0; g.geos=[g]; return [g]; }
+  if(document.getElementById('as-shape').value!=='multi'){ const g=asGeomDom(); g.scr=null; g.name='A'; g.k=0; g.geos=[g]; if(asIsPv(g.shape)) g.pv=asPvDom(); return [g]; }
   if(!asMulti) asmInit();
   asMulti=asmNorm(asMulti);
   return asMultiGroups(asMulti);
 }
 // 各組套同一組相機／鏡頭參數算配置
-function asMultiCalc(m, c){
+function asMultiCalc(m, c, ph){
   const G=asMultiGroups(m);
-  const R=G.map(function(g){ const r=asCore(Object.assign({}, c, {covX:g.covX, covY:g.covY, pix:g.pix, pitch:g.pitch})); r.sag=asGroupSag(g,r); return r; });
+  const R=G.map(function(g){ const r=asCore(Object.assign({}, c, {covX:g.covX, covY:g.covY, pix:g.pix, pitch:g.pitch, wdFix:asWdFix(g.pv, ph)})); r.sag=asGroupSag(g,r); return r; });
   return {G, R, total:R.reduce((a,r)=>a+r.totalCams,0), totalMin:R.reduce((a,r)=>a+r.totalMin,0)};
 }
 function asMultiText(m){
@@ -9871,8 +9917,9 @@ function asmExtent(m){
 }
 function asmScreenText(s, i){
   const T=asIsFree(s.shape)?AS_TPL[s.tpl]:null;
-  let t=asmNm(asMulti,i)+' '+(s.tpl==='circle'&&T?'Ø'+fmtN(s.X):fmtN(s.X)+' × '+fmtN(s.Y))+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+') · Pitch '+fmtN(s.pitch);
+  let t=asmNm(asMulti,i)+' '+(s.tpl==='circle'&&T?'Ø'+fmtN(s.X):fmtN(s.X)+' × '+fmtN(s.Y))+' mm ('+fmtN(s.RX)+'×'+fmtN(s.RY)+')'+(asIsPv(s.shape)?'':' · Pitch '+fmtN(s.pitch));
   if(s.shape!=='rect') t+=' · '+AS_SHAPES[s.shape]+(T?'：'+T.n:'')+(asIsFree(s.shape)&&s.note?(T?'（'+s.note+'）':'：'+s.note):'');
+  if(asIsPv(s.shape)) t+=' · '+asPvTxt({wdI:s.wdI, wdM:s.wdM, ang:s.ang, dir:s.pvDir});
   if(asIsCurve(s.shape)&&s.R>0) t+=' R'+fmtN(s.R)+' 沿'+(s.bend==='y'?'Y':'X');
   return t;
 }
@@ -9894,7 +9941,7 @@ function asmRender(){
     +'<div class="row"><label>屏數</label><div class="asm-cnt"><button onclick="asmCount(-1)"'+(n<=2?' disabled':'')+' aria-label="減少一屏">−</button><b>'+n+'</b>'
     +'<button onclick="asmCount(1)"'+(n>=6?' disabled':'')+' aria-label="增加一屏">＋</button></div></div>';
   m.screens.forEach(function(s,i){
-    const g=gOf[i], col=asmColor(g.k), cv=asIsCurve(s.shape), fr=asIsFree(s.shape), T=fr?AS_TPL[s.tpl]:null, ci=T&&s.tpl==='circle';
+    const g=gOf[i], col=asmColor(g.k), cv=asIsCurve(s.shape), fr=asIsFree(s.shape), pv=asIsPv(s.shape), T=fr?AS_TPL[s.tpl]:null, ci=T&&s.tpl==='circle';
     const num=(k,step)=>'<input type="number" value="'+(s[k]==null?'':s[k])+'" step="'+step+'" oninput="asmSet('+i+',\''+k+'\',this.value)">';
     h+='<div class="asm-scr" style="--g:'+col+'">'
       +'<div class="asm-hd"><span class="asm-no">屏 '+(i+1)+'</span><span class="asm-grp" title="相機組">'+g.name+' 組</span>'
@@ -9905,7 +9952,11 @@ function asmRender(){
         +(T?'':'<option value="" selected>外接矩形</option>')+Object.keys(AS_TPL).map(k=>'<option value="'+k+'"'+(k===s.tpl?' selected':'')+'>'+AS_TPL[k].n+'</option>').join('')+'</select><span class="unit"></span></div>':'')
       +'<div class="asm-r"><label>'+(ci?'AA 直徑':T?'AA '+T.lx+' × '+T.ly:fr?'外接尺寸':'AA 尺寸')+'</label>'+num('X',1)+(ci?'':'<span class="x">×</span>'+num('Y',1))+'<span class="unit">mm</span></div>'
       +'<div class="asm-r"><label>解析度</label>'+num('RX',1)+'<span class="x">×</span>'+num('RY',1)+'<span class="unit">px</span></div>'
-      +'<div class="asm-r"><label>Pitch</label>'+num('pitch',0.5)+'<span class="unit">px</span></div>';
+      +(pv?'<div class="asm-r"><label>檢測 WD</label>'+num('wdI',1)+'<span class="unit">mm</span></div>'
+        +'<div class="asm-r"><label>量測 WD</label>'+num('wdM',1)+'<span class="unit">mm</span></div>'
+        +'<div class="asm-r"><label>可視角（單側）</label>'+num('ang',1)+'<span class="unit">± °</span></div>'
+        +'<div class="asm-r"><label>防窺方向</label><div class="seg">'+['x','y','xy'].map(d=>'<button class="'+(s.pvDir===d?'on':'')+'" onclick="asmSet('+i+',\'pvDir\',\''+d+'\',1)">'+AS_PV_DIR[d]+'</button>').join('')+'</div><span class="unit"></span></div>'
+        :'<div class="asm-r"><label>Pitch</label>'+num('pitch',0.5)+'<span class="unit">px</span></div>');
     if(T) T.ps.forEach(q=>{ h+='<div class="asm-r"><label>'+q[1]+'</label><input type="number" id="asm-tp-'+i+'-'+q[0]+'" value="'+(q[0] in s.tp?s.tp[q[0]]:'')+'" step="1" min="0" oninput="asmTP('+i+',\''+q[0]+'\',this.value)"><span class="unit">mm</span></div>'; });
     if(T&&T.tip) h+='<div class="asm-ci">'+T.tip+'</div>';
     if(fr) h+='<div class="asm-r"><label>形狀說明</label><input type="text" value="'+esc(s.note)+'" placeholder="選填，例：圓角、瀏海…" oninput="asmSet('+i+',\'note\',this.value)"><span class="unit"></span></div>';
@@ -9943,7 +9994,7 @@ function asmCurveInfo(){
 function asmSet(i, k, v, rerender){
   if(!asMulti||!asMulti.screens[i]) return;
   const s=asMulti.screens[i], was=s.tpl;
-  s[k] = (k==='shape'||k==='note'||k==='bend'||k==='name'||k==='tpl') ? v : (v===''?0:+v);
+  s[k] = (k==='shape'||k==='note'||k==='bend'||k==='name'||k==='tpl'||k==='pvDir') ? v : (v===''?0:+v);
   if(k==='shape' && asIsFree(v) && !AS_TPL[s.tpl]) s.tpl='circle';   // 改成異形：預設圓形（同單一產品）
   if(asIsFree(s.shape) && s.tpl!==was && was==='circle' && s.X>0) s.Y=Math.round(s.X*.42);   // 從圓形換過來：Y 還等於直徑，先帶照片上的長寬比
   if(asIsFree(s.shape) && s.tpl==='circle') s.Y=Math.round((s.X-asCircleCut(s.X, s.tp))*10)/10;
@@ -9974,9 +10025,13 @@ function calcASMulti(){
   asMulti=asmNorm(asMulti);
   const v=id=>+document.getElementById(id).value;
   const pitch=v('as-pitch'), minWD=v('as-min-wd'), limitRaw=v('as-limit');
-  const pts=asMulti.screens.map(s=>+s.pitch||0), badPt=pts.map((p,i)=>p<3?i:-1).filter(i=>i>=0);
   const cp={pitch, camRX:v('p-rw'), camRY:v('p-rh'), camPx:v('p-px'), fl:v('p-fl'), minWD, limit:limitRaw};
   const M=asMultiCalc(asMulti, cp), G=M.G, R=M.R;
+  const gOf={}; G.forEach((g,k)=>g.scr.forEach(i=>{ gOf[i]=k; }));
+  // 各屏實際 Pitch（某組 WD 固定時＝面板像素 ÷ 該組解析能）；防窺屏那組的 Pitch 是結果，其他組是填的
+  const actPt=(i,RR)=>{ const k=gOf[i], x=G[k].geos.find(y=>y.idx===i), r=(RR||R)[k]; return (r&&r.resolution>0&&x&&x.pix>0)?x.pix*1000/r.resolution:0; };
+  const effPt=asMulti.screens.map((s,i)=>G[gOf[i]].pv?actPt(i):(+s.pitch||0));
+  const badPt=effPt.map((p,i)=>p<3?i:-1).filter(i=>i>=0);
   const f=(x,d=2)=>(!isFinite(x)||x===0)?'—':x.toFixed(d);
   const rng=function(k,d){ const a=R.map(r=>r[k]).filter(x=>isFinite(x)&&x>0); if(!a.length) return '—';
     const lo=Math.min.apply(null,a), hi=Math.max.apply(null,a); return (hi-lo)<Math.pow(10,-d)/2 ? lo.toFixed(d) : lo.toFixed(d)+'–'+hi.toFixed(d); };
@@ -9991,7 +10046,7 @@ function calcASMulti(){
     cvs.push(asmNm(asMulti,x.idx)+'：'+(x.err ? x.err : '投影 '+f(x.proj,1)+' mm · 弧高 '+f(x.arcH,1)+' mm · 邊緣傾角 '+f(x.theta*180/Math.PI,1)+'°')); }); });
   set('as-rpt-curve', cvs.join('\n'));
   document.getElementById('as-rpt-curve-f').style.display = cvs.length ? '' : 'none';
-  set('as-rpt-pitch', asMulti.screens.map((s,i)=>asmNm(asMulti,i)+' '+fmtN(s.pitch)).join(' · ')+' px');
+  set('as-rpt-pitch', asMulti.screens.map((s,i)=>asmNm(asMulti,i)+' '+(G[gOf[i]].pv?'實際 '+f(effPt[i],1):fmtN(s.pitch))).join(' · ')+' px'+(G.some(g=>g.pv)?'（'+AS_PH[asPhase]+' WD）':''));
   set('as-rpt-qty', `${M.total} 台`);
   set('as-rpt-arr', G.length+' 組：'+R.map(r=>r.nX+'×'+r.nY).join(' ＋ '));
   set('as-rpt-res', rng('resolution',2));
@@ -10020,13 +10075,15 @@ function calcASMulti(){
     G.forEach(function(g,k){ const r=R[k];
       // 實際 Pitch＝該屏面板像素 ÷ 這組的解析能；決定解析能的那屏＝填的 Pitch（粗體），其他屏會比要求更細
       const pe=g.geos.map(x=>{ const a=(r.resolution>0&&x.pix>0)?x.pix*1000/r.resolution:0;
-        const t=asmNm(asMulti,x.idx)+' '+(a>0?(Math.abs(a-x.pitch)<0.05?fmtN(x.pitch):a.toFixed(1)):'—');
-        return x.idx===g.drv&&g.geos.length>1?'<b title="這一屏決定整組的解析能與工作距離">'+t+'</b>':t; }).join(' · ');
+        const t=asmNm(asMulti,x.idx)+' '+(a>0?(Math.abs(a-x.pitch)<0.05&&!g.pv?fmtN(x.pitch):a.toFixed(1)):'—');
+        return x.idx===g.drv&&g.geos.length>1?'<b title="'+(g.pv?'這一屏（防窺屏）決定整組的工作距離':'這一屏決定整組的解析能與工作距離')+'">'+t+'</b>':t; }).join(' · ');
       h+='<tr><td><span class="gtag" style="background:'+asmColor(k)+'">'+g.name+'</span></td><td>'+g.label+'</td>'
         +'<td>'+f(g.covX,1)+' × '+f(g.covY,1)+'</td><td>'+f(r.resolution,2)+'</td><td>'+pe+'</td><td>'+f(r.xFOV,1)+' × '+f(r.yFOV,1)+'</td>'
         +'<td'+(r.wd>safeWD?'':' class="bad"')+'>'+f(r.wd,0)+'</td><td>'+r.nX+' × '+r.nY+'</td><td>'+r.totalCams+'</td></tr>'; });
     h+='</tbody><tfoot><tr><td colspan="8">合計（'+G.length+' 組）</td><td class="tot">'+M.total+' 台</td></tr></tfoot></table></div>';
-    if(G.some(g=>g.geos.length>1)) h+='<div class="asm-note">同一組相機只有一個解析能與工作距離，由組內要求最細的屏（粗體）決定；其他屏的實際 Pitch 會比要求更大（取樣更細）。若想讓每屏用各自的工作距離，在左側把它們改成「✂ 分開拍」。</div>';
+    if(G.some(g=>g.geos.length>1)) h+='<div class="asm-note">同一組相機只有一個解析能與工作距離，由組內要求最細的屏（粗體）決定；其他屏的實際 Pitch 會比要求更大（取樣更細）。'
+      +(G.some(g=>g.pv&&g.geos.length>1)?'有防窺屏的組，WD 由防窺屏指定（粗體），同組其他屏照這個 WD 算實際 Pitch，可能比要求的小。':'')
+      +'若想讓每屏用各自的工作距離，在左側把它們改成「✂ 分開拍」。</div>';
     tb.innerHTML=h;
   }
 
@@ -10047,12 +10104,60 @@ function calcASMulti(){
     W.push({s:'warn', t:'曲面弧高最大 '+f(top.g.arcH,1)+' mm（'+top.g.name+' 組）'+(dh>0&&dh<top.g.arcH-1e-6?'，最外側單台視野內高低差 '+f(dh,1)+' mm':'')
       +'：畫檢不計算景深，請確認鏡頭景深涵蓋這個高低差（必要時縮光圈或分區對焦）'});
   }
-  if(!pitchOK) W.push({s:'bad', t:badPt.map(i=>asmNm(asMulti,i)).join('、')+' 的 Pitch 不到 3，分不出單顆面板像素'});
-  if(badWD.length) W.push({s:'bad', t:badWD.map(g=>g.name).join('、')+' 組工作距離小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
+  // 防窺屏那幾組：檢測、量測兩個 WD 都檢查（視角、實際 Pitch、安全距離），其他組照原本
+  const bp=badPt.filter(i=>!G[gOf[i]].pv), bw=badWD.filter(g=>!g.pv);
+  if(bp.length) W.push({s:'bad', t:bp.map(i=>asmNm(asMulti,i)).join('、')+' 的 Pitch 不到 3，分不出單顆面板像素'});
+  if(bw.length) W.push({s:'bad', t:bw.map(g=>g.name).join('、')+' 組工作距離小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
+  const pvG=G.filter(g=>g.pv);
+  if(pvG.length){
+    const RR={}; ['i','m'].forEach(ph=>{ RR[ph]=ph===asPhase?R:asMultiCalc(asMulti, cp, ph).R; });
+    const rows=[];
+    pvG.forEach(function(g){ const k=g.k;
+      if(g.pvDiff) W.push({s:'warn', t:g.name+' 組有多屏防窺屏、填的 WD 不一樣：同一組相機只有一個 WD，以 '+asmNm(asMulti,g.pv.idx)+' 為準'});
+      ['i','m'].forEach(function(ph){ const pts=g.scr.map(i=>actPt(i,RR[ph])).filter(x=>x>0);
+        rows.push({g, ph, r:RR[ph][k], pv:g.pv, pt:pts.length?Math.min.apply(null,pts):0}); });
+      g.scr.forEach(function(i){ const sc=asMulti.screens[i]; if(asIsPv(sc.shape)) return;   // 跟防窺屏同組的一般屏：WD 被指定，實際 Pitch 可能不夠
+        ['i','m'].forEach(function(ph){ const a=actPt(i,RR[ph]); if(a>0 && a>=3 && a<(+sc.pitch||0)-0.05) W.push({s:'warn', t:asmNm(asMulti,i)+' 跟防窺屏同組，'+AS_PH[ph]+' WD '+fmtN(RR[ph][k].wd)+' mm 下實際 Pitch '+a.toFixed(1)+'，比要求的 '+fmtN(sc.pitch)+' 小'}); }); });
+      asPvWarns(W, g.name+' 組 ', g.pv, {i:RR.i[k], m:RR.m[k]}, safeWD, r=>{ const pts=g.scr.map(i=>actPt(i,r===RR.i[k]?RR.i:RR.m)).filter(x=>x>0); return pts.length?Math.min.apply(null,pts):0; });
+    });
+    asPvRender(rows, true);
+  } else asPvRender(null);
   mountWarnItem(W);
   sysRender('area', sysCtx2D('area',P(),null,{n:M.total}));
   concRender('area', W.concat(_sysW.area||[]), true);
   leftSync();
+}
+// 防窺屏：檢測／量測兩個 WD 的結果並列；點列或按鈕切換上方報告與示意圖顯示哪一個
+function asPvRender(rows, multi){
+  const el=document.getElementById('as-pv-res'); if(!el) return;
+  if(!rows||!rows.length){ el.style.display='none'; el.innerHTML=''; return; }
+  const f=(x,d)=>(!isFinite(x)||x===0)?'—':x.toFixed(d);
+  let h='<div class="rpt-ctitle pv-hd"><span>🔒 防窺屏 · 檢測／量測</span><div class="seg pdf-hide">'
+    +['i','m'].map(ph=>'<button type="button" class="'+(asPhase===ph?'on':'')+'" onclick="setAsPhase(\''+ph+'\')">顯示'+AS_PH[ph]+'</button>').join('')+'</div></div>'
+    +'<div class="asm-wrap"><table class="asm-tbl"><thead><tr>'+(multi?'<th>組</th>':'')+'<th>用途</th><th class="r">WD mm</th><th class="r">解析能 µm</th><th class="r">實際 Pitch</th><th class="r">單台 FOV mm</th><th class="r">邊緣視角</th><th class="r">配置</th><th class="r">台數</th></tr></thead><tbody>';
+  rows.forEach(function(o,j){
+    const r=o.r||{}, a=asPvEdge(r, o.pv.dir), over=o.pv.ang>0&&a>o.pv.ang+1e-9;
+    h+='<tr class="pv-row'+(o.ph===asPhase?' pv-on':'')+'" onclick="setAsPhase(\''+o.ph+'\')" title="點一下：上方報告與示意圖顯示'+AS_PH[o.ph]+' WD">'
+      +(multi&&o.ph==='i'?'<td rowspan="2"><span class="gtag" style="background:'+asmColor(o.g.k)+'">'+o.g.name+'</span></td>':'')
+      +'<td>'+AS_PH[o.ph]+'</td><td class="r">'+f(r.wd,0)+'</td><td class="r">'+f(r.resolution,2)+'</td>'
+      +'<td class="r'+(o.pt>0&&o.pt<3?' bad':'')+'">'+f(o.pt,1)+'</td><td class="r">'+f(r.xFOV,1)+' × '+f(r.yFOV,1)+'</td>'
+      +'<td class="r'+(over?' bad':'')+'">'+f(a,1)+'°'+(over?' &gt; ±'+fmtN(o.pv.ang)+'°':'')+'</td>'
+      +'<td class="r">'+(r.nX||0)+' × '+(r.nY||0)+'</td><td class="r">'+(r.totalCams||0)+'</td></tr>';
+  });
+  const pv0=rows[0].pv;
+  h+='</tbody></table></div><div class="asm-note">上方結論、光學規格與示意圖目前顯示「<b>'+AS_PH[asPhase]+'</b>」WD 的結果（點表格列或右上按鈕切換）。'
+    +'邊緣視角＝相機視野內面板最邊緣的視線與面板法線的夾角'+(multi?'':'（'+AS_PV_DIR[pv0.dir]+'方向，可視角 ±'+fmtN(pv0.ang)+'°）')
+    +'；相機視野比面板小時，這個角度只跟感測器尺寸和焦距有關，拉長 WD 不會變小，要換焦距較長的鏡頭。</div>';
+  el.innerHTML=h; el.style.display='';
+}
+// 防窺屏警示：兩個 WD 各查 視角／實際 Pitch／安全距離；ptOf(r)＝該 WD 下（組內）最小實際 Pitch
+function asPvWarns(W, lab, pv, RR, safeWD, ptOf){
+  ['i','m'].forEach(function(ph){ const r=RR[ph]; if(!(r&&r.wd>0)) return;
+    const a=asPvEdge(r, pv.dir), pre=lab+AS_PH[ph]+' WD '+fmtN(r.wd)+' mm：';
+    if(pv.ang>0 && a>pv.ang+1e-9) W.push({s:'bad', t:pre+'視野內面板邊緣視角 '+a.toFixed(1)+'°（'+AS_PV_DIR[pv.dir]+'）超過可視角 ±'+fmtN(pv.ang)+'°，邊緣會變暗、拍不到；可換焦距較長的鏡頭'});
+    const pt=ptOf(r); if(pt>0 && pt<3) W.push({s:'bad', t:pre+'實際 Pitch '+pt.toFixed(1)+' 不到 3，分不出單顆面板像素'});
+    if(!(r.wd>safeWD)) W.push({s:'bad', t:pre+'小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
+  });
 }
 function drawASMultiDiagram(m, G, R){
   const canvas=document.getElementById('as-dg'); if(!canvas) return;
@@ -10158,10 +10263,12 @@ function calcAS(){
   // >1 會算出比實際拼接更少、不合理的台數（例：1 台涵蓋不了寬面板），故鉗制上限為 1。
   // X 半角＝整片面板 X 方向顯示區（AA，曲面為投影寬）邊緣對應的半角
   // nXmin/nYmin：物理最少台數（無重疊，limit=1），讓使用者知道下限在哪
-  const R0 = asCore({covX:geo.covX, covY:geo.covY, pix:geo.pix, pitch, camRX, camRY, camPx, fl, minWD, limit:limitRaw});
+  const pv = asIsPv(geo.shape) ? asPvDom() : null;   // 防窺屏：WD 固定（顯示 asPhase 那一個）
+  const cpS = {covX:geo.covX, covY:geo.covY, pix:geo.pix, pitch, camRX, camRY, camPx, fl, minWD, limit:limitRaw};
+  const R0 = asCore(Object.assign({}, cpS, {wdFix:asWdFix(pv)}));
   const {limit, resolution, xFOV, yFOV, wd, safeWD, xAngle, xRatio, yRatio, nX, nY, totalCams, nXmin, nYmin, totalMin} = R0;
   const wdOK   = wd > safeWD;
-  const pitchOK = pitch >= 3;
+  const pitchEff = pv ? R0.pitchAct : pitch, pitchOK = pitchEff >= 3;
   const camSag = asCamSag(geo, R0);
   const perXRatio = (nX>0) ? xRatio/nX : 0;
   const perYRatio = (nY>0) ? yRatio/nY : 0;
@@ -10173,7 +10280,7 @@ function calcAS(){
   set('as-rpt-lens', rptLensName(li));
   rptLightSet('as-rpt-light');
   const shNote=document.getElementById('as-shape-note').value.trim(), curveR=+document.getElementById('as-curve-r').value;
-  set('as-rpt-shape', asShapeText({shape:geo.shape, shapeNote:shNote, curveR, bend:asBend, tpl:geo.tpl}));
+  set('as-rpt-shape', asShapeText({shape:geo.shape, shapeNote:shNote, curveR, bend:asBend, tpl:geo.tpl, pv}));
   set('as-rpt-panel-lbl', geo.curve ? '面板尺寸（展開）' : asIsFree(geo.shape) ? '面板尺寸（外接矩形）' : '面板尺寸');
   set('as-rpt-panel', `${panelX} × ${panelY} mm (${panelRX}×${panelRY})`);
   const cvTxt = geo.curve ? (geo.err ? geo.err
@@ -10184,11 +10291,11 @@ function calcAS(){
   const cInfo=document.getElementById('as-curve-info');
   if(cInfo) cInfo.innerHTML = !geo.curve ? '' : geo.err ? '<span class="bad">⚠ '+esc(geo.err)+'</span>'
     : '投影 <b>'+f(geo.proj,1)+'</b> mm · 弧高 <b>'+f(geo.arcH,1)+'</b> mm<br>邊緣傾角 <b>'+f(geo.theta*180/Math.PI,1)+'</b>°，解析度以邊緣計';
-  set('as-rpt-pitch', `${pitch} px`);
+  set('as-rpt-pitch', pv ? '實際 '+f(pitchEff,1)+' px（'+AS_PH[asPhase]+' WD '+fmtN(wd)+' mm）' : `${pitch} px`);
   set('as-rpt-qty',  `${totalCams} 台`);
   set('as-rpt-arr',  `${nX} × ${nY}`);
   set('as-rpt-res',  f(resolution,2));
-  set('as-rpt-res-s', 'Pitch '+pitch);
+  set('as-rpt-res-s', pv ? AS_PH[asPhase]+' WD 固定' : 'Pitch '+pitch);
   set('as-rpt-wd',   f(wd,0));
   const wdOkEl = document.getElementById('as-rpt-wd-ok');
   if(wdOkEl){ wdOkEl.textContent=wdOK?'✓ ≥ 安全 '+safeWD+' mm':'✗ < 安全 '+safeWD+' mm'; wdOkEl.style.color=wdOK?'#34c759':'#ff3b30'; }
@@ -10235,8 +10342,12 @@ function calcAS(){
     W.push({s:'warn', t:'曲面弧高 '+f(geo.arcH,1)+' mm'+(nX*nY>1&&dh<geo.arcH-1e-6?'，最外側單台視野內高低差 '+f(dh,1)+' mm':'')
       +'：畫檢不計算景深，請確認鏡頭景深涵蓋這個高低差（必要時縮光圈或分區對焦）'});
   }
-  if(!pitchOK) W.push({s:'bad', t:'Pitch '+pitch+' 不到 3，分不出單顆面板像素'});
-  if(!wdOK) W.push({s:'bad', t:'工作距離 '+f(wd,1)+' mm 小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
+  if(!pv && !pitchOK) W.push({s:'bad', t:'Pitch '+pitch+' 不到 3，分不出單顆面板像素'});
+  if(!pv && !wdOK) W.push({s:'bad', t:'工作距離 '+f(wd,1)+' mm 小於安全距離 '+safeWD+' mm（最短工作距離＋30）'});
+  if(pv){ const RR={}; ['i','m'].forEach(ph=>{ RR[ph]=ph===asPhase?R0:asCore(Object.assign({}, cpS, {wdFix:asWdFix(pv,ph)})); });
+    asPvRender(['i','m'].map(ph=>({ph, r:RR[ph], pv, pt:RR[ph].pitchAct})), false);
+    asPvWarns(W, '', pv, RR, safeWD, r=>r.pitchAct); }
+  else asPvRender(null);
   mountWarnItem(W);
   sysRender('area', sysCtx2D('area',P(),null,{n:totalCams}));
   concRender('area', W.concat(_sysW.area||[]), true);
@@ -10789,6 +10900,7 @@ function kbNeedOf(e){
     if(asIsFree(sh) && p.shapeNote) n.shapeNote=p.shapeNote;
     if(asIsFree(sh) && AS_TPL[p.tpl]) n.tpl=p.tpl;
     if(asIsCurve(sh)){ n.bend=p.bend==='y'?'y':'x'; n.curveR=pos(p.curveR); }
+    if(asIsPv(sh) && p.pv){ n.pv=p.pv; n.pitch=null; }   // 防窺屏：Pitch 是結果，不拿來比
     if(sh==='multi' && p.multi && Array.isArray(p.multi.screens)){
       const mu=p.multi, ex=asmExtent(mu), gs=(e.r&&Array.isArray(e.r.groups)) ? e.r.groups : [];
       n.w=pos(ex.w); n.h=pos(ex.h);   // 尺寸＝整片排列的外框
@@ -12244,7 +12356,7 @@ async function kbdDelete(btn){
 //   只比同維度（10/11 Johnny 改）：2D 的需求只列 2D 舊案、3D 只列 3D；檢測項目也只列同維度的
 //   沒選檢測項目時這一項先給一半分數，最高約 70%；選了而且相同才會到 90% 以上
 const SIM_W={items:50, num:30, how:10, site:10, shape:10}, SIM_MIN=50, SIM_MAX=12;
-const SIM_SHAPES=[['','不限'],['rect','矩形'],['free','異形'],['curve','矩形曲面'],['freecurve','異形曲面'],['multi','多連屏']];
+const SIM_SHAPES=[['','不限'],['rect','矩形'],['free','異形'],['curve','矩形曲面'],['freecurve','異形曲面'],['privacy','防窺屏'],['multi','多連屏']];
 const SIM_PK={scan:'res', static:'res', area:'pitch', '3d':'z'};
 const SIM_MODES=[['scan','2D 掃描'],['static','2D 靜態'],['area','2D 畫檢'],['3d','3D 量測']];
 var _sim=null, _simKeep=null, _kbStart=null;   // 用 var：showTab、loadEval 在程式還沒跑到這裡時就可能被呼叫。視窗裡的需求；這個專案上次在視窗選的檢測項目、廠區；「用這筆當起點」的來源案例
@@ -12470,7 +12582,9 @@ const GL={
   bs:['返回速度','單向掃描時，平台空跑回起點的速度。'],
   ep:['Encoder 解析度','平台位置編碼器每個脈衝代表的移動距離，用來精準觸發相機拍照。'],
   stArea:['待測範圍','要拍的區域大小（mm）。'],
-  shape:['產品型態','矩形／異形／曲面。<b>異形</b>：選外形（圓形、六邊形、拱頂形），X／Y 填 AA 外接尺寸（圓形填直徑，顯示區底部的平邊另填切深），再依需要調外形尺寸；相機照外接矩形排。<b>曲面</b>：彎曲方向填<b>展開長度</b>，工具換算成相機看到的投影寬，並算出弧高（景深要涵蓋）。'],
+  shape:['產品型態','矩形／異形／曲面。<b>異形</b>：選外形（圓形、六邊形、拱頂形），X／Y 填 AA 外接尺寸（圓形填直徑，顯示區底部的平邊另填切深），再依需要調外形尺寸；相機照外接矩形排。<b>曲面</b>：彎曲方向填<b>展開長度</b>，工具換算成相機看到的投影寬，並算出弧高（景深要涵蓋）。<b>防窺屏</b>：檢測、量測各填一個工作距離，系統各算一組結果。'],
+  pvWd:['檢測／量測 WD','防窺屏的工作距離由你指定（不再依 Pitch 推算）。系統用 WD 反推解析能、實際 Pitch、單台視野與台數，檢測、量測各算一組；結果區可切換顯示哪一組。'],
+  pvAng:['可視角／防窺方向','防窺屏能看清楚的單側角度（例：±30°），以及限制的方向（左右、上下或四周）。系統檢查相機視野內面板最邊緣的視角，超過就警示（邊緣變暗、拍不到）。'],
   multi:['多連屏','一片產品上有 2～6 塊屏（2in1、3in1…）。每屏各自填尺寸、型態、曲率；相鄰屏之間的 🔗 決定是否用<b>同一組相機一起拍</b>。一組相機涵蓋組內各屏加屏間距的合併範圍；每屏 Pitch 各自填，一組相機只有一個解析能與工作距離，取組內要求最細的那一屏。'],
   bend:['彎曲方向','面板沿哪個方向彎。沿 X＝X 方向是弧線（如車用曲面中控），Y 方向仍是直的。'],
   curveR:['曲率半徑 R','曲面的半徑，例：1500R＝1500 mm。R 越小彎得越厲害，弧高越大、邊緣越斜，解析度以邊緣（像素投影縮成 cosθ）計。'],
@@ -12540,6 +12654,7 @@ const GL_IN={'cam-type-seg':'camType','color-seg':'color','bin-seg':'bin','p-px'
   'p-sw':'sample','p-sh':'sample','rpt-target-res':'targetRes','rpt-target-tt':'targetTT','st-target-res':'targetRes','scan-dir-seg':'scanDir','scan-mode-seg':'scanMode','p-nc':'nc','p-nr':'nr','p-ov':'ov','p-vmax':'vmax','p-ac':'acc','p-ct':'ct','p-bs':'bs','p-ep':'ep',
   'st-objw':'stArea','st-objh':'stArea','st-ov':'ov',
   'as-shape':'shape','as-shape-note':'shape','as-tpl':'shape','as-bend-seg':'bend','as-curve-r':'curveR',
+  'as-pv-wdi':'pvWd','as-pv-wdm':'pvWd','as-pv-ang':'pvAng','as-pv-dir-seg':'pvAng',
   'as-panel-x':'aa','as-panel-y':'aa','as-panel-rx':'panelRes','as-panel-ry':'panelRes','as-pitch':'pitch','as-min-wd':'minWd','as-limit':'limit',
   't3-goal':'goal','t3-zmode-seg':'zmode','t3-zres':'zres','t3-zrange':'zrange','t3-surf':'surf','t3-x':'stArea','t3-y':'stArea','t3-feat':'feat','t3-ar':'ar',
   't3-motion':'motion','t3-tt':'tt','t3-wd':'t3wd','t3-own-seg':'own'};
