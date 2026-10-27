@@ -1259,6 +1259,7 @@ span.ec-pur{display:inline-block;white-space:nowrap;}   /* 卡片上只顯示的
 .ec-site.on-s{border:1px solid rgba(110,90,190,.36);background:rgba(110,90,190,.07);color:#5B4AA8;}
 .ec-cust.on-c{border:1px solid rgba(14,124,134,.38);background:rgba(14,124,134,.07);color:#0B6670;}
 .ec-line.on-l{border:1px solid rgba(178,106,0,.38);background:rgba(178,106,0,.07);color:#8A5300;cursor:default;}
+.ec-shape{border:1px solid var(--border);background:var(--surf2);color:var(--sub);cursor:default;}   /* 畫檢的產品型態＋外形（10/27 Johnny） */
 .ev-mix,.kt-mix{font-size:10px;font-weight:600;color:#8A5300;background:rgba(178,106,0,.09);border-radius:999px;padding:0 7px;line-height:15px;white-space:nowrap;}
 .ev-mix{margin-left:2px;}
 .kt-lh .t{color:#8A5300;}
@@ -1737,7 +1738,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：相機、鏡頭、3D 感測器照原廠外形畫，可切視角、看載台動態，也能存成 GIF；立體圖切「上方」就是俯視</li><li><b>光路側視改成剖面圖</b>：看得到光線經過鏡頭倒像落在感測器上</li><li><b>畫檢產品型態更多</b>：異形可選圓形／六邊形／拱頂形；新增防窺屏，另算量測 WD 下的視野與可視半角（只當參考）</li><li><b>多連屏</b>預設車用三連屏，每屏可取名稱、選外形</li><li>🏭 <b>產線（併線）</b>：存檔時可填產線，不同尺寸、不同客戶在同一條線生產的評估，在歷史紀錄和知識庫都能「依產線」放在一起看</li><li>歷史紀錄改成樹狀（廠區 → 產線 → 專案），有填產線就預設依產線；專案卡精簡成重點</li><li>歷史紀錄會自動捲到目前開啟的那筆</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：相機、鏡頭、3D 感測器照原廠外形畫，可切視角、看載台動態，也能存成 GIF；立體圖切「上方」就是俯視</li><li><b>光路側視改成剖面圖</b>：看得到光線經過鏡頭倒像落在感測器上</li><li><b>畫檢產品型態更多</b>：異形可選圓形／六邊形／拱頂形；新增防窺屏，另算量測 WD 下的視野與可視半角（只當參考）</li><li><b>多連屏</b>預設車用三連屏，每屏可取名稱、選外形</li><li>🏭 <b>產線（併線）</b>：存檔時可填產線，不同尺寸、不同客戶在同一條線生產的評估，在歷史紀錄和知識庫都能「依產線」放在一起看</li><li>歷史紀錄改成樹狀（廠區 → 產線 → 專案），有填產線就預設依產線；專案卡精簡成重點，畫檢卡片標出產品型態與外形</li><li>歷史紀錄會自動捲到目前開啟的那筆</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入</li><li><b>畫檢產品型態</b>：矩形／異形／曲面，以及 2～6 片的多連屏</li><li><b>知識庫</b>加廠區地圖；知識庫與歷史紀錄都依「廠區 → 客戶」分組</li><li><b>歷史紀錄更好用</b>：依模式分開、卡片點一下就載入，其他動作收進 ⋯；已載入的評估按 💾 直接覆蓋</li><li><b>備份與同步</b>集中到標題列 ☁，設定更簡單；資料會在背景自動更新</li><li>結果頁變短：次要區塊預設收成一行摘要，點開才展開</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
@@ -7814,15 +7815,15 @@ function evSummary(e){
       :`${fmt(e.r.optRes,3)} µm/px · 舊紀錄（未存待測範圍，載入後請確認）`)
     :isArea
     ?(e.p&&e.p.shape==='multi'&&Array.isArray(e.r.groups)
-      ?`多連屏 ${(e.p.multi&&e.p.multi.screens||[]).length}in1 · 解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm（最細組）· 相機 ${e.r.totalCams??'—'} 台 (${e.r.groups.map(g=>g.name+' '+g.nX+'×'+g.nY).join('、')})`
-      :`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`+(e.p&&e.p.shape&&e.p.shape!=='rect'?' · '+asShapeText(e.p):''))
+      ?`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm（最細組）· 相機 ${e.r.totalCams??'—'} 台 (${e.r.groups.map(g=>g.name+' '+g.nX+'×'+g.nY).join('、')})`
+      :`解析度: ${e.r.resolution!=null?e.r.resolution.toFixed(2):'—'} µm · 相機 ${e.r.totalCams??'—'} 台 (${e.r.nX??'—'}×${e.r.nY??'—'})`)
     :`TT: ${fmt((e.p&&e.p.scanMode==='round')?e.r.roundTT:e.r.singleTT)} min · ${fmt(e.r.passes,0)} 道 · ${fmt(e.r.optRes,3)} µm/px`;
 }
 // 多個關鍵字用空白分開＝同時符合；#標籤＝標籤完全相同
 function evMatch(o, toks){
   if(!toks.length) return true;
   if(o.hay==null){ const e=o.e, fb=e.fb||{};
-    o.hay=[e.name,evCust(e),evSiteTxt(evSiteOf(e)),evLine(e),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
+    o.hay=[e.name,evCust(e),evSiteTxt(evSiteOf(e)),evLine(e),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),e.mode==='area'&&e.p?asShapeText(e.p):'',(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
   const tl=(o.e.tags||[]).map(function(t){ return t.toLowerCase(); });
   return toks.every(function(t){ return t==='#' ? true : t[0]==='#' ? tl.indexOf(t.slice(1))>=0 : o.hay.indexOf(t)>=0; });
 }
@@ -7943,7 +7944,7 @@ function evCard(o){
   return `
     <div class="ec${res?' has-res':''}" data-i="${i}" tabindex="0" onclick="evCardGo(event,${i})" onkeydown="if(event.key==='Enter'&&event.target===this)evCardGo(event,${i})" title="點一下載入這筆評估（${esc(e.date)} 儲存 · ${esc(e.camera)}）"${cur?' style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);"':''}>
       ${res}<button type="button" class="ec-more" onclick="evMenu(event,${e.id})" aria-label="更多動作" title="編輯資訊、PDF、實測回饋、提交、刪除">⋯</button>
-      <h3>${lamp}${esc(e.name)}${evInfoPills(e, o.gb)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
+      <h3>${lamp}${esc(e.name)}${evInfoPills(e, o.gb)}${evShapeTag(e)}${cur?'<span style="font-size:10px;color:var(--accent);font-weight:600;margin-left:6px;">● 目前開啟</span>':''}</h3>
       <p>${o.sum}</p>
       ${fbh||kbh?'<div class="ec-fk">'+fbh+kbh+'</div>':''}
     </div>`;
@@ -7954,6 +7955,13 @@ const EV_PUR={cust:'客戶需求', trial:'內部試算'};   // 10/14 Johnny：�
 const EV_KB_LOCK='已提交到知識庫：改了客戶、廠區或產線，存檔後會接著打開「📚 提交到知識庫」送出更新';
 // 10/27 Johnny：卡片只留名稱、客戶（或產線）、一行結果；樹上已經有的（廠區、分組用的客戶／產線）不重複，用途收進「⋯ → ✎ 編輯資訊」
 // 標籤、說明、比較方案也不放卡片上，搜尋一樣找得到
+// 10/27 Johnny：卡片多放產品型態與外形（只有畫檢有；矩形也標，一眼分得出來）；細節（曲率、防窺屏角度）放滑過提示
+function evShapeTag(e){
+  const p=e.mode==='area'&&e.p; if(!p) return '';
+  const sh=AS_SHAPES[p.shape] ? p.shape : 'rect', T=asIsFree(sh)&&AS_TPL[p.tpl];
+  const t=sh==='multi' ? '多連屏 '+((p.multi&&p.multi.screens||[]).length||'')+'in1' : AS_SHAPES[sh]+(T?'：'+T.n:'');
+  return '<span class="ec-pur ec-shape" title="產品型態：'+esc(asShapeText(p))+'">'+esc(t)+'</span>';
+}
 function evInfoPills(e, gb){
   const s=evSiteOf(e), c=gb==='c'?'':evCust(e), l=gb==='l'?'':evLine(e);
   let lt='';
@@ -12108,7 +12116,7 @@ function kbFoldAll(){
 function kbTreeCase(c, gb){
   const r=c.result&&FB_CONC[c.result.concl], pt=(c.plan&&c.plan.type)||'';
   const how=c.dim!=='3d' && (pt==='2D 線掃描'||pt==='2D 面陣飛拍') ? pt.slice(3) : '';   // 掃描再註明線掃描／面陣飛拍
-  const st=[KB_STATUS[c.status], r?r.s||r.t:'', how, kbShapeShort(c), fbProdShort(c.result&&c.result.prod)].filter(Boolean).map(esc).join(' · ');
+  const st=[KB_STATUS[c.status], r?r.s||r.t:'', how, kbShapeShort(c)||(c.mode==='area'?'矩形':''), fbProdShort(c.result&&c.result.prod)].filter(Boolean).map(esc).join(' · ');
   const der=kbData.cases.filter(function(x){ return x.from===c.id; }), src=c.from ? kbCaseById(c.from) : null;
   const tags=(c.items||[]).filter(Boolean).map(function(t){ return '<em>'+esc(t)+'</em>'; }).join('');
   const ls=String(c.lineSt||'').trim(), pl=gb==='l' && kbProdLine(c), stn=pl ? ls.split(/[／/]/).slice(1).join('／').trim() : ls;   // 依產線分：產線已是標題，只留站別
