@@ -515,6 +515,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ev-srow{display:flex;gap:6px;align-items:stretch;}
 .ev-srow .db-search{margin:0;flex:1;min-width:0;width:auto;}
 .ev-fold{flex:none;white-space:nowrap;}
+#ev-gby{flex:none;}
 @media (max-width:480px){ .ev-fold .fx{display:none;} }   /* 手機：收合鍵只寫「收合／展開」，搜尋框才不會太窄 */
 .ev-fold:hover,.kt-foldall:hover{border-color:var(--accent);color:var(--accent-deep);}
 .ev-sort{padding:8px 8px;border:1px solid var(--border);border-radius:10px;background:var(--surf2);color:var(--text);font-size:12px;font-family:inherit;outline:none;cursor:pointer;}
@@ -783,8 +784,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 #save-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;
   width:min(380px,94vw);flex-direction:column;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
-#save-name,#save-desc,#save-tags,#save-cust,#save-site{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
-#save-name:focus,#save-desc:focus,#save-tags:focus,#save-cust:focus,#save-site:focus{border-color:var(--accent);}
+#save-name,#save-desc,#save-tags,#save-cust,#save-site,#save-line{width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin:4px 0 12px;background:var(--surf);color:var(--text);font-family:inherit;outline:none;}
+#save-name:focus,#save-desc:focus,#save-tags:focus,#save-cust:focus,#save-site:focus,#save-line:focus{border-color:var(--accent);}
 #save-desc{height:68px;resize:vertical;font-size:12px;line-height:1.5;}
 .save-pur{display:flex;gap:6px;margin:4px 0 5px;}
 .save-2c{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
@@ -1244,6 +1245,10 @@ span.ec-pur{display:inline-block;white-space:nowrap;}   /* 卡片上只顯示的
 .ec-pur.on{box-shadow:inset 0 0 0 1px currentColor;font-weight:700;}
 .ec-site.on-s{border:1px solid rgba(110,90,190,.36);background:rgba(110,90,190,.07);color:#5B4AA8;}
 .ec-cust.on-c{border:1px solid rgba(14,124,134,.38);background:rgba(14,124,134,.07);color:#0B6670;}
+.ec-line.on-l{border:1px solid rgba(178,106,0,.38);background:rgba(178,106,0,.07);color:#8A5300;cursor:default;}
+.ev-mix,.kt-mix{font-size:10px;font-weight:600;color:#8A5300;background:rgba(178,106,0,.09);border-radius:999px;padding:0 7px;line-height:15px;white-space:nowrap;}
+.ev-mix{margin-left:2px;}
+.kt-lh .t{color:#8A5300;}
 /* 提交到知識庫 */
 #kbs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
 #kbs-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;box-sizing:border-box;
@@ -1719,9 +1724,9 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="cl-ver cur">
       <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
-      <ul><li>🧊 <b>立體示意圖</b>：系統示意圖多一個「立體」視角，相機、鏡頭照實際外形尺寸畫；可切換 等角／正面／上方／相機特寫，掃描會動態示範載台移動，靜態產品直接平放</li><li><b>光路側視改成剖面圖</b>：鏡筒、鏡片、光圈和相機機身剖開，視野中心與兩端的光線倒像落在感測器上；工作距離太長時中段省略</li><li><b>3D 感測器照原廠外形</b>：KEYENCE、LMI Gocator、Benano、Precitec 依原廠外形圖重畫，雷射與相機光束從實際視窗射出</li><li><b>鏡頭照原廠外形圖</b>：鏡頭庫 48 支（CHIOPT、MYUTRON、Moritex、Canrill）照原廠尺寸畫外徑、總長和同軸照明口；手動輸入或沒有外形圖的型號，依同類原廠尺寸推估</li><li><b>畫檢異形外形</b>：產品型態選「異形」後可以選外形：圓形（顯示區底部有平邊）、六邊形、拱頂形；俯視圖和立體圖照外形畫，尺寸填 AA 外接尺寸，外形細節會自動帶</li><li><b>多連屏改成車用三連屏</b>：預設 DIC 10.25"／CID 14.6"／CPD 14.6" 三屏，每屏可取名稱；平面屏共用一片黑色蓋板，可選對齊（靠上／置中／靠下）</li><li><b>俯視併進立體圖</b>：四個模式都拿掉俯視分頁，示意圖都只剩「立體／光路側視」（3D 量測原本的「側視」改名「光路側視」），立體圖切到「上方」就是俯視，會標出每台相機的視野格（掃描是各台負責的區塊；3D 量測是每次取像的視野／每道掃描）、總覆蓋範圍和產品尺寸；有載台的另標載台移動方向，標註跟著載台一起動；立體圖讓出上方按鍵列的位置，不再跟視角、暫停、GIF 按鍵重疊</li><li><b>多連屏每屏可選異形外形</b>：多連屏某一屏選「異形／異形曲面」時，也能選 圓形／六邊形／拱頂形 並調外形尺寸（同單一產品），示意圖照外形畫</li><li><b>防窺屏</b>：產品型態多一個「防窺屏」（多連屏每一屏也能選）。檢測照矩形的方式算；另填實測的量測 WD、可視角與防窺方向，結果區「量測評估」只算量測 WD 下的視野、解析能，以及量測 WD 下看產品兩側邊緣的半角（atan（產品寬 ÷ 2 ÷ 量測 WD））跟單側可視角差多少；只當參考，不影響結論燈號</li><li><b>歷史紀錄定位到目前專案</b>：從歷史紀錄開啟專案、再切回歷史紀錄時，自動捲到目前開啟的那張卡（2D、3D 都一樣）；上方「總覽／歷史紀錄／相機鏡頭」分頁列固定在頂部，不跟著頁面捲動（捲到頂端也不回彈）</li><li><b>示意圖跟左欄等高</b>：光路側視不再自己撐高版面，畫布高度跟著左欄（立體圖也一樣），左右兩個區塊等高；示意圖在這個高度內自動縮放，上下還有空間時 WD 少省略一點（放得下就整段照比例畫），剩下的上下置中；光路側視一律直式（相機在上、待測物在下），不會因為畫布比較扁就變成橫的</li><li><b>動畫另存 GIF</b>：立體圖有動畫時，「暫停」旁按「⤓ GIF」把一整輪動畫存成檔案</li><li>立體圖拿掉鋼構支架、移載軸馬達和預設光源，重點放在光學配置（自研模組有登錄光源才畫）</li></ul>
+      <ul><li>🧊 <b>立體示意圖</b>：相機、鏡頭、3D 感測器照原廠外形畫，可切視角、看載台動態，也能存成 GIF；立體圖切「上方」就是俯視</li><li><b>光路側視改成剖面圖</b>：看得到光線經過鏡頭倒像落在感測器上</li><li><b>畫檢產品型態更多</b>：異形可選圓形／六邊形／拱頂形；新增防窺屏，另算量測 WD 下的視野與可視半角（只當參考）</li><li><b>多連屏</b>預設車用三連屏，每屏可取名稱、選外形</li><li>🏭 <b>產線（併線）</b>：存檔時可填產線，不同尺寸、不同客戶在同一條線生產的評估，在歷史紀錄和知識庫都能「依產線」放在一起看</li><li>歷史紀錄會自動捲到目前開啟的那筆</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
-      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入，報告列出光源</li><li><b>畫檢產品型態</b>：矩形／異形／矩形曲面／異形曲面；曲面依曲率半徑算投影範圍，弧高超過景深會提醒</li><li><b>多連屏</b>：2～6 片屏自由搭配相機（🔗 同一組一起拍／✂ 分開拍），每屏各自填尺寸、Pitch、型態，各組算各自的工作距離與台數</li><li>知識庫的提交、案例內容、搜尋、找相似案例都帶上產品型態與多連屏設定</li><li>知識庫族譜與歷史紀錄都依<b>廠區 → 客戶</b>分組；存檔時可以填廠區、客戶；兩邊都有<b>全部收合／展開</b></li><li>知識庫加 <b>🌏 廠區地圖</b>（跟族譜切換，預設地圖）：一根針一個城市，下面卡片列各廠區的客戶與案例；地圖用高解析度海岸線（Natural Earth 50m）；廠區清單更新為 Mobility／Display 兩個事業群；歷史紀錄拿掉檢索地圖</li><li>知識庫待審可以<b>連續按多筆收錄／退回</b>，會排隊依序處理</li><li>開網頁時正中間多一個<b>載入中</b>的玻璃小卡，載完（含雲端同步）才收掉</li><li>歷史紀錄、知識庫<b>刪除前多一個確認視窗</b>；歷史紀錄拿掉「清除全部」（怕誤按）</li><li><b>背景定期更新</b>：知識庫每 5 分鐘、雲端同步每 10 分鐘、網站版本每 30 分鐘自動檢查；沒變就什麼都不做，有變等你操作告一段落才換上；有新版本、新提交時左下角出現小提示</li><li>歷史紀錄<b>依模式分頁分開</b>：掃描／靜態／畫檢／3D 各看各的，切換上方分頁就換成那一種的紀錄</li><li>還沒審核的提交<b>改完再送審</b>：從上次送出的內容接著改，送出後取代舊的那筆，知識庫不會出現兩筆重複</li><li>介面精簡：歷史紀錄卡片<b>點一下就載入</b>，PDF、實測回饋、提交、刪除收進右上 <b>⋯</b>；用途、廠區、客戶、標籤、說明合成一個 <b>✎ 編輯資訊</b>；拿掉卡片上重複的模式標籤</li><li><b>備份與同步</b>合成一個地方：標題列 ☁ 打開，評估紀錄、相機鏡頭、3D 感測器一次勾選匯出，匯入自動判斷檔案種類；原本散在歷史紀錄和資料庫分頁的匯出／匯入拿掉</li><li>相機鏡頭資料庫：<b>相機、鏡頭改左右並排</b>（部門自研模組維持整列；手機自動變回上下）</li><li><b>雲端同步的設定方式跟知識庫連線一樣</b>：只要貼權杖、填 repo，帳號／分支／資料檔和手動讀取上傳收進「進階」；儲存就開啟同步，不用再勾「啟用」；要停用按「清除這台電腦的雲端同步權杖」</li><li>知識庫連線設定裡的<b>提交與審核流程可以收折</b>（預設收起，記住你上次的選擇）；備份與同步視窗下方不再留空</li><li>歷史紀錄卡片：<b>左邊圓燈＝評估結論</b>（算起來夠不夠），<b>右上方塊＝實測結果</b>（✓ 達標、△ 部分、✕ 未達、◎ 依經驗、— 未導入，顏色跟知識庫一樣）；滑鼠移上去看說明；卡片上不再顯示日期和相機（滑鼠移到卡片上看得到，搜尋也還找得到）；實測和知識庫狀態放在同一排</li><li><b>再存一次不跳視窗</b>：已載入的評估按 💾 直接覆蓋，用途、客戶、廠區、標籤沿用；要另存成新的一筆，按存完提示的「＋ 另存新的一筆」或 💾 ▾ 選單；第一次存還是會問用途</li><li>結論裡的相機、鏡頭是「手動輸入」時不顯示那一列</li><li><b>第一次打開更清楚</b>：還沒動過時結論顯示「範例數值」和「✎ 開始填寫」，不先亮警告；相機鏡頭資料庫是空的時，會引導「📥 匯入資料庫檔」或「☁️ 設定雲端同步」</li><li><b>結果頁變短</b>：資料量與電腦規格、成本估算、方案比較預設收成一行摘要，點標題展開（記住你的選擇；PDF 照常完整輸出）</li><li>結果卡片的數字統一到小數點後 2 位（例 300.261 → 300.26、3.2768 → 3.28）；硬體需求不再重複列資料流量</li><li><b>刪除歷史紀錄不再跳確認</b>：直接刪，5 秒內可按「↩ 復原」；標題列模式名稱統一用短名（掃描／靜態／畫檢／3D）</li><li><b>已提交到知識庫的評估也能改客戶、廠區</b>：在歷史紀錄「✎ 編輯資訊」改完存檔，會接著打開「📚 提交到知識庫」並帶入新的值，送出更新一次完成</li></ul>
+      <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入</li><li><b>畫檢產品型態</b>：矩形／異形／曲面，以及 2～6 片的多連屏</li><li><b>知識庫</b>加廠區地圖；知識庫與歷史紀錄都依「廠區 → 客戶」分組</li><li><b>歷史紀錄更好用</b>：依模式分開、卡片點一下就載入，其他動作收進 ⋯；已載入的評估按 💾 直接覆蓋</li><li><b>備份與同步</b>集中到標題列 ☁，設定更簡單；資料會在背景自動更新</li><li>結果頁變短：次要區塊預設收成一行摘要，點開才展開</li></ul>
       <div class="cl-sub">v5.0（10/11）首次上線</div>
       <ul><li>📚 <b>部門知識庫</b>：大家的評估案例集中在一起，依 2D／3D → 取像方式分類瀏覽</li><li><b>提交到知識庫</b>：存檔時選用途（客戶需求／內部試算），客戶需求的評估可以提交，管理員審核後收錄</li><li><b>找相似舊案</b>：接到新需求先查過去做過的類似案例，可以「用這筆當起點」</li><li><b>方案比較</b>：同一個需求的幾個方案並排比，可匯出一頁 PDF</li><li>實測回饋加入 MSA 與上線追蹤；也可以標「依經驗導入（免實測）」</li><li>評估超過 30 天沒更新會提醒；報告 PDF 分頁不再把字切一半</li></ul><div class="cl-note">跟 v4.5 比，上面都是新的；v4.5 的功能 v5 全都有，兩版的「我的評估」紀錄共用。</div>
     </div>
@@ -1785,8 +1790,10 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div><label for="save-cust" style="font-size:11px;color:var(--sub);">客戶<span style="opacity:.75">（選填）</span></label>
     <input id="save-cust" type="text" list="cust-dl" placeholder="例：BMW、Ford" autocomplete="off"></div>
   </div>
+  <label for="save-line" style="font-size:11px;color:var(--sub);margin-top:-4px">產線<span style="opacity:.75">（選填；不同尺寸或不同客戶在同一條線生產＝併線，填同一個產線名稱）</span></label>
+  <input id="save-line" type="text" list="line-dl" placeholder="例：VW Traton EOL" autocomplete="off">
   <div class="save-pur-h" id="save-sc-h" style="margin-top:-8px"></div>
-  <datalist id="cust-dl"></datalist><datalist id="site-dl"></datalist>
+  <datalist id="cust-dl"></datalist><datalist id="site-dl"></datalist><datalist id="line-dl"></datalist>
   <label for="save-tags" style="font-size:11px;color:var(--sub);">標籤<span style="opacity:.75">（選填，搜尋與篩選用）</span></label>
   <input id="save-tags" type="text" placeholder="用逗號或空白分開，例：Cell, 貼合, 異物" oninput="saveTagSug()">
   <div id="save-tag-sug" class="tag-sug"></div>
@@ -2614,6 +2621,9 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
         <input id="ev-q" class="db-search" type="search" placeholder="🔍 搜尋名稱、廠區、客戶、說明、相機、鏡頭、標籤…" oninput="renderEvals()" autocomplete="off">
         <select id="ev-sort" class="ev-sort" onchange="renderEvals()" aria-label="排序">
           <option value="new">最近儲存</option><option value="old">最早建立</option><option value="name">名稱</option>
+        </select>
+        <select id="ev-gby" class="ev-sort grp-by" onchange="grpBySet(this.value)" aria-label="分組方式" title="廠區底下依客戶或依產線分組（產線：同一條線併線生產的放一起）" style="display:none">
+          <option value="cust">依客戶</option><option value="line">依產線</option>
         </select>
         <button type="button" id="ev-fold" class="ev-sort ev-fold" onclick="evFoldAll()" style="display:none"></button>
       </div>
@@ -7591,19 +7601,21 @@ function commitEval(rec, tab){
     }, '＋ 另存新的一筆');
     return;
   }
-  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur,cust,site)=>{
+  openSaveModal(canOver?evals[idx].name:null, rec.name, rec.notes, (choice,name,desc,tags,pur,cust,site,line)=>{
     if(name && name!==rec.name){ rec.name=name; setProjName(rec.mode, name); }
     rec.notes=desc; syncDesc(desc);
     if(tags.length) rec.tags=tags;
     rec.purpose=pur;
     if(cust) rec.customer=cust;
     if(site) rec.site=site;
+    if(line) rec.line=line;
     done(choice==='over'?idx:-1);
   }, idx>=0 ? evals[idx].tags : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.tags : null,
      idx>=0 ? evals[idx].purpose : _kbStart&&_kbStart.mode===(rec.mode||'scan') ? _kbStart.pur : null,
      idx>=0 ? evCust(evals[idx]) : _kbStart ? _kbStart.cust : null,
-     idx>=0 ? evSiteOf(evals[idx]) : _kbStart ? _kbStart.site : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途、客戶、廠區先帶入
-  if(canOver && evKbRef(evals[idx])) document.getElementById('save-sc-h').textContent='這筆已提交到知識庫：覆蓋後客戶、廠區仍以知識庫為準，要改請按「📚 提交」更新';
+     idx>=0 ? evSiteOf(evals[idx]) : _kbStart ? _kbStart.site : null,
+     idx>=0 ? evLine(evals[idx]) : _kbStart ? _kbStart.line : null);   // 從舊紀錄或知識庫舊案改的，標籤、用途、客戶、廠區、產線先帶入
+  if(canOver && evKbRef(evals[idx])) document.getElementById('save-sc-h').textContent='這筆已提交到知識庫：覆蓋後客戶、廠區、產線仍以知識庫為準，要改請按「📚 提交」更新';
 }
 function concSt(mode){
   const b=document.getElementById('conc-'+mode+'-badge');
@@ -7665,6 +7677,28 @@ function evSiteOf(e){
   const t=(e.tags||[]).filter(function(t){ return codes.indexOf(String(t).toUpperCase())>=0; })[0];
   return t ? evSiteNorm(t) : '';
 }
+// 產線（10/27 Johnny：併線＝不同尺寸、不同客戶的產品在同一條線生產，例 S19 VW Traton 16.4" 跟 18.8" 都在 VW Traton EOL）
+// 知識庫沒有另開欄位：線別寫「產線／站點」，取「／」前面當產線；「新線規劃中」這類還沒定線的不算
+function kbProdLine(c){
+  const t=String(c&&c.lineSt||'').split(/[／/]/)[0].trim();
+  return /規劃中|未定|待定|^新線$/.test(t) ? '' : t.slice(0,40);
+}
+function evLine(e){ const r=evKbRef(e), k=r&&kbProdLine(r); return String(k||e.line||'').trim(); }
+function lineList(){
+  const seen={}, out=[];
+  evals.map(evLine).concat((typeof kbData!=='undefined'&&kbData&&kbData.cases||[]).map(kbProdLine))
+    .forEach(function(t){ t=String(t||'').trim(); const k=t.toLowerCase(); if(t && !seen[k]){ seen[k]=1; out.push(t); } });
+  return out.sort(function(a,b){ return a.localeCompare(b,'en',{numeric:true}); });
+}
+function lineDlFill(){ const dl=document.getElementById('line-dl'); if(dl) dl.innerHTML=lineList().map(function(t){ return '<option value="'+esc(t)+'">'; }).join(''); }
+// 分組方式：廠區 → 客戶（預設）／廠區 → 產線；歷史紀錄跟知識庫族譜共用同一個設定
+let _grpBy=(function(){ try{ return localStorage.getItem('aoi_grp_by')==='line' ? 'line' : 'cust'; }catch(e){ return 'cust'; } })();
+function grpBySet(v){
+  _grpBy=v==='line'?'line':'cust'; try{ localStorage.setItem('aoi_grp_by', _grpBy); }catch(e){}
+  document.querySelectorAll('.grp-by').forEach(function(x){ x.value=_grpBy; });
+  const p=document.getElementById('kb-sec-path'); if(p) p.textContent=kbPathTxt();
+  renderEvals(); if(typeof kbTreeRender==='function' && document.getElementById('kb-tree')) kbTreeRender();
+}
 function evSiteTxt(code){ const x=code&&kbSite(code); return x ? x.code+(x.place?' '+x.place:'') : (code||''); }
 function siteDlFill(){
   const dl=document.getElementById('site-dl'); if(!dl) return;
@@ -7673,7 +7707,7 @@ function siteDlFill(){
   evals.forEach(function(e){ const t=String(e.site||'').trim(); if(t && !have[t.toLowerCase()]){ have[t.toLowerCase()]=1; L.push(t); } });
   dl.innerHTML=L.map(function(t){ return '<option value="'+esc(t)+'">'; }).join('');
 }
-function openSaveModal(orig, name, desc, cb, tags, pur, cust, site){
+function openSaveModal(orig, name, desc, cb, tags, pur, cust, site, line){
   _saveCb=cb; savePurPick(pur==='cust'||pur==='trial'?pur:null);
   const over=orig!=null;
   document.getElementById('save-orig').textContent=orig||'';
@@ -7684,7 +7718,8 @@ function openSaveModal(orig, name, desc, cb, tags, pur, cust, site){
   document.getElementById('save-tags').value=(tags||[]).join(', ');
   document.getElementById('save-cust').value=cust||''; custDlFill();
   document.getElementById('save-site').value=site?evSiteTxt(site):''; siteDlFill();
-  document.getElementById('save-sc-h').textContent='歷史紀錄依「廠區 → 客戶」分組，跟知識庫一樣';
+  document.getElementById('save-line').value=line||''; lineDlFill();
+  document.getElementById('save-sc-h').textContent='歷史紀錄依「廠區 → 客戶（或產線）」分組，跟知識庫一樣';
   document.getElementById('save-desc').value=desc||'';
   saveTagSug();
   document.getElementById('save-modal').style.display='flex';
@@ -7694,15 +7729,15 @@ function openSaveModal(orig, name, desc, cb, tags, pur, cust, site){
 function closeSaveModal(){
   _saveCb=null; _afterSave=null; _savePur=null;
   document.getElementById('save-ttl').textContent='💾 儲存評估';   // ✎ 編輯資訊 也用這個視窗，關掉時還原
-  ['save-site','save-cust'].forEach(function(x){ document.getElementById(x).disabled=false; });
+  ['save-site','save-cust','save-line'].forEach(function(x){ document.getElementById(x).disabled=false; });
   document.getElementById('save-modal').style.display='none';
   document.getElementById('save-overlay').style.display='none';
 }
 function saveModalPick(choice){
   const cb=_saveCb, after=_afterSave, pur=_savePur, name=document.getElementById('save-name').value.trim()||'新評估';
   if(!pur){ document.getElementById('save-pur').classList.add('err'); document.getElementById('save-err').textContent='請選擇用途：客戶需求或內部試算'; return; }
-  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value), cust=document.getElementById('save-cust').value.trim().slice(0,40), site=evSiteNorm(document.getElementById('save-site').value);
-  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags, pur, cust, site);
+  const desc=document.getElementById('save-desc').value.trim(), tags=parseTags(document.getElementById('save-tags').value), cust=document.getElementById('save-cust').value.trim().slice(0,40), site=evSiteNorm(document.getElementById('save-site').value), line=document.getElementById('save-line').value.trim().replace(/\s+/g,' ').slice(0,40);
+  closeSaveModal(); _afterSave=after; if(cb) cb(choice, name, desc, tags, pur, cust, site, line);
 }
 // 標籤：逗號、頓號、分號或空白分開；去掉 #、去重（不分大小寫）
 function parseTags(s){
@@ -7772,7 +7807,7 @@ function evSummary(e){
 function evMatch(o, toks){
   if(!toks.length) return true;
   if(o.hay==null){ const e=o.e, fb=e.fb||{};
-    o.hay=[e.name,evCust(e),evSiteTxt(evSiteOf(e)),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
+    o.hay=[e.name,evCust(e),evSiteTxt(evSiteOf(e)),evLine(e),e.notes,e.camera,e.lens,EV_ML[e.mode||'scan'],o.sum.replace(/<[^>]*>/g,''),(e.tags||[]).join(' '),fb.note,(fb.causes||[]).join(' '),e.date].join(' ').toLowerCase(); }
   const tl=(o.e.tags||[]).map(function(t){ return t.toLowerCase(); });
   return toks.every(function(t){ return t==='#' ? true : t[0]==='#' ? tl.indexOf(t.slice(1))>=0 : o.hay.indexOf(t)>=0; });
 }
@@ -7817,7 +7852,7 @@ function renderEvals(){
   // 分組（10/12 Johnny）：廠區 → 客戶，跟知識庫一樣；廠區、客戶都沒填才照舊依第一個標籤
   const hasS=all.some(o=>evSiteOf(o.e)), hasC=all.some(o=>evCust(o.e)), hasT=all.some(o=>o.e.tags&&o.e.tags.length);
   _evTop=[];
-  if(!hasS && !hasC && !hasT){ el.innerHTML=list.map(evCard).join(''); evFoldBtn(filtering); return; }
+  if(!hasS && !hasC && !hasT && !all.some(o=>evLine(o.e))){ el.innerHTML=list.map(evCard).join(''); evFoldBtn(filtering); return; }
   const grp=(arr, kf)=>{ const out=[], gm={};
     arr.forEach(o=>{ const t=kf(o), k=t.toLowerCase(); if(!gm[k]){ gm[k]={t,k,items:[]}; out.push(gm[k]); } gm[k].items.push(o); });
     if(sv==='name') out.sort((a,b)=>a.t.localeCompare(b.t,'zh-Hant',{numeric:true}));
@@ -7841,13 +7876,24 @@ function renderEvals(){
       const h=hdr(pre+'c:'+g.k, sub, '🏢 '+(g.k?esc(g.t):'客戶未填'), g.items.length);
       return h[1]+(h[0]?'':g.items.map(evCard).join(''));
     }).join(''); };
+  // 依產線分（10/27 Johnny 併線）：同一條線的不同尺寸、不同客戶放一起；標題註明併了哪些客戶
+  const byLine=(arr, pre, sub)=>{
+    if(!arr.some(o=>evLine(o.e))) return byCust(arr, pre, sub);
+    return grp(arr, o=>evLine(o.e)).sort((a,b)=>(a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true})).map(g=>{
+      const cs=[]; g.items.forEach(o=>{ const c=evCust(o.e); if(c && !cs.some(x=>x.toLowerCase()===c.toLowerCase())) cs.push(custCanon(c)); });
+      const mix=g.k && g.items.length>1 ? '<span class="ev-mix">併線'+(cs.length>1?' · '+cs.map(esc).join('、'):'')+'</span>' : '';
+      const h=hdr(pre+'l:'+g.k, sub, '🏭 '+(g.k?esc(g.t):'產線未填')+mix, g.items.length);
+      return h[1]+(h[0]?'':g.items.map(evCard).join(''));
+    }).join(''); };
+  const hasL=all.some(o=>evLine(o.e)), lineOn=_grpBy==='line' && hasL, by2=lineOn ? byLine : byCust;
+  const gb=document.getElementById('ev-gby'); if(gb){ gb.style.display=hasL||_grpBy==='line' ? '' : 'none'; gb.value=_grpBy; }
   if(hasS){   // 廠區照知識庫廠區清單的順序；清單外的排後面、沒填的最後
     const codes=kbSites().map(x=>x.code.toLowerCase()), rk=k=>{ if(!k) return 1e4; const j=codes.indexOf(k); return j<0?999:j; };
     el.innerHTML=grp(list, o=>evSiteOf(o.e)).sort((a,b)=>rk(a.k)-rk(b.k) || a.k.localeCompare(b.k,'en',{numeric:true})).map(g=>{
       const h=hdr('s:'+g.k, false, '📍 '+(g.k?esc(evSiteTxt(g.t)):'廠區未填'), g.items.length);
-      return h[1]+(h[0]?'':byCust(g.items, 's:'+g.k+'/', true));
+      return h[1]+(h[0]?'':by2(g.items, 's:'+g.k+'/', true));
     }).join('');
-  } else el.innerHTML=hasC ? byCust(list, '', false) : byTag(list, '', false);
+  } else el.innerHTML=hasC||lineOn ? by2(list, '', false) : byTag(list, '', false);
   evFoldBtn(filtering);
 }
 // 一鍵收合／展開（10/12 Johnny）：收合＝只剩最上層（廠區）的標題；展開＝每一層都打開
@@ -7891,12 +7937,18 @@ function evCard(o){
 // 10/14 Johnny（iOS 化）：卡片點一下＝載入；其他動作收進右上「⋯」；用途／廠區／客戶／標籤／說明 合成一個「✎ 編輯資訊」
 // 卡片上的用途、廠區、客戶只顯示（沒填就不顯示），要改從「⋯ → ✎ 編輯資訊」
 const EV_PUR={cust:'客戶需求', trial:'內部試算'};   // 10/14 Johnny：小卡上不用 icon，靠顏色區分
-const EV_KB_LOCK='已提交到知識庫：改了客戶或廠區，存檔後會接著打開「📚 提交到知識庫」送出更新';
+const EV_KB_LOCK='已提交到知識庫：改了客戶、廠區或產線，存檔後會接著打開「📚 提交到知識庫」送出更新';
 function evInfoPills(e){
-  const p=EV_PUR[e.purpose], s=evSiteOf(e), c=evCust(e);
+  const p=EV_PUR[e.purpose], s=evSiteOf(e), c=evCust(e), l=evLine(e);
+  let lt='';
+  if(l){   // 同廠區同產線的其他評估（不分模式）：滑鼠移上去看併了哪些
+    const ll=l.toLowerCase(), sl=s.toLowerCase(), oth=evals.filter(x=>x!==e && evLine(x).toLowerCase()===ll && evSiteOf(x).toLowerCase()===sl);
+    lt='產線：'+l+(oth.length ? '\n同線併線：'+oth.map(x=>x.name+(evCust(x)?'（'+evCust(x)+'）':'')).join('、') : '');
+  }
   return (p?'<span class="ec-pur '+e.purpose+'">'+p+'</span>':'')
     +(s?'<span class="ec-pur ec-site on-s" title="'+esc(evSiteTxt(s))+'">'+esc(s)+'</span>':'')
-    +(c?'<span class="ec-pur ec-cust on-c">'+esc(c)+'</span>':'');
+    +(c?'<span class="ec-pur ec-cust on-c">'+esc(c)+'</span>':'')
+    +(l?'<span class="ec-pur ec-line on-l" title="'+esc(lt)+'">'+esc(l)+'</span>':'');
 }
 function evCardGo(ev, i){
   if(ev.target.closest('button,a,input,select,textarea,label')) return;   // 卡片裡的標籤、⋯ 自己處理
@@ -7929,23 +7981,24 @@ function evAct(fn, id){
 // ✎ 編輯資訊：沿用存檔視窗（欄位一樣），只改名稱／用途／廠區／客戶／標籤／說明，不動計算內容
 function evInfoEdit(i){
   const e=evals[i]; if(!e) return;
-  const id=e.id, kb=!!evKbRef(e), site0=evSiteOf(e), cust0=kb?evCust(e):(e.customer||'');
-  openSaveModal(null, e.name||'', e.notes||'', function(ch, name, desc, tags, pur, cust, site){
+  const id=e.id, kb=!!evKbRef(e), site0=evSiteOf(e), cust0=kb?evCust(e):(e.customer||''), line0=evLine(e);
+  openSaveModal(null, e.name||'', e.notes||'', function(ch, name, desc, tags, pur, cust, site, line){
     const r=evals[evIdx(id)]; if(!r) return;
     r.name=name; r.purpose=pur;
     if(desc) r.notes=desc; else delete r.notes;
     if(tags.length) r.tags=tags; else delete r.tags;
-    const kbCh=kb && (cust!==cust0 || site!==site0);   // 已在知識庫：客戶、廠區改了要送更新才會同步
+    const kbCh=kb && (cust!==cust0 || site!==site0 || line!==line0);   // 已在知識庫：客戶、廠區、產線改了要送更新才會同步
     if(!kb || kbCh){
       if(cust) r.customer=cust; else delete r.customer;
+      if(line) r.line=line; else delete r.line;
       if(site!==site0){ if(site) r.site=site; else delete r.site; }   // 沒改就不寫（從標籤帶出的廠區維持自動）
     }
     persistEvals();
     if(r.id===_curEvalId){ setProjName(r.mode||'scan', r.name); syncDesc(r.notes||''); }
     renderEvals();
-    if(kbCh){ showToast('已更新「'+r.name+'」，客戶、廠區請在提交視窗送出更新'); kbsOpen(evIdx(id), {customer:cust, site:site}); }
+    if(kbCh){ showToast('已更新「'+r.name+'」，客戶、廠區、產線請在提交視窗送出更新'); kbsOpen(evIdx(id), {customer:cust, site:site, line:line}); }
     else showToast('已更新「'+r.name+'」的資訊');
-  }, e.tags, e.purpose, cust0, site0);
+  }, e.tags, e.purpose, cust0, site0, line0);
   document.getElementById('save-ttl').textContent='✎ 編輯資訊';
   if(kb) document.getElementById('save-sc-h').textContent=EV_KB_LOCK;
 }
@@ -11357,6 +11410,7 @@ function kbsOpen(i, ov){   // ov：編輯資訊剛改的客戶、廠區，蓋過
   else if(c) kbsFill(c);
   else{   // 歷史紀錄填了廠區就帶入（清單外的放「其他」）
     const es=evSiteOf(e); if(es){ if(kbSite(es)) _kbs.site=es; else { _kbs.site='其他'; _kbs.siteOther=es; } }
+    if(e.line) _kbs.lineSt=e.line+'／';   // 產線先帶入，後面補站點
     // 標籤剛好是檢測項目名稱的，先幫忙勾起來
     const all=kbItemsOf(e.mode==='3d'?'3d':'2d');
     (e.tags||[]).forEach(function(t){ if(all.indexOf(t)>=0 && _kbs.items.indexOf(t)<0) _kbs.items.push(t); });
@@ -11370,6 +11424,8 @@ function kbsOpen(i, ov){   // ov：編輯資訊剛改的客戶、廠區，蓋過
     _kbs.customer=ov.customer||'';
     const es=ov.site||''; _kbs.site=''; _kbs.siteOther='';
     if(es){ if(kbSite(es)) _kbs.site=es; else { _kbs.site='其他'; _kbs.siteOther=es; } }
+    const ls=String(_kbs.lineSt||''), j=ls.search(/[／/]/), nl=ov.line||'';
+    if(nl!==kbProdLine({lineSt:ls})) _kbs.lineSt=nl ? nl+'／'+(j>=0?ls.slice(j+1).trim():'') : (j>=0?ls.slice(j+1).trim():'');   // 換掉「／」前的產線，站點保留
   }
   kbsAutoSt(); kbNudgeClose();
   document.getElementById('kbs-err').textContent='';
@@ -11460,7 +11516,7 @@ function kbsRender(){
   h+=sec('廠區',true,'選廠區會自動帶出事業群')+'<select class="kbs-in" aria-label="廠區" onchange="_kbs.site=this.value;kbsRender()">'+kbsSiteOpts(d.site)+'</select>';
   if(d.site==='其他') h+='<input class="kbs-in" style="margin-top:6px" id="kbs-site-other" value="'+esc(d.siteOther)+'" oninput="kbsSet(\'siteOther\',this.value)" placeholder="廠區名稱，例：L6B 台中">';
   else if(d.site){ const st=kbSite(d.site); if(st&&st.line) h+='<div class="kbs-auto">事業群：<b>'+esc(kbLineName(st.biz, st.line))+'</b></div>'; }
-  h+=sec('線別',true,'含站點')+'<input class="kbs-in" id="kbs-line" value="'+esc(d.lineSt)+'" oninput="kbsSet(\'lineSt\',this.value)" placeholder="例：Module 3 線／點燈畫檢站（還沒定線可以寫「新線規劃中」）">';
+  h+=sec('線別',true,'含站點')+'<input class="kbs-in" id="kbs-line" value="'+esc(d.lineSt)+'" oninput="kbsSet(\'lineSt\',this.value)" placeholder="產線／站點，例：VW Traton EOL／點燈畫檢站（還沒定線可以寫「新線規劃中」）">';
   h+=sec('產品尺寸',false,e.mode==='area'&&e.p&&e.p.shape==='multi'?'多連屏帶入整片排列的外框，可以改':'先帶入這筆評估的尺寸，可以改')+'<div class="kbs-size"><input class="kbs-in" type="number" min="0" step="any" inputmode="decimal" aria-label="產品寬" value="'+esc(d.w)+'" oninput="kbsSet(\'w\',this.value)" placeholder="寬"><span>×</span>'
     +'<input class="kbs-in" type="number" min="0" step="any" inputmode="decimal" aria-label="產品高" value="'+esc(d.h)+'" oninput="kbsSet(\'h\',this.value)" placeholder="高"><span>mm</span></div>';
   if(e.mode==='area'){   // 產品型態、曲率、多連屏設定直接沿用評估，不用再填
@@ -11679,6 +11735,11 @@ function kbUnknown(c){
   const site = c.site==='其他' ? (c.siteOther||'其他') : (c.site && !kbSite(c.site) ? c.site : null);
   return {items:items, site:site};
 }
+// 同廠區、同產線的其他案例（併線）
+function kbSameLine(c){
+  const l=kbLineKey(c); if(!l) return [];
+  return kbData.cases.filter(function(x){ return x.id!==c.id && kbLineKey(x)===l && kbSiteKey(x)===kbSiteKey(c); });
+}
 function kbCaseHtml(c, isSub){
   const unk=kbUnknown(c), row=function(lb, v){ return v ? '<div class="kbd-l">'+lb+'</div><div class="kbd-v">'+v+'</div>' : ''; };
   const items=(c.items||[]).map(function(t){ return unk.items.indexOf(t)>=0 ? '<span class="ec-tag kt-oth">其他：'+esc(t)+'</span>' : '<span class="ec-tag" style="cursor:default">'+esc(t)+'</span>'; }).join('');
@@ -11692,6 +11753,7 @@ function kbCaseHtml(c, isSub){
   let h='<div class="kbd-g">'
     +row('廠區', esc(kbSiteTxt(c))+(ln?'<span class="kbd-s">（'+esc(ln)+'）</span>':'')+(unk.site?' <span class="ec-tag kt-oth">不在廠區清單</span>':''))
     +row('線別', c.lineSt?esc(c.lineSt):'<span class="kbd-s">沒有填</span>')
+    +row('同產線', isSub ? '' : kbSameLine(c).map(function(x){ return link(x)+'<span class="kbd-s">（'+esc([x.customer, kbSizeTxt(x)].filter(Boolean).join(' · '))+'）</span>'; }).join('、'))
     +row('產品尺寸', esc(kbSizeTxt(c)))
     +row('產品型態', esc(kbShapeTxt(c))+kbScrLines(c).map(function(t){ return '<div class="kbd-s">'+esc(t)+'</div>'; }).join(''))
     +row('檢測項目', '<div class="ec-tags" style="margin:0">'+(items||'<span class="kbd-s">沒有填</span>')+'</div>')
@@ -11770,6 +11832,8 @@ function kbToolsHtml(){
   return '<div class="kt-tools"><div class="ev-srow"><input id="kb-q" class="db-search" type="search" placeholder="🔍 搜尋案例、廠區、線別、檢測項目、客戶、方案、反饋…" value="'+esc(_kbF.q)+'" oninput="kbSetF(\'q\',this.value)" autocomplete="off">'
     +'<select class="ev-sort" aria-label="廠區" onchange="kbSetF(\'site\',this.value)">'+so+'</select>'
     +'<select class="ev-sort" aria-label="狀態" onchange="kbSetF(\'st\',this.value)">'+sto+'</select>'
+    +'<select class="ev-sort grp-by" id="kb-gby" aria-label="分組方式" title="廠區底下依客戶或依產線分組（產線：同一條線併線生產的放一起）" onchange="grpBySet(this.value)"'+(_kbView==='map'?' style="display:none"':'')+'>'
+    +'<option value="cust"'+(_grpBy==='cust'?' selected':'')+'>依客戶</option><option value="line"'+(_grpBy==='line'?' selected':'')+'>依產線</option></select>'
     +'<button type="button" class="btn-sec kt-sim" onclick="simOpen()" title="依需求（尺寸、精度、檢測項目）找最像的舊案">📚 找相似案例</button></div>'
     +'<div class="kt-lg"><span class="kt-lgi" id="kb-lgi">'+kbLgHtml()+'</span>'
     +'<span class="kt-cnt" id="kb-tcnt"></span>'
@@ -11825,12 +11889,12 @@ function kbSubCases(cs, pre, filt){
     .sort(function(a,b){ return rank(a.cs[0])-rank(b.cs[0]) || kbSiteTxt(a.cs[0]).localeCompare(kbSiteTxt(b.cs[0]),'zh-Hant'); })
     .map(function(s){
       const c0=s.cs[0], ln=kbLineOf(c0), k=pre+'/'+s.k, cl=!filt && _kbClosed.indexOf(k)>=0;
-      const nc=s.cs.some(kbCustKey) ? kbGroup(s.cs, kbCustKey).length : 1;   // 依客戶分的小區塊之間多 10px 間距，寬度要補上
+      const gk=kbGrpKey(s.cs), nc=s.cs.some(gk) ? kbGroup(s.cs, gk).length : 1;   // 依客戶（產線）分的小區塊之間多 10px 間距，寬度要補上
       return '<div class="kt-row kt-sb'+(cl?' closed':'')+'" style="--n:'+(s.cs.length+(nc-1)*10/268).toFixed(3)+'">'
         +'<button type="button" class="kt-sh" data-k="'+esc(k)+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!cl)+'"'+(filt?' style="cursor:default"':'')+'>'
         +'<span class="car">▼</span><span class="t">'+esc(kbSiteTxt(c0)||'廠區未填')+'</span>'+(ln?'<span class="l">'+esc(ln)+'</span>':'')
         +'<span class="n">'+s.cs.length+'</span>'+(cl ? kbSumHtml(s.cs) : '<i class="ln"></i>')+'</button>'
-        +(cl ? '' : '<div class="kt-sg'+(s.cs.some(kbCustKey)?' by-c':'')+'">'+kbCustCases(s.cs, k, filt)+'</div>')+'</div>';
+        +(cl ? '' : '<div class="kt-sg'+(s.cs.some(gk)?' by-c':'')+'">'+(gk===kbLineKey ? kbLineCases(s.cs, k, filt) : kbCustCases(s.cs, k, filt))+'</div>')+'</div>';
     }).join('')+'</div>';
 }
 // 廠區底下依客戶分（10/12 Johnny）：客戶名稱不分大小寫；沒填客戶的放最後；整個廠區都沒填客戶就不分
@@ -11846,7 +11910,21 @@ function kbCustCases(cs, pre, filt){
         +(cl ? '' : g.cs.map(kbTreeCase).join(''))+'</div>';
     }).join('');
 }
-function kbPathTxt(){ return _kbView==='map' ? '一根針＝一個城市，數字＝案例數；點針或卡片看案例' : '2D／3D → 取像方式 → 廠區 → 客戶 → 案例；顏色是實測結果'; }
+// 依產線分（10/27 Johnny 併線）：線別「／」前面那段；整個廠區都沒填產線就照客戶分
+function kbLineKey(c){ return kbProdLine(c).toLowerCase(); }
+function kbGrpKey(cs){ return _grpBy==='line' && cs.some(kbLineKey) ? kbLineKey : kbCustKey; }
+function kbLineCases(cs, pre, filt){
+  return kbGroup(cs, kbLineKey).sort(function(a,b){ return (a.k===''?1:0)-(b.k===''?1:0) || a.k.localeCompare(b.k,'en',{numeric:true}); })
+    .map(function(g){
+      const k=pre+'/l:'+g.k, cl=!filt && _kbClosed.indexOf(k)>=0, cu=[];
+      g.cs.forEach(function(c){ const t=custCanon(c.customer); if(t && cu.indexOf(t)<0) cu.push(t); });
+      const mix=g.k && g.cs.length>1 ? '<span class="kt-mix">併線'+(cu.length>1?' · '+cu.map(esc).join('、'):'')+'</span>' : '';
+      return '<div class="kt-cg'+(cl?' closed':'')+'" style="--n:'+g.cs.length+'"><div class="kt-cu'+(cl?' closed':'')+'"><button type="button" class="kt-ch kt-lh" data-k="'+esc(k)+'" onclick="kbTreeTog(this.dataset.k)" aria-expanded="'+(!cl)+'"'+(filt?' style="cursor:default"':'')+'>'
+        +'<span class="car">▼</span><span class="t">'+esc(g.k ? kbProdLine(g.cs[0]) : '產線未填')+'</span>'+mix+'<span class="n">'+g.cs.length+'</span>'+(cl ? kbSumHtml(g.cs) : '')+'</button></div>'
+        +(cl ? '' : g.cs.map(kbTreeCase).join(''))+'</div>';
+    }).join('');
+}
+function kbPathTxt(){ return _kbView==='map' ? '一根針＝一個城市，數字＝案例數；點針或卡片看案例' : '2D／3D → 取像方式 → 廠區 → '+(_grpBy==='line'?'產線':'客戶')+' → 案例；顏色是實測結果'; }
 // ── 知識庫地圖（10/12 Johnny：「像 ManagerPlatform 主頁那個世界地圖，標示出每個廠區各別評估過哪些專案＆對應哪些客戶，同時保留光學評估的資訊」）──
 // 跟族譜切換（地圖在前）、搜尋與篩選兩頁共用；一根針＝一個城市；下面每個城市一張卡片：平常只看客戶與筆數，展開列案例（取像方式形狀＋方案類型·台數＋實測結果）
 let _kbView=(function(){ try{ return localStorage.getItem('aoi_kb_view')==='tree' ? 'tree' : 'map'; }catch(e){ return 'map'; } })();
@@ -11862,6 +11940,7 @@ function kbSetView(v){
   _kbView=v; try{ localStorage.setItem('aoi_kb_view', v); }catch(e){}
   document.querySelectorAll('#kb-vseg button').forEach(function(b){ b.classList.toggle('on', b.dataset.v===v); b.setAttribute('aria-selected', b.dataset.v===v); });
   const p=document.getElementById('kb-sec-path'); if(p) p.textContent=kbPathTxt();
+  const gb=document.getElementById('kb-gby'); if(gb) gb.style.display=v==='map'?'none':'';
   const lg=document.getElementById('kb-lgi'); if(lg) lg.innerHTML=kbLgHtml();
   kbTreeRender();
 }
@@ -12018,7 +12097,7 @@ function kbTreeCase(c){
   const tags=(c.items||[]).filter(Boolean).map(function(t){ return '<em>'+esc(t)+'</em>'; }).join('');
   return '<div class="kt-row"><div class="kt-c '+kbResCls(c)+(c.status==='dropped'?' drop':'')+'" role="button" tabindex="0" data-cid="'+esc(c.id)+'" onclick="kbdOpenCase(this.dataset.cid)">'
     +'<b>'+esc(c.title||'未命名')+'</b>'
-    +'<span class="kt-k"><span><i>廠區</i>'+esc(kbSiteTxt(c)||'—')+'</span>'+(c.lineSt?'<span><i>線別</i>'+esc(c.lineSt)+'</span>':'')+'</span>'
+    +'<span class="kt-k"><span><i>廠區</i>'+esc(kbSiteTxt(c)||'—')+'</span>'+(c.lineSt?'<span><i>線別</i>'+esc(c.lineSt)+'</span>':'')+(_grpBy==='line'&&c.customer?'<span><i>客戶</i>'+esc(custCanon(c.customer))+'</span>':'')+'</span>'
     +(st?'<span>'+st+'</span>':'')+(tags?'<span class="kt-tg">'+tags+'</span>':'')
     +(src?'<span class="kt-from"'+(c.fromNote?' title="差異：'+esc(c.fromNote)+'"':'')+'>↰ 衍生自 '+esc(src.title)+'</span>':'')
     +(der.length ? '<div class="kt-d"><span class="kt-dlb">⇢ 衍生</span>'+der.map(function(d){   // 在卡片裡面：擋掉冒泡，才不會連來源一起開
@@ -12518,7 +12597,7 @@ function simStart(id){
   simClose(); kbdClose();
   if(document.body.classList.contains('kb-on')) document.getElementById('tab-kb').classList.remove('on');
   loadEval(-1, e);
-  _kbStart={id:c.id, title:c.title, mode:e.mode||'scan', tags:e.tags||null, pur:e.purpose||null, cust:c.customer||e.customer||null, site:(c.site==='其他'?c.siteOther:c.site)||null};
+  _kbStart={id:c.id, title:c.title, mode:e.mode||'scan', tags:e.tags||null, pur:e.purpose||null, cust:c.customer||e.customer||null, site:(c.site==='其他'?c.siteOther:c.site)||null, line:kbProdLine(c)||null};
   showToast('已載入「'+c.title+'」當起點；改好存成新評估，提交時「衍生自」會自動選這一筆');
 }
 
