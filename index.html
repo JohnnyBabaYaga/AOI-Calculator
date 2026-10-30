@@ -35,7 +35,7 @@ header{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:0 16px;
        background:linear-gradient(120deg,rgba(31,78,150,.92),rgba(47,111,208,.88));
        -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
        color:#fff;border-bottom:1px solid rgba(255,255,255,.18);
-       box-shadow:0 4px 24px rgba(20,40,80,.18);z-index:10;}
+       box-shadow:0 4px 24px rgba(20,40,80,.18);z-index:40;}   /* 要高過下方黏住的分頁列(30)，不然 header 的下拉選單會被分頁列蓋住 */
 header h1{font-size:14px;font-weight:800;letter-spacing:.3px;color:#fff;}
 header p{font-size:10px;color:rgba(255,255,255,.82);}
 .panel{overflow-y:auto;height:calc(100vh - 46px);}
@@ -416,8 +416,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 #vwarn.hide{display:none!important;}
 
 /* ── Tabs ── */
-#tabbar{display:flex;gap:4px;padding:9px 10px 5px;background:transparent;position:sticky;top:0;z-index:30;}   /* 分頁列不跟著捲動 */
-#tabbar::before{content:"";position:absolute;inset:0;z-index:-1;background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);}
+#tabbar{display:flex;gap:4px;margin:0 10px;padding:9px 10px 8px;background:transparent;position:sticky;top:0;z-index:30;border-radius:0 0 12px 12px;box-shadow:var(--shadow);}   /* 分頁列不跟著捲動；比照 FD AOI Monitor：貼在標題列下的玻璃卡，左右對齊下方卡片 */
+#tabbar::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:rgba(255,255,255,.84);border:1px solid var(--glass-line);border-top:0;-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);}
 .tb{flex:1;padding:6px 6px;border:1px solid transparent;border-radius:999px;cursor:pointer;
     background:rgba(255,255,255,.5);color:var(--sub);font-size:11px;font-weight:600;
     display:flex;align-items:center;justify-content:center;gap:4px;transition:all .18s;}
