@@ -9,8 +9,12 @@
   /* ── Manager Platform 設計語言：藍海軍藍 + 玻璃擬態 ── */
   --blue:#1f4e96; --blue2:#2f6fd0;
   --bg:#eef2f7; --surf:#ffffff; --surf2:#f2f6fc; --border:#dde4ee;
-  --text:#1c2b45; --sub:#6b7a90; --accent:#2f6fd0; --accent-deep:#1f4e96;
-  --warn:#e0563f; --green:#36b37e;
+  --text:#1c2b45; --sub:#5f6e84; --accent:#2f6fd0; --accent-deep:#1f4e96;
+  /* v5.3 狀態色：每色一支、白底與灰底都 ≥4.5:1（docs/07-設計規格書.md §2.1）；--warn／--green 保留當別名 */
+  --danger:#c62828; --success:#1a7f37; --warning:#9a5b00; --info:var(--accent);
+  --warn:var(--danger); --green:var(--success);
+  /* v5.3 字級刻度（§2.2） */
+  --fs-xs:10px; --fs-sm:11px; --fs-md:12px; --fs-base:13px; --fs-lg:15px; --fs-xl:18px; --fs-kpi:24px;
   /* iOS 液態玻璃 — 可由 ⚙️ 介面外觀設定即時調整 */
   --ui-blur:20px; --ui-sat:180%; --ui-glassA:.62; --ui-glassB:.80; --ui-rscale:1;
   --glass:rgba(255,255,255,var(--ui-glassA)); --glass-strong:rgba(255,255,255,var(--ui-glassB));
@@ -86,6 +90,7 @@ header .hdr-vk .ver-btn .ver-pill,header .hdr-vk .ver-btn:hover .ver-pill,header
   background:none;border:none;padding:0;border-radius:0;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:13px;font-weight:600;letter-spacing:.2px;gap:5px;}
 header .hdr-vk .ver-caret{font-size:11px;}
 header .hdr-vk .ver-btn:hover,header .hdr-vk .ver-wrap:has(.ver-menu.open) .ver-btn{background:rgba(255,255,255,.18);}
+header .hdr-vk .ver-btn.static,header .hdr-vk .ver-btn.static:hover{cursor:default;background:none;}   /* 11/2 起只剩一個版本，版本號只顯示、不再是下拉選單 */
 header #tab-kb{display:inline-flex;align-items:center;gap:5px;padding:0 13px 0 11px;flex-shrink:0;
   border:none;border-left:1px solid rgba(255,255,255,.35);border-radius:0 999px 999px 0;background:transparent;color:rgba(255,255,255,.92);
   font-family:inherit;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background .15s;}
@@ -227,7 +232,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .metric .mt{font-size:10px;color:var(--sub);line-height:1.3;margin-bottom:3px;}
 .metric .mv{font-size:15px;font-weight:700;color:var(--text);line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .metric .mu{font-size:10px;color:var(--sub);font-weight:400;}
-.metric .ms{display:block;font-size:9.5px;color:var(--sub);margin-top:2px;line-height:1.35;white-space:normal;}   /* display 要寫：.ms 也是手機版短標的 class，預設隱藏 */
+.metric .ms{display:block;font-size:var(--fs-xs);color:var(--sub);margin-top:2px;line-height:1.35;white-space:normal;}   /* display 要寫：.ms 也是手機版短標的 class，預設隱藏 */
 /* 資料量與電腦規格（2D 三種模式共用） */
 .sys-blk{border-top:1px solid var(--border);padding:12px 14px;}
 .sys-in{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:11px;color:var(--sub);background:var(--surf2);border-radius:8px;padding:7px 10px;margin-bottom:10px;}
@@ -260,7 +265,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .cost-in.t{text-align:left;}
 .cost-in.q{width:54px;}
 .pdf-out .cost-in{border-color:transparent;background:transparent;}
-.cost-tag{font-size:9px;font-weight:700;color:#854F0B;background:#FCEBD0;border-radius:4px;padding:0 5px;line-height:15px;flex:none;}
+.cost-tag{font-size:var(--fs-xs);font-weight:700;color:#854F0B;background:#FCEBD0;border-radius:4px;padding:0 5px;line-height:15px;flex:none;}
 .cost-btn{font-size:10px;padding:2px 7px;border:1px solid var(--border);border-radius:6px;background:var(--surf);color:var(--sub);cursor:pointer;margin-left:4px;white-space:nowrap;}
 .cost-btn:hover{border-color:var(--accent);color:var(--accent);}
 .cost-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 4px;}
@@ -299,17 +304,17 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .cmp-tbl tr.t0>*{border-top:1.5px solid var(--border);}
 .cmp-tbl tbody tr:last-child>*{border-bottom:none;}
 .cmp-nm{font-size:12px;font-weight:700;color:var(--text);margin-top:2px;}
-.cmp-src{display:inline-block;font-size:9.5px;font-weight:600;line-height:15px;padding:0 6px;border-radius:4px;background:var(--surf2);color:var(--sub);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:top;}
+.cmp-src{display:inline-block;font-size:var(--fs-xs);font-weight:600;line-height:15px;padding:0 6px;border-radius:4px;background:var(--surf2);color:var(--sub);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:top;}
 .cmp-src.kb{background:#EEEDFE;color:#5E57B8;}
 .cmp-src.lk{border:0;cursor:pointer;font-family:inherit;}
 .cmp-src.lk:hover{background:#DEDCFB;}
-.cmp-pk{display:inline-block;font-size:9.5px;font-weight:700;line-height:15px;padding:0 6px;border-radius:4px;background:var(--accent);color:#fff;}
+.cmp-pk{display:inline-block;font-size:var(--fs-xs);font-weight:700;line-height:15px;padding:0 6px;border-radius:4px;background:var(--accent);color:#fff;}
 .cmp-sub{font-size:10px;font-weight:400;color:var(--sub);}
 .cmp-ca{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;}
 .cmp-ca .cost-btn{margin-left:0;}
 .cmp-ca .cost-btn.off{opacity:.5;}
-.cmp-ok{color:#1E8E3E;font-weight:600;}
-.cmp-bad{color:#D93025;}
+.cmp-ok{color:var(--success);font-weight:600;}
+.cmp-bad{color:var(--danger);}
 .cmp-na{color:var(--sub);opacity:.6;}
 .cmp-in{width:100%;box-sizing:border-box;font:inherit;font-size:11.5px;padding:2px 5px;border:1px solid var(--border);border-radius:5px;background:var(--surf);color:var(--text);}
 .cmp-in.nm{font-weight:700;font-size:12px;margin-top:2px;}
@@ -336,7 +341,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .cmp-print .cmp-wrap{overflow:visible;}
 .pdf-out .cmp-wrap{overflow:visible;} .pdf-out .cmp-tbl{min-width:0!important;}   /* 主報告 PDF：表格縮到卡片寬，不然右邊的候選會被截掉 */
 /* 3D 機種卡片：「＋ 比較」 */
-.t3-cmp{margin-left:auto;font-size:9.5px;font-weight:600;padding:1px 7px;border:1px solid var(--border);border-radius:5px;background:var(--surf);color:var(--accent-deep,var(--accent));cursor:pointer;white-space:nowrap;line-height:15px;}
+.t3-cmp{margin-left:auto;font-size:var(--fs-xs);font-weight:600;padding:1px 7px;border:1px solid var(--border);border-radius:5px;background:var(--surf);color:var(--accent-deep,var(--accent));cursor:pointer;white-space:nowrap;line-height:15px;}
 .t3-cmp:hover{border-color:var(--accent);}
 .t3-cmp.on{background:#EAF1FA;border-color:var(--accent);}
 .ec-cmp{margin-top:3px;}
@@ -368,9 +373,9 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .fb-none{color:var(--sub);opacity:.6;}
 .fb-dev{min-width:52px;text-align:right;}
 .fb-d{font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;font-variant-numeric:tabular-nums;}
-.fb-d.ok{color:#1E8E3E;background:#E6F4EA;}
-.fb-d.mid{color:#B26A00;background:#FEF3D9;}
-.fb-d.bad{color:#D93025;background:#FCE8E6;}
+.fb-d.ok{color:var(--success);background:#E6F4EA;}
+.fb-d.mid{color:var(--warning);background:#FEF3D9;}
+.fb-d.bad{color:var(--danger);background:#FCE8E6;}
 .fb-concl{display:flex;gap:6px;flex-wrap:wrap;}
 .fb-chip{font-size:12px;padding:5px 12px;border-radius:16px;border:1px solid var(--border);background:var(--surf);color:var(--text);cursor:pointer;}
 .fb-chip.on{border-color:var(--cc);background:var(--cc);color:#fff;font-weight:600;}
@@ -399,7 +404,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .fb-sr{font-size:11px;color:var(--sub);margin-left:6px;}
 .fb-wrap>.fb-sr{margin-left:0;} .fb-sr:empty{display:none;}
 .fb-sr b{color:var(--text);font-variant-numeric:tabular-nums;}
-.fb-sr .ok{color:#1E8E3E;font-weight:700;} .fb-sr .mid{color:#B26A00;font-weight:700;} .fb-sr .bad{color:#D93025;font-weight:700;}
+.fb-sr .ok{color:var(--success);font-weight:700;} .fb-sr .mid{color:var(--warning);font-weight:700;} .fb-sr .bad{color:var(--danger);font-weight:700;}
 @media (max-width:560px){
   .fb-grid{grid-template-columns:auto 1fr auto;grid-auto-flow:row dense;gap:4px 8px;}
   .fb-grid>label{grid-column:1;} .fb-inw{grid-column:2;} .fb-dev{grid-column:3;}
@@ -409,10 +414,10 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 }
 
 /* ── Warning banner ── */
-#vwarn{display:none;background:color-mix(in srgb,#ff3b30 8%,transparent);
-       border:1px solid color-mix(in srgb,#ff3b30 30%,transparent);
+#vwarn{display:none;background:color-mix(in srgb,var(--danger) 8%,transparent);
+       border:1px solid color-mix(in srgb,var(--danger) 30%,transparent);
        border-radius:8px;padding:8px 12px;margin:8px 10px 0;
-       color:#ff3b30;font-size:11px;display:flex;gap:7px;align-items:flex-start;}
+       color:var(--danger);font-size:11px;display:flex;gap:7px;align-items:flex-start;}
 #vwarn.hide{display:none!important;}
 
 /* ── Tabs ── */
@@ -445,7 +450,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ver-pill{font-size:10px;font-weight:700;color:#fff;background:rgba(255,255,255,.22);
   border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   border-radius:11px;padding:1px 8px;vertical-align:middle;margin-left:6px;letter-spacing:.3px;}
-/* 版本號＝切換選單：v5.2 Paranal Beta（目前）／v4.5 Gaia（網站 v4.5/ 資料夾）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內）；兩版同網址底下，評估紀錄共用 */
+/* 版本號（11/2 正式上線起只顯示 v5.3，v4.5 Gaia 已從網站移除封存，不再有切換選單）；代號＝天文台／望遠鏡（v1 La Silla、v2 Palomar、v3 Yerkes、v4 Gaia、v5 Paranal，8 字母以內） */
 #hdr-title{display:flex;align-items:center;}
 .ver-wrap{margin-left:6px;}
 .ver-btn{background:none;border:none;padding:0;cursor:pointer;font-family:inherit;line-height:1;display:flex;}
@@ -483,10 +488,10 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 /* 10/17 Johnny：評估結論（左邊圓燈）跟實測結果（右上方塊，顏色同知識庫）分開，只用符號 */
 .ec-res{position:absolute;top:12.5px;right:38px;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:4px;
   font-size:9px;font-weight:800;color:#fff;line-height:1;box-sizing:border-box;}
-.ec-res.pass{background:#1E8E3E;} .ec-res.partial{background:#F29900;} .ec-res.fail{background:#D93025;} .ec-res.exp{background:#0E7C86;} .ec-res.na{background:#8A8F98;}
+.ec-res.pass{background:var(--success);} .ec-res.partial{background:var(--warning);} .ec-res.fail{background:var(--danger);} .ec-res.exp{background:#0E7C86;} .ec-res.na{background:#8A8F98;}
 .ec.has-res h3{padding-right:50px;}
 .card-menu .cm-sep{height:1px;background:var(--border);margin:4px 6px;}
-.card-menu .cm-del{color:#D93025;}
+.card-menu .cm-del{color:var(--danger);}
 /* 備份與同步（10/14）：本機備份／雲端同步 兩頁疊在同一格，高度取較高的，切換不跳 */
 .bk-seg{margin:6px 0 14px;}
 .bk-seg button{padding:6px 10px;font-size:12px;}
@@ -524,7 +529,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .ev-chips .pick-chip .n{opacity:.7;margin-left:3px;font-weight:400;}
 .ec-lamp{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;
   font-size:9px;font-weight:800;color:#fff;margin-right:6px;vertical-align:1px;box-sizing:border-box;line-height:1;}
-.ec-lamp.ok{background:#1E8E3E;} .ec-lamp.warn{background:#F29900;} .ec-lamp.bad{background:#D93025;}
+.ec-lamp.ok{background:var(--success);} .ec-lamp.warn{background:var(--warning);} .ec-lamp.bad{background:var(--danger);}
 .ec-lamp.na{border:1.5px solid var(--sub);color:var(--sub);} .ec-lamp.unk{border:1.5px dashed var(--border);}
 .ec-tags{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:5px;}
 .ec-tag{font-size:10.5px;padding:1px 8px;border-radius:999px;border:none;background:color-mix(in srgb,var(--accent) 11%,transparent);
@@ -566,10 +571,10 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .db-row{display:flex;align-items:center;padding:4px 12px;border-bottom:1px solid var(--border);gap:6px;min-height:28px;}
 .db-row:last-child{border-bottom:none;}
 .db-name{flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.db-tag{font-size:9px;padding:1px 6px;border-radius:4px;background:var(--surf2);color:var(--sub);white-space:nowrap;flex-shrink:0;}
-.db-built{font-size:9px;color:var(--border);flex-shrink:0;}
+.db-tag{font-size:var(--fs-xs);padding:1px 6px;border-radius:4px;background:var(--surf2);color:var(--sub);white-space:nowrap;flex-shrink:0;}
+.db-built{font-size:var(--fs-xs);color:var(--border);flex-shrink:0;}
 .db-del{border:none;background:none;color:rgba(255,59,48,0.65);cursor:pointer;font-size:13px;padding:0 2px;flex-shrink:0;line-height:1;}
-.db-del:hover{color:#ff3b30;}
+.db-del:hover{color:var(--danger);}
 .db-edit{border:none;background:none;color:var(--sub);cursor:pointer;font-size:12px;padding:0 2px;flex-shrink:0;line-height:1;}
 .db-edit:hover{color:var(--accent);}
 /* ── DB card view (grouped by brand, searchable) ── */
@@ -625,15 +630,15 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .pick-banner b{font-weight:700;}
 .pick-banner-tog{flex-shrink:0;font-size:11px;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:7px;padding:4px 9px;cursor:pointer;}
 .pick-banner-tog:hover{filter:brightness(1.06);}
-.pick-item.pi-bad{opacity:.5;background:repeating-linear-gradient(135deg,transparent,transparent 6px,color-mix(in srgb,#ff3b30 7%,transparent) 6px,color-mix(in srgb,#ff3b30 7%,transparent) 12px);}
+.pick-item.pi-bad{opacity:.5;background:repeating-linear-gradient(135deg,transparent,transparent 6px,color-mix(in srgb,var(--danger) 7%,transparent) 6px,color-mix(in srgb,var(--danger) 7%,transparent) 12px);}
 .pick-item.pi-bad:hover{opacity:.75;border-color:#ff9a92;}
-.pi-badmount{display:inline-block;margin-left:7px;font-size:10px;font-weight:700;color:#ff3b30;background:color-mix(in srgb,#ff3b30 12%,transparent);border-radius:5px;padding:1px 6px;vertical-align:middle;}
-.mount-warn{font-size:11px;line-height:1.5;color:#c0392b;background:color-mix(in srgb,#ff3b30 8%,transparent);border:1px solid color-mix(in srgb,#ff3b30 26%,transparent);border-radius:8px;padding:6px 9px;margin:2px 0 8px;}
+.pi-badmount{display:inline-block;margin-left:7px;font-size:10px;font-weight:700;color:var(--danger);background:color-mix(in srgb,var(--danger) 12%,transparent);border-radius:5px;padding:1px 6px;vertical-align:middle;}
+.mount-warn{font-size:11px;line-height:1.5;color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,transparent);border:1px solid color-mix(in srgb,var(--danger) 26%,transparent);border-radius:8px;padding:6px 9px;margin:2px 0 8px;}
 .mount-warn b{font-weight:700;}
 .db-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
 .bdg-area{background:color-mix(in srgb,#2f6fd0 15%,transparent);color:#1f4e96;}
 .bdg-line{background:color-mix(in srgb,#7c4dff 16%,transparent);color:#5b34c9;}
-.bdg-tele{background:color-mix(in srgb,#36b37e 18%,transparent);color:#1f7a52;}
+.bdg-tele{background:color-mix(in srgb,var(--success) 18%,transparent);color:#1f7a52;}
 .bdg-fixed{background:color-mix(in srgb,#e0a000 22%,transparent);color:#8a6100;}
 .bdg-obj{background:var(--surf2);color:var(--sub);}
 .bdg-mod{background:color-mix(in srgb,#d9480f 15%,transparent);color:#b23c08;}
@@ -659,7 +664,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .asm-r select{flex:3;min-width:0;height:22px;font-size:11.5px;padding:0 4px;border:1px solid var(--border);border-radius:5px;background:var(--surf2);color:var(--text);outline:none;cursor:pointer;}
 .asm-ci{font-size:10.5px;line-height:1.45;color:var(--sub);padding-top:2px;}
 .asm-ci b{color:var(--text);font-weight:600;font-family:'SF Mono',ui-monospace,monospace;}
-.asm-ci .bad{color:#ff3b30;}
+.asm-ci .bad{color:var(--danger);}
 .asm-link{display:flex;justify-content:center;padding:4px 0;border-bottom:1px solid var(--border);}
 .asm-lk{font-size:10.5px;border:1px solid var(--border);border-radius:10px;padding:1px 10px;background:var(--surf);color:var(--sub);cursor:pointer;font-family:inherit;}
 .asm-lk.on{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent);font-weight:600;}
@@ -674,7 +679,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .asm-tbl td{padding:5px 6px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap;}
 .asm-tbl td:first-child,.asm-tbl td:nth-child(2){text-align:left;}
 .asm-tbl .gtag{display:inline-block;font-size:10px;font-weight:700;color:#fff;border-radius:4px;padding:0 6px;line-height:16px;}
-.asm-tbl td.bad{color:#ff3b30;}
+.asm-tbl td.bad{color:var(--danger);}
 .asm-tbl tr.pv-on td{background:color-mix(in srgb,var(--accent) 9%,transparent);}
 .asm-tbl td.ok{color:#1f9d55;}
 .asm-tbl th.r,.asm-tbl td.r{text-align:right;}
@@ -686,7 +691,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .asm-note{font-size:10.5px;line-height:1.5;color:var(--sub);margin-top:7px;}
 .as-curve-info{padding:6px 12px 7px;font-size:11px;line-height:1.55;color:var(--sub);border-bottom:1px solid var(--border);}
 .as-curve-info b{color:var(--text);font-weight:600;font-family:'SF Mono',ui-monospace,monospace;}
-.as-curve-info .bad{color:#ff3b30;}
+.as-curve-info .bad{color:var(--danger);}
 .sum-light{margin-top:3px;color:#b23c08;}
 .pi-modtag{display:inline-block;margin-left:7px;font-size:10px;font-weight:700;color:#b23c08;background:color-mix(in srgb,#d9480f 12%,transparent);border-radius:5px;padding:1px 6px;vertical-align:middle;}
 #af-mod{width:min(600px,94vw);}
@@ -779,7 +784,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .sel-kv{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:11px;color:var(--sub);margin-top:4px;}
 .sel-kv b{color:var(--text);font-weight:600;}
 .sel-kv b.k{color:var(--accent-deep);}
-.sel-tag{display:inline-block;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:#FAEEDA;color:#854F0B;margin:4px 4px 0 0;}
+.sel-tag{display:inline-block;font-size:var(--fs-xs);font-weight:700;padding:1px 6px;border-radius:4px;background:#FAEEDA;color:#854F0B;margin:4px 4px 0 0;}
 .sel-card .btn-pri{font-size:11.5px;padding:5px 12px;flex-shrink:0;}
 .sel-more{width:100%;font-size:11.5px;margin:2px 0 4px;}
 .sel-empty{font-size:12px;color:var(--sub);text-align:center;padding:22px 10px;line-height:1.7;}
@@ -805,7 +810,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .save-pur button{flex:1;font-size:12.5px;padding:7px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surf);color:var(--text);cursor:pointer;font-family:inherit;}
 .save-pur button:hover{border-color:var(--accent);}
 .save-pur button.on{border-color:var(--accent);background:rgba(47,111,208,.08);color:var(--accent-deep);font-weight:600;box-shadow:inset 0 0 0 1px var(--accent);}
-.save-pur.err button{border-color:#D93025;}
+.save-pur.err button{border-color:var(--danger);}
 .save-pur-h{font-size:10.5px;color:var(--sub);margin:0 0 12px;line-height:1.55;}
 .pdf-list{overflow-y:auto;flex:1;min-height:100px;}
 .pdf-block{border:1px solid var(--border);border-radius:9px;padding:7px 11px;margin-bottom:6px;}
@@ -912,7 +917,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .rpt-pair{display:grid;grid-template-columns:1fr 1fr;gap:0 10px;}
 .rpt-pair .rpt-field{min-width:0;}
 .rpt-pair .rpt-tinput{flex:1 1 auto;width:auto;min-width:0;max-width:80px;}
-.rpt-flabel{font-size:9px;color:var(--sub);margin-bottom:3px;}
+.rpt-flabel{font-size:var(--fs-sm);color:var(--sub);margin-bottom:3px;}
 .rpt-fval{font-size:13px;font-weight:600;color:var(--text);}
 .rpt-textarea{width:100%;height:54px;background:var(--bg);border:1px solid var(--border);
               border-radius:5px;color:var(--text);font-size:11px;padding:5px 7px;
@@ -925,24 +930,24 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 
 /* Architecture column */
 .rpt-kv{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}
-.rpt-k{font-size:9px;color:var(--sub);width:56px;flex-shrink:0;}
+.rpt-k{font-size:var(--fs-sm);color:var(--sub);width:56px;flex-shrink:0;}
 /* Area mode kv */
 .rk{font-size:11px;color:var(--sub);flex:1;}
 .rv{font-size:13px;font-weight:600;color:var(--text);text-align:right;}
 .rpt-v{font-size:12px;font-weight:600;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .rpt-tt-kv .rpt-v{font-size:17px;color:var(--accent);transition:color .2s;}
-.rpt-tt-kv .rpt-v.over{color:#ff3b30;}
-.metric .mv span.over{color:#ff3b30;font-weight:700;}
-.metric .mv span.warn{color:#ff9500;font-weight:700;}
-.metric .mv span.good{color:#34c759;font-weight:700;}
+.rpt-tt-kv .rpt-v.over{color:var(--danger);}
+.metric .mv span.over{color:var(--danger);font-weight:700;}
+.metric .mv span.warn{color:var(--warning);font-weight:700;}
+.metric .mv span.good{color:var(--success);font-weight:700;}
 .rpt-tt-kv .rpt-unit{font-size:12px;}
 /* ── 結論卡（取代技術架構）：狀態燈＋重點數字＋需要注意 ── */
 .conc-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .conc-badge{font-size:10px;font-weight:700;letter-spacing:0;padding:1px 8px;border-radius:999px;white-space:nowrap;line-height:1.6;}
 .conc-badge:empty{display:none;}
-.conc-badge.ok{color:#1E8E3E;background:#E6F4EA;}
-.conc-badge.warn{color:#B26A00;background:#FEF3E0;}
-.conc-badge.bad{color:#D93025;background:#FCE8E6;}
+.conc-badge.ok{color:var(--success);background:#E6F4EA;}
+.conc-badge.warn{color:var(--warning);background:#FEF3E0;}
+.conc-badge.bad{color:var(--danger);background:#FCE8E6;}
 .conc-badge.na{color:var(--sub);background:var(--surf2);font-weight:600;}
 .conc .rpt-v{min-width:0;}
 /* 有右側小字的列：數字不截斷，小字放不下就換到下一行（靠右） */
@@ -950,9 +955,9 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .conc .kv2 .rpt-v{flex:0 0 auto;overflow:visible;}
 .rpt-s{margin-left:auto;font-size:10px;color:var(--sub);white-space:nowrap;padding-left:6px;}
 .rpt-s:empty{display:none;}
-.conc .rpt-v .over{color:#ff3b30;}
-.conc .rpt-v .warn{color:#ff9500;}
-.conc .rpt-v .good{color:#34c759;}
+.conc .rpt-v .over{color:var(--danger);}
+.conc .rpt-v .warn{color:var(--warning);}
+.conc .rpt-v .good{color:var(--success);}
 .conc-warn{margin-top:2px;padding-top:8px;border-top:1px solid var(--border);}
 .conc-warn:empty{display:none;}
 .conc-hint{font-size:11.5px;color:var(--sub);line-height:1.6;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;}
@@ -961,8 +966,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .conc-wt{font-size:10px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .conc-wi{position:relative;font-size:11px;line-height:1.5;padding-left:13px;margin-bottom:3px;color:var(--text);}
 .conc-wi::before{content:'';position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%;}
-.conc-wi.bad::before{background:#ff3b30;}
-.conc-wi.warn::before{background:#ff9500;}
+.conc-wi.bad::before{background:var(--danger);}
+.conc-wi.warn::before{background:var(--warning);}
 /* 資料量的假設條件、沒有單價的成本：收成一行 */
 .sys-asm,.cost-empty{background:var(--surf2);border-radius:8px;padding:6px 10px;min-height:0;}
 .sys-asm{margin-bottom:10px;}
@@ -973,13 +978,13 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 
 /* Technical detail footer */
 .rpt-footer{padding:10px 14px 12px;}
-.rpt-ftitle{font-size:9px;font-weight:700;color:var(--sub);letter-spacing:.5px;
+.rpt-ftitle{font-size:var(--fs-xs);font-weight:700;color:var(--sub);letter-spacing:.5px;
             text-transform:uppercase;margin-bottom:7px;}
 .rpt-details{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
 .rpt-detail{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;}
-.rpt-dlabel{font-size:9px;color:var(--sub);line-height:1.3;margin-bottom:3px;}
+.rpt-dlabel{font-size:var(--fs-xs);color:var(--sub);line-height:1.3;margin-bottom:3px;}
 .rpt-dval{font-size:13px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
-.rpt-dunit{font-size:9px;color:var(--sub);font-weight:400;}
+.rpt-dunit{font-size:var(--fs-xs);color:var(--sub);font-weight:400;}
 
 /* Actions + history */
 .rpt-actions{padding:6px 10px;display:flex;align-items:center;gap:8px;}
@@ -1003,7 +1008,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .cl-hd{display:flex;align-items:center;gap:6px;}
 .cl-v{font-size:13px;font-weight:700;color:var(--text);}
 .cl-tag{font-size:10px;font-weight:700;color:#fff;background:var(--accent);border-radius:999px;padding:1px 7px;line-height:1.5;}
-.cl-tag.new{background:#34c759;}
+.cl-tag.new{background:var(--success);}
 .cl-date{font-size:11px;color:var(--sub);margin-left:auto;white-space:nowrap;}
 .cl-nm{font-size:11px;color:var(--sub);margin:3px 0 6px;line-height:1.45;}
 .cl-ver ul{margin:0;padding-left:16px;font-size:12px;line-height:1.55;color:var(--text);}
@@ -1182,7 +1187,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .kb-adv[open] summary{margin-bottom:8px;}
 .kb-test{font-size:12px;line-height:1.75;margin:2px 0 4px;padding:8px 10px;border-radius:9px;background:var(--surf2);}
 .kb-test:empty{display:none;}
-.kb-test .ok{color:#1E8E3E;} .kb-test .no{color:var(--sub);} .kb-test .bad{color:#D93025;}
+.kb-test .ok{color:var(--success);} .kb-test .no{color:var(--sub);} .kb-test .bad{color:var(--danger);}
 .kb-forget{margin-top:10px;text-align:right;}
 .gh-man{border-top:1px solid var(--border);padding-top:10px;margin-top:2px;}
 .gh-man-b{display:flex;gap:6px;}
@@ -1190,7 +1195,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .kb-forget button{background:none;border:none;color:var(--sub);font-size:11px;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit;}
 .kb-conn{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--sub);white-space:nowrap;} .kb-conn:empty{display:none;}
 .kb-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#b8c2d0;flex-shrink:0;}
-.kb-dot.ok{background:#1E8E3E;} .kb-dot.warn{background:#F29900;} .kb-dot.err{background:#D93025;}
+.kb-dot.ok{background:var(--success);} .kb-dot.warn{background:var(--warning);} .kb-dot.err{background:var(--danger);}
 .kb-role{font-size:10px;font-weight:700;color:var(--accent-deep);background:rgba(47,111,208,.1);padding:1px 7px;border-radius:999px;}
 .kb-card{margin:14px 12px;padding:22px 20px;border:1px solid var(--border);border-radius:14px;background:var(--surf);text-align:center;}
 .kb-card .kb-ic{font-size:26px;line-height:1;margin-bottom:8px;}
@@ -1202,7 +1207,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 @media(max-width:480px){ #kb-conn{display:none;} }   /* 手機：「管理員」小標拿掉（標題已寫「待審核」），連線鍵才不會掉到第二行 */
 .kb-bbtn{display:flex;gap:8px;margin-left:auto;}
 /* 知識庫連線鍵（10/11 Johnny：重新整理＋連線設定合成一個；參考 iOS 把訊號＋電量併成一個圖示：外圈＝連線狀態，中間＝功能圖示；連上變色跟標題列雲朵一樣） */
-.kbc-off{--kbc:#9AA5B5;} .kbc-ok{--kbc:#1E8E3E;} .kbc-sync,.kbc-nofile{--kbc:#E08A00;} .kbc-err{--kbc:#D93025;}
+.kbc-off{--kbc:#9AA5B5;} .kbc-ok{--kbc:var(--success);} .kbc-sync,.kbc-nofile{--kbc:#E08A00;} .kbc-err{--kbc:var(--danger);}
 .kbc-ring{flex:none;display:block;color:var(--kbc,#9AA5B5);}
 .kbc-ring .trk{opacity:.2;}
 .kbc-ring .arc{stroke-dasharray:100 0;transform-box:fill-box;transform-origin:center;}
@@ -1236,10 +1241,10 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .kb-fn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 2px;border-radius:9px;border:1px solid var(--border);background:var(--surf2);text-align:center;min-width:0;}
 .kb-fn b{font-size:11.5px;color:var(--text);white-space:nowrap;}
 .kb-fn span{font-size:10px;color:var(--sub);white-space:nowrap;}
-.kb-fn.pend{background:#FEF3D9;border-color:#F3D892;} .kb-fn.pend b{color:#8A5300;} .kb-fn.pend span{color:#B26A00;}
+.kb-fn.pend{background:#FEF3D9;border-color:#F3D892;} .kb-fn.pend b{color:#8A5300;} .kb-fn.pend span{color:var(--warning);}
 .kb-fn.rev{background:rgba(47,111,208,.09);border-color:rgba(47,111,208,.3);} .kb-fn.rev b{color:var(--accent-deep);} .kb-fn.rev span{color:var(--accent);}
-.kb-fn.ok{background:#E6F4EA;border-color:#B5DCC0;} .kb-fn.ok b{color:#1B6E33;} .kb-fn.ok span{color:#1E8E3E;}
-.kb-fn.rej{grid-row:3;grid-column:4 / 7;background:#FCE8E6;border-color:#F2BDB7;} .kb-fn.rej b{color:#B3261E;} .kb-fn.rej span{color:#D93025;}
+.kb-fn.ok{background:#E6F4EA;border-color:#B5DCC0;} .kb-fn.ok b{color:#1B6E33;} .kb-fn.ok span{color:var(--success);}
+.kb-fn.rej{grid-row:3;grid-column:4 / 7;background:#FCE8E6;border-color:#F2BDB7;} .kb-fn.rej b{color:#B3261E;} .kb-fn.rej span{color:var(--danger);}
 .kb-fa{text-align:center;color:var(--sub);font-size:12px;font-style:normal;}
 .kb-fd{grid-row:2;grid-column:5;text-align:center;color:var(--sub);font-size:12px;line-height:1;}
 .kb-flow-n{margin:10px 0 0;padding-left:16px;font-size:10.5px;color:var(--sub);line-height:1.65;text-wrap:pretty;}
@@ -1247,7 +1252,7 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .kb-sec-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 6px;margin:12px 12px 6px;font-size:12px;font-weight:700;color:var(--text);}
 .kb-sec-h .n{font-size:10.5px;color:var(--sub);background:var(--surf2);padding:0 7px;border-radius:999px;}
 .kb-sec-d{font-size:10.5px;font-weight:400;color:var(--sub);margin-left:auto;}
-.kb-pill{font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;background:#FEF3D9;color:#B26A00;margin-left:6px;vertical-align:1px;}
+.kb-pill{font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;background:#FEF3D9;color:var(--warning);margin-left:6px;vertical-align:1px;}
 .ec-kb{margin-top:3px;}
 .ec-fk{display:flex;flex-wrap:wrap;column-gap:14px;margin-top:3px;} .ec-fk>p{margin-top:0;min-width:0;}   /* 實測、知識庫同一排，太窄就換行 */
 .ec-pur{font-family:inherit;font-size:10px;font-weight:500;line-height:11.5px;padding:0 6px;margin-left:5px;border-radius:4px;border:1px dashed #B8C2D0;background:none;color:var(--sub);cursor:pointer;}   /* 高度跟模式標籤一樣 */
@@ -1267,7 +1272,7 @@ span.ec-pur{display:inline-block;white-space:nowrap;}   /* 卡片上只顯示的
 #kbs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
 #kbs-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;box-sizing:border-box;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
-.kbs-req{color:#D93025;margin-left:2px;}
+.kbs-req{color:var(--danger);margin-left:2px;}
 .kbs-chips{display:grid;grid-template-columns:26px 1fr;gap:5px 6px;align-items:start;}
 .kbs-gl{font-size:10.5px;color:var(--sub);padding-top:4px;}
 .kbs-cw{display:flex;flex-wrap:wrap;gap:5px;}
@@ -1288,7 +1293,7 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 .kbs-note{font-size:11.5px;line-height:1.6;padding:7px 10px;border-radius:9px;background:#FEF3D9;color:#8A5300;margin:0 0 4px;}
 .kbs-note.in{background:#E6F4EA;color:#1B6E33;}
 .kbs-res{font-size:12px;line-height:1.6;padding:7px 10px;border-radius:9px;background:var(--surf2);}
-.kbs-err{color:#D93025;font-size:11.5px;margin-top:8px;line-height:1.5;}
+.kbs-err{color:var(--danger);font-size:11.5px;margin-top:8px;line-height:1.5;}
 .kbs-err:empty{display:none;}
 .kbs-foot{font-size:10.5px;color:var(--sub);margin-top:8px;line-height:1.5;}
 .kbs-soft{font-size:11px;line-height:1.5;color:#8A5300;background:#FEF3D9;border-radius:7px;padding:4px 9px;margin-top:5px;}
@@ -1312,11 +1317,11 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 .kb-mr .when{font-size:10.5px;opacity:.8;margin-left:6px;white-space:nowrap;}
 .kb-mr .why{font-size:11.5px;color:var(--text);margin-top:2px;}
 .kb-stale{margin:0 10px 8px;display:flex;flex-direction:column;gap:5px;}
-.kb-sr{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px;width:100%;box-sizing:border-box;text-align:left;padding:7px 11px;border:1px solid #F3DDB0;border-left:4px solid #F29900;border-radius:var(--rad-sm);background:#FFFAF0;font-family:inherit;font-size:12px;color:var(--text);cursor:pointer;}
-.kb-sr:hover{border-color:#F29900;}
+.kb-sr{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px;width:100%;box-sizing:border-box;text-align:left;padding:7px 11px;border:1px solid #F3DDB0;border-left:4px solid var(--warning);border-radius:var(--rad-sm);background:#FFFAF0;font-family:inherit;font-size:12px;color:var(--text);cursor:pointer;}
+.kb-sr:hover{border-color:var(--warning);}
 .kb-sr b{font-weight:600;}
 .kb-sr .who{font-size:11px;color:var(--sub);}
-.kb-sr .d{margin-left:auto;font-size:11px;font-weight:700;color:#B26A00;white-space:nowrap;}
+.kb-sr .d{margin-left:auto;font-size:11px;font-weight:700;color:var(--warning);white-space:nowrap;}
 .kbs-note.rej{background:#FCE8E6;color:#B3261E;}
 /* 知識庫族譜：2D／3D → 取像方式（3D 是量測原理）→ 案例 → 衍生案例（寬的時候橫排；窄的時候改成縮排清單） */
 .kt-tools{padding:0 10px 4px;}
@@ -1336,8 +1341,8 @@ textarea.kbs-in{resize:vertical;min-height:54px;line-height:1.5;}
 .kt-lg span,.kt-sum span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
 .kt-lg i{width:9px;height:9px;border-radius:3px;}
 .kt-lg i.dl{width:16px;height:9px;box-sizing:border-box;border-radius:999px;border:1px dashed #8E99AB;}
-.kt-lg i.r-pass,.kt-sum i.r-pass{background:#1E8E3E;} .kt-lg i.r-part,.kt-sum i.r-part{background:#F29900;}
-.kt-lg i.r-fail,.kt-sum i.r-fail{background:#D93025;} .kt-lg i.r-exp,.kt-sum i.r-exp{background:#0E7C86;} .kt-lg i.r-none{background:#B8C2D0;}
+.kt-lg i.r-pass,.kt-sum i.r-pass{background:var(--success);} .kt-lg i.r-part,.kt-sum i.r-part{background:var(--warning);}
+.kt-lg i.r-fail,.kt-sum i.r-fail{background:var(--danger);} .kt-lg i.r-exp,.kt-sum i.r-exp{background:#0E7C86;} .kt-lg i.r-none{background:#B8C2D0;}
 #kb-tree{container:kbt / inline-size;padding:4px 10px 16px;--kt-ln:#C3CCD9;--kt-a:16px;}
 .kt-g{margin-top:10px;}
 .kt-g:first-child{margin-top:4px;}
@@ -1394,7 +1399,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .kt-c{display:block;background:var(--surf);border:1px solid var(--border);border-left:4px solid #B8C2D0;border-radius:9px;padding:6px 10px 7px;cursor:pointer;min-width:0;box-shadow:0 1px 2px rgba(30,50,90,.05);}
 .kt-c:hover{border-color:var(--accent);border-left-color:#B8C2D0;}   /* 左邊色條維持實測結果的顏色（下面 r-* 會蓋過） */
 .kt-c:focus-visible,.kt-dc:focus-visible,.kt-i:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
-.kt-c.r-pass{border-left-color:#1E8E3E;} .kt-c.r-part{border-left-color:#F29900;} .kt-c.r-fail{border-left-color:#D93025;} .kt-c.r-exp{border-left-color:#0E7C86;}
+.kt-c.r-pass{border-left-color:var(--success);} .kt-c.r-part{border-left-color:var(--warning);} .kt-c.r-fail{border-left-color:var(--danger);} .kt-c.r-exp{border-left-color:#0E7C86;}
 .kt-c.drop{opacity:.7;}
 /* 知識庫地圖（10/12 Johnny：跟 Manager Platform 主頁一樣的世界地圖＋水滴針，標出每個城市評估過哪些案子、對應哪些客戶；跟族譜切換） */
 .kb-vseg{align-self:center;margin:-5px 0 -5px 4px;}   /* 標題列是 baseline 對齊；上下負邊距讓切換鈕跟文字中線對齊、也不撐高標題列 */
@@ -1453,7 +1458,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .kt-d .kt-dlb{display:inline;font-size:10.5px;color:var(--sub);line-height:16px;}
 .kt-dc{font-family:inherit;font-size:11px;line-height:16px;padding:2px 9px;border:1px dashed #8E99AB;border-radius:999px;background:var(--surf);color:var(--text);cursor:pointer;text-align:left;max-width:100%;}
 .kt-dc:hover{background:var(--surf2);}
-.kt-dc.r-pass{border-color:#1E8E3E;} .kt-dc.r-part{border-color:#F29900;} .kt-dc.r-fail{border-color:#D93025;} .kt-dc.r-exp{border-color:#0E7C86;}
+.kt-dc.r-pass{border-color:var(--success);} .kt-dc.r-part{border-color:var(--warning);} .kt-dc.r-fail{border-color:var(--danger);} .kt-dc.r-exp{border-color:#0E7C86;}
 /* 寬：取像方式 ── 案例排成多欄（10/11 Johnny：右邊不要整塊留空）；同一列卡片等高 */
 @container kbt (min-width:640px){
   .kt-g>.kt-kids>.kt-row{display:flex;align-items:flex-start;}
@@ -1517,7 +1522,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .sim-more{font-size:11px;color:var(--sub);margin-top:8px;}
 .sim-c{border:1px solid var(--border);border-left:4px solid #B8C2D0;border-radius:10px;padding:9px 12px 10px;background:var(--surf);}
 .sim-c+.sim-c{margin-top:8px;}
-.sim-c.r-pass{border-left-color:#1E8E3E;} .sim-c.r-part{border-left-color:#F29900;} .sim-c.r-fail{border-left-color:#D93025;} .sim-c.r-exp{border-left-color:#0E7C86;}
+.sim-c.r-pass{border-left-color:var(--success);} .sim-c.r-part{border-left-color:var(--warning);} .sim-c.r-fail{border-left-color:var(--danger);} .sim-c.r-exp{border-left-color:#0E7C86;}
 .sim-c.drop{opacity:.8;}
 .sim-t{display:flex;align-items:baseline;gap:8px;}
 .sim-t b{flex:1;min-width:0;font-size:13px;font-weight:600;line-height:1.4;overflow-wrap:anywhere;}
@@ -1543,7 +1548,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
 #cf-msg{font-size:13px;line-height:1.65;color:var(--text);word-break:break-word;}
 #cf-msg .cf-sub{display:block;margin-top:6px;font-size:11.5px;color:var(--sub);}
-#cf-ok{background:#D93025;border-color:#D93025;}
+#cf-ok{background:var(--danger);border-color:var(--danger);}
 #kbd-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:2000;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}
 #kbd-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2001;width:min(560px,94vw);max-height:90vh;flex-direction:column;box-sizing:border-box;
   background:var(--surf);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);padding:16px 18px;}
@@ -1565,7 +1570,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 .kbr-oth{display:flex;flex-direction:column;gap:8px;}
 .kbr-o{padding:8px 10px;border:1px solid #F3D892;background:#FFFAEB;border-radius:9px;}
 .kbr-q{font-size:12px;margin-bottom:6px;}
-.btn-pri.kbd-danger{background:linear-gradient(120deg,#B3261E,#D93025);box-shadow:0 2px 8px rgba(179,38,30,.25);}
+.btn-pri.kbd-danger{background:linear-gradient(120deg,#B3261E,var(--danger));box-shadow:0 2px 8px rgba(179,38,30,.25);}
 .btn-pri:disabled,.btn-sec:disabled{opacity:.55;cursor:default;filter:none;}
 /* 載入畫面（D 簡約＋液態玻璃）：透明玻璃蓋住整頁，小卡片在正中間 */
 /* 背景定期更新的小提示（10/13 Johnny）：左下角玻璃小卡；新版本、新提交 */
@@ -1608,6 +1613,18 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 @keyframes bootBar{0%{left:-40%}100%{left:100%}}
 @keyframes bootSheen{0%{left:-60%}60%,100%{left:130%}}
 @media (prefers-reduced-motion:reduce){ .boot-card *,.boot-card::after{animation-duration:3s !important;} }
+/* ── v5.3 可用性：字型繼承、點擊範圍、鍵盤焦點（docs/07-設計規格書.md §4）── */
+button,input,select,textarea{font-family:inherit;}   /* 原本按鈕算出來是 Arial */
+/* 小按鈕「外觀不變、只放大可點範圍」到 ≥24px（WCAG 2.5.8）；不改實際高度，左欄才不會變高把示意圖撐大 */
+.seg{overflow:visible;}
+.seg>button{position:relative;}
+.seg>button:first-child{border-top-left-radius:6px;border-bottom-left-radius:6px;}
+.seg>button:last-child{border-top-right-radius:6px;border-bottom-right-radius:6px;}
+.seg>button::after,.iso3-play::after,.card-edit-btn::after{content:'';position:absolute;left:0;right:0;top:50%;height:max(100%,26px);transform:translateY(-50%);}
+.iso3-play{position:relative;}
+.gi{position:relative;}
+.gi::after{content:'';position:absolute;left:50%;top:50%;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;}
+:where(button,a,summary,[tabindex]):focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 /* 手機：375 寬也放得下 📚 知識庫（放最後，蓋過前面 768 的手機設定） */
 @media (max-width:420px){ header{padding:0 10px;gap:8px;} #nav-seg button{padding:4px 6px;} #nav-seg .nav-grp{padding-left:5px;} }
 @media (max-width:360px){ header{padding:0 8px;gap:6px;} }   /* 320 寬（舊款 iPhone SE）：間距再縮一點，雲端鈕才不會貼邊 */
@@ -1630,15 +1647,10 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   </button>
   <img src="auo-logo.png" width="30" height="30" style="border-radius:50%;object-fit:cover;flex-shrink:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);" alt="AUO">
   <div id="hdr-title"><h1>AOI Calculator</h1></div>
-  <!-- 版本號＋📚 知識庫同一個框：左半切換版本、右半進知識庫（知識庫不是計算模式，是另一區）；手機標題和版本號藏起來，只留知識庫 -->
+  <!-- 版本號＋📚 知識庫同一個框：左半顯示版本號、右半進知識庫（知識庫不是計算模式，是另一區）；手機標題和版本號藏起來，只留知識庫 -->
   <div class="hdr-vk">
     <div class="hdr-mwrap ver-wrap">
-      <button type="button" class="ver-btn" onclick="hdrMenuToggle('ver-menu',event)" title="切換版本" aria-haspopup="true"><span class="ver-pill">v5.2 Beta<i class="ver-caret" aria-hidden="true">▾</i></span></button>
-      <div class="hdr-menu ver-menu" id="ver-menu">
-        <span class="ver-it on">v5.2 Paranal Beta<small>知識庫、多連屏、曲面、自研模組、立體示意圖</small></span>
-        <a class="ver-it" href="v4.5/">v4.5 Gaia<small>評估計算與報告，不含知識庫</small></a>
-        <div class="ver-note">兩版共用「我的評估」紀錄。<br>切換前先儲存，沒存的輸入不會帶過去。</div>
-      </div>
+      <span class="ver-btn static" title="v5.3 Paranal"><span class="ver-pill">v5.3</span></span>
     </div>
     <button data-nav="kb" id="tab-kb" onclick="setNav('kb')" title="部門知識庫（2D＋3D 案例）；在知識庫裡再按一次回到計算畫面"><span aria-hidden="true">📚</span><span class="kb-t">知識庫</span></button>
   </div>
@@ -1672,7 +1684,6 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <div class="hdr-menu fab-menu" id="help-menu">
     <button onclick="hdrMenuGo('guide')">📖 導覽這一頁</button>
     <button onclick="hdrMenuGo('about')">ℹ️ 關於本工具</button>
-    <button class="m-only" onclick="hdrMenuGo('v45')">⏪ 切換到 v4.5 Gaia</button>
   </div>
 </div>
 
@@ -1736,8 +1747,12 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
 </div>
   <div class="ab-pane" id="ab-p-log">
     <div class="cl-ver cur">
-      <div class="cl-hd"><span class="cl-v">v5.2 Paranal Beta</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-10-20</span></div>
+      <div class="cl-hd"><span class="cl-v">v5.3 Paranal　正式上線</span><span class="cl-tag">目前這版</span><span class="cl-date">2026-11-02</span></div>
       <div class="cl-nm">代號 Paranal：4 座望遠鏡可以合起來當一座用 —— 把大家的經驗合起來</div>
+      <ul><li>🚀 <b>v5 系列結束 Beta，正式上線</b></li><li><b>v4.5 Gaia 已從網站移除並封存</b>：評估紀錄、雲端資料都還在，v5 直接讀得到</li><li>本次也包含 v5.3 的介面改善：顏色更好讀、小字放大、按鈕更好點（見下方）</li></ul>
+      <div class="cl-sub">v5.3 Paranal（10/31）</div>
+      <ul><li>🎨 <b>顏色更好讀</b>：紅（需調整）、綠（符合）、橘（需注意）各統一成一種顏色，淺色底上也看得清楚</li><li><b>小字放大</b>：報告卡標籤、角標等原本最小的字放大一號；按鈕改用跟內文一樣的中文字型</li><li><b>更好點</b>：分段切換鈕、ⓘ 說明圖示等小按鈕的可點範圍放大（外觀不變）；用鍵盤 Tab 時看得到目前在哪</li><li><b>靜態模式範例改成一台就拍得下的尺寸</b>（原本 300 mm 會算出上萬台）；畫檢「物理最少」改叫「下限參考」並在 ⓘ 補說明，示意圖改名「系統示意圖」跟其他模式一致</li></ul>
+      <div class="cl-sub">v5.2（10/20）</div>
       <ul><li>🧊 <b>立體示意圖</b>：相機、鏡頭、3D 感測器照原廠外形畫，可切視角、看載台動態，也能存成 GIF；立體圖切「上方」就是俯視</li><li><b>光路側視改成剖面圖</b>：看得到光線經過鏡頭倒像落在感測器上</li><li><b>畫檢產品型態更多</b>：異形可選圓形／六邊形／拱頂形；新增防窺屏，另算量測 WD 下的視野與可視半角（只當參考）</li><li><b>多連屏</b>預設車用三連屏，每屏可取名稱、選外形</li><li>🏭 <b>產線（併線）</b>：存檔時可填產線，不同尺寸、不同客戶在同一條線生產的評估，在歷史紀錄和知識庫都能「依產線」放在一起看</li><li>歷史紀錄改成樹狀（廠區 → 產線 → 專案），有填產線就預設依產線；專案卡精簡成重點，畫檢卡片標出產品型態與外形</li><li>歷史紀錄會自動捲到目前開啟的那筆</li></ul>
       <div class="cl-sub">v5.1（10/12）</div>
       <ul><li>🛠 <b>部門自研模組</b>：自己組的相機＋鏡頭＋光源存成一組，選型時整組帶入</li><li><b>畫檢產品型態</b>：矩形／異形／曲面，以及 2～6 片的多連屏</li><li><b>知識庫</b>加廠區地圖；知識庫與歷史紀錄都依「廠區 → 客戶」分組</li><li><b>歷史紀錄更好用</b>：依模式分開、卡片點一下就載入，其他動作收進 ⋯；已載入的評估按 💾 直接覆蓋</li><li><b>備份與同步</b>集中到標題列 ☁，設定更簡單；資料會在背景自動更新</li><li>結果頁變短：次要區塊預設收成一行摘要，點開才展開</li></ul>
@@ -1890,7 +1905,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
   <div class="af-hdr"><b>📝 實測回饋</b><button class="af-x" onclick="closeFb()" aria-label="關閉">✕</button></div>
   <div id="fb-sub" class="fb-subt"></div>
   <div id="fb-body" class="fb-body"></div>
-  <div class="af-btns"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveFb()">儲存回饋</button><button class="btn-sec" style="font-size:12px" onclick="closeFb()">取消</button><button class="btn-sec" id="fb-del" style="font-size:12px;color:#ff3b30" onclick="delFb()">刪除回饋</button></div>
+  <div class="af-btns"><button class="btn-pri" style="flex:1;font-size:12px" onclick="saveFb()">儲存回饋</button><button class="btn-sec" style="font-size:12px" onclick="closeFb()">取消</button><button class="btn-sec" id="fb-del" style="font-size:12px;color:var(--danger)" onclick="delFb()">刪除回饋</button></div>
 </div>
 <div id="pick-overlay" onclick="closePicker()"></div>
 <div id="pick-modal">
@@ -1984,8 +1999,8 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
     <div class="row"><label>目標 TT</label><input type="number" id="rpt-target-tt" value="" placeholder="不限" step="0.1" min="0" oninput="saveRptMeta();calc()"><span class="unit">min</span></div>
   </div>
   <div class="card" id="need-static" style="display:none">
-    <div class="row"><label>待測範圍 X</label><input type="number" id="st-objw" value="300" step="1" oninput="calcStatic()"><span class="unit">mm</span></div>
-    <div class="row"><label>待測範圍 Y</label><input type="number" id="st-objh" value="300" step="1" oninput="calcStatic()"><span class="unit">mm</span></div>
+    <div class="row"><label>待測範圍 X</label><input type="number" id="st-objw" value="2" step="1" oninput="calcStatic()"><span class="unit">mm</span></div>
+    <div class="row"><label>待測範圍 Y</label><input type="number" id="st-objh" value="2" step="1" oninput="calcStatic()"><span class="unit">mm</span></div>
     <div class="row"><label>目標檢測精度</label><input type="number" id="st-target-res" value="" placeholder="未填" step="0.1" min="0" oninput="saveRptMeta();calcStatic()"><span class="unit">µm</span></div>
   </div>
   <div class="card" id="need-area" style="display:none">
@@ -2249,7 +2264,7 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
       <!-- Header: project name + date -->
       <div class="rpt-hdr">
         <div class="rpt-hdr-left">
-          <input id="rpt-proj" class="rpt-proj" placeholder="輸入專案 / 設備名稱…" oninput="saveRptMeta()">
+          <input id="rpt-proj" class="rpt-proj" aria-label="專案 / 設備名稱" placeholder="輸入專案 / 設備名稱…" oninput="saveRptMeta()">
           <div class="rpt-sub">掃描取像</div>
         </div>
         <div class="rpt-date" id="rpt-date"></div>
@@ -2534,14 +2549,14 @@ button.kt-p{font-family:inherit;cursor:pointer;text-align:left;}
             <div class="metric" data-cid="as-r-yratio"><div class="mt">Y 佔屏比</div><div class="mv"><span id="as-r-yratio">—</span></div></div>
             <div class="metric" data-cid="as-r-pitch-ok"><div class="mt">Pitch 檢查</div><div class="mv"><span id="as-r-pitch-ok">—</span></div></div>
             <div class="metric" data-cid="as-r-min-cams"><div class="mt">建議台數（含重疊）</div><div class="mv"><span id="as-r-min-cams">—</span></div></div>
-            <div class="metric" data-cid="as-r-min-cams-ref"><div class="mt">物理最少（無重疊）</div><div class="mv" style="font-size:13px;color:var(--sub)"><span id="as-r-min-cams-ref">—</span></div></div>
+            <div class="metric" data-cid="as-r-min-cams-ref"><div class="mt">下限參考（無重疊）</div><div class="mv" style="font-size:13px;color:var(--sub)"><span id="as-r-min-cams-ref">—</span></div></div>
           </div>
         </div>
       </div><!-- /res-grid -->
       </div><!-- /rpt-2col-left -->
       <div class="rpt-2col-right">
         <div class="rpt-ctitle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-          <span>📐 配置示意圖</span>
+          <span>📐 系統示意圖</span>
           <div class="seg as-dg-view-seg pdf-hide" style="flex:0 0 auto;">
             <button class="on" type="button" data-v="iso" onclick="setAsDgView('iso')">立體</button>
             <button type="button" data-v="side" onclick="setAsDgView('side')">光路側視</button>
@@ -4236,7 +4251,6 @@ function hdrMenuGo(a){
   else if(a==='both'){ _afterSave=function(){ showTab('res'); exportPDF(); }; saveEval(); }
   else if(a==='guide') guideStart();
   else if(a==='about') toggleAbout();
-  else if(a==='v45') location.href='v4.5/';   // 手機看不到標題的版本號，從 i 選單切換
 }
 document.addEventListener('click',function(e){ if(!e.target.closest('.hdr-mwrap')) hdrMenuClose(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') hdrMenuClose(); });
@@ -5352,7 +5366,7 @@ function drawStaticDiagram(ss,r){
   if(cap){
     let h=`<span class="dc-l">${r.total}台 (${r.nX}×${r.nY})</span>`;
     h+=`<span class="dc-sep">·</span><span class="dc-c">樣品 ${ss.objW}×${ss.objH}mm</span>`;
-    if(r.hFOV>0&&r.vFOV>0) h+=`<span class="dc-sep">·</span><span class="dc-l" style="color:#007aff">FOV ${r.hFOV.toFixed(1)}×${r.vFOV.toFixed(1)}mm</span>`;
+    if(r.hFOV>0&&r.vFOV>0) h+=`<span class="dc-sep">·</span><span class="dc-l" style="color:var(--accent)">FOV ${r.hFOV.toFixed(1)}×${r.vFOV.toFixed(1)}mm</span>`;
     if(ov>0) h+=`<span class="dc-sep">·</span><span class="dc-r">overlap ${ss.overlap}%</span>`;
     cap.innerHTML=h;
   }
@@ -7008,7 +7022,7 @@ function iso3Empty(text, capId){
     iso3Msg(text); iso3SyncBtns(); iso3Render(); });
 }
 const _dc=(t,cls,st)=>`<span class="dc-sep">·</span><span class="${cls||'dc-c'}"${st?` style="${st}"`:''}>${t}</span>`;
-const _dcWarn='color:#ff3b30';
+const _dcWarn='color:var(--danger)';
 
 // ── 掃描 ──
 function iso3DrawScan(p, r){
@@ -7022,8 +7036,8 @@ function iso3Caption(p, r){
   const I=(ISO3.kind==='scan'&&ISO3.meta&&ISO3.meta.info)||{};
   let h=`<span class="dc-l">${nC*nR}台 (${nC}列×${nR}排)</span>`;
   h+=_dc(`樣品 ${p.sampleW} × ${p.sampleH} mm`);
-  if(fh>0&&I.isLine) h+=_dc(`取像線寬 ${fh.toFixed(1)} mm`,'dc-l','color:#007aff');
-  else if(fh>0&&fv>0) h+=_dc(`FOV ${fh.toFixed(1)} × ${fv.toFixed(1)} mm`,'dc-l','color:#007aff');
+  if(fh>0&&I.isLine) h+=_dc(`取像線寬 ${fh.toFixed(1)} mm`,'dc-l','color:var(--accent)');
+  else if(fh>0&&fv>0) h+=_dc(`FOV ${fh.toFixed(1)} × ${fv.toFixed(1)} mm`,'dc-l','color:var(--accent)');
   h+=_dc(`WD ${+p.wd} mm`);
   if(LK.given) h+=_dc(`光源 ${esc(LK.name)}${LK.k==='bar'&&I.lightDeg?' 偏 '+I.lightDeg+'°':''}`);
   if(I.crowded) h+=_dc('鏡頭外徑大於相機間距，實際排不下','dc-l',_dcWarn);
@@ -7042,7 +7056,7 @@ function iso3DrawStatic(p, r, ss){
     const I=(ISO3.kind==='static'&&ISO3.meta&&ISO3.meta.info)||{};
     let h=`<span class="dc-l">${r.total}台 (${r.nX}×${r.nY})</span>`;
     h+=_dc(`樣品 ${ss.objW}×${ss.objH}mm`);
-    h+=_dc(`FOV ${r.hFOV.toFixed(1)}×${r.vFOV.toFixed(1)}mm`,'dc-l','color:#007aff');
+    h+=_dc(`FOV ${r.hFOV.toFixed(1)}×${r.vFOV.toFixed(1)}mm`,'dc-l','color:var(--accent)');
     h+=_dc(`WD ${+p.wd} mm`);
     if(ss.overlap>0) h+=_dc(`overlap ${ss.overlap}%`,'dc-r');
     if(LK.given) h+=_dc(`光源 ${esc(LK.name)}`);
@@ -7069,7 +7083,7 @@ function iso3DrawArea(A){
       : `產品 ${tn}${fmtN(g0.X)}×${fmtN(g0.Y)} mm${g0.curve?'（曲面 R'+fmtN(g0.R)+'）':''}`);
     else h+=_dc(`${A.G.reduce((a,g)=>a+g.geos.length,0)} 屏${A.names&&A.names.some(n=>!/^屏\d+$/.test(n))?'（'+A.names.join('／')+'）':''} · ${A.dir==='y'?'直排':'橫排'}${A.shared?' · 共用蓋板':''}`);
     const fv=A.R.filter(r=>r&&r.xFOV>0), wds=fv.map(r=>r.wd);
-    if(fv.length) h+=_dc(`單相機FOV ${fv[0].xFOV.toFixed(0)}×${fv[0].yFOV.toFixed(0)} mm`,'dc-l','color:#007aff');
+    if(fv.length) h+=_dc(`單相機FOV ${fv[0].xFOV.toFixed(0)}×${fv[0].yFOV.toFixed(0)} mm`,'dc-l','color:var(--accent)');
     if(wds.length) h+=_dc('WD '+(Math.max(...wds)-Math.min(...wds)<.5?Math.round(wds[0]):Math.round(Math.min(...wds))+'–'+Math.round(Math.max(...wds)))+' mm');
     h+=_dc('面板點亮（自發光），畫面輪播 白／紅／綠／藍／灰');
     if(I.crowded) h+=_dc('鏡頭／機身比相機間距大，實際排不下','dc-l',_dcWarn);
@@ -9064,7 +9078,7 @@ async function cmpPdf(mode){
 // ═══════════════════════════════════════════
 // 回饋掛在評估紀錄 e.fb，隨 aoi_evals 一起雲端同步
 // exp＝依經驗導入（免實測）：做過很多次的檢測項目，不實測直接導入；s 是族譜卡片用的短名稱
-const FB_CONC={pass:{t:'✓ 達標',c:'#1E8E3E'}, partial:{t:'△ 部分達標',c:'#B26A00'}, fail:{t:'✕ 未達標',c:'#D93025'}, exp:{t:'◎ 依經驗導入（免實測）',s:'◎ 依經驗導入',c:'#0E7C86'}, na:{t:'— 未導入',c:'#8A8F98'}};
+const FB_CONC={pass:{t:'✓ 達標',c:'var(--success)'}, partial:{t:'△ 部分達標',c:'var(--warning)'}, fail:{t:'✕ 未達標',c:'var(--danger)'}, exp:{t:'◎ 依經驗導入（免實測）',s:'◎ 依經驗導入',c:'#0E7C86'}, na:{t:'— 未導入',c:'#8A8F98'}};
 const FB_CAUSES=['打光／光源','對焦／景深','物件表面材質（反光、透明、深色）','機構震動／運動','規格書數值偏樂觀','演算法／軟體','其他'];
 // 評估當時的預估值（依模式不同，沒有的項目為 null）
 function fbPred(e){
@@ -9331,7 +9345,7 @@ const CARD_DEFS = [
   {cid:'as-r-yratio', sec:'as-cov', label:'Y 佔屏比'},
   {cid:'as-r-pitch-ok', sec:'as-cov', label:'Pitch 檢查'},
   {cid:'as-r-min-cams', sec:'as-cov', label:'建議台數（含重疊）'},
-  {cid:'as-r-min-cams-ref', sec:'as-cov', label:'物理最少（無重疊）'},
+  {cid:'as-r-min-cams-ref', sec:'as-cov', label:'下限參考（無重疊）'},
 ];
 const CARD_SECS=['opt','scan','hw','timing','st-opt','st-cfg','as-opt','as-cov'];
 // 精簡顯示時每區只留的重點卡片；台數、TT、系統解析度、Pitch 檢查已在結論卡，這裡不重複
@@ -10120,7 +10134,7 @@ function calcASMulti(){
   set('as-rpt-res-s', G.length>1?'各組依組內最細的屏':'依'+(G[0]&&G[0].drv>=0?asmNm(asMulti,G[0].drv):'各屏')+' Pitch');
   set('as-rpt-wd', rng('wd',0));
   const wdOkEl=document.getElementById('as-rpt-wd-ok');
-  if(wdOkEl){ const ok=!badWD.length; wdOkEl.textContent=ok?'✓ ≥ 安全 '+safeWD+' mm':'✗ '+badWD.map(g=>g.name).join('、')+' 組 < 安全 '+safeWD+' mm'; wdOkEl.style.color=ok?'#34c759':'#ff3b30'; }
+  if(wdOkEl){ const ok=!badWD.length; wdOkEl.textContent=ok?'✓ ≥ 安全 '+safeWD+' mm':'✗ '+badWD.map(g=>g.name).join('、')+' 組 < 安全 '+safeWD+' mm'; wdOkEl.style.color=ok?'var(--success)':'var(--danger)'; }
   const datEl=document.getElementById('as-rpt-date');
   if(datEl) datEl.textContent=new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
   // 各組不同時顯示「最小–最大」範圍，小數位少一點免得卡片放不下
@@ -10128,7 +10142,7 @@ function calcASMulti(){
   set('as-r-wd', rng('wd',0)); set('as-r-safe-wd', f(safeWD,0)); set('as-r-xangle', rng('xAngle',1));
   set('as-r-xratio', rng('xRatio',2)); set('as-r-yratio', rng('yRatio',2));
   const pitchEl=document.getElementById('as-r-pitch-ok');
-  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ 各屏 ≥ 3':'✗ '+badPt.map(i=>asmNm(asMulti,i)).join('、')+' < 3'; pitchEl.style.color=pitchOK?'#34c759':'#ff3b30'; }
+  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ 各屏 ≥ 3':'✗ '+badPt.map(i=>asmNm(asMulti,i)).join('、')+' < 3'; pitchEl.style.color=pitchOK?'var(--success)':'var(--danger)'; }
   set('as-r-min-cams', M.total>0 ? M.total+' 台（'+G.length+' 組）' : '—');
   set('as-r-min-cams-ref', M.totalMin>0 ? M.totalMin+' 台' : '—');
   const limEl=document.getElementById('as-limit'); if(limEl && limitRaw>1) limEl.value='1';
@@ -10347,7 +10361,7 @@ function calcAS(){
   set('as-rpt-res-s', 'Pitch '+pitch);
   set('as-rpt-wd',   f(wd,0));
   const wdOkEl = document.getElementById('as-rpt-wd-ok');
-  if(wdOkEl){ wdOkEl.textContent=wdOK?'✓ ≥ 安全 '+safeWD+' mm':'✗ < 安全 '+safeWD+' mm'; wdOkEl.style.color=wdOK?'#34c759':'#ff3b30'; }
+  if(wdOkEl){ wdOkEl.textContent=wdOK?'✓ ≥ 安全 '+safeWD+' mm':'✗ < 安全 '+safeWD+' mm'; wdOkEl.style.color=wdOK?'var(--success)':'var(--danger)'; }
   const datEl = document.getElementById('as-rpt-date');
   if(datEl) datEl.textContent = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
 
@@ -10361,7 +10375,7 @@ function calcAS(){
   set('as-r-yratio',  f(yRatio,4));
 
   const pitchEl = document.getElementById('as-r-pitch-ok');
-  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ ≥ 3':'✗ < 3'; pitchEl.style.color=pitchOK?'#34c759':'#ff3b30'; }
+  if(pitchEl){ pitchEl.textContent=pitchOK?'✓ ≥ 3':'✗ < 3'; pitchEl.style.color=pitchOK?'var(--success)':'var(--danger)'; }
 
   const minEl = document.getElementById('as-r-min-cams');
   if(minEl){
@@ -11375,13 +11389,13 @@ function kbEvTodo(e){
 }
 function kbEvLine(e){
   const s=kbEvState(e);
-  if(!s) return e.purpose==='cust' ? '<p class="ec-kb">📚 知識庫 <b style="color:#B26A00">還沒提交</b> · 客戶需求要提交（前期評估完成就交）</p>' : '';
-  if(s.rej) return '<p class="ec-kb">📚 知識庫 <b style="color:#D93025">已退回</b>'+(s.rej.reason?' · '+esc(s.rej.reason):'')
+  if(!s) return e.purpose==='cust' ? '<p class="ec-kb">📚 知識庫 <b style="color:var(--warning)">還沒提交</b> · 客戶需求要提交（前期評估完成就交）</p>' : '';
+  if(s.rej) return '<p class="ec-kb">📚 知識庫 <b style="color:var(--danger)">已退回</b>'+(s.rej.reason?' · '+esc(s.rej.reason):'')
     +(s.c?' · 正式資料維持上次收錄的版本':'')+'</p>';
-  const ch=s.changed ? ' · <b style="color:#B26A00">'+(s.fbCh?(e.fb.concl==='exp'?'導入結果':'實測結果')+'還沒提交更新':'之後又改過，還沒提交')+'</b>' : '';
+  const ch=s.changed ? ' · <b style="color:var(--warning)">'+(s.fbCh?(e.fb.concl==='exp'?'導入結果':'實測結果')+'還沒提交更新':'之後又改過，還沒提交')+'</b>' : '';
   return '<p class="ec-kb">📚 知識庫 '+(s.pend
-    ? '<b style="color:#B26A00">審核中</b> · '+esc(s.pend.by||'')+' '+kbDate(s.pend.at)+' 提交'
-    : '<b style="color:#1E8E3E">已收錄</b>')+ch+'</p>';
+    ? '<b style="color:var(--warning)">審核中</b> · '+esc(s.pend.by||'')+' '+kbDate(s.pend.at)+' 提交'
+    : '<b style="color:var(--success)">已收錄</b>')+ch+'</p>';
 }
 
 // ── 提交提醒：存檔、填實測回饋之後，右下角提醒一次（不擋操作，「之後再說」就關掉）──
@@ -11569,7 +11583,7 @@ function kbsRender(){
     : '還沒填實測回饋。<b>前期評估完成</b>就可以先提交（狀態選「評估中」）；<b>實測或依經驗導入後</b>，在「📝 實測回饋」選結論，再回來「更新既有案例」。 <a class="fb-link" onclick="const j=_kbs.i;kbsClose();openFb(j)">去填實測回饋 ›</a>')+'</div>';
   const cm=kbCmpOf(e);
   h+=sec('方案比較',false,'沿用這筆評估的「⚖ 方案比較」')+'<div class="kbs-res">'+(cm
-    ? '✓ <b>'+esc(cm.cur.name||'未命名')+'</b>；比較過 '+esc(cm.cands.map(function(x){ return x.name||'未命名'; }).join('、'))+(cm.why?'<br>選定理由：'+esc(cm.why):'<br><span style="color:#B26A00">還沒寫選定理由</span>')
+    ? '✓ <b>'+esc(cm.cur.name||'未命名')+'</b>；比較過 '+esc(cm.cands.map(function(x){ return x.name||'未命名'; }).join('、'))+(cm.why?'<br>選定理由：'+esc(cm.why):'<br><span style="color:var(--warning)">還沒寫選定理由</span>')
     : '沒有比較其他方案（選填）。要比較：載入這筆評估，在結果頁下方「⚖ 方案比較」加入候選，存檔後再提交。')+'</div>';
   h+=sec('反饋',false,'踩過的坑、給下一個人的建議')+'<textarea class="kbs-in" rows="3" oninput="kbsSet(\'lesson\',this.value)" placeholder="例：反光件要加同軸光；治具定位誤差比預估大…">'+esc(d.lesson)+'</textarea>';
   h+=sec('報告路徑',false,'公司共用磁碟的位置，檔案本身不上傳')+'<input class="kbs-in" value="'+esc(d.report)+'" oninput="kbsSet(\'report\',this.value);kbsSoft()" placeholder="例：\\\\auo-fs\\AOI\\技術雙週會\\2026Q3\\…">'
@@ -11705,7 +11719,7 @@ function kbFromTxt(c){ if(!c.from) return ''; const s=kbCaseById(c.from); return
 function kbMsaHtml(m){
   if(!(m.total>0 && m.pass!=null)) return esc(fbMsaTxt(m));
   const r=esc(fbMsaTxt({pass:m.pass, total:m.total}));
-  return (m.std?esc(m.std)+' · ':'')+'<b style="color:'+(m.pass===m.total?'#1E8E3E':'#B26A00')+'">'+r+'</b>';
+  return (m.std?esc(m.std)+' · ':'')+'<b style="color:'+(m.pass===m.total?'var(--success)':'var(--warning)')+'">'+r+'</b>';
 }
 // 上線追蹤：數字一行（OK 率粗體），NG 原因另起一行
 function kbProdHtml(p){
@@ -12173,7 +12187,7 @@ function kbdRender(){
     const pt=(c.plan&&c.plan.type)||'', how=c.dim!=='3d'&&(pt==='2D 線掃描'||pt==='2D 面陣飛拍') ? '（'+pt.slice(3)+'）' : '';
     S.textContent=[KB_DIM_T[c.dim==='3d'?'3d':'2d'], kbSub(c)+how, KB_STATUS[c.status]].filter(Boolean).join(' · ');   // 跟族譜同一套分類
     B.innerHTML=kbCaseHtml(c);
-    F.innerHTML=(admin?'<button class="btn-sec" style="font-size:12px;color:#D93025" onclick="kbdDelete(this)">🗑 刪除案例</button>':'')+'<span style="flex:1"></span>'
+    F.innerHTML=(admin?'<button class="btn-sec" style="font-size:12px;color:var(--danger)" onclick="kbdDelete(this)">🗑 刪除案例</button>':'')+'<span style="flex:1"></span>'
       +(c.ev?'<button class="btn-sec" style="font-size:12px" data-cid="'+esc(c.id)+'" onclick="simStart(this.dataset.cid)" title="把這筆的評估載入計算器，改好存成新評估">用這筆當起點</button>':'')+close;
     return;
   }
@@ -12725,7 +12739,7 @@ const GL={
   asRatio:['佔屏比','面板尺寸是單台 FOV 的幾倍。<b>大於 1 代表一台拍不下</b>，需要多台拼接。'],
   asPitch:['Pitch 檢查','Pitch ≥ 3 才算解析足夠，顯示 ✗ 代表分不出單顆面板像素。'],
   asCams:['建議台數（含重疊）','依「單台有效佔屏比」算出的台數，已預留重疊。'],
-  asMin:['物理最少（無重疊）','完全不重疊時的最少台數，作為下限對照。']
+  asMin:['下限參考（無重疊）','每台用滿整個畫面、完全不重疊時的最少台數，只當下限參考。實際拼接要留重疊，台數請以「建議台數（含重疊）」為準。']
 };
 // 左側輸入元件 id → 名詞
 const GL_IN={'cam-type-seg':'camType','color-seg':'color','bin-seg':'bin','p-px':'px','p-rw':'res','p-rh':'res','p-fps':'fps','p-bit':'bit',
@@ -12808,14 +12822,14 @@ function gdCmp(m){ return {el:function(){ return document.querySelector('.cmp-bl
 function gdCost(m){ return {el:function(){ return document.querySelector('.cost-blk[data-cost="'+m+'"]'); }, t:'成本估算', d:'依資料庫單價自動估算總價，可以加項目、切換幣別（USD／NTD／RMB）。'}; }
 function gdEdit(id){ return {el:function(){ return $gd(id); }, t:'只看重點，也可以自訂', d:'每一區預設只放<b>重點規格</b>，最下面按「<b>顯示全部規格</b>」看完整清單（匯出 PDF 一律是完整規格）。<br>按這個 <b>⋯</b> →「自訂版面」可以隱藏或拖曳換順序，設定會自動記住。'}; }
 function gdConc(m){ return {el:function(){ const b=$gd('conc-'+m+'-badge'); return b&&b.closest('.rpt-col'); }, t:'結論：先看這裡',
-  d:'右上角的燈號一眼看懂：<b style="color:#1E8E3E">✓ 符合需求</b>、<b style="color:#B26A00">需注意</b>、<b style="color:#D93025">需調整</b>。<br>台數、解析度、TT 跟目標的比較，還有<b>暗角、接口不合、速度、頻寬</b>等問題，全部列在「需要注意」。'}; }
+  d:'右上角的燈號一眼看懂：<b style="color:var(--success)">✓ 符合需求</b>、<b style="color:var(--warning)">需注意</b>、<b style="color:var(--danger)">需調整</b>。<br>台數、解析度、TT 跟目標的比較，還有<b>暗角、接口不合、速度、頻寬</b>等問題，全部列在「需要注意」。'}; }
 function gdAdv(t){ return {el:function(){ return $gd('adv-card'); }, t:'進階參數', d:t}; }
 const GUIDES={
   scan:[
     {el:null, t:'掃描取像：這頁在評估什麼？', d:'相機架在平台上<b>邊移動邊拍</b>，把整片樣品掃完。<br>這頁幫你算出：<b>要幾台相機、跑幾趟、一片要掃多久（TT）、解析度夠不夠</b>。<br>左邊填條件，右邊結果<b>即時更新</b>，不用按計算。'},
     GD_ST.mode2d, GD_ST.sel,
     {el:function(){ return $gd('need-scan'); }, t:'① 要檢什麼',
-     d:'<b>樣品寬度、高度</b>是最基本的。<br><b>目標檢測精度</b>：要抓到多小的缺陷（µm）。<b>目標 TT</b>：一片最多可以掃幾分鐘。<br>填了之後結論卡會亮燈：系統解析度 <b style="color:#34c759">綠</b>＝餘裕 ≥ 3 倍、<b style="color:#ff9500">黃</b>＝2～3 倍、<b style="color:#ff3b30">紅</b>＝不到 2 倍；TT 超過目標也會變紅。不填就不比對。'},
+     d:'<b>樣品寬度、高度</b>是最基本的。<br><b>目標檢測精度</b>：要抓到多小的缺陷（µm）。<b>目標 TT</b>：一片最多可以掃幾分鐘。<br>填了之後結論卡會亮燈：系統解析度 <b style="color:var(--success)">綠</b>＝餘裕 ≥ 3 倍、<b style="color:var(--warning)">黃</b>＝2～3 倍、<b style="color:var(--danger)">紅</b>＝不到 2 倍；TT 超過目標也會變紅。不填就不比對。'},
     GD_ST.sim,
     GD_ST.cam, GD_ST.lens,
     {el:function(){ return gdCard('sec-scan',0); }, t:'③ 怎麼掃',
@@ -12866,9 +12880,9 @@ const GUIDES={
     {el:function(){ return gdSec('as-opt'); }, t:'看結果：光學規格',
      d:'<b>系統解析能</b>（面板像素大小 ÷ Pitch）在結論卡；這裡看每台的 FOV。<br><b>工作距離 WD</b>＝相機要架多遠，<b>必須大於安全工作距離</b>（最短工作距離＋30 mm）。結論卡的「工作距離」會直接顯示 ✓ 或 ✗。'},
     {el:function(){ return gdSec('as-cov'); }, t:'覆蓋評估：要幾台',
-     d:'<b>佔屏比</b>＝面板是單台視野的幾倍；建議台數（已含重疊）在結論卡，這裡的<b>物理最少</b>是完全不重疊的下限。<br>Pitch 不到 3（分不出單顆面板像素）會列在結論卡的「需要注意」。'},
+     d:'<b>佔屏比</b>＝面板是單台視野的幾倍；建議台數（已含重疊）在結論卡，這裡的<b>下限參考</b>是完全不重疊的最少台數，只供對照。<br>Pitch 不到 3（分不出單顆面板像素）會列在結論卡的「需要注意」。'},
     gdEdit('as-card-edit-btn'),
-    {el:function(){ return gdDg('as-dg'); }, t:'配置示意圖', d:'確認多台相機怎麼拼接、有沒有蓋滿整個面板。'},
+    {el:function(){ return gdDg('as-dg'); }, t:'系統示意圖', d:'確認多台相機怎麼拼接、有沒有蓋滿整個面板。'},
     gdCost('area'), gdCmp('area'), GD_ST.save, GD_ST.tabs, GD_ST.end
   ],
   '3d':[
@@ -12899,7 +12913,7 @@ const GUIDES={
     {el:function(){ return $gd('ev-tools'); }, t:'搜尋與篩選',
      d:'輸入名稱、廠區、客戶、說明、相機、鏡頭或標籤，清單會即時篩選；<b>多個關鍵字用空白分開</b>代表同時符合。<br>下面的按鈕可以只看<b>有實測回饋</b>、<b>需調整</b>或<b>📚 待提交</b>（客戶需求還沒交到知識庫）的紀錄。'},
     {el:function(){ return $gd('ev-list'); }, t:'每一筆評估',
-     d:'名稱前的燈號是存檔當時的結論：<b style="color:#1E8E3E;white-space:nowrap">✓ 符合</b>、<b style="color:#B26A00;white-space:nowrap">! 需注意</b>、<b style="color:#D93025;white-space:nowrap">✕ 需調整</b>。<br><b>點卡片</b>就載入，回到當時的設定繼續改。<br>右上 <b>⋯</b>：<b>✎ 編輯資訊</b>（名稱、用途、廠區、客戶、標籤、說明）、<b>📄 匯出 PDF</b>、<b>📝 實測回饋</b>（不實測的選「依經驗導入」）、<b>📚 提交到知識庫</b>（Johnny 審核後收錄）、<b>🗑 刪除</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄。清單依<b>📍 廠區 → 🏢 客戶</b>分組（跟知識庫一樣）；右上<b>全部收合／展開</b>一次收起或打開。<br>名稱後面依序是<b>用途</b>（客戶需求／內部試算，存檔時選）、<b>廠區</b>、<b>客戶</b>，用顏色區分；客戶需求的評估都要提交。'},
+     d:'名稱前的燈號是存檔當時的結論：<b style="color:var(--success);white-space:nowrap">✓ 符合</b>、<b style="color:var(--warning);white-space:nowrap">! 需注意</b>、<b style="color:var(--danger);white-space:nowrap">✕ 需調整</b>。<br><b>點卡片</b>就載入，回到當時的設定繼續改。<br>右上 <b>⋯</b>：<b>✎ 編輯資訊</b>（名稱、用途、廠區、客戶、標籤、說明）、<b>📄 匯出 PDF</b>、<b>📝 實測回饋</b>（不實測的選「依經驗導入」）、<b>📚 提交到知識庫</b>（Johnny 審核後收錄）、<b>🗑 刪除</b>。<br><b>#標籤</b>：點一下只看同標籤的紀錄。清單依<b>📍 廠區 → 🏢 客戶</b>分組（跟知識庫一樣）；右上<b>全部收合／展開</b>一次收起或打開。<br>名稱後面依序是<b>用途</b>（客戶需求／內部試算，存檔時選）、<b>廠區</b>、<b>客戶</b>，用顏色區分；客戶需求的評估都要提交。'},
     {el:function(){ return $gd('syncStatus'); }, t:'備份與同步', d:'<b>💾 本機備份</b>：評估紀錄、相機鏡頭、3D 感測器勾選後匯出成 JSON 檔；換電腦或同事給的檔案在這裡匯入。<br><b>☁️ 雲端同步</b>：設定 GitHub 後，歷史紀錄與資料庫在不同電腦之間自動同步（需要管理者提供權杖）。'},
     GD_ST.end
   ],
@@ -12907,7 +12921,7 @@ const GUIDES={
     {el:function(){ return $gd('kb-bar'); }, t:'部門 AOI 案例知識庫',
      d:'全部門共用的案例庫：以前做過的評估、用了什麼方案、<b>實測有沒有達標</b>、踩過什麼坑。<br><b>2D 和 3D 的案例都在這裡</b>。接到新需求時，先來這裡找有沒有類似的案子。<br>標題列左邊、跟版本號同一個框的 <b>📚 知識庫</b>一鍵進來；<b>再按一次</b>就回到原本的計算畫面。<br><b>客戶需求的評估都要提交</b>：前期評估完成交一次，實測或依經驗導入後再更新一次。評估中超過 30 天沒更新的，會列在「⏰」提醒。'},
     {el:function(){ return $gd('kb-ctl'); }, t:'連線狀態與設定',
-     d:'圓環顏色是連線狀態：<b style="color:#1E8E3E">綠</b>＝已連線、<b style="color:#E08A00">黃色轉圈</b>＝讀取中、<b style="color:#D93025">紅</b>＝連線失敗（會先顯示上次讀到的內容）、灰色點點＝還沒設定。<br>點圓環＝<b>重新整理</b>（讀最新的內容）；點右邊 ⚙＝<b>連線設定</b>。<br>第一次使用要在連線設定填<b>你的名字</b>和<b>部門共用的知識庫權杖</b>（找 Johnny 索取）；權杖只存在這台電腦，跟個人的「☁ 雲端同步」是分開的。'},
+     d:'圓環顏色是連線狀態：<b style="color:var(--success)">綠</b>＝已連線、<b style="color:#E08A00">黃色轉圈</b>＝讀取中、<b style="color:var(--danger)">紅</b>＝連線失敗（會先顯示上次讀到的內容）、灰色點點＝還沒設定。<br>點圓環＝<b>重新整理</b>（讀最新的內容）；點右邊 ⚙＝<b>連線設定</b>。<br>第一次使用要在連線設定填<b>你的名字</b>和<b>部門共用的知識庫權杖</b>（找 Johnny 索取）；權杖只存在這台電腦，跟個人的「☁ 雲端同步」是分開的。'},
     {el:function(){ return $gd('kb-vseg'); }, t:'地圖／族譜',
      d:'正式案例有兩種看法：<b>🌏 地圖</b>看每個城市做過哪些案子、對應哪些客戶；<b>🌳 族譜</b>照取像方式分類。<br>下面的搜尋與篩選兩邊共用；下次打開會停在上次看的那一頁。'},
     {el:function(){ return $gd('km-cv'); }, t:'地圖怎麼看',
@@ -13225,5 +13239,18 @@ if(window.ResizeObserver){
   <span id="toast-undo">↩ 復原</span>
   <div id="toast-bar"></div>
 </div>
+<script>
+// v5.3 無障礙：輸入框沒有綁 label 的，用同一列畫面上的標籤字當 aria-label（螢幕閱讀器讀得到；不改點擊行為）
+(function(){
+  document.querySelectorAll('.row').forEach(function(r){
+    const lb=r.querySelector(':scope > label'); if(!lb) return;
+    const t=Array.from(lb.childNodes).filter(function(n){ return !(n.classList&&n.classList.contains('gi')); }).map(function(n){ return n.textContent; }).join('').trim();
+    if(!t) return;
+    r.querySelectorAll(':scope > input, :scope > select, :scope > .inp-wrap > input').forEach(function(f){
+      if(!f.getAttribute('aria-label') && !(f.id && document.querySelector('label[for="'+f.id+'"]'))) f.setAttribute('aria-label', t);
+    });
+  });
+})();
+</script>
 </body>
 </html>
