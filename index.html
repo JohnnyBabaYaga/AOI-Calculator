@@ -635,6 +635,8 @@ header .hdr-split .hdr-save{font-size:15px;line-height:16px;padding-left:12px;pa
 .pi-badmount{display:inline-block;margin-left:7px;font-size:10px;font-weight:700;color:var(--danger);background:color-mix(in srgb,var(--danger) 12%,transparent);border-radius:5px;padding:1px 6px;vertical-align:middle;}
 .mount-warn{font-size:11px;line-height:1.5;color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,transparent);border:1px solid color-mix(in srgb,var(--danger) 26%,transparent);border-radius:8px;padding:6px 9px;margin:2px 0 8px;}
 .mount-warn b{font-weight:700;}
+.mag-src-note{font-size:10.5px;line-height:1.45;color:var(--sub);margin:-4px 0 6px;text-align:right;}
+.mag-src-note.warn{color:var(--danger);}
 .db-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
 .bdg-area{background:color-mix(in srgb,#2f6fd0 15%,transparent);color:#1f4e96;}
 .bdg-line{background:color-mix(in srgb,#7c4dff 16%,transparent);color:#5b34c9;}
@@ -2112,6 +2114,7 @@ button,input,select,textarea{font-family:inherit;}   /* 原本按鈕算出來是
       </div>
     </div>
     <div class="row" data-hide-area><label>放大倍率</label><input type="number" id="p-mag" value="5" step="0.1" oninput="calc()" title="CCTV 模式下依焦距與工作距離自動計算"><span class="unit">×</span></div>
+    <div id="mag-src-note" class="mag-src-note" style="display:none"></div>
     <div class="row" data-hide-area><label>像圈直徑</label><input type="number" id="p-ic" value="25" step="0.5" oninput="calc()"><span class="unit">mm</span></div>
     <div class="row" data-hide-area><label>工作距離</label><input type="number" id="p-wd" value="34" step="1" oninput="calc()"><span class="unit">mm</span></div>
     <div class="row" id="row-na" data-hide-area><label>NA (數值孔徑)</label><input type="number" id="p-na" value="0.14" step="0.001" oninput="calc()"><span class="unit"></span></div>
@@ -2833,7 +2836,11 @@ button,input,select,textarea{font-family:inherit;}   /* 原本按鈕算出來是
         <div class="af-row" id="afl-row-magcalc" style="display:none">
           <label style="color:var(--sub)">參考倍率</label>
           <span id="afl-mag-computed" style="font-size:12px;font-family:'SF Mono',monospace;color:var(--sub)">—</span>
-          <span style="font-size:10px;color:var(--sub)">× (依 WD 計算)</span>
+          <span style="font-size:10px;color:var(--sub)" id="afl-mag-src">× (依 WD 計算)</span>
+        </div>
+        <div class="af-row" id="afl-row-magwd" style="display:none">
+          <label title="原廠規格書的「倍率 → 工作距離」對照，有填就優先依表內插倍率">原廠倍率↔WD</label>
+          <input class="wide" type="text" id="afl-magwd" placeholder="選填，如 0.1:922.6, 0.2:487.2" oninput="updateAflMagComputed()">
         </div>
         <div class="af-row">
           <label>Mount 接口</label>
@@ -3012,7 +3019,7 @@ function camMeta(c){
 }
 function lensSpec(l){
   const p=[];
-  if(l.type==='cctv'){ p.push(`${fmtN(l.fl)}mm`); if(l.fn_min!=null) p.push(`F${fmtN(l.fn_min)}–${fmtN(l.fn_max)}`); }
+  if(l.type==='cctv'){ p.push(`${fmtN(l.fl)}mm`); if(l.fn_min!=null) p.push(`F${fmtN(l.fn_min)}–${fmtN(l.fn_max)}`); const t=magWdTable(l); if(t){ const ms=t.map(x=>x[0]); p.push(`${fmtN(Math.min(...ms))}–${fmtN(Math.max(...ms))}×(原廠表)`); } }
   else { if(l.mag!=null) p.push(`${fmtN(l.mag)}×`); if(l.type==='objective'&&l.na!=null) p.push(`NA${fmtN(l.na)}`); else if(l.fn!=null) p.push(`F${fmtN(l.fn)}`); }
   if(l.ic!=null) p.push(`像圈${fmtN(l.ic)}`);
   if(l.wd!=null) p.push(`WD${fmtN(l.wd)}`);
@@ -3683,6 +3690,7 @@ function editCustLens(i){
     document.getElementById('afl-fl').value    = l.fl;
     document.getElementById('afl-fnmin').value = l.fn_min ?? l.fn ?? 2.8;
     document.getElementById('afl-fnmax').value = l.fn_max ?? l.fn ?? 22;
+    document.getElementById('afl-magwd').value = fmtMagWd(l.magWd);
     updateAflMagComputed();
   }
   document.getElementById('afl-mount').value = l.mount || 'C';
@@ -3769,7 +3777,7 @@ function _resetEditMode(type){
   const doc=document.getElementById(pre+'-doc'); if(doc) doc.value='';
   afMoreSet(type,false);
   if(type==='cam')       _editCamIdx=null;
-  else if(type==='lens') _editLensIdx=null;
+  else if(type==='lens'){ _editLensIdx=null; const mw=document.getElementById('afl-magwd'); if(mw) mw.value=''; }
   else if(type==='mod')  _editModIdx=null;
   else                 { _editS3DIdx=null; _editS3DB=null; const zp=document.getElementById('af3-zrepeat'); if(zp) zp.placeholder='必填'; }
   const btn=document.querySelector('#af-'+type+' .btn-pri');
@@ -3842,6 +3850,9 @@ function submitAddLens(){
     lens.fl     = +document.getElementById('afl-fl').value;
     lens.fn_min = +document.getElementById('afl-fnmin').value;
     lens.fn_max = +document.getElementById('afl-fnmax').value;
+    const mw = parseMagWd(document.getElementById('afl-magwd').value);
+    if(mw===false){ alert('原廠倍率↔WD 格式有誤：請用「倍率:WD」並以逗號分隔，至少兩組，例如 0.1:922.6, 0.2:487.2'); return; }
+    if(mw) lens.magWd = mw;
   }
   lens.mount = document.getElementById('afl-mount').value;
   lens.url   = document.getElementById('afl-url').value.trim();
@@ -3851,7 +3862,7 @@ function submitAddLens(){
   priceSet('lens', lens.n, document.getElementById('afl-price').value, afCur('afl'));
   saveCustLens(); refreshLensPicker(); renderDbLists();
   toggleAF('lens');
-  ['afl-n','afl-url','afl-brand'].forEach(id=>document.getElementById(id).value='');
+  ['afl-n','afl-url','afl-brand','afl-magwd'].forEach(id=>document.getElementById(id).value='');
   if(docFile) attachDocOnAdd('lens', lens, docFile);
 }
 
@@ -4122,7 +4133,7 @@ function selRun(){
         }
         Object.assign(x,{res:res, wd:wd, qty:qty, arr:arr.join(' ＋ ')});
       } else {
-        const mag = lt==='cctv' ? ((l.fl>0&&l.wd>l.fl)?l.fl/(l.wd-l.fl):0) : (+l.mag||0);
+        const mag = lt==='cctv' ? cctvMag(l, l.fl, l.wd).mag : (+l.mag||0);
         if(!(mag>0)) return bad('倍率不明');
         const p=Object.assign({},base,{pixelSize:c.px, rW:c.rw, rH:c.rh, fps:c.fps, bit:c.bit||8, lineScan:!!c.line, color:!!c.color,
           mag:mag, imageCircle:l.ic>0?l.ic:999, wd:l.wd||0, na:l.na||0, fn:l.fn||l.fn_min||8, fl:l.fl||0,
@@ -5051,13 +5062,31 @@ function onAflTypeChange(){
   document.getElementById('afl-row-fnmax').style.display   = t==='cctv'          ? '' : 'none';
   document.getElementById('afl-row-fl').style.display      = t==='cctv'          ? '' : 'none';
   document.getElementById('afl-row-magcalc').style.display = t==='cctv'          ? '' : 'none';
+  document.getElementById('afl-row-magwd').style.display   = t==='cctv'          ? '' : 'none';
   if(t==='cctv') updateAflMagComputed();
 }
+// 「0.1:922.6, 0.2:487.2」→ [[0.1,922.6],[0.2,487.2]]；空白回 null，格式錯回 false
+function parseMagWd(s){
+  s=String(s||'').trim(); if(!s) return null;
+  const out=[];
+  for(const part of s.split(/[,，;；\n]+/)){
+    const q=part.trim(); if(!q) continue;
+    const m=q.match(/^([0-9.]+)\s*[x×]?\s*[:：=]\s*([0-9.]+)$/i);
+    if(!m || !(+m[1]>0) || !(+m[2]>0)) return false;
+    out.push([+m[1], +m[2]]);
+  }
+  return out.length>=2 ? out.sort((a,b)=>a[0]-b[0]) : false;
+}
+function fmtMagWd(t){ return Array.isArray(t)? t.map(r=>`${fmtN(r[0])}:${fmtN(r[1])}`).join(', ') : ''; }
 function updateAflMagComputed(){
   const fl = +document.getElementById('afl-fl').value;
   const wd = +document.getElementById('afl-wd').value;
+  const t  = parseMagWd(document.getElementById('afl-magwd').value);
+  const r  = cctvMag(t?{fl, magWd:t}:null, fl, wd);
   const el = document.getElementById('afl-mag-computed');
-  if(el) el.textContent = (fl>0 && wd>fl) ? (fl/(wd-fl)).toFixed(3) : '—';
+  if(el) el.textContent = r.mag>0 ? r.mag.toFixed(3) : '—';
+  const src=document.getElementById('afl-mag-src');
+  if(src) src.textContent = t===false ? '× (倍率表格式有誤，暫用 WD 計算)' : r.src==='table' ? (r.out?'× (依原廠表外插)':'× (依原廠表)') : '× (依 WD 計算)';
 }
 
 // ═══════════════════════════════════════════
@@ -5204,12 +5233,51 @@ function calculateStatic(p, ss){
   return r;
 }
 
-function calcStatic(){
-  // CCTV: auto-compute magnification
-  if(S.lensType==='cctv'){
-    const fl=+v('p-fl'), wd=+v('p-wd');
-    if(fl>0&&wd>fl) sv('p-mag',(fl/(wd-fl)).toFixed(4));
+// ── CCTV 倍率 ──
+// 鏡頭帶原廠「倍率↔WD」對照表(magWd:[[倍率,WD],…])且焦距未改時，依表內插（1/倍率 對 WD 線性，
+// 與共軛關係 1/m ≈ (WD−常數)/f 同型）；表外以端點兩段外插並標示。否則退回薄透鏡 f/(WD−f)。
+function magWdTable(l){
+  if(!l || !Array.isArray(l.magWd)) return null;
+  const t=l.magWd.map(r=>[+r[0],+r[1]]).filter(r=>r[0]>0&&r[1]>0).sort((a,b)=>a[1]-b[1]);
+  return t.length>=2 ? t : null;
+}
+function cctvMag(l, fl, wd){
+  const t=magWdTable(l);
+  if(t && wd>0 && !(fl>0 && l.fl>0 && Math.abs(fl-l.fl)>1e-6)){
+    let i=0; while(i<t.length-2 && wd>t[i+1][1]) i++;
+    const [m0,w0]=t[i], [m1,w1]=t[i+1];
+    const inv=1/m0 + (wd-w0)*(1/m1-1/m0)/(w1-w0);
+    const out = wd<t[0][1]-1e-6 || wd>t[t.length-1][1]+1e-6;
+    return {mag: inv>0?1/inv:0, src:'table', out, t};
   }
+  return {mag:(fl>0&&wd>fl)?fl/(wd-fl):0, src:'thin'};
+}
+function pickedLens(){ const li=document.getElementById('lens-pick').value; return li!==''?allLens()[+li]:null; }
+function syncCctvMag(){
+  const note=document.getElementById('mag-src-note');
+  if(S.lensType!=='cctv' || S.mode==='area'){ if(note) note.style.display='none'; return; }
+  const fl=+v('p-fl'), wd=+v('p-wd'), l=pickedLens();
+  const r=cctvMag(l&&l.type==='cctv'?l:null, fl, wd);
+  if(r.mag>0) sv('p-mag', r.mag.toFixed(4));
+  if(!note) return;
+  if(r.src==='table'){
+    const t=r.t, mins=Math.min(...t.map(x=>x[0])), maxs=Math.max(...t.map(x=>x[0]));
+    note.className='mag-src-note'+(r.out?' warn':'');
+    note.textContent = r.out
+      ? `⚠ 超出原廠表 WD ${fmtN(t[0][1])}–${fmtN(t[t.length-1][1])}，外插值`
+      : `依原廠倍率表內插（${fmtN(mins)}–${fmtN(maxs)}×）`;
+    note.style.display='';
+  } else {
+    const hasT=!!magWdTable(l);
+    note.className='mag-src-note';
+    note.textContent = hasT ? '焦距已改，改用薄透鏡公式 f/(WD−f)' : '';
+    note.style.display = hasT ? '' : 'none';
+  }
+}
+
+function calcStatic(){
+  // CCTV: auto-compute magnification（有原廠倍率表就依表）
+  syncCctvMag();
   const p=P();
   const ss={
     objW:+document.getElementById('st-objw').value||300,
@@ -7263,13 +7331,10 @@ function drawDiagram(canvasId='dg'){
 function fmt(v,d=2){ return (!isFinite(v)||v===0)?'—':v.toFixed(d); }
 
 function calc(){
-  if(S.mode==='area'){ calcAS(); return; }
+  if(S.mode==='area'){ syncCctvMag(); calcAS(); return; }
   if(S.mode==='static'){ calcStatic(); return; }
-  // CCTV: auto-compute magnification from focal length + working distance
-  if(S.lensType==='cctv'){
-    const fl=+v('p-fl'), wd=+v('p-wd');
-    if(fl>0 && wd>fl) sv('p-mag', (fl/(wd-fl)).toFixed(4));
-  }
+  // CCTV: auto-compute magnification from focal length + working distance（有原廠倍率表就依表）
+  syncCctvMag();
   const p = P();
   const r = calculate(p); lastR=r;
   const ci=document.getElementById('cam-pick').value;
