@@ -10696,6 +10696,7 @@ function drawASDiagram(nX, nY, panelW, panelH, xFOV, yFOV, limit, wd, mag, geo){
 // ═══════════════════════════════════════════
 function showTab(t){
   const is3=(typeof dim!=='undefined'&&dim==='3d'), $t=function(id){ return document.getElementById(id); };
+  if(t==='kb' && !$t('tab-kb').classList.contains('on')) _kbStaleClosed=true;   // 11/25 Johnny：每次進知識庫，「超過 30 天沒更新」自動收折
   if(t==='kb' && !$t('tab-kb').classList.contains('on')) _kbBack = $t('tab-hist').classList.contains('on') ? 'hist' : $t('tab-db').classList.contains('on') ? 'db' : 'res';
   document.getElementById('app').classList.toggle('no-left', t!=='res');
   document.body.classList.toggle('kb-on', t==='kb');   // 知識庫是獨立的一區：藏掉計算機的分頁列、儲存／匯出鍵
@@ -11444,8 +11445,8 @@ function kbStaleList(admin){
     .filter(function(x){ return x.d>KB_STALE_D; })
     .sort(function(a,b){ return b.d-a.d; });
 }
-let _kbStaleClosed=(function(){ try{ return localStorage.getItem('aoi_kb_stale_closed')==='1'; }catch(e){ return false; } })();
-function kbStaleTog(){ _kbStaleClosed=!_kbStaleClosed; try{ localStorage.setItem('aoi_kb_stale_closed', _kbStaleClosed?'1':'0'); }catch(e){} kbRender(); }
+let _kbStaleClosed=true;   // 預設收折，點標題才展開；不記住展開狀態
+function kbStaleTog(){ _kbStaleClosed=!_kbStaleClosed; kbRender(); }
 function kbStaleHtml(admin){
   const a=kbStaleList(admin); if(!a.length) return '';
   const head='<div class="kb-sec-h kb-tog'+(_kbStaleClosed?' closed':'')+'" role="button" tabindex="0" onclick="kbStaleTog()"><span class="car">▼</span>'
